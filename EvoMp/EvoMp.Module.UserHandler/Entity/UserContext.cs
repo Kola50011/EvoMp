@@ -5,7 +5,6 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace EvoMp.Module.UserHandler.Entity
 {
@@ -21,12 +20,6 @@ namespace EvoMp.Module.UserHandler.Entity
         {
             AddTimestamps();
             return base.SaveChanges();
-        }
-
-        public override async Task<int> SaveChangesAsync()
-        {
-            AddTimestamps();
-            return await base.SaveChangesAsync();
         }
 
         private void AddTimestamps()
@@ -54,22 +47,26 @@ namespace EvoMp.Module.UserHandler.Entity
         {
             Database.SetInitializer<UserContext>(null);
 
-            DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<UserContext>();
-            migratorConfig.AutomaticMigrationsEnabled = true;
-            migratorConfig.AutomaticMigrationDataLossAllowed = true;
+            DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<UserContext>
+            {
+                AutomaticMigrationsEnabled = true,
+                AutomaticMigrationDataLossAllowed = true
+            };
 
             DbMigrator dbMigrator = new DbMigrator(migratorConfig);
+
             dbMigrator.Update();
 
             Database.Connection.Open();
-      /*
-            Console.WriteLine("Drop Database Users? (y/n)");
-            if (Console.ReadLine() == "y")
-            {
-                foreach (User user in Users.ToList())
-                    Users.Remove(user);
-                SaveChanges();
-            }*/
+
+            /*
+                  Console.WriteLine("Drop Database Users? (y/n)");
+                  if (Console.ReadLine() == "y")
+                  {
+                      foreach (User user in Users.ToList())
+                          Users.Remove(user);
+                      SaveChanges();
+                  }*/
         }
     }
 }

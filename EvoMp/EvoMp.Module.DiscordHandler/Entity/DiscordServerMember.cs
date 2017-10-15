@@ -15,8 +15,8 @@ namespace EvoMp.Module.DiscordHandler.Entity
         [Column("Username")]
         public string Username { get; set; }
 
-        [Column("IngameUser")]
-        public User User { get; set; }
+        [Column("IngameUserID")]
+        public int IngameUserId { get; set; }
 
         [Column("DiscordID")]
         public ulong DiscordId { get; set; }

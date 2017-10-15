@@ -18,3 +18,9 @@
   -> Select subitem "Build and Run / Erstellen und Ausführen"
   -> Select on "On Run, when projects are out of date / Beim Ausführen, bei nicht aktuellen Projekten", "Always build / Immer erstellen"
   -> Also uncheck "only build startup projects and dependencies on Run / Nur Startprojekte und Abhängigkeiten zur Laufzeit ausführen"
+
+
+
+  # Usefull hints for developing
+  - Don't use Database Entitys from other modules as Type.
+    (Ask Ruffo if interested why..)

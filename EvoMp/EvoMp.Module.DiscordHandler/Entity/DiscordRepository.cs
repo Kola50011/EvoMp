@@ -8,9 +8,12 @@
         {
             new DiscordContext().FirstInit();
         }
+
         public DiscordContext GetDiscordContext()
         {
-            return new DiscordContext();
+            DiscordContext context = new DiscordContext();
+            context.Init();
+            return context;
         }
 
         public static DiscordRepository GetInstance()

@@ -22,13 +22,17 @@ namespace EvoMp.Module.DiscordHandler.BotManagment
       // Currently no existing DiscordBot -> Ask to create one
       if (!anyDiscordBotCreated)
       {
-        logger.Write("Currently no existing DiscordBot. Create new? (Y/N)", LogCase.Discord);
-        if (Console.ReadLine()?.ToLower() == "y")
-        {
-          logger.Write("Please enter the Bot Token:", LogCase.Discord);
+        logger.Write("Currently no existing DiscordBot. Enter custom Token or default used? (Y/N)", LogCase.Discord);
 
-          // read and check bot token
-          string botToken = Console.ReadLine();
+          string botToken = "MzE1MTkxNDI0NDgyMDE3Mjgx.DMTmbA.mj6lvnSnk1JJkxIDNgO4RMOe2m4";
+          if (Console.ReadLine()?.ToLower() == "y")
+          {
+              logger.Write("Please enter the Bot Token:", LogCase.Discord);
+
+              // read and check bot token
+              botToken = Console.ReadLine();
+          }
+
           if (botToken != null)
           {
             // Create bot and save to database
@@ -44,7 +48,6 @@ namespace EvoMp.Module.DiscordHandler.BotManagment
 
             anyDiscordBotCreated = true;
           }
-        }
       }
 
       // Discord Bots found -> Start them all

@@ -12,8 +12,8 @@ namespace EvoMp.Module.DbAccess
             string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
             if (dbConnectionString == null)
-                Environment.SetEnvironmentVariable("NameOrConnectionString",
-                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;" +
+                Environment.SetEnvironmentVariable("NameOrConnectionString",//EvoMp_GtMp
+                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EvoMp_Test1;Integrated Security=True;" +
                     "Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
                     "MultiSubnetFailover=False;MultipleActiveResultSets = True;");
             else
@@ -24,7 +24,7 @@ namespace EvoMp.Module.DbAccess
                                                  Split(';').ToList();
 
             // Write console output
-            logger.Write($"Using Database {connectionParameters.Find(s => s.ToLower().StartsWith("data source"))?.Trim()}", 
+            logger.Write($"Using Database {connectionParameters.Find(s => s.ToLower().StartsWith("initial catalog"))?.Trim()}", 
                 LogCase.System);
         }
 
