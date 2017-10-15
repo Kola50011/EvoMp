@@ -30,9 +30,9 @@ namespace EvoMp.Core.Core
                 Directory.CreateDirectory(gtMpServerModulesFolder);
 
             // Delete old modules
-            List<string> oldModules = Directory.EnumerateFiles(gtMpServerModulesFolder, "EvoMp.Module.*.*",
+            List<string> oldModules = Directory.EnumerateFiles(gtMpServerModulesFolder, "Evo*.Module.*.*",
                     SearchOption.AllDirectories)
-                .Where(file => file.Contains("EvoMp.Module."))
+                .Where(file => file.Contains("EvoMp.Module.") || file.Contains("EvoRp.Module."))
                 .ToList();
 
             // Get the DLLs from the project folders

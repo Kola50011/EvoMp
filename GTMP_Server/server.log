@@ -3941,3 +3941,240 @@ Suggestions:
    bei GrandTheftMultiplayer.Server.GameServer.StartResource(String resourceName, String father)
 2017-10-15 13:04:27.7154 |  Info | Program | Started! Waiting for connections. 
 2017-10-15 13:05:07.2006 |  Info | Program | Terminating... 
+2017-10-15 13:47:48.2604 |  Info | Program | Grand Theft Multiplayer Server v0.1.631.625 
+2017-10-15 13:47:48.3186 |  Info | Program |   Interface:         0.0.0.0 
+2017-10-15 13:47:48.3377 |  Info | Program |   Port:                 4499 
+2017-10-15 13:47:48.3527 |  Info | Program |   Name:      Simple Grand Theft Multiplayer Server 
+2017-10-15 13:47:48.3648 |  Info | Program |   FQDN:                      
+2017-10-15 13:47:48.3783 |  Info | Program |   Players:                50 
+2017-10-15 13:47:48.3783 |  Info | Program |   Announce:             True 
+2017-10-15 13:47:48.4004 |  Info | Program | Starting... 
+2017-10-15 13:47:49.5574 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 13:47:49.6216 |  Info | GameServer | Loading resources... 
+2017-10-15 13:47:49.8488 |  Info | GameServer | Starting EvoMp 
+2017-10-15 13:47:57.7076 | Error | GameServer | ERROR STARTING RESOURCE EvoMp System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.Data.SqlClient.SqlException: There is already an object named 'DiscordBotChannels' in the database.
+   bei System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   bei System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   bei System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   bei System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   bei System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   bei System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   bei System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   bei System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.NonQuery(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteSql(MigrationStatement migrationStatement, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinTransaction(IEnumerable`1 migrationStatements, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinNewTransaction(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection)
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<>c__DisplayClass1.<Execute>b__0()
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatements(IEnumerable`1 migrationStatements, DbTransaction existingTransaction)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteOperations(String migrationId, VersionedModel targetModel, IEnumerable`1 operations, IEnumerable`1 systemOperations, Boolean downgrading, Boolean auto)
+   bei System.Data.Entity.Migrations.DbMigrator.AutoMigrate(String migrationId, VersionedModel sourceModel, VersionedModel targetModel, Boolean downgrading)
+   bei System.Data.Entity.Migrations.DbMigrator.Upgrade(IEnumerable`1 pendingMigrations, String targetMigrationId, String lastMigrationId)
+   bei System.Data.Entity.Migrations.DbMigrator.UpdateInternal(String targetMigration)
+   bei System.Data.Entity.Migrations.DbMigrator.EnsureDatabaseExists(Action mustSucceedToKeepDatabase)
+   bei System.Data.Entity.Migrations.DbMigrator.Update(String targetMigration)
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordContext.FirstInit()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository..ctor()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository.GetInstance()
+   bei EvoMp.Module.DiscordHandler.DiscordHandler..ctor(API api, IEventHandler eventHandler, ILogger logger)
+   bei DynamicInjector2747e5f667204c67a7d336d3562100f8(Object[] )
+   bei Ninject.Activation.Context.ResolveInternal(Object scope)
+   bei Ninject.Activation.Context.Resolve()
+   bei Ninject.KernelBase.Resolve(IRequest request, Boolean handleMissingBindings)
+   bei Ninject.ResolutionExtensions.Get(IResolutionRoot root, Type service, IParameter[] parameters)
+   bei EvoMp.Core.Core.ModuleLoader.StartModules(List`1 modulePaths, IKernel kernel)
+   bei EvoMp.Core.Core.ModuleLoader.Load()
+   bei EvoMp.Core.Core.Main..ctor()
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   bei System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   bei System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   bei System.Activator.CreateInstance(Type type)
+   bei GrandTheftMultiplayer.Server.GameServer.<InstantiateScripts>d__129.MoveNext()
+   bei System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   bei System.Collections.Generic.List`1.InsertRange(Int32 index, IEnumerable`1 collection)
+   bei GrandTheftMultiplayer.Server.GameServer.StartResource(String resourceName, String father)
+2017-10-15 13:47:57.8055 |  Info | Program | Started! Waiting for connections. 
+2017-10-15 13:49:49.5624 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 13:52:04.8652 |  Info | Program | Grand Theft Multiplayer Server v0.1.631.625 
+2017-10-15 13:52:04.9229 |  Info | Program |   Interface:         0.0.0.0 
+2017-10-15 13:52:04.9350 |  Info | Program |   Port:                 4499 
+2017-10-15 13:52:04.9460 |  Info | Program |   Name:      Simple Grand Theft Multiplayer Server 
+2017-10-15 13:52:04.9571 |  Info | Program |   FQDN:                      
+2017-10-15 13:52:04.9571 |  Info | Program |   Players:                50 
+2017-10-15 13:52:04.9786 |  Info | Program |   Announce:             True 
+2017-10-15 13:52:04.9882 |  Info | Program | Starting... 
+2017-10-15 13:52:06.1727 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 13:52:06.2409 |  Info | GameServer | Loading resources... 
+2017-10-15 13:52:06.4697 |  Info | GameServer | Starting EvoMp 
+2017-10-15 13:52:13.1851 | Error | GameServer | ERROR STARTING RESOURCE EvoMp System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.Data.SqlClient.SqlException: There is already an object named 'DiscordBotChannels' in the database.
+   bei System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   bei System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   bei System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   bei System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   bei System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   bei System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   bei System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   bei System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.NonQuery(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteSql(MigrationStatement migrationStatement, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinTransaction(IEnumerable`1 migrationStatements, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinNewTransaction(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection)
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<>c__DisplayClass1.<Execute>b__0()
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatements(IEnumerable`1 migrationStatements, DbTransaction existingTransaction)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteOperations(String migrationId, VersionedModel targetModel, IEnumerable`1 operations, IEnumerable`1 systemOperations, Boolean downgrading, Boolean auto)
+   bei System.Data.Entity.Migrations.DbMigrator.AutoMigrate(String migrationId, VersionedModel sourceModel, VersionedModel targetModel, Boolean downgrading)
+   bei System.Data.Entity.Migrations.DbMigrator.Upgrade(IEnumerable`1 pendingMigrations, String targetMigrationId, String lastMigrationId)
+   bei System.Data.Entity.Migrations.DbMigrator.UpdateInternal(String targetMigration)
+   bei System.Data.Entity.Migrations.DbMigrator.EnsureDatabaseExists(Action mustSucceedToKeepDatabase)
+   bei System.Data.Entity.Migrations.DbMigrator.Update(String targetMigration)
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordContext.FirstInit()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository..ctor()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository.GetInstance()
+   bei EvoMp.Module.DiscordHandler.DiscordHandler..ctor(API api, IEventHandler eventHandler, ILogger logger)
+   bei DynamicInjector870356ac3cba442e99ce0ed0b3421ce6(Object[] )
+   bei Ninject.Activation.Context.ResolveInternal(Object scope)
+   bei Ninject.Activation.Context.Resolve()
+   bei Ninject.KernelBase.Resolve(IRequest request, Boolean handleMissingBindings)
+   bei Ninject.ResolutionExtensions.Get(IResolutionRoot root, Type service, IParameter[] parameters)
+   bei EvoMp.Core.Core.ModuleLoader.StartModules(List`1 modulePaths, IKernel kernel)
+   bei EvoMp.Core.Core.ModuleLoader.Load()
+   bei EvoMp.Core.Core.Main..ctor()
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   bei System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   bei System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   bei System.Activator.CreateInstance(Type type)
+   bei GrandTheftMultiplayer.Server.GameServer.<InstantiateScripts>d__129.MoveNext()
+   bei System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   bei System.Collections.Generic.List`1.InsertRange(Int32 index, IEnumerable`1 collection)
+   bei GrandTheftMultiplayer.Server.GameServer.StartResource(String resourceName, String father)
+2017-10-15 13:52:13.2875 |  Info | Program | Started! Waiting for connections. 
+2017-10-15 13:53:39.7934 |  Info | Program | Grand Theft Multiplayer Server v0.1.631.625 
+2017-10-15 13:53:39.8607 |  Info | Program |   Interface:         0.0.0.0 
+2017-10-15 13:53:39.8742 |  Info | Program |   Port:                 4499 
+2017-10-15 13:53:39.8858 |  Info | Program |   Name:      Simple Grand Theft Multiplayer Server 
+2017-10-15 13:53:39.8978 |  Info | Program |   FQDN:                      
+2017-10-15 13:53:39.9108 |  Info | Program |   Players:                50 
+2017-10-15 13:53:39.9239 |  Info | Program |   Announce:             True 
+2017-10-15 13:53:39.9239 |  Info | Program | Starting... 
+2017-10-15 13:53:41.0959 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 13:53:41.1827 |  Info | GameServer | Loading resources... 
+2017-10-15 13:53:41.4084 |  Info | GameServer | Starting EvoMp 
+2017-10-15 13:53:48.3020 | Error | GameServer | ERROR STARTING RESOURCE EvoMp System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.Data.SqlClient.SqlException: There is already an object named 'DiscordBotChannels' in the database.
+   bei System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   bei System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   bei System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   bei System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   bei System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   bei System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   bei System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   bei System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.NonQuery(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteSql(MigrationStatement migrationStatement, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinTransaction(IEnumerable`1 migrationStatements, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinNewTransaction(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection)
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<>c__DisplayClass1.<Execute>b__0()
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatements(IEnumerable`1 migrationStatements, DbTransaction existingTransaction)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteOperations(String migrationId, VersionedModel targetModel, IEnumerable`1 operations, IEnumerable`1 systemOperations, Boolean downgrading, Boolean auto)
+   bei System.Data.Entity.Migrations.DbMigrator.AutoMigrate(String migrationId, VersionedModel sourceModel, VersionedModel targetModel, Boolean downgrading)
+   bei System.Data.Entity.Migrations.DbMigrator.Upgrade(IEnumerable`1 pendingMigrations, String targetMigrationId, String lastMigrationId)
+   bei System.Data.Entity.Migrations.DbMigrator.UpdateInternal(String targetMigration)
+   bei System.Data.Entity.Migrations.DbMigrator.EnsureDatabaseExists(Action mustSucceedToKeepDatabase)
+   bei System.Data.Entity.Migrations.DbMigrator.Update(String targetMigration)
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordContext.FirstInit()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository..ctor()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository.GetInstance()
+   bei EvoMp.Module.DiscordHandler.DiscordHandler..ctor(API api, IEventHandler eventHandler, ILogger logger)
+   bei DynamicInjectorabb581c119b24b54aee5294f55199423(Object[] )
+   bei Ninject.Activation.Context.ResolveInternal(Object scope)
+   bei Ninject.Activation.Context.Resolve()
+   bei Ninject.KernelBase.Resolve(IRequest request, Boolean handleMissingBindings)
+   bei Ninject.ResolutionExtensions.Get(IResolutionRoot root, Type service, IParameter[] parameters)
+   bei EvoMp.Core.Core.ModuleLoader.StartModules(List`1 modulePaths, IKernel kernel)
+   bei EvoMp.Core.Core.ModuleLoader.Load()
+   bei EvoMp.Core.Core.Main..ctor()
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   bei System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   bei System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   bei System.Activator.CreateInstance(Type type)
+   bei GrandTheftMultiplayer.Server.GameServer.<InstantiateScripts>d__129.MoveNext()
+   bei System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   bei System.Collections.Generic.List`1.InsertRange(Int32 index, IEnumerable`1 collection)
+   bei GrandTheftMultiplayer.Server.GameServer.StartResource(String resourceName, String father)
+2017-10-15 13:53:48.4038 |  Info | Program | Started! Waiting for connections. 
+2017-10-15 13:53:51.6017 | Debug | GameServer | Downloading latest Assembly String failed System.Net.WebException: Timeout für Vorgang überschritten
+   bei System.Net.WebClient.DownloadDataInternal(Uri address, WebRequest& request)
+   bei System.Net.WebClient.DownloadString(Uri address)
+   bei GrandTheftMultiplayer.Server.GameServer.<UpdateLatestAssemblyString>b__59_0(Object <p0>)
+2017-10-15 13:55:15.6597 |  Info | Program | Grand Theft Multiplayer Server v0.1.631.625 
+2017-10-15 13:55:15.7164 |  Info | Program |   Interface:         0.0.0.0 
+2017-10-15 13:55:15.7269 |  Info | Program |   Port:                 4499 
+2017-10-15 13:55:15.7364 |  Info | Program |   Name:      Simple Grand Theft Multiplayer Server 
+2017-10-15 13:55:15.7364 |  Info | Program |   FQDN:                      
+2017-10-15 13:55:15.7545 |  Info | Program |   Players:                50 
+2017-10-15 13:55:15.7545 |  Info | Program |   Announce:             True 
+2017-10-15 13:55:15.7721 |  Info | Program | Starting... 
+2017-10-15 13:55:16.9135 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 13:55:16.9892 |  Info | GameServer | Loading resources... 
+2017-10-15 13:55:17.2155 |  Info | GameServer | Starting EvoMp 
+2017-10-15 13:55:24.0689 | Error | GameServer | ERROR STARTING RESOURCE EvoMp System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.Data.SqlClient.SqlException: There is already an object named 'DiscordBotChannels' in the database.
+   bei System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   bei System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   bei System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   bei System.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean async, Int32 timeout, Boolean asyncWrite)
+   bei System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   bei System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   bei System.Data.Entity.Infrastructure.Interception.InternalDispatcher`1.Dispatch[TTarget,TInterceptionContext,TResult](TTarget target, Func`3 operation, TInterceptionContext interceptionContext, Action`3 executing, Action`3 executed)
+   bei System.Data.Entity.Infrastructure.Interception.DbCommandDispatcher.NonQuery(DbCommand command, DbCommandInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteSql(MigrationStatement migrationStatement, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinTransaction(IEnumerable`1 migrationStatements, DbTransaction transaction, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsWithinNewTransaction(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection, DbInterceptionContext interceptionContext)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatementsInternal(IEnumerable`1 migrationStatements, DbConnection connection)
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.<>c__DisplayClass1.<Execute>b__0()
+   bei System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteStatements(IEnumerable`1 migrationStatements, DbTransaction existingTransaction)
+   bei System.Data.Entity.Migrations.DbMigrator.ExecuteOperations(String migrationId, VersionedModel targetModel, IEnumerable`1 operations, IEnumerable`1 systemOperations, Boolean downgrading, Boolean auto)
+   bei System.Data.Entity.Migrations.DbMigrator.AutoMigrate(String migrationId, VersionedModel sourceModel, VersionedModel targetModel, Boolean downgrading)
+   bei System.Data.Entity.Migrations.DbMigrator.Upgrade(IEnumerable`1 pendingMigrations, String targetMigrationId, String lastMigrationId)
+   bei System.Data.Entity.Migrations.DbMigrator.UpdateInternal(String targetMigration)
+   bei System.Data.Entity.Migrations.DbMigrator.EnsureDatabaseExists(Action mustSucceedToKeepDatabase)
+   bei System.Data.Entity.Migrations.DbMigrator.Update(String targetMigration)
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordContext.FirstInit()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository..ctor()
+   bei EvoMp.Module.DiscordHandler.Entity.DiscordRepository.GetInstance()
+   bei EvoMp.Module.DiscordHandler.DiscordHandler..ctor(API api, IEventHandler eventHandler, ILogger logger)
+   bei DynamicInjector8a6e30cd30844c40a3df0dcdd45663e6(Object[] )
+   bei Ninject.Activation.Context.ResolveInternal(Object scope)
+   bei Ninject.Activation.Context.Resolve()
+   bei Ninject.KernelBase.Resolve(IRequest request, Boolean handleMissingBindings)
+   bei Ninject.ResolutionExtensions.Get(IResolutionRoot root, Type service, IParameter[] parameters)
+   bei EvoMp.Core.Core.ModuleLoader.StartModules(List`1 modulePaths, IKernel kernel)
+   bei EvoMp.Core.Core.ModuleLoader.Load()
+   bei EvoMp.Core.Core.Main..ctor()
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   bei System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   bei System.Activator.CreateInstance(Type type, Boolean nonPublic)
+   bei System.Activator.CreateInstance(Type type)
+   bei GrandTheftMultiplayer.Server.GameServer.<InstantiateScripts>d__129.MoveNext()
+   bei System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   bei System.Collections.Generic.List`1.InsertRange(Int32 index, IEnumerable`1 collection)
+   bei GrandTheftMultiplayer.Server.GameServer.StartResource(String resourceName, String father)
+2017-10-15 13:55:24.1782 |  Info | Program | Started! Waiting for connections. 
+2017-10-15 13:55:27.3942 | Debug | GameServer | Downloading latest Assembly String failed System.Net.WebException: Timeout für Vorgang überschritten
+   bei System.Net.WebClient.DownloadDataInternal(Uri address, WebRequest& request)
+   bei System.Net.WebClient.DownloadString(Uri address)
+   bei GrandTheftMultiplayer.Server.GameServer.<UpdateLatestAssemblyString>b__59_0(Object <p0>)

@@ -10,6 +10,7 @@ namespace EvoMp.Module.DiscordHandler.BotManagment
   {
     public BotManagment(DiscordRepository discordRepository, ILogger logger)
     {
+
       bool anyDiscordBotCreated = false;
 
       // Any existing Bots in Database?

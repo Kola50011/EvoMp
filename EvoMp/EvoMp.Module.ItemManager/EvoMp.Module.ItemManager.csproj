@@ -60,7 +60,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
-      <Name>EvoRP.Core.Core</Name>
+      <Name>EvoMp.Core.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

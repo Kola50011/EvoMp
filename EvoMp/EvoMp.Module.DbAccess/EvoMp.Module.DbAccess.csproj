@@ -41,11 +41,11 @@
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
-      <Name>EvoRP.Core.Core</Name>
+      <Name>EvoMp.Core.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.Logger\EvoMp.Module.Logger.csproj">
       <Project>{86C15E76-4D13-425C-9D85-E8713F711721}</Project>
-      <Name>EvoRP.Module.Logger</Name>
+      <Name>EvoMp.Module.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
