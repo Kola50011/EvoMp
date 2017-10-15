@@ -14,9 +14,10 @@ namespace EvoMp.Module.DiscordHandler
         public DiscordHandler(API api, IEventHandler eventHandler, ILogger logger)
         {
             DiscordRepository = DiscordRepository.GetInstance();
+            DiscordEvents.GetInstance();
             BotManagment = new BotManagment.BotManagment(DiscordRepository, logger);
 
-            // Debug  
+            // Debug
             DiscordEvents.OnChannelMessage += (channel, author, message) =>
             {
                 logger.Write($"{channel.ChannelName} -> {author.Username}: ${message}", LogCase.Discord);

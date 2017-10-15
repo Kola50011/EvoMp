@@ -11,8 +11,7 @@ namespace EvoMp.Module.UserHandler.Entity
         public UserRepository(API api)
         {
             _api = api;
-            //new UserContext().FirstInit();
-            GetUserContext();
+            new UserContext().FirstInit();
         }
 
         public User GetUserByName(string name)

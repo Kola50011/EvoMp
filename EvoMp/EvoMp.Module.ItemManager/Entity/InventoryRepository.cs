@@ -4,8 +4,7 @@
     {
         public InventoryRepository()
         {
-            //new InventoryContext().FirstInit();
-            GetInventoryContext();
+            new InventoryContext().FirstInit();
         }
 
         public InventoryContext GetInventoryContext()

@@ -8,86 +8,86 @@ namespace EvoMp.Module.UserHandler.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [Column("user_id")]
+        [Column("ID")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "You have to set an username to register an account")]
         [MaxLength(32, ErrorMessage = "Your username can be up to 32 characters")]
         [MinLength(3, ErrorMessage = "Your username needs to be at least 3 characters")]
         [Index(IsUnique = true)]
-        [Column("name")]
+        [Column("Name")]
         public string Name { get; set; }
 
         [Required]
         [Index(IsUnique = true)]
         [MaxLength(32)]
         [MinLength(3)]
-        [Column("social_club_name")]
+        [Column("Social_club_name")]
         public string SocialClubName { get; set; }
 
         [MaxLength(32)]
         [MinLength(3)]
         [Index(IsUnique = true)]
-        [Column("first_name")]
+        [Column("First_name")]
         public string FirstName { get; set; }
 
         [MaxLength(32, ErrorMessage = "Your first name can be up to 32 characters")]
         [MinLength(3, ErrorMessage = "Your last name needs to be at least 3 characters")]
         [Index(IsUnique = true)]
-        [Column("last_name")]
+        [Column("Last_name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "You have to set an password to register an account")]
-        [Column("password")]
+        [Column("Password")]
         public string PasswordHash { get; set; }
 
         [Required]
-        [Column("salt")]
+        [Column("Salt")]
         public string Salt { get; set; }
 
         [Required(ErrorMessage = "You have to set an email to register an account")]
-        [Column("email")]
+        [Column("Email")]
         public string Email { get; set; }
 
         [Required]
-        [Column("hwid")]
+        [Column("Hwid")]
         public string HwId { get; set; }
 
         [Required]
-        [Column("created")]
+        [Column("Created")]
         public DateTime Created { get; set; } = DateTime.Now;
 
         [Required]
-        [Column("last_update")]
+        [Column("LastUpdate")]
         public DateTime LastUpdate { get; set; } = DateTime.Now;
 
         [Required]
-        [Column("last_login")]
+        [Column("LastLogin")]
         public DateTime LastLogin { get; set; } = DateTime.Now;
 
         //Top of the Mt Chilad X:450.718 Y:5566.614 Z:806.183 
         [Required]
-        [Column("pos_x")]
+        [Column("PosX")]
         public float PosX { get; set; } = (float) 450.718;
 
         [Required]
-        [Column("pos_y")]
+        [Column("PosY")]
         public float PosY { get; set; } = (float) 5566.614;
 
         [Required]
-        [Column("pos_z")]
+        [Column("PosZ")]
         public float PosZ { get; set; } = (float) 806.183;
 
         [Required]
-        [Column("rot_x")]
+        [Column("RotX")]
         public float RotX { get; set; } = 0;
 
         [Required]
-        [Column("rot_y")]
+        [Column("RotY")]
         public float RotY { get; set; } = 0;
 
         [Required]
-        [Column("rot_z")]
+        [Column("RotZ")]
         public float RotZ { get; set; } = 0;
     }
 }

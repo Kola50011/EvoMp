@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.Core", "EvoMp.Core.Core\EvoMp.Core.Core.csproj", "{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMP.Core.StartupProject", "EvoMP.Core.StartupProject\EvoMP.Core.StartupProject.csproj", "{A8239500-8905-42F2-A91C-07C779181A7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.StartupProject", "EvoMP.Core.StartupProject\EvoMp.Core.StartupProject.csproj", "{A8239500-8905-42F2-A91C-07C779181A7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}"
 EndProject

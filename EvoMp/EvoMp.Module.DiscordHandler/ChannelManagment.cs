@@ -47,8 +47,8 @@ namespace EvoMp.Module.DiscordHandler
                 {
                     returnChannel = discordContext.DiscordBotChannels.Add(new DiscordBotChannel
                     {
-                        DiscordBot =
-                            discordContext.DiscordBots.First(bot => bot.DiscordId == discordUser.Id),
+                        DiscordBotId = 
+                            discordContext.DiscordBots.First(bot => bot.DiscordId == discordUser.Id).Id,
                         ChannelId = discordChannel.Id,
                         ChannelName = discordChannel.Name
                     });

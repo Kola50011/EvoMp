@@ -50,15 +50,15 @@
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8eefb99a-d966-4332-9fce-bc7fee18f464}</Project>
-      <Name>EvoRP.Core.Core</Name>
+      <Name>EvoMp.Core.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
-      <Name>EvoRP.Module.EventHandler</Name>
+      <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.Logger\EvoMp.Module.Logger.csproj">
       <Project>{86C15E76-4D13-425C-9D85-E8713F711721}</Project>
-      <Name>EvoRP.Module.Logger</Name>
+      <Name>EvoMp.Module.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

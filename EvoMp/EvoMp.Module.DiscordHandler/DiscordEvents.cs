@@ -31,7 +31,6 @@ namespace EvoMp.Module.DiscordHandler
 
         public static void TriggerChannelMessage(MessageCreateEventArgs messageCreateEventArgs)
         {
-            GetInstance();
             Console.WriteLine("test1");
             DiscordBotChannel sendedChannel = _channelManagment.GetBotChannel(messageCreateEventArgs.Client.CurrentUser,
                 messageCreateEventArgs.Channel);

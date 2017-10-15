@@ -79,19 +79,19 @@
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
-      <Name>EvoRP.Core.Core</Name>
+      <Name>EvoMp.Core.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.DbAccess\EvoMp.Module.DbAccess.csproj">
       <Project>{fc2da305-bd70-468e-bcc5-7bcf4f161471}</Project>
-      <Name>EvoRP.Module.DbAccess</Name>
+      <Name>EvoMp.Module.DbAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
-      <Name>EvoRP.Module.EventHandler</Name>
+      <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.Logger\EvoMp.Module.Logger.csproj">
       <Project>{86c15e76-4d13-425c-9d85-e8713f711721}</Project>
-      <Name>EvoRP.Module.Logger</Name>
+      <Name>EvoMp.Module.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
