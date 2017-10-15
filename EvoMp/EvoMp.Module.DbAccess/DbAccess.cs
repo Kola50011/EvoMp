@@ -12,8 +12,8 @@ namespace EvoMp.Module.DbAccess
             string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
             if (dbConnectionString == null)
-                Environment.SetEnvironmentVariable("NameOrConnectionString",//EvoMp_GtMp
-                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EvoMp_Test1;Integrated Security=True;" +
+                Environment.SetEnvironmentVariable("NameOrConnectionString",
+                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EvoMpGtMpServer;Integrated Security=True;" +
                     "Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
                     "MultiSubnetFailover=False;MultipleActiveResultSets = True;");
             else

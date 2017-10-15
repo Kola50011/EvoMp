@@ -5815,3 +5815,19 @@ Suggestions:
 2017-10-15 15:25:51.6408 |  Info | Program | Terminating... 
 2017-10-15 15:25:51.6774 |  Info | GameServer | Stopping EvoMp 
 2017-10-15 15:25:51.8209 |  Info | GameServer | Stopped EvoMp. 
+2017-10-15 15:29:54.7024 |  Info | Program | Grand Theft Multiplayer Server v0.1.631.625 
+2017-10-15 15:29:54.7536 |  Info | Program |   Interface:         0.0.0.0 
+2017-10-15 15:29:54.7536 |  Info | Program |   Port:                 4499 
+2017-10-15 15:29:54.7536 |  Info | Program |   Name:      Simple Grand Theft Multiplayer Server 
+2017-10-15 15:29:54.7676 |  Info | Program |   FQDN:                      
+2017-10-15 15:29:54.7676 |  Info | Program |   Players:                50 
+2017-10-15 15:29:54.7676 |  Info | Program |   Announce:             True 
+2017-10-15 15:29:54.7676 |  Info | Program | Starting... 
+2017-10-15 15:29:55.9266 | Debug | GameServer | Announcing self to master server... 
+2017-10-15 15:29:55.9788 |  Info | GameServer | Loading resources... 
+2017-10-15 15:29:58.4311 |  Info | GameServer | Starting EvoMp 
+2017-10-15 15:30:22.9241 |  Info | GameServer | Resource EvoMp started. 
+2017-10-15 15:30:22.9241 |  Info | Program | Started! Waiting for connections. 
+2017-10-15 15:30:42.4738 |  Info | Program | Terminating... 
+2017-10-15 15:30:42.5024 |  Info | GameServer | Stopping EvoMp 
+2017-10-15 15:30:42.6469 |  Info | GameServer | Stopped EvoMp. 
