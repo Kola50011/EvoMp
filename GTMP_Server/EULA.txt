@@ -1,0 +1,65 @@
+Grand Theft Multiplayer
+Client Agreement
+
+Grand Theft Multiplayer, henceforth and also known as “GT-MP”, is a multiplayer modification that offers end users the possibility to play Grand Theft Auto V © on custom dedicated servers utilizing custom built gamemodes.
+By using this multiplayer modification, you automatically agree to all the terms and conditions listed below.
+
+•	You must own a legitimate copy of Grand Theft Auto V © on PC to play GT-MP.
+•	GT-MP is provided on an “as-is” basis.
+•	GT-MP may not be used for (personal) financial or commercial gain in any way, shape or form.
+•	The author(s) of GT-MP accept no liability for any damages caused by GT-MP or misuse of it.
+•	GT-MP and its binaries, either partly or in its entirety, may not be copied, redistributed, sold, rented or leased without written permission from its author(s).
+•	Creating and/or distributing derivative works of GT-MP either partly or in its entirety is strictly forbidden.
+•	GT-MP is not to be used for any illegal purposes.
+•	The author(s) of GT-MP reserve the right to edit, modify, create or delete these terms and conditions at any time without prior notice.
+ 
+
+
+
+Grand Theft Multiplayer
+Server Agreement
+
+Grand Theft Multiplayer, henceforth and also known as “GT-MP”, is a multiplayer modification that offers end users the possibility to play Grand Theft Auto V © on custom dedicated servers utilizing custom built gamemodes. 
+By hosting a server for the aforementioned modification, you automatically agree to all the terms and conditions listed below.
+
+•	Any platform other than the ones provided by the author(s) are not allowed to establish a connection to the GT-MP masterlist. Our current platforms are the client and the server package.
+•	Attacking another GT-MP server and/or community in any way, shape or form is strictly forbidden.
+•	The author(s) of GT-MP accept no liability for any attacks on your server and/or community as a result of being listed publicly on our masterlist.
+•	The privacy of all parties, such as but not limited to, players and server providers, may not be breached at any time.
+•	Displaying a server count anywhere at any time that does not reflect the actual amount of connected human players to your server is forbidden. A cached number of players is also forbidden.
+•	The author(s) of GT-MP reserve the right to edit, modify, create or delete these terms and conditions at any time without prior notice.
+ 
+
+
+
+Grand Theft Multiplayer
+Monetization & Donation Agreement
+
+Grand Theft Multiplayer, henceforth and also known as “GT-MP”, is a multiplayer modification that offers end users the possibility to play Grand Theft Auto V © on custom dedicated servers utilizing custom built gamemodes.
+By hosting a server for the aforementioned modification, you automatically agree to all the terms and conditions listed below.
+
+•	Charging players to play on your server is strictly forbidden.
+	Preventing players from accessing your server that have not paid for their access is forbidden. Each and every player is entitled to access to your server and community without having to pay for it. However, approval systems such as whitelisting and putting a password on your server is still allowed.
+•	Donations may only be accepted in the form of money.
+	A player may willingly and voluntarily donate to your server and community by sending you an amount of money through a secured payment provider, such as but not limited to, PayPal and Bitcoin. Any other form of donating, such as but not limited to, gifting games or gifting software is not allowed.
+•	Charging players for certain features or any sort of item that is not deemed cosmetic is strictly forbidden.
+	Thus, creating a “Pay 2 Win” environment is not allowed. You may allow players to pay for cosmetic items, such as but not limited to, t-shirts, jackets, pants and so forth. Charging them for items, such as but not limited to, weapons, vehicles and properties is not allowed.
+•	Allowing players to exchange real life currency to your server’s currency is not allowed.
+	You may not exchange real life currency or any other form of donation to your server’s currency. The only way to gain your server’s currency should be by playing.
+•	When accepting money, if in accordance with the terms and conditions, inform the party sending the money with sufficient information.
+	“Sufficient information” refers to who the receiver of the money is/are, providing a receipt (purchase history) and providing contact details. It is the responsibility of the server and community owner to check the terms and conditions of selling digital items in their respective region.
+ 
+
+
+
+Grand Theft Multiplayer
+Monetization & Donation Agreement
+
+Grand Theft Multiplayer, henceforth and also known as “GT-MP”, is a multiplayer modification that offers end users the possibility to play Grand Theft Auto V © on custom dedicated servers utilizing custom built gamemodes.
+
+•	Breaking any and all of the terms and conditions can result in a full and complete blacklist of your server and community from GT-MP.
+•	Discussing these terms and conditions can be done freely and at any time by using the following methods of contact:
+	o	Discord: https://discord.gg/QPYDct4
+	o	GT-MP’s forums: https://gt-mp.net/forum
+	o	Email: admin@gt-mp.net
+

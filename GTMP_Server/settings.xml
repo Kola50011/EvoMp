@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <servername>Simple Grand Theft Multiplayer Server</servername>
+  <serverport>4499</serverport>
+  <maxplayers>50</maxplayers>
+  <minclientversion>0.0.0.0</minclientversion>
+  <minclientversion_auto_update>true</minclientversion_auto_update>
+  <announce>true</announce>
+  <password></password>
+  <masterserver>http://master.mta-v.net/api/</masterserver>
+  <acl_enabled>true</acl_enabled>
+  <global_stream_range>175</global_stream_range>
+  <player_stream_range>325</player_stream_range >
+  <vehicle_stream_range>700</vehicle_stream_range>
+  <marker_stream_range>500</marker_stream_range>
+  <label_stream_range>50</label_stream_range>
+  <vehicle_lagcomp>true</vehicle_lagcomp>
+  <onfoot_lagcomp>true</onfoot_lagcomp>
+  <shooting_lagcomp>true</shooting_lagcomp>
+  <refresh_rate>120</refresh_rate>
+  <announce_lan>true</announce_lan>
+  <upnp>false</upnp>
+  <fqdn></fqdn>
+  <conntimeout>false</conntimeout>
+  <allow_client_devtools>false</allow_client_devtools>
+  <allow_custom_scripts>false</allow_custom_scripts>
+  <player_update_timeout>10</player_update_timeout>
+  <exploit_blacklist>true</exploit_blacklist>
+  <no_hwid_duplicate>false</no_hwid_duplicate>
+  <no_socialclub_duplicate>true</no_socialclub_duplicate>
+  <connections_slow_mode>false</connections_slow_mode>
+  <resource src="EvoMp" />
+</config>
