@@ -18,16 +18,19 @@ namespace EvoMp.Module.DiscordHandler.Entity
         public void FirstInit()
         {
             // Startup parameter for database drop given -> drop.
+            
             Database.SetInitializer<DiscordContext>(null);
 
             // Configurate migration
-            DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<DiscordContext>();
-            migratorConfig.AutomaticMigrationsEnabled = true;
-            migratorConfig.AutomaticMigrationDataLossAllowed = true;
+            DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<DiscordContext>
+            {
+                AutomaticMigrationsEnabled = true,
+                AutomaticMigrationDataLossAllowed = true,
+            };
 
             DbMigrator dbMigrator = new DbMigrator(migratorConfig);
 
-            //dbMigrator.Update();
+            dbMigrator.Update();
 
             // Open database connection
             Database.Connection.Open();
