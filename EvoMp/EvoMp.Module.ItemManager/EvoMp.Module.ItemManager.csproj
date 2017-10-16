@@ -59,14 +59,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\BaseItem.cs" />
     <Compile Include="Entity\Inventory.cs" />
-    <Compile Include="IItemManager.cs" />
     <Compile Include="Entity\InventoryContext.cs" />
     <Compile Include="Entity\InventoryRepository.cs" />
+    <Compile Include="Entity\InventoryItem.cs" />
+    <Compile Include="Interfaces\IItemManager.cs" />
     <Compile Include="ItemManager.cs" />
     <Compile Include="Items\Apple.cs" />
-    <Compile Include="Items\BaseItem.cs" />
-    <Compile Include="Items\Knife.cs" />
+    <Compile Include="Items\Snickers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +79,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

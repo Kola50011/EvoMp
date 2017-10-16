@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.ItemManager.Items;
 
 namespace EvoMp.Module.ItemManager.Entity
 {
+    [Table("Inventories")]
     public class Inventory
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [Column("inventory_id")]
-        public int Id { get; set; }
+        public int InventoryId { get; set; }
+        /// <summary>
+        /// Used as the unique identifier for the user
+        /// </summary>
+        public string SocialClubName { get; set; }
 
-        [Column("items")]
-        public List<IBaseItem> Items { get; set; }
-
-        public Inventory()
-        {
-            Items = new List<IBaseItem>();
-        }
+        public virtual ICollection<InventoryItem> Items { get; set; } = new Collection<InventoryItem>();
     }
 }

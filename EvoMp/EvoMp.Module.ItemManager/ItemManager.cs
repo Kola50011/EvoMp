@@ -1,40 +1,46 @@
-﻿using System;
-using System.Linq;
-using EvoMp.Module.ItemManager.Entity;
-using EvoMp.Module.ItemManager.Items;
+﻿using EvoMp.Module.ItemManager.Entity;
+using EvoMp.Module.ItemManager.Interfaces;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.ItemManager
 {
     public class ItemManager : IItemManager
     {
-        public InventoryRepository _inventoryRepository;
-        public ItemManager()
+        private readonly API _api;
+        public InventoryRepository InventoryRepository = new InventoryRepository();
+
+        public ItemManager(API api)
         {
-            _inventoryRepository = new InventoryRepository();
+            _api = api;
+            _api.onPlayerDisconnected += _api_onPlayerDisconnected;
+            //Just for testing
+            _api.onPlayerConnected += _api_onPlayerConnected;
+            //Loads all Item : BaseItem inside this assembly into the database
+            InventoryRepository.LoadItemsIntoDatabase();
+        }
 
-            Inventory testInventory = new Inventory();
-            testInventory.Items.Add(new Apple());
-            testInventory.Items.Add(new Apple());
-            testInventory.Items.Add(new Knife());
+        private void _api_onPlayerConnected(Client player)
+        {
+            player.setData("INVENTORY", CreateOrGetExistingInventory(player.socialClubName));
+        }
 
-            using (InventoryContext inventoryContext = _inventoryRepository.GetInventoryContext())
+        private async void _api_onPlayerDisconnected(Client player, string reason)
+        {
+            //Save the inventory if the player disconnects
+            using (var inventoryContext = InventoryRepository.GetInventoryContext())
             {
-                inventoryContext.Inventories.Add(testInventory);
-                inventoryContext.SaveChanges();
+                await inventoryContext.SaveChangesAsync();
             }
+        }
 
-            using (InventoryContext inventoryContext = _inventoryRepository.GetInventoryContext())
-            {
-                foreach (IBaseItem item in inventoryContext.Inventories.First().Items)
-                {
-                    Console.WriteLine("Item " + item.GetSomething());
-                }
-            }
-
+        public Inventory CreateOrGetExistingInventory(string socialClubName)
+        {
+            return InventoryRepository.CreateOrGetExistingInventory(socialClubName);
         }
 
         public string ModuleName { get; } = "ItemManager";
         public string ModuleDesc { get; } = "Handles everything that has to do with items";
-        public string ModuleAuth { get; } = "Koka, Lukas";
+        public string ModuleAuth { get; } = "Koka, Lukas, S0PEX";
     }
 }
