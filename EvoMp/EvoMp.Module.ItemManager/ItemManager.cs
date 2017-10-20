@@ -8,7 +8,7 @@ namespace EvoMp.Module.ItemManager
     public class ItemManager : IItemManager
     {
         private readonly API _api;
-        public InventoryRepository InventoryRepository = new InventoryRepository();
+        public InventoryRepository InventoryRepository = InventoryRepository.Instance;
 
         public ItemManager(API api)
         {

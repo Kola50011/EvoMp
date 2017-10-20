@@ -10,7 +10,27 @@ namespace EvoMp.Module.ItemManager.Entity
     {
         private readonly Dictionary<Type, BaseItem> _itemsDictionary = new Dictionary<Type, BaseItem>();
 
-        public InventoryRepository()
+        private static volatile InventoryRepository _instance;
+        private static readonly object singeltonLock = new object();
+
+        public static InventoryRepository Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (singeltonLock)
+                    {
+                        if (_instance == null)
+                            _instance = new InventoryRepository();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        private InventoryRepository()
         {
             new InventoryContext().FirstInit();
         }
@@ -27,21 +47,6 @@ namespace EvoMp.Module.ItemManager.Entity
                 foreach (var itemType in Assembly.GetExecutingAssembly().GetTypes().Where(c => !c.IsAbstract && c.IsSubclassOf(typeof(BaseItem))))
                 {
                     inventoryContext.Items.AddOrUpdate((BaseItem)Activator.CreateInstance(itemType));
-                    ////Linq to entity doesnt know GetType, so we have to interate everything by hand
-                    //if (!inventoryContext.Items.Any())
-                    //{
-                    //    inventoryContext.Items.Add((BaseItem)Activator.CreateInstance(itemType));
-                    //}
-                    //else
-                    //{
-                    //    foreach (var contextItem in inventoryContext.Items)
-                    //    {
-                    //        if (contextItem.GetType() != itemType)
-                    //        {
-                    //            inventoryContext.Items.Add((BaseItem)Activator.CreateInstance(itemType));
-                    //        }
-                    //    }
-                    //}
                 }
 
                 inventoryContext.SaveChanges();
@@ -80,8 +85,11 @@ namespace EvoMp.Module.ItemManager.Entity
         /// <returns>Inventory Obj</returns>
         public Inventory CreateOrGetExistingInventory(string socialClubName)
         {
-            var inventory = GetInventoryContext().Inventories.First(inv => inv.SocialClubName == socialClubName);
-            return inventory ?? GetInventoryContext().Inventories.Add(new Inventory { SocialClubName = socialClubName });
+            using (var inventoryContext = GetInventoryContext())
+            {
+                var inventory = inventoryContext.Inventories.FirstOrDefault(inv => inv.SocialClubName == socialClubName);
+                return inventory ?? inventoryContext.Inventories.Add(new Inventory { SocialClubName = socialClubName });
+            }
         }
     }
 }

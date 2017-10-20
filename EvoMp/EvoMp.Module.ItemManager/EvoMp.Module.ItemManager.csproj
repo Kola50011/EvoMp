@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\InventoryController.cs" />
     <Compile Include="Entity\BaseItem.cs" />
     <Compile Include="Entity\Inventory.cs" />
     <Compile Include="Entity\InventoryContext.cs" />
