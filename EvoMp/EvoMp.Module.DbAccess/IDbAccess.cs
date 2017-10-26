@@ -2,7 +2,8 @@
 
 namespace EvoMp.Module.DbAccess
 {
-    public interface IDbAccess : IModule
+    [ModuleProperties("shared", "Koka, Lukas", "Provides connection string for entity framework")]
+    public interface IDbAccess
     {
     }
 }

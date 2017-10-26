@@ -2,7 +2,7 @@
 
 namespace EvoMp.Module.ItemManager
 {
-    public interface IItemManager : IModule
+    public interface IItemManager
     {
         
     }

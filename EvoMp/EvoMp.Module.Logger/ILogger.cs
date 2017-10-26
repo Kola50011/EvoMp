@@ -4,7 +4,7 @@ using GrandTheftMultiplayer.Server.Constant;
 
 namespace EvoMp.Module.Logger
 {
-    public interface ILogger : IModule
+    public interface ILogger
     {
         Dictionary<string, Color[]> SyntaxMap { get; set; }
 

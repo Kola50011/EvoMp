@@ -3,7 +3,7 @@ using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.EventHandler
 {
-    public interface IEventHandler : IModule
+    public interface IEventHandler
     {
         void InvokeClientEvent(Client client, string eventName, params object[] args);
         void InvokeClientEvent(string eventName, params object[] args);

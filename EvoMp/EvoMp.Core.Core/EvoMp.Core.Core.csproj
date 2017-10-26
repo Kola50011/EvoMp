@@ -70,7 +70,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IModule.cs" />
+    <Compile Include="ModuleProperties.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModuleLoader.cs" />
     <Compile Include="ModuleStructurer.cs" />

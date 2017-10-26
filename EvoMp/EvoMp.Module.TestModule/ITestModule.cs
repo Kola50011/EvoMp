@@ -2,7 +2,7 @@
 
 namespace EvoMp.Module.TestModule
 {
-  public interface ITestModule : IModule
+  public interface ITestModule
   {
   }
   

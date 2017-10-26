@@ -56,31 +56,34 @@ namespace EvoMp.Core.Core
             {
                 //  load assembly
                 Assembly moduleAssembly = Assembly.LoadFrom(modulePath);
-                bool moduleUsingIModule = false;
 
-                // Search for "IModule" interface class in assembly
-                // and, if given, bind the module
+                bool hasNeededInterface = false;
+
+                //Search for interface that's using the ModuleProperties attribute
                 foreach (Type moduleClass in moduleAssembly.GetTypes())
                     foreach (Type moduleInterface in moduleClass.GetInterfaces())
-                        if (moduleInterface.GetInterface(typeof(IModule).ToString()) != null)
+                    {
+                        if (moduleInterface.GetCustomAttribute(typeof(ModuleProperties)) != null)
                         {
+                            hasNeededInterface = true;
+                            ModuleProperties attribute =
+                                (ModuleProperties)moduleAssembly.GetCustomAttribute(typeof(ModuleProperties));
+
+                            Console.BackgroundColor = ConsoleColor.Gray;
                             Console.WriteLine(
-                                $"\tBinding \"{moduleInterface.FullName}\" to \"{moduleClass.FullName}\".");
+                                $"\tBinding \"{moduleInterface.Name}\" to \"{moduleClass.FullName}\".");
 
                             // Bind module
                             kernel.Bind(moduleInterface, moduleClass).To(moduleClass).InSingletonScope()
                                 .WithConstructorArgument("api", context => Api);
-                            moduleUsingIModule = true;
                         }
+                    }
 
-                // No implemention of "IModule" -> message
-                if (!moduleUsingIModule)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"\tModule \"{Path.GetFileNameWithoutExtension(modulePath)}\" is incorrect. " +
-                                      $"Implement the \"IModule\" interface in the given module.");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                }
+                // No implemention of "ModuleProperties" -> exception
+                if (!hasNeededInterface)
+                    throw new Exception($"The module {modulePath} didn't implement the \"ModuleAttribute\" " +
+                                        $"in the main Interface. " + Environment.NewLine +
+                                        "Please add the needed interface");
             }
 
             // return created kernel
@@ -107,7 +110,7 @@ namespace EvoMp.Core.Core
                 // and, if given, start the module
                 foreach (Type moduleClass in moduleAssembly.GetTypes())
                     foreach (Type moduleInterface in moduleClass.GetInterfaces())
-                        if (moduleInterface.GetInterface(typeof(IModule).ToString()) != null)
+                        if (moduleInterface?.GetCustomAttributes(typeof(ModuleProperties)) != null)
                         {
                             Console.WriteLine($"\tStarting module \"{moduleClass.FullName}\".");
                             kernel.Get(moduleClass);
@@ -119,7 +122,7 @@ namespace EvoMp.Core.Core
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"\tModule \"{Path.GetFileNameWithoutExtension(modulePath)}\" is incorrect. " +
-                                      $"Implement the \"IModule\" interface in the given module.");
+                                      $"Implement the \"ModuleProperties\" attribute in the given module interface.");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }

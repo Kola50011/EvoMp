@@ -2,7 +2,7 @@
 
 namespace EvoMp.Module.DiscordHandler
 {
-  public interface IDiscordHandler : IModule
+  public interface IDiscordHandler
   {
 
   }
