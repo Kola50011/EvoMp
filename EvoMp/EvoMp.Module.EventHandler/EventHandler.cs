@@ -75,10 +75,6 @@ namespace EvoMp.Module.EventHandler
                 foreach (ServerEventHandle serverEventHandle in _subscriberList.Get(eventName))
                     serverEventHandle.Cab.Invoke(client, eventName, args);
         }
-
-        public string ModuleName { get; } = "EventHandler";
-        public string ModuleDesc { get; } = "Wrapper for ClientEvents and ServerEvents";
-        public string ModuleAuth { get; } = "Koka, Lukas";
     }
 
     public class ServerEventHandle

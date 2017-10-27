@@ -1,9 +1,11 @@
 ﻿using EvoMp.Core.Core;
+using EvoMp.Core.ModuleProperties;
 
 namespace EvoMp.Module.TestModule
 {
-  public interface ITestModule : IModule
-  {
-  }
-  
+    [ModuleProperties("shared", "James, Ruffo", "Module for testing.")]
+    public interface ITestModule
+    {
+    }
+
 }

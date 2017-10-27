@@ -25,6 +25,15 @@ namespace EvoMp.Core.Core
                 "||===============================================||\n" +
                 "|| © 2017 EVO MP ALL RIGHTS RESERVED             ||\n");
 
+            string moduleTypesString = String.Join(", ", ModuleTypeHandler.GetServerTypes());
+            int spacesForModuleTypes = 46 - moduleTypesString.Length;
+            if (spacesForModuleTypes < 0)
+                spacesForModuleTypes = 0;
+
+            // Module types
+            Console.Write(
+                $"|| {moduleTypesString}" + new string(' ', spacesForModuleTypes) + "||\n");
+
             //Debug state information
 #if DEBUG
             Console.Write(
@@ -85,10 +94,6 @@ namespace EvoMp.Core.Core
 
             // Load Modules
             new ModuleLoader(API).Load();
-
-            Console.Write("-----------------------------------------------" +
-                          "-----------------------------------------------" +
-                          "\n");
         }
     }
 }

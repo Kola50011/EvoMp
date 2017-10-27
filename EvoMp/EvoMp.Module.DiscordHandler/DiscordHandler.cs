@@ -23,10 +23,6 @@ namespace EvoMp.Module.DiscordHandler
                 logger.Write($"{channel.ChannelName} -> {author.Username}: ${message}", LogCase.Discord);
             };
         }
-
-        public string ModuleName { get; } = "DiscordHandler";
-        public string ModuleDesc { get; } = "Module for discord communication";
-        public string ModuleAuth { get; } = "Ruffo";
     }
 }
 

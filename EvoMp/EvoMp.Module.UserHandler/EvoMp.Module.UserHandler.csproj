@@ -29,6 +29,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Roleplay - Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Roleplay - Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Freeroam - Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Freeroam - Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
@@ -80,6 +98,10 @@
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
       <Name>EvoMp.Core.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.ModuleProperties\EvoMp.Core.ModuleProperties.csproj">
+      <Project>{F4B5EDA5-1BFB-46FD-920F-FEBC1CE90EA1}</Project>
+      <Name>EvoMp.Core.ModuleProperties</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.DbAccess\EvoMp.Module.DbAccess.csproj">
       <Project>{fc2da305-bd70-468e-bcc5-7bcf4f161471}</Project>

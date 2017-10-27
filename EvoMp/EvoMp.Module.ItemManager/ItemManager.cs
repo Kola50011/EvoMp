@@ -32,9 +32,5 @@ namespace EvoMp.Module.ItemManager
             }
 
         }
-
-        public string ModuleName { get; } = "ItemManager";
-        public string ModuleDesc { get; } = "Handles everything that has to do with items";
-        public string ModuleAuth { get; } = "Koka, Lukas";
     }
 }

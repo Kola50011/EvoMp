@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EvoMp.Core.ModuleProperties;
 using EvoMp.Module.Logger;
 
 namespace EvoMp.Module.DbAccess
 {
+   
     public class DbAccess : IDbAccess
     {
         public DbAccess(ILogger logger)
@@ -27,11 +29,5 @@ namespace EvoMp.Module.DbAccess
             logger.Write($"Using Database {connectionParameters.Find(s => s.ToLower().StartsWith("initial catalog"))?.Trim()}", 
                 LogCase.System);
         }
-
-        public string ModuleName { get; } = "DbAccess";
-
-        public string ModuleDesc { get; } = "Provides connection string for entity framework";
-
-        public string ModuleAuth { get; } = "Koka, Lukas";
     }
 }

@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using EvoMp.Core.Core;
+using EvoMp.Core.ModuleProperties;
 using GrandTheftMultiplayer.Server.Constant;
 
 namespace EvoMp.Module.Logger
 {
-    public interface ILogger : IModule
+    [ModuleProperties("shared", "Koka, Lukas, DevGrab", "Wrapper for outputting stuff to different locations ex. Console, Discord, File")]
+    public interface ILogger
     {
         Dictionary<string, Color[]> SyntaxMap { get; set; }
 

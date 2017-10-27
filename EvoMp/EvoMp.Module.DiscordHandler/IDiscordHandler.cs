@@ -1,8 +1,10 @@
 ﻿using EvoMp.Core.Core;
+using EvoMp.Core.ModuleProperties;
 
 namespace EvoMp.Module.DiscordHandler
 {
-  public interface IDiscordHandler : IModule
+  [ModuleProperties("freeroam", "Ruffo", "Module for discord communication")]
+  public interface IDiscordHandler
   {
 
   }

@@ -60,7 +60,7 @@ namespace EvoMp.Core.Core
                     // Copy new module & write message
                     File.Copy(newModule, destFile, true);
                     if (destFile.EndsWith(".dll"))
-                        Console.WriteLine($"\tCopying module: \"{Path.GetFileName(destFile)}\".");
+                        Console.WriteLine($"  Copying module: \"{Path.GetFileName(destFile)}\".");
                 }
 
                 // Delete old modules
@@ -68,13 +68,13 @@ namespace EvoMp.Core.Core
                     .Contains(Path.GetFileName(t))))
                 {
                     File.Delete(deleteModule);
-                    Console.WriteLine($"\tDeleted old module: \"{Path.GetFileName(deleteModule)}\".");
+                    Console.WriteLine($"  Deleted old module: \"{Path.GetFileName(deleteModule)}\".");
                 }
             }
             catch (Exception exception)
             {
                 // Throw exception
-                throw new Exception($"\tInternal error in \"EvoMp.Core.Core.ModuleStructure\" " +
+                throw new Exception($"  Internal error in \"EvoMp.Core.Core.ModuleStructure\" " +
                                     $"{Environment.NewLine}" +
                                     $"{exception.Message}{Environment.NewLine}" +
                                     $"{exception.StackTrace}");
@@ -154,7 +154,7 @@ namespace EvoMp.Core.Core
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                     if (packageFile.EndsWith(".dll"))
-                        Console.WriteLine($"\tUsing new package file: \"{Path.GetFileName(packageFile)}\".");
+                        Console.WriteLine($"  Using new package file: \"{Path.GetFileName(packageFile)}\".");
                 }
             }
             catch (Exception exception)

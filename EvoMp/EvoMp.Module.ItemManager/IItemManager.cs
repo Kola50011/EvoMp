@@ -1,9 +1,11 @@
 ﻿using EvoMp.Core.Core;
+using EvoMp.Core.ModuleProperties;
 
 namespace EvoMp.Module.ItemManager
 {
-    public interface IItemManager : IModule
+    [ModuleProperties("shared", "Koka, Lukas", "Handles everything that has to do with items")]
+    public interface IItemManager
     {
-        
+
     }
 }
