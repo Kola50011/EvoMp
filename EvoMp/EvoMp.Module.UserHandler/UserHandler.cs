@@ -16,9 +16,5 @@ namespace EvoMp.Module.UserHandler
             Authentication.Authentication auth =
                 new Authentication.Authentication(eventHandler, spawnManager, userRepository, api);
         }
-
-        public string ModuleName { get; } = "UserHandler";
-        public string ModuleDesc { get; } = "Everything that has to do with a user";
-        public string ModuleAuth { get; } = "Koka, Lukas";
     }
 }

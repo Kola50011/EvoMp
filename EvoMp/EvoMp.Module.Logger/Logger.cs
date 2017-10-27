@@ -64,13 +64,6 @@ namespace EvoMp.Module.Logger
             //}
         }
 
-        public string ModuleName { get; } = "Logger";
-
-        public string ModuleDesc { get; } =
-            "Wrapper for outputting stuff to different locations ex. Console, Discord, File";
-
-        public string ModuleAuth { get; } = "Koka, Lukas";
-
         public Dictionary<string, Color[]> SyntaxMap { get; set; }
 
 
@@ -103,33 +96,35 @@ namespace EvoMp.Module.Logger
                 if (!SyntaxMap.ContainsKey(syntaxname))
                     throw new Exception("Syntax is not available.");
 
-                if (message.Trim() != string.Empty)
-                {
-                    StackTrace stackTrace = new StackTrace();
-                    string timeString = string.Format("{0:HH:mm:ss:fff}", DateTime.Now);
+                if (message.Trim() == string.Empty)
+                    return;
 
-                    string finalMessage = string.Format(
-                        timeString +
-                        " | {0, " + GetBiggestSyntax() + "} | {1} | {2, -150}",
-                        syntaxname, stackTrace.GetFrame(1).GetMethod().ReflectedType?.Name, message);
+                Console.ResetColor(); // Reset color
+                StackTrace stackTrace = new StackTrace();
+                string timeString = string.Format("{0:HH:mm:ss:fff}", DateTime.Now);
+
+                string finalMessage = string.Format(
+                    timeString +
+                    " | {0, " + GetBiggestSyntax() + "} | {1} | {2, -150}",
+                    syntaxname, stackTrace.GetFrame(1).GetMethod().ReflectedType?.Name, message);
 
 
-                    Color backgroundColor = SyntaxMap.Get(syntaxname)[1];
-                    Color foregroundColor = SyntaxMap.Get(syntaxname)[0];
-                    string foregroundColorString = "\x1b[38;2;" + foregroundColor.red + ";" + foregroundColor.green +
-                                                   ";" + foregroundColor.blue;
-                    string backgroundColorString = ";48;2;" + backgroundColor.red + ";" + backgroundColor.green +
-                                                   ";" + backgroundColor.blue;
-                    if (backgroundColor.red == 0 && backgroundColor.green == 0 && backgroundColor.blue == 0)
-                        Console.Write(foregroundColorString + "m" + finalMessage);
-                    else
-                        Console.Write(foregroundColorString + backgroundColorString + "m" + finalMessage);
+                Color backgroundColor = SyntaxMap.Get(syntaxname)[1];
+                Color foregroundColor = SyntaxMap.Get(syntaxname)[0];
+                string foregroundColorString = "\x1b[38;2;" + foregroundColor.red + ";" + foregroundColor.green +
+                                               ";" + foregroundColor.blue;
+                string backgroundColorString = ";48;2;" + backgroundColor.red + ";" + backgroundColor.green +
+                                               ";" + backgroundColor.blue;
+                if (backgroundColor.red == 0 && backgroundColor.green == 0 && backgroundColor.blue == 0)
+                    Console.Write(foregroundColorString + "m" + finalMessage);
+                else
+                    Console.Write(foregroundColorString + backgroundColorString + "m" + finalMessage);
 
-                    if (!finalMessage.EndsWith(Environment.NewLine))
-                        Console.WriteLine();
+                if (!finalMessage.EndsWith(Environment.NewLine))
+                    Console.WriteLine();
 
-                    AddTransport(finalMessage);
-                }
+                AddTransport(finalMessage);
+                Console.ResetColor(); // Reset color
             }
             catch (Exception e)
             {

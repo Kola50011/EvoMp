@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EvoMp.Core.Core
+namespace EvoMp.Core.ModuleProperties
 {
     [AttributeUsage(AttributeTargets.Interface)]
     public class ModuleProperties : Attribute

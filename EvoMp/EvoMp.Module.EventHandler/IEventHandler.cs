@@ -1,8 +1,10 @@
 ﻿using EvoMp.Core.Core;
+using EvoMp.Core.ModuleProperties;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.EventHandler
 {
+    [ModuleProperties("shared", "Koka, Lukas", "Wrapper for ClientEvents and ServerEvents")]
     public interface IEventHandler
     {
         void InvokeClientEvent(Client client, string eventName, params object[] args);
