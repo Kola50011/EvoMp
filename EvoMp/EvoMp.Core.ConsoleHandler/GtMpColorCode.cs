@@ -8,33 +8,33 @@ namespace EvoMp.Core.ConsoleHandler
 {
     public enum GtMpColorCode
     {
-        [GtMpColorCodeProperties("~r~", ConsoleColor.Red)]
+        [GtMpColorCodePropertie("~r~", ConsoleColor.Red)]
         Red,
-        [GtMpColorCodeProperties("~b~", ConsoleColor.Blue)]
+        [GtMpColorCodePropertie("~b~", ConsoleColor.Blue)]
         Blue,
-        [GtMpColorCodeProperties("~g~", ConsoleColor.Green)]
+        [GtMpColorCodePropertie("~g~", ConsoleColor.Green)]
         Green,
-        [GtMpColorCodeProperties("~y~", ConsoleColor.Yellow)]
+        [GtMpColorCodePropertie("~y~", ConsoleColor.Yellow)]
         Yellow,
-        [GtMpColorCodeProperties("~p~", ConsoleColor.DarkMagenta)]
+        [GtMpColorCodePropertie("~p~", ConsoleColor.DarkMagenta)]
         Purple,
-        [GtMpColorCodeProperties("~q~", ConsoleColor.Magenta)]
+        [GtMpColorCodePropertie("~q~", ConsoleColor.Magenta)]
         Pink,
-        [GtMpColorCodeProperties("~o~", ConsoleColor.DarkYellow)]
+        [GtMpColorCodePropertie("~o~", ConsoleColor.DarkYellow)]
         Orange,
-        [GtMpColorCodeProperties("~c~", ConsoleColor.Gray)]
+        [GtMpColorCodePropertie("~c~", ConsoleColor.Gray)]
         Grey,
-        [GtMpColorCodeProperties("~m~", ConsoleColor.DarkGray)]
+        [GtMpColorCodePropertie("~m~", ConsoleColor.DarkGray)]
         DarkerGrey,
-        [GtMpColorCodeProperties("~u~", ConsoleColor.Black)]
+        [GtMpColorCodePropertie("~u~", ConsoleColor.Black)]
         Black,
-        [GtMpColorCodeProperties("~n~", (ConsoleColor)99)]
+        [GtMpColorCodePropertie("~n~", (ConsoleColor)99)]
         NewLine,
-        [GtMpColorCodeProperties("~s~", (ConsoleColor)999)]
+        [GtMpColorCodePropertie("~s~", (ConsoleColor)999)]
         DefaultWhite,
-        [GtMpColorCodeProperties("~w~", ConsoleColor.White)]
+        [GtMpColorCodePropertie("~w~", ConsoleColor.White)]
         White,
-        [GtMpColorCodeProperties("~h~", (ConsoleColor)9999)]
+        [GtMpColorCodePropertie("~h~", (ConsoleColor)9999)]
         BoldText,
     }
 }
