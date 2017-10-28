@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleHandler.cs" />
-    <Compile Include="GtMpColorCodeProperties.cs" />
+    <Compile Include="GtMpColorCodePropertie.cs" />
     <Compile Include="GtMpColorCode.cs" />
     <Compile Include="ConsoleTypeProperties.cs" />
     <Compile Include="ConsoleType.cs" />

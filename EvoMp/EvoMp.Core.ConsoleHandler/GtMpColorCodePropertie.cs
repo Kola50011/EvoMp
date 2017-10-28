@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EvoMp.Core.ConsoleHandler
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class GtMpColorCodeProperties : Attribute
+    public class GtMpColorCodePropertie : Attribute
     {
         public string GtMpColorIdentifier { get; }
         public ConsoleColor EqualsColor { get; }
@@ -21,7 +21,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// </summary>
         /// <param name="gtMpColorIdentifier">The GtMp ColorString identifier without the tildes</param>
         /// <param name="equalsColor"> The equivalent of the Gt:Mp color code</param>
-        public GtMpColorCodeProperties(string gtMpColorIdentifier, ConsoleColor equalsColor)
+        public GtMpColorCodePropertie(string gtMpColorIdentifier, ConsoleColor equalsColor)
         {
             GtMpColorIdentifier = gtMpColorIdentifier;
             EqualsColor = equalsColor;
