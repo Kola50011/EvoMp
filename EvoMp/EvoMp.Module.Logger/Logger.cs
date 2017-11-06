@@ -49,9 +49,9 @@ namespace EvoMp.Module.Logger
             AddSyntax($"{LogCase.ServerEvent}", "Black", "Lime");
             AddSyntax($"{LogCase.Discord}", "Lime", "ORange");
 
-            var handle = GetStdHandle(-11);
+            /*var handle = GetStdHandle(-11);
             GetConsoleMode(handle, out var mode);
-            SetConsoleMode(handle, mode | 0x4);
+            SetConsoleMode(handle, mode | 0x4);*/
 
             // Print all colors
             //foreach (string colorName in _consoleColors.Keys)

@@ -1,30 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace EvoMp.Core.ConsoleHandler
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class GtMpColorCodePropertie : Attribute
+    public class ColorCodePropertie : Attribute
     {
-        public string GtMpColorIdentifier { get; }
-        public ConsoleColor EqualsColor { get; }
+        public string Identifier { get; }
+        public KnownColor Color { get; }
 
         /// <summary>
         /// Attribute for the GtMpColorCode enum.
-        /// ConsoleColor exceptions: 
-        ///    - 99    = New Line
-        ///    - 999   = Default Color
-        ///    - 9999  = Bold Text
+        /// KnowColor casted exceptions: 
+        ///    -3   New Line
+        ///    -4   Default Color
+        ///    -5   Bold Text
         /// </summary>
-        /// <param name="gtMpColorIdentifier">The GtMp ColorString identifier without the tildes</param>
-        /// <param name="equalsColor"> The equivalent of the Gt:Mp color code</param>
-        public GtMpColorCodePropertie(string gtMpColorIdentifier, ConsoleColor equalsColor)
+        /// <param name="colorCodeIdentifier">The GtMp ColorString identifier without the tildes</param>
+        /// <param name="color"> The equivalent of the color code</param>
+        public ColorCodePropertie(string colorCodeIdentifier, KnownColor color)
         {
-            GtMpColorIdentifier = gtMpColorIdentifier;
-            EqualsColor = equalsColor;
+            Identifier = colorCodeIdentifier;
+            Color = color;
         }
     }
 }

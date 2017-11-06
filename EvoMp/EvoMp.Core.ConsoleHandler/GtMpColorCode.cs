@@ -1,40 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace EvoMp.Core.ConsoleHandler
 {
     public enum GtMpColorCode
     {
-        [GtMpColorCodePropertie("~r~", ConsoleColor.Red)]
+        // Foreground colors
+        [ColorCodePropertie("~r~", KnownColor.Red)]
         Red,
-        [GtMpColorCodePropertie("~b~", ConsoleColor.Blue)]
+        [ColorCodePropertie("~b~", KnownColor.Blue)]
         Blue,
-        [GtMpColorCodePropertie("~g~", ConsoleColor.Green)]
+        [ColorCodePropertie("~g~", KnownColor.Green)]
         Green,
-        [GtMpColorCodePropertie("~y~", ConsoleColor.Yellow)]
+        [ColorCodePropertie("~y~", KnownColor.Yellow)]
         Yellow,
-        [GtMpColorCodePropertie("~p~", ConsoleColor.DarkMagenta)]
+        [ColorCodePropertie("~p~", KnownColor.Purple)]
         Purple,
-        [GtMpColorCodePropertie("~q~", ConsoleColor.Magenta)]
+        [ColorCodePropertie("~q~", KnownColor.Pink)]
         Pink,
-        [GtMpColorCodePropertie("~o~", ConsoleColor.DarkYellow)]
+        [ColorCodePropertie("~o~", KnownColor.Orange)]
         Orange,
-        [GtMpColorCodePropertie("~c~", ConsoleColor.Gray)]
+        [ColorCodePropertie("~c~", KnownColor.Gray)]
         Grey,
-        [GtMpColorCodePropertie("~m~", ConsoleColor.DarkGray)]
+        [ColorCodePropertie("~m~", KnownColor.DarkGray)]
         DarkerGrey,
-        [GtMpColorCodePropertie("~u~", ConsoleColor.Black)]
+        [ColorCodePropertie("~u~", KnownColor.Black)]
         Black,
-        [GtMpColorCodePropertie("~n~", (ConsoleColor)99)]
-        NewLine,
-        [GtMpColorCodePropertie("~s~", (ConsoleColor)999)]
-        DefaultWhite,
-        [GtMpColorCodePropertie("~w~", ConsoleColor.White)]
+        [ColorCodePropertie("~w~", KnownColor.White)]
         White,
-        [GtMpColorCodePropertie("~h~", (ConsoleColor)9999)]
+
+        // Background colors
+        [ColorCodePropertie("~br~", KnownColor.Red)]
+        BackgroundRed,
+        [ColorCodePropertie("~bb~", KnownColor.Blue)]
+        BackgroundBlue,
+        [ColorCodePropertie("~bg~", KnownColor.Green)]
+        BackgroundGreen,
+        [ColorCodePropertie("~by~", KnownColor.Yellow)]
+        BackgroundYellow,
+        [ColorCodePropertie("~bp~", KnownColor.Purple)]
+        BackgroundPurple,
+        [ColorCodePropertie("~bq~", KnownColor.Pink)]
+        BackgroundPink,
+        [ColorCodePropertie("~bo~", KnownColor.Orange)]
+        BackgroundOrange,
+        [ColorCodePropertie("~bc~", KnownColor.Gray)]
+        BackgroundGrey,
+        [ColorCodePropertie("~bm~", KnownColor.DarkGray)]
+        BackgroundDarkerGrey,
+        [ColorCodePropertie("~bu~", KnownColor.Black)]
+        BackgroundBlack,
+        [ColorCodePropertie("~bw~", KnownColor.White)]
+        BackgroundWhite,
+
+        // Control codes
+        [ColorCodePropertie("~n~", (KnownColor)(-3))]
+        NewLine,
+        [ColorCodePropertie("~s~", (KnownColor)(-4))]
+        ResetColor,
+        [ColorCodePropertie("~h~", (KnownColor)(-5))]
         BoldText,
     }
 }

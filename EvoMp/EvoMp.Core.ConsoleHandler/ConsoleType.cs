@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EvoMp.Core.ConsoleHandler
 {
     public enum ConsoleType
     {
-        [ConsoleTypeProperties(ConsoleColor.White, ConsoleColor.DarkGray)]
+        [ConsoleTypeProperties(ConsoleColor.White, (ConsoleColor)(-1))]
         Core,
-        [ConsoleTypeProperties(ConsoleColor.Green, ConsoleColor.DarkGray)]
+        [ConsoleTypeProperties(ConsoleColor.Green, (ConsoleColor)(-1))]
         Info,
-        [ConsoleTypeProperties(ConsoleColor.Yellow, ConsoleColor.DarkGray)]
+        [ConsoleTypeProperties(ConsoleColor.DarkYellow, ConsoleColor.White)]
         Warn,
-        [ConsoleTypeProperties(ConsoleColor.Red, ConsoleColor.DarkGray)]
+        [ConsoleTypeProperties(ConsoleColor.Red, ConsoleColor.White)]
         Error,
         [ConsoleTypeProperties(ConsoleColor.DarkRed, ConsoleColor.White)]
         Fatal,
-        [ConsoleTypeProperties(ConsoleColor.Gray, ConsoleColor.DarkGray)]
+        [ConsoleTypeProperties(ConsoleColor.Gray, (ConsoleColor)(-1))]
         Note,
-        [ConsoleTypeProperties(ConsoleColor.Cyan, ConsoleColor.White)]
+        [ConsoleTypeProperties(ConsoleColor.White, ConsoleColor.DarkCyan)]
         Debug,
         [ConsoleTypeProperties(ConsoleColor.Blue, ConsoleColor.White)]
         Database,

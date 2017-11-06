@@ -1,5 +1,5 @@
 ﻿using System;
-using EvoMp.Core.ConsoleHandler;
+using ConsoleHandler = EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Core
@@ -13,8 +13,6 @@ namespace EvoMp.Core.Core
 
             // Clear console, set console color & write copyright
             Console.Clear();
-
-            ConsoleHandler.ConsoleHandler.Write(ConsoleType.Info); //test
 
             // Print logo & Copyright
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -77,6 +75,9 @@ namespace EvoMp.Core.Core
                 "||===============================================||\n");
 
             #endregion // Copyright and Server information
+
+            ConsoleHandler.ConsoleHandler.WriteLine(
+                ConsoleHandler.ConsoleType.Info,"~w~~bg~White ~g~Green ~o~Orange ~b~Blue ~y~Yellow!");
 
             Console.ForegroundColor = ConsoleColor.Gray;
 
