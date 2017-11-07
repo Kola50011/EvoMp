@@ -5,26 +5,21 @@ using System.Text.RegularExpressions;
 
 namespace EvoMp.Core.ConsoleHandler
 {
-    public class ConsoleHandler
+    public static class ConsoleOutput
     {
-        private static ConsoleHandler _instance;
+        private static string _lastMessageBegin = String.Empty;
 
         /// <summary>
         ///     Used for console modifications, and
-        ///     TODO: Catch default Console.Write and Console.WriteLine..
+        ///     TODO: Catch default Console.Write and Console.WriteLine
         /// </summary>
         private static readonly IntPtr ConsoleHandle = GetStdHandle(-11);
 
-        private ConsoleHandler()
+        public static void InitConsoleHandler()
         {
             // Modify Console for color codes.
             GetConsoleMode(ConsoleHandle, out int currentMode);
             SetConsoleMode(ConsoleHandle, currentMode | 0x0004);
-        }
-
-        private static ConsoleHandler GetInstance()
-        {
-            return _instance ?? (_instance = new ConsoleHandler());
         }
 
         /// <summary>
@@ -37,31 +32,27 @@ namespace EvoMp.Core.ConsoleHandler
 
         public static void Write(ConsoleType consoleType, string message)
         {
-            // Get ConsoleHandler instance & write
-            ConsoleHandler instance = GetInstance();
-
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
             if (messages.Length == 1)
-                instance.InternalWrite(consoleType, message);
+                InternalWrite(consoleType, message);
             else
-                for (int i = 0; i < messages.Length; i++)
-                    instance.InternalWrite(consoleType, messages[i] + "\n");
+                foreach (string singleMessage in messages)
+                    InternalWrite(consoleType, singleMessage + "\n");
         }
 
         public static void WriteLine(ConsoleType consoleType, string message)
         {
-            // Get ConsoleHandler instance & write message + linebreak
-            ConsoleHandler instance = GetInstance();
-
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string singleMessage in messages)
-                instance.InternalWrite(consoleType, singleMessage + "\n");
+                InternalWrite(consoleType, singleMessage + "\n");
         }
 
-        private void InternalWrite(ConsoleType consoleType, string message)
+        private static void InternalWrite(ConsoleType consoleType, string message)
         {
+            message = message.Replace("\t", "  ");
+
             // Get consoleType properties & parse message colors
             ConsoleTypeProperties typeProperties = ConsoleUtils.GetConsoleTypeProperties(consoleType);
 
@@ -69,17 +60,32 @@ namespace EvoMp.Core.ConsoleHandler
             string writeMessage = $"~w~[~c~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}~w~]" + " " +
                                   $"~w~[{typeProperties.ColorCodeType}" +
                                   $"{typeProperties.DisplayName ?? $"{consoleType}"}" +
-                                  "~w~]" + "\t";
+                                  "~w~]";
 
+            // save last message begin
+            if (_lastMessageBegin == writeMessage)
+                writeMessage = Regex.Replace(Regex.Replace(Regex.Replace(writeMessage, "~.~", ""),
+                    "~..~", "").Replace("\t", "  "), ".", " ");
+            else
+                _lastMessageBegin = writeMessage;
+
+            // Vertical line
+            writeMessage = writeMessage + " | ";
+
+            // Trim ConsoleType.Line for fit in console window
             if (consoleType == ConsoleType.Line)
                 message = message.Substring(Regex.Replace(Regex.Replace(writeMessage, "~.~", ""),
-                    "~..~", "").Replace("\t", "    ").Length);
+                    "~..~", "").Replace("\t", "  ").Length);
+
 
             writeMessage += $"{typeProperties.ColorCodeText}{message}";
 
             writeMessage = ConsoleUtils.GenerateColoredString(
                 ConsoleUtils.GtMpColorToConsoleColor(writeMessage),
                 writeMessage);
+
+            // Replace tab with spaces
+            writeMessage = writeMessage.Replace("\t", "  ");
 
             // Write message
             Console.Write(writeMessage);

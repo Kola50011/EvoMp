@@ -77,7 +77,7 @@ namespace EvoMp.Core.ConsoleHandler
 
                 // Check for invalid color string
                 if (equalConsoleColor == (KnownColor) (-2))
-                    ConsoleHandler.WriteLine(ConsoleType.Warn, $"~o~Invalid ~w~color string ~b~\"{colors[i]}\"~w~!");
+                    ConsoleOutput.WriteLine(ConsoleType.Warn, $"~o~Invalid ~w~color string ~b~\"{colors[i]}\"~w~!");
 
                 // Parse position
                 int colorCodePosition = message.IndexOf($"~{colors[i]}~", StringComparison.Ordinal)

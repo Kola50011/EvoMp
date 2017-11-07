@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleHandler.cs" />
+    <Compile Include="ConsoleOutput.cs" />
     <Compile Include="ColorCodePropertie.cs" />
     <Compile Include="ColorCodes.cs" />
     <Compile Include="ConsoleTypeProperties.cs" />

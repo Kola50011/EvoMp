@@ -15,7 +15,8 @@ namespace EvoMp.Core.Core
         /// <returns>true if given</returns>
         public static bool IsGiven(string parameter)
         {
-            return Environment.GetCommandLineArgs().Any(s => s.ToLower() == parameter.ToLower());
+            return Environment.GetCommandLineArgs().
+                Any(s => String.Equals(s, parameter, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

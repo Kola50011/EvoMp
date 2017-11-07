@@ -20,13 +20,8 @@ namespace EvoMp.Core.Core
                 if(commandLineArg.ToLower().StartsWith("-g "))
                     moduleTypes.Add(commandLineArg.Substring("-g ".Length).Trim());
 
-            //TODO: remove later or find better solution
-            //TODO: Create issue for this todo
             if (!moduleTypes.Any())
-            {
-                moduleTypes.Add("freeroam");
-                moduleTypes.Add("roleplay");
-            }
+                moduleTypes.Add("any");
 
             moduleTypes.Add("shared");
 
@@ -36,7 +31,8 @@ namespace EvoMp.Core.Core
 
         public static bool IsModuleTypeValid(string moduleType)
         {
-            return GetServerTypes().Select(s => s.ToLower()).Contains(moduleType.ToLower());
+            return GetServerTypes().Contains("any") || 
+                GetServerTypes().Select(s => s.ToLower()).Contains(moduleType.ToLower());
         }
     }
 }

@@ -34,9 +34,13 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~bu~", KnownColor.Black)] BackgroundBlack,
         [ColorCodePropertie("~bw~", KnownColor.White)] BackgroundWhite,
 
+       
         // Control codes
         [ColorCodePropertie("~n~", (KnownColor) (-3))] NewLine,
         [ColorCodePropertie("~s~", (KnownColor) (-4))] ResetColor,
+        /// <summary>
+        /// Hint: Bold is not supported
+        /// </summary>
         [ColorCodePropertie("~h~", (KnownColor) (-5))] BoldText,
         [ColorCodePropertie("~_~", (KnownColor) (-6))] UnderlineText,
         [ColorCodePropertie("~|~", (KnownColor) (-7))] UnderlineReset
