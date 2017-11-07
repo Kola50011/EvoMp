@@ -1,5 +1,6 @@
 ﻿using System;
-using ConsoleHandler = EvoMp.Core.ConsoleHandler;
+using EvoMp.Core.ConsoleHandler;
+using Console = EvoMp.Core.ConsoleHandler.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Core
@@ -8,6 +9,8 @@ namespace EvoMp.Core.Core
     {
         public Main()
         {
+            // Set console title
+            Console.SetConsoleTitle("© 2017 EVO MP ALL RIGHTS RESERVED");
 
             #region Copyright and Server information
 
@@ -15,17 +18,16 @@ namespace EvoMp.Core.Core
             Console.Clear();
 
             // Print logo & Copyright
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(
-                "||===============================================||\n" +
-                "|| ███████╗██╗   ██╗ ██████╗ ███╗   ███╗██████╗  ||\n" +
-                "|| ██╔════╝██║   ██║██╔═══██╗████╗ ████║██╔══██╗ ||\n" +
-                "|| █████╗  ██║   ██║██║   ██║██╔████╔██║██████╔╝ ||\n" +
-                "|| ██╔══╝  ╚██╗ ██╔╝██║   ██║██║╚██╔╝██║██╔═══╝  ||\n" +
-                "|| ███████╗ ╚████╔╝ ╚██████╔╝██║ ╚═╝ ██║██║      ||\n" +
-                "|| ╚══════╝  ╚═══╝   ╚═════╝ ╚═╝     ╚═╝╚═╝      ||\n" +
-                "||===============================================||\n" +
-                "|| © 2017 EVO MP ALL RIGHTS RESERVED             ||\n");
+            Console.Write(ConsoleType.Info,
+                "~w~||===============================================||\n" +
+                "~w~||~b~ ███████╗██╗   ██╗ ██████╗ ███╗   ███╗██████╗  ~w~||\n" +
+                "~w~||~b~ ██╔════╝██║   ██║██╔═══██╗████╗ ████║██╔══██╗ ~w~||\n" +
+                "~w~||~b~ █████╗  ██║   ██║██║   ██║██╔████╔██║██████╔╝ ~w~||\n" +
+                "~w~||~b~ ██╔══╝  ╚██╗ ██╔╝██║   ██║██║╚██╔╝██║██╔═══╝  ~w~||\n" +
+                "~w~||~b~ ███████╗ ╚████╔╝ ╚██████╔╝██║ ╚═╝ ██║██║      ~w~||\n" +
+                "~w~||~b~ ╚══════╝  ╚═══╝   ╚═════╝ ╚═╝     ╚═╝╚═╝      ~w~||\n" +
+                "~w~||===============================================||\n" +
+                "~w~|| ~c~~_~© 2017 EVO MP ALL RIGHTS RESERVED~s~ ~w~            ||\n");
 
             string moduleTypesString = String.Join(", ", ModuleTypeHandler.GetServerTypes());
             int spacesForModuleTypes = 46 - moduleTypesString.Length;
@@ -33,59 +35,57 @@ namespace EvoMp.Core.Core
                 spacesForModuleTypes = 0;
 
             // Module types
-            Console.Write(
-                $"|| {moduleTypesString}" + new string(' ', spacesForModuleTypes) + "||\n");
+            Console.Write(ConsoleType.Info, 
+                $"~w~|| ~b~{moduleTypesString}" + new string(' ', spacesForModuleTypes) + "~w~||\n");
 
             //Debug state information
 #if DEBUG
-            Console.Write(
-                "||        DEBUG MODE                             ||\n");
+            Console.Write(ConsoleType.Info,
+                "~w~||~b~        DEBUG MODE                             ~w~||\n");
 #else
-            Console.Write(
-                "||        RELEASE MODE                           ||\n");
+            Console.Write(ConsoleType.Info, 
+                "~w~||~b~        RELEASE MODE                           ~w~||\n");
 #endif
 
-            Console.Write(
-                "||===============================================||\n");
+            Console.Write(ConsoleType.Info, 
+                "~w~||===============================================||\n");
 
             // Parse Servername
             string servername = API.getServerName().PadRight(30).Substring(0, 30);
             if (servername.Trim() != API.getServerName())
                 servername = servername.Substring(0, servername.Length - 3) + "...";
 
-            // Server informations
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.Write(
-                $"|| Server name: {servername}   ||\n" +
-                $"|| Port:                    {API.getServerPort():0000}                 ||\n" +
-                $"|| Max players:             {API.getMaxPlayers():00000}                ||\n");
+            Console.Write(ConsoleType.Note,
+                $"~w~|| ~c~Server name: {servername}   ~w~||\n" +
+                $"~w~|| ~c~Port:                    {API.getServerPort():0000}                 ~w~||\n" +
+                $"~w~|| ~c~Max players:             {API.getMaxPlayers():00000}                ~w~||\n");
 
             // Print authors
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(
-                "||===============================================||\n" +
-                "|| Roleplay Director        DevGrab              ||\n" +
-                "|| Freeroam Director        Ruffo/Christian      ||\n" +
-                "|| Roleplay Deputy          Sascha               ||\n" +
-                "|| Roleplay Staff           Koka                 ||\n" +
-                "|| Roleplay Staff           Lukas/Nitaco         ||\n" +
-                "|| Roleplay Staff           Sopex                ||\n" +
-                "|| Roleplay Staff           Gary                 ||\n" +
-                "|| Freeroam Staff           James                ||\n" +
-                "||===============================================||\n");
+            Console.Write(ConsoleType.Note, 
+                "~w~||===============================================||\n" +
+                "~w~|| ~c~Roleplay Director        ~b~DevGrab              ~w~||\n" +
+                "~w~|| ~c~Freeroam Director        ~b~Ruffo/Christian      ~w~||\n" +
+                "~w~|| ~c~Roleplay Deputy          ~b~Sascha               ~w~||\n" +
+                "~w~|| ~c~Roleplay Staff           ~b~Koka                 ~w~||\n" +
+                "~w~|| ~c~Roleplay Staff           ~b~Lukas/Nitaco         ~w~||\n" +
+                "~w~|| ~c~Roleplay Staff           ~b~Sopex                ~w~||\n" +
+                "~w~|| ~c~Roleplay Staff           ~b~Gary                 ~w~||\n" +
+                "~w~|| ~c~Freeroam Staff           ~b~James                ~w~||\n" +
+                "~w~||===============================================||\n");
 
             #endregion // Copyright and Server information
 
+            // Debugging
             ConsoleHandler.ConsoleHandler.WriteLine(
-                ConsoleHandler.ConsoleType.Info,"~w~~bg~White ~g~Green ~o~Orange ~b~Blue ~y~Yellow!");
+                ConsoleHandler.ConsoleType.Info,"~w~~bg~White With Green Background ~s~Original Color " +
+                                                "~g~Green ~o~Orange ~b~Blue ~y~Yellow!" +
+                                                "~n~ New Line ~_~ Underline ~|~ Underline off" +
+                                                "~h~Fett!");
+            Console.PrintLine("-");
 
-            Console.ForegroundColor = ConsoleColor.Gray;
 
-            Console.Write("\n-----------------------------------------------" +
-                          "-----------------------------------------------" +
-                          "\n");
             // Write information about Core startup
-            Console.WriteLine("Initializing EvoMp Core...");
+            Console.WriteLine(ConsoleType.Core, "Initializing EvoMp Core...");
 
             // Init ModuleStructurer
             ModuleStructurer moduleStructurer = new ModuleStructurer();
@@ -95,7 +95,7 @@ namespace EvoMp.Core.Core
             moduleStructurer.CopyNuGetPackagesToServer();
 
             // Write complete & loading modules message
-            Console.WriteLine("Initializing EvoMp Core completed.\n");
+            Console.WriteLine(ConsoleType.Core, "Initializing EvoMp Core completed.");
 
             // Load Modules
             new ModuleLoader(API).Load();

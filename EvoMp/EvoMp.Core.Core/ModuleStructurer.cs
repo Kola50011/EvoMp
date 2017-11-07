@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EvoMp.Core.ConsoleHandler;
+using Console = EvoMp.Core.ConsoleHandler.ConsoleHandler;
+
 
 namespace EvoMp.Core.Core
 {
@@ -19,7 +22,7 @@ namespace EvoMp.Core.Core
             Console.WriteLine("Release state. Copying modules skipped.");
             return;
 #endif
-            Console.WriteLine(
+            Console.WriteLine(ConsoleType.Core,
                 $"Refreshing server resource modules...");
             // Define constants for the folder top copy from and to copy to
             const string gtMpServerModulesFolder = @".\resources\EvoMp\dist";
@@ -60,7 +63,8 @@ namespace EvoMp.Core.Core
                     // Copy new module & write message
                     File.Copy(newModule, destFile, true);
                     if (destFile.EndsWith(".dll"))
-                        Console.WriteLine($"  Copying module: \"{Path.GetFileName(destFile)}\".");
+                        Console.WriteLine(ConsoleType.Core,
+                            $"  Copying module: \"{Path.GetFileName(destFile)}\".");
                 }
 
                 // Delete old modules
@@ -68,7 +72,8 @@ namespace EvoMp.Core.Core
                     .Contains(Path.GetFileName(t))))
                 {
                     File.Delete(deleteModule);
-                    Console.WriteLine($"  Deleted old module: \"{Path.GetFileName(deleteModule)}\".");
+                    Console.WriteLine(ConsoleType.Core, 
+                        $"  Deleted old module: \"{Path.GetFileName(deleteModule)}\".");
                 }
             }
             catch (Exception exception)
@@ -100,8 +105,8 @@ namespace EvoMp.Core.Core
             try
             {
                 // Search for module NuGet Packages
-                Console.WriteLine(
-                    $"Searching for new module dependency packages in " +
+                Console.WriteLine(ConsoleType.Core, 
+                    $"Searching for new module dependency packages in\n  " +
                     $"\"{Path.GetFullPath(projectSolutionModulesFolder)}\\*\".");
                 List<string> packageFiles = Directory.EnumerateFiles(projectSolutionModulesFolder,
                         projectSolutionModulesPackagesPattern,
@@ -111,8 +116,8 @@ namespace EvoMp.Core.Core
                     .ToList();
 
                 // Search for solution NuGet packages
-                Console.WriteLine(
-                    $"Searching for new solution dependency packages in " +
+                Console.WriteLine(ConsoleType.Core, 
+                    $"Searching for new solution dependency packages in\n  " +
                     $"\"{Path.GetFullPath(projectSolutionNuGetPackagesFolder)}\\*\".");
                 packageFiles.AddRange(Directory.EnumerateFiles(projectSolutionNuGetPackagesFolder, "*",
                         SearchOption.AllDirectories)
@@ -154,7 +159,8 @@ namespace EvoMp.Core.Core
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                     if (packageFile.EndsWith(".dll"))
-                        Console.WriteLine($"  Using new package file: \"{Path.GetFileName(packageFile)}\".");
+                        Console.WriteLine(ConsoleType.Core, 
+                            $"  Using new package file: \"{Path.GetFileName(packageFile)}\".");
                 }
             }
             catch (Exception exception)

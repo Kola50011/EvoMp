@@ -5,13 +5,26 @@ namespace EvoMp.Core.ConsoleHandler
     [AttributeUsage(AttributeTargets.Field)]
     public class ConsoleTypeProperties : Attribute
     {
-        public ConsoleColor ForegroundColor { get; }
-        public ConsoleColor BackgroundColor { get; }
-
-        public ConsoleTypeProperties(ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+        public ConsoleTypeProperties(string colorCodeType, string colorCodeText = "", string displayName = null)
         {
-            ForegroundColor = foregroundColor;
-            BackgroundColor = backgroundColor;
+            ColorCodeType = colorCodeType;
+            ColorCodeText = colorCodeText;
+            DisplayName = displayName;
         }
+
+        /// <summary>
+        ///     Color code for the text
+        /// </summary>
+        public string ColorCodeText { get; }
+
+        /// <summary>
+        /// Extra display name
+        /// </summary>
+        public string DisplayName { get; }
+
+        /// <summary>
+        ///     ColorCode for the Type block
+        /// </summary>
+        public string ColorCodeType { get; }
     }
 }

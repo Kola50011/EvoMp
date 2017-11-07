@@ -54,16 +54,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleHandler.cs" />
-    <Compile Include="GtMpColorCodePropertie.cs" />
-    <Compile Include="GtMpColorCode.cs" />
+    <Compile Include="ColorCodePropertie.cs" />
+    <Compile Include="ColorCodes.cs" />
     <Compile Include="ConsoleTypeProperties.cs" />
     <Compile Include="ConsoleType.cs" />
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="LICENSE.txt" />
   </ItemGroup>
