@@ -34,7 +34,7 @@ namespace EvoMp.Core.ConsoleHandler
         {
             MemberInfo[] memberInfo = consoleType.GetType().GetMember(consoleType.ToString());
             ConsoleTypeProperties attributes =
-                (ConsoleTypeProperties) memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
+                (ConsoleTypeProperties)memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
 
             return attributes;
         }
@@ -48,7 +48,7 @@ namespace EvoMp.Core.ConsoleHandler
         {
             MemberInfo[] memberInfo = colorCode.GetType().GetMember(colorCode.ToString());
             ColorCodePropertie attributes =
-                (ColorCodePropertie) memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
+                (ColorCodePropertie)memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
 
             return attributes;
         }
@@ -232,6 +232,10 @@ namespace EvoMp.Core.ConsoleHandler
             // Set current foreground color (Default: white)
             Color foregroundColor = Color.White;
 
+            string asd;
+            if (message.Contains("Fatal"))
+                   asd = String.Empty + "asd";
+
             // Replace color code 
             foreach (KeyValuePair<int, Color> currentCode in colorsWithPosition)
             {
@@ -272,10 +276,10 @@ namespace EvoMp.Core.ConsoleHandler
                     {
                         // FillLineWithSpaces
                         case "...":
-                            ansiString = "";
-                            // Fill line only if text is not to big
-                            if (CleanUpColorCodes(orignalMessage).Length < Console.WindowWidth)
-                                suffix = string.Empty.PadRight(
+                            ansiString = ""; //~...~
+                                             // Fill line only if text is not to big
+                                             //if (CleanUpColorCodes(orignalMessage).Length < Console.WindowWidth)
+                            suffix = string.Empty.PadRight(
                                     Console.WindowWidth - CleanUpColorCodes(orignalMessage.Replace("\n", "")).Length);
                             break;
                         case "!00!": // Turn Code Parsing off
@@ -570,7 +574,6 @@ namespace EvoMp.Core.ConsoleHandler
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scMaximize, mfBycommand);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scSize, mfBycommand);
         }
-
 
         #region Dll console imports
 

@@ -14,7 +14,7 @@ namespace EvoMp.Core.Core
         /// The gamemodes are used to load modules filtered.
         /// If no gamemodes given, any modules would be loaded.
         /// </summary>
-        /// <returns>Array<string> with server gamemodes</returns>
+        /// <returns>Array[string] with server gamemodes</returns>
         public static string[] GetServerGamemodes()
         {
             // ServerType already setten -> return;
@@ -26,7 +26,7 @@ namespace EvoMp.Core.Core
             // Only default parameter gamemode value loaded -> warning
             if (serverGamemodes.Count == 1 &&
                 serverGamemodes.First() == ParameterHandler.GetStartParameterProperties(Parameter.Gamemode).DefaultValue)
-                ConsoleOutput.WriteLine(ConsoleType.Warn,
+                ConsoleOutput.WriteLine(ConsoleType.Config,
                     $"The server was started without defined gamemodes, so the default value ~o~\"any\"~;~ was used." +
                     $"Nevertheless, it is strongly advised to include the desired gamemodes, "  +
                     $"because ~o~\"any\"~;~ could have massive side effects.");

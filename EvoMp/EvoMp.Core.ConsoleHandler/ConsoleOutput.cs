@@ -9,7 +9,7 @@ namespace EvoMp.Core.ConsoleHandler
     {
         private static string _lastTimestamp = string.Empty;
         private static int _countSameTimestamp;
-        private static int _lastHeaderLength = 0;
+        private static int _lastHeaderLength;
 
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Splits a long colored message into a few messages wich fits in the console.
+        ///     Splits a long colored message into a few messages wich fits in the console.
         /// </summary>
         /// <param name="message">The long colored message wich should be splitten</param>
         /// <returns></returns>
@@ -47,11 +47,10 @@ namespace EvoMp.Core.ConsoleHandler
                 cutLength = ConsoleUtils.CleanUpColorCodes(restMessage).Length;
 
                 int unCleanMessageCutPos = ConsoleUtils.CleanedMessagePostionToUnCleanedMessagePositon(
-                restMessage, cutLength);
+                    restMessage, cutLength);
                 returnList.Add(restMessage.Substring(0, unCleanMessageCutPos));
                 restMessage = restMessage.Substring(unCleanMessageCutPos).TrimStart();
             }
-
 
 
             // Add rest string to message
@@ -61,36 +60,32 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Writes a console entry. With automatic word wrap.
+        ///     Writes a console entry. With automatic word wrap.
         /// </summary>
         /// <param name="consoleType"></param>
         /// <param name="message"></param>
         public static void Write(ConsoleType consoleType, string message)
         {
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (var i = 0; i < messages.Length; i++)
-            {
                 InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
-                /*   // wrapp messages if they are to long for the console space
+            /*   // wrapp messages if they are to long for the console space
                    string[] wrappedMessages = WordWrapMessage(messages[i]);
                    foreach (string wrappedMessage in wrappedMessages)
                        InternalWrite(consoleType, wrappedMessage + (i == messages.Length && wrappedMessages.Length == 1 ? "" : "\n"));*/
-            }
         }
 
         public static void WriteLine(ConsoleType consoleType, string message)
         {
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (var i = 0; i < messages.Length; i++)
-            {
                 InternalWrite(consoleType, messages[i] + "\n");
-            }
         }
 
 
@@ -102,7 +97,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            string[] messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             int longestTextLine = messages.OrderBy(s => s.Length).First().Length;
             foreach (string singleMessage in messages)
@@ -142,7 +137,7 @@ namespace EvoMp.Core.ConsoleHandler
                 if (_lastTimestamp == timestamp)
                 {
                     _countSameTimestamp++;
-                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float)0.011 * _countSameTimestamp);
+                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
                 }
                 else
                 {
@@ -183,17 +178,32 @@ namespace EvoMp.Core.ConsoleHandler
             // Get message color from type
             string consoleTypeTextColorCode = typeProperties.ColorCodeText;
 
+
+            // Filter all control codes from the typetextcode to use it as reset code
+            string harmlessTypeTextCode = consoleTypeTextColorCode;
+            foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
+            {
+                ColorCodePropertie colorCodePropertie = ConsoleUtils.GetColorCodePropertie(colorCode);
+                if (colorCodePropertie.HasSpecialLogic)
+                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
+            }
+
             // Center text if it should full centered, 
-            // or if control key (~|-|~) given. But not if message is a control coded line
+            // or if control key (~>-<~) given. But not if message is a control coded line
             if (centered || consoleTypeTextColorCode.Contains("~>-<~") && !wasControlCodeLine)
-                message = ConsoleUtils.AlignText(message, Console.WindowWidth - _lastHeaderLength, true);
+            {
+                if (consoleTypeTextColorCode.Contains("~>-<~"))
+                    consoleTypeTextColorCode = consoleTypeTextColorCode.Replace("~>-<~", "");
+
+                message = harmlessTypeTextCode +
+                          ConsoleUtils.AlignText(message, Console.WindowWidth - _lastHeaderLength, true);
+            }
 
 
             // Message is line and was by consoleTypeTextColorCode given ->
             // Replace again or endless loop
             if (wasControlCodeLine)
-                consoleTypeTextColorCode = consoleTypeTextColorCode.Replace("~-v-~", "").Replace("~-^-~", "")
-                    .Replace("~_~", "").Replace("~...~", "").Replace("~>-<~", "");
+                consoleTypeTextColorCode = harmlessTypeTextCode;
 
             // Append message
             message = $"{consoleTypeTextColorCode}{message}";
@@ -226,23 +236,14 @@ namespace EvoMp.Core.ConsoleHandler
             if (messageHasLinebreak)
                 writeMessage += "\n";
 
-            // Filter all control codes from the typetextcode to use it as reset code
-            string harmlessTypeTextCode = consoleTypeTextColorCode;
-            foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
-            {
-                ColorCodePropertie colorCodePropertie = ConsoleUtils.GetColorCodePropertie(colorCode);
-                if (colorCodePropertie.HasSpecialLogic)
-                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
-            }
-
-
             // Replace reset controlcode with message defaultColor + resetControl
             string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
             if (writeMessage.Contains(resetIdentifer))
                 writeMessage = writeMessage.Replace(resetIdentifer, $"{resetIdentifer}{harmlessTypeTextCode}");
 
             // Parse color and control codes
-            writeMessage = ConsoleUtils.GenerateColoredString(ConsoleUtils.ColorCodeToConsoleColor(writeMessage), writeMessage);
+            writeMessage =
+                ConsoleUtils.GenerateColoredString(ConsoleUtils.ColorCodeToConsoleColor(writeMessage), writeMessage);
 
             // Replace tab with spaces
             writeMessage = writeMessage.Replace("\t", "  ");
