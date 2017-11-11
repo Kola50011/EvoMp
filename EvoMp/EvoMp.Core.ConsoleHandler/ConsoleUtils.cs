@@ -34,7 +34,7 @@ namespace EvoMp.Core.ConsoleHandler
         {
             MemberInfo[] memberInfo = consoleType.GetType().GetMember(consoleType.ToString());
             ConsoleTypeProperties attributes =
-                (ConsoleTypeProperties)memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
+                (ConsoleTypeProperties) memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
 
             return attributes;
         }
@@ -48,7 +48,7 @@ namespace EvoMp.Core.ConsoleHandler
         {
             MemberInfo[] memberInfo = colorCode.GetType().GetMember(colorCode.ToString());
             ColorCodePropertie attributes =
-                (ColorCodePropertie)memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
+                (ColorCodePropertie) memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
 
             return attributes;
         }
@@ -190,8 +190,8 @@ namespace EvoMp.Core.ConsoleHandler
                 // Check for invalid color string
                 if (equalConsoleColor == Color.Empty &&
                     ColorCodeProperties.All(propertie => propertie.Identifier != $"~{colorCode}~"))
-                    ConsoleOutput.WriteLine(ConsoleType.Warn, 
-                        $"~o~Invalid ~;~color string ~b~\"\\~{colorCode}\\~\"~;~!\n" +
+                    ConsoleOutput.WriteLine(ConsoleType.Warn,
+                        $"~o~Unknown ~;~color string ~b~\"\\~{colorCode}\\~\"~;~!\n" +
                         $"Message: ~b~{CleanUpColorCodes(message)}~r~.");
 
                 // Parse position
@@ -215,18 +215,10 @@ namespace EvoMp.Core.ConsoleHandler
         /// </summary>
         /// <param name="colorsWithPosition">The position/color dictionary</param>
         /// <param name="message">The message with the color strings</param>
-        /// <param name="messageDefaultColor"></param>
         /// <returns>Colored string</returns>
-        public static string GenerateColoredString(Dictionary<int, Color> colorsWithPosition, string message, string messageDefaultColor = "")
+        public static string GenerateColoredString(Dictionary<int, Color> colorsWithPosition, string message)
         {
-            // Replace reset controlcode with message defaultColor + resetControl
-            string resetIdentifer = GetColorCodePropertie(ColorCode.ResetColor).Identifier;
-            message = message.Replace(resetIdentifer, $"{resetIdentifer}{messageDefaultColor}");
-
             string orignalMessage = message;
-
-            
-
             bool codeParsingDisabled = false;
 
             //Remove possible \n at end first (added later again)
@@ -321,7 +313,7 @@ namespace EvoMp.Core.ConsoleHandler
             if (orignalMessage.EndsWith("\n"))
                 message += "\n";
 
-            // Remove color identifiers
+            // Remove color identifiers & escape quotes
             message = CleanUpColorCodes(message);
 
             return message;
@@ -337,7 +329,8 @@ namespace EvoMp.Core.ConsoleHandler
             List<string> colorCodes = ParseColorCodesSimple(message);
 
             return colorCodes.Aggregate(message,
-                (current, colorCode) => new Regex(Regex.Escape($"~{colorCode}~")).Replace(current, "", 1));
+                    (current, colorCode) => new Regex(Regex.Escape($"~{colorCode}~")).Replace(current, "", 1))
+                .Replace(@"\~", "");
         }
 
         /// <summary>

@@ -74,10 +74,10 @@ namespace EvoMp.Core.ConsoleHandler
             for (var i = 0; i < messages.Length; i++)
             {
                 InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
-             /*   // wrapp messages if they are to long for the console space
-                string[] wrappedMessages = WordWrapMessage(messages[i]);
-                foreach (string wrappedMessage in wrappedMessages)
-                    InternalWrite(consoleType, wrappedMessage + (i == messages.Length && wrappedMessages.Length == 1 ? "" : "\n"));*/
+                /*   // wrapp messages if they are to long for the console space
+                   string[] wrappedMessages = WordWrapMessage(messages[i]);
+                   foreach (string wrappedMessage in wrappedMessages)
+                       InternalWrite(consoleType, wrappedMessage + (i == messages.Length && wrappedMessages.Length == 1 ? "" : "\n"));*/
             }
         }
 
@@ -89,7 +89,7 @@ namespace EvoMp.Core.ConsoleHandler
             // Cut messages to fit in the console
             for (var i = 0; i < messages.Length; i++)
             {
-                InternalWrite(consoleType, messages[i] +  "\n");
+                InternalWrite(consoleType, messages[i] + "\n");
             }
         }
 
@@ -226,8 +226,23 @@ namespace EvoMp.Core.ConsoleHandler
             if (messageHasLinebreak)
                 writeMessage += "\n";
 
+            // Filter all control codes from the typetextcode to use it as reset code
+            string harmlessTypeTextCode = consoleTypeTextColorCode;
+            foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
+            {
+                ColorCodePropertie colorCodePropertie = ConsoleUtils.GetColorCodePropertie(colorCode);
+                if (colorCodePropertie.HasSpecialLogic)
+                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
+            }
+
+
+            // Replace reset controlcode with message defaultColor + resetControl
+            string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
+            if (writeMessage.Contains(resetIdentifer))
+                writeMessage = writeMessage.Replace(resetIdentifer, $"{resetIdentifer}{harmlessTypeTextCode}");
+
             // Parse color and control codes
-            writeMessage = ConsoleUtils.GenerateColoredString(ConsoleUtils.ColorCodeToConsoleColor(writeMessage), writeMessage, consoleTypeTextColorCode);
+            writeMessage = ConsoleUtils.GenerateColoredString(ConsoleUtils.ColorCodeToConsoleColor(writeMessage), writeMessage);
 
             // Replace tab with spaces
             writeMessage = writeMessage.Replace("\t", "  ");

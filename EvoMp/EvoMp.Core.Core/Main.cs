@@ -46,8 +46,8 @@ namespace EvoMp.Core.Core
             // No Logo defined -> message and use default Logo
             if (asciiLogoFile == ParameterHandler.GetStartParameterProperties(Parameter.LogoFileName).DefaultValue)
                 ConsoleOutput.WriteCentredText(ConsoleType.Config,
-                    $"Using logo file ~o~\"{Path.GetFullPath($"{asciiLogoFile}")}\".~;~" +
-                    $"Please start our server with the -LogoPath");
+                    $"Using logo file ~o~\"{Path.GetFullPath($"{asciiLogoFile}")}\"~;~.\n" +
+                    $"Please start your server with the ~b~\"{ParameterHandler.GetStartParameterProperties(Parameter.LogoFileName).ParameterIdentifier}\" ~;~ parameter.");
 
 
             // TODO: Ab hier noch weiter machen..
@@ -102,7 +102,7 @@ namespace EvoMp.Core.Core
 
             // Debugging
             ConsoleOutput.PrintLine("█");
-            ConsoleOutput.WriteLine(ConsoleType.Info, "~w~~bg~White With Green Background ~s~Original Color " +
+            ConsoleOutput.WriteLine(ConsoleType.Info, "~w~~bg~White With Green Background ~;~Original Color " +
                                   "~g~Green ~o~Orange ~b~Blue ~y~Yellow!" +
                                   "~n~ New Line ~_~ Underline ~|~ Underline off" +
                                   "~h~Fett!");

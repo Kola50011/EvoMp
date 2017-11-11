@@ -42,15 +42,15 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~h~", 0, "\x1B[1m")] BoldText,
         [ColorCodePropertie("~_~", 0, "\x1B[4m")] UnderlineText,
         [ColorCodePropertie("~|~", 0, "\x1B[24m")] UnderlineReset,
-        [ColorCodePropertie("~...~", 0, "...")] FillLineWithSpaces,
 
         // Special Control codes
         // Taking affect in InternalWrite function
-        [ColorCodePropertie("~;~", 0, "\x1B[0m")] ResetColor,
-        [ColorCodePropertie("~-^-~", 0, "")] LineTop,
-        [ColorCodePropertie("~-v-~", 0, "")] LineBottom,
-        [ColorCodePropertie("~>-<~", 0, "")] Centered,
-        [ColorCodePropertie("~!-!~", 0, "!00!", true)] CodeParsingOff,
-        [ColorCodePropertie("~!|!~", 0, "!01!", true)] CodeParsingOn,
+        [ColorCodePropertie("~...~", 0, "...", false, true)] FillLineWithSpaces,
+        [ColorCodePropertie("~;~", 0, "\x1B[0m", false, true)] ResetColor,
+        [ColorCodePropertie("~-^-~", 0, "", false, true)] LineTop,
+        [ColorCodePropertie("~-v-~", 0, "", false, true)] LineBottom,
+        [ColorCodePropertie("~>-<~", 0, "", false, true)] Centered,
+        [ColorCodePropertie("~!-!~", 0, "!00!", true, true)] CodeParsingOff,
+        [ColorCodePropertie("~!|!~", 0, "!01!", true, true)] CodeParsingOn,
     }
 }

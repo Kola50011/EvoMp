@@ -5,7 +5,7 @@ namespace EvoMp.Core.ConsoleHandler
     [AttributeUsage(AttributeTargets.Field)]
     public class ConsoleTypeProperties : Attribute
     {
-        public ConsoleTypeProperties(string colorCodeType, string colorCodeText = "", string displayName = null)
+        public ConsoleTypeProperties(string colorCodeType, string colorCodeText = "~#fff~", string displayName = null)
         {
             ColorCodeType = colorCodeType;
             ColorCodeText = colorCodeText;
