@@ -11,10 +11,14 @@ namespace EvoMp.Core.ConsoleHandler
         /// </summary>
         /// <param name="colorCodeIdentifier">The ColorString identifier without the tildes</param>
         /// <param name="color">The equivalent of the color code</param>
-        public ColorCodePropertie(string colorCodeIdentifier, KnownColor color)
+        /// <param name="controlCodeAscii">Ascii string, if ColorCode is controlCode</param>
+        /// <param name="ignoresParsingDisabled">Can this ColorCode ignore the disabled Parsing?</param>
+        public ColorCodePropertie(string colorCodeIdentifier, KnownColor color, string controlCodeAscii = null, bool ignoresParsingDisabled = false)
         {
             Identifier = colorCodeIdentifier;
             Color = color;
+            ControlCodeAnsi = controlCodeAscii;
+            IgnoresParsingDisabled = ignoresParsingDisabled;
         }
 
         /// <summary>
@@ -26,5 +30,12 @@ namespace EvoMp.Core.ConsoleHandler
         ///     The Color for the identifier
         /// </summary>
         public KnownColor Color { get; }
+
+        /// <summary>
+        /// The Control code Ascii String
+        /// </summary>
+        public string ControlCodeAnsi { get; }
+
+        public bool IgnoresParsingDisabled { get; }
     }
 }

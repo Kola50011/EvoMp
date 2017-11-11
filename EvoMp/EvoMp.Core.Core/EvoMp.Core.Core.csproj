@@ -88,14 +88,17 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParameterProperties.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModuleLoader.cs" />
     <Compile Include="ModuleStructurer.cs" />
     <Compile Include="ModuleTypeHandler.cs" />
     <Compile Include="ParameterHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

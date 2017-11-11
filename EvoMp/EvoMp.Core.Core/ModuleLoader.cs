@@ -109,8 +109,6 @@ namespace EvoMp.Core.Core
         /// <returns>IKernel</returns>
         private void StartModules(List<string> modulePaths, IKernel kernel)
         {
-            // Variables for cursor position
-
             // Process each module
             foreach (string modulePath in modulePaths)
             {

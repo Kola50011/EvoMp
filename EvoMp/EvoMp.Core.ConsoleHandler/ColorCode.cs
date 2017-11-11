@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -6,7 +7,7 @@ namespace EvoMp.Core.ConsoleHandler
     ///     Avalible stringcolor codes.
     ///     Important: Colors can only be one char long!
     /// </summary>
-    public enum ColorCodes
+    public enum ColorCode
     {
         // Foreground colors
         [ColorCodePropertie("~r~", KnownColor.Red)] Red,
@@ -34,15 +35,22 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~bu~", KnownColor.Black)] BackgroundBlack,
         [ColorCodePropertie("~bw~", KnownColor.White)] BackgroundWhite,
 
-       
+
         // Control codes
-        [ColorCodePropertie("~n~", (KnownColor) (-3))] NewLine,
-        [ColorCodePropertie("~s~", (KnownColor) (-4))] ResetColor,
-        /// <summary>
-        /// Hint: Bold is not supported
-        /// </summary>
-        [ColorCodePropertie("~h~", (KnownColor) (-5))] BoldText,
-        [ColorCodePropertie("~_~", (KnownColor) (-6))] UnderlineText,
-        [ColorCodePropertie("~|~", (KnownColor) (-7))] UnderlineReset
+        [ColorCodePropertie("~n~", 0, "\n")] NewLine,
+
+        [ColorCodePropertie("~h~", 0, "\x1B[1m")] BoldText,
+        [ColorCodePropertie("~_~", 0, "\x1B[4m")] UnderlineText,
+        [ColorCodePropertie("~|~", 0, "\x1B[24m")] UnderlineReset,
+        [ColorCodePropertie("~...~", 0, "...")] FillLineWithSpaces,
+
+        // Special Control codes
+        // Taking affect in InternalWrite function
+        [ColorCodePropertie("~;~", 0, "\x1B[0m")] ResetColor,
+        [ColorCodePropertie("~-^-~", 0, "")] LineTop,
+        [ColorCodePropertie("~-v-~", 0, "")] LineBottom,
+        [ColorCodePropertie("~>-<~", 0, "")] Centered,
+        [ColorCodePropertie("~!-!~", 0, "!00!", true)] CodeParsingOff,
+        [ColorCodePropertie("~!|!~", 0, "!01!", true)] CodeParsingOn,
     }
 }
