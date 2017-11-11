@@ -332,9 +332,11 @@ namespace EvoMp.Core.ConsoleHandler
         {
             List<string> colorCodes = ParseColorCodesSimple(message);
 
-            return colorCodes.Aggregate(message,
-                    (current, colorCode) => new Regex(Regex.Escape($"~{colorCode}~")).Replace(current, "", 1))
-                .Replace(@"\~", "");
+            string result = message;
+            foreach (var code in colorCodes)
+                result = new Regex(Regex.Escape($"~{code}~")).Replace(result, "", 1);
+
+            return result.Replace("\\~", "~");
         }
 
         /// <summary>
@@ -348,7 +350,7 @@ namespace EvoMp.Core.ConsoleHandler
             string fullCleanedString = CleanUpColorCodes(uncleanedMessage);
             int position = cleanedCutLength;
 
-            List<string> colorCodes = ParseColorCodesSimple(uncleanedMessage);
+            List<string> colorCodes = ParseColorCodesSimple(uncleanedMessage).ToList();
 
 
             // Get best possible postion 
@@ -385,7 +387,6 @@ namespace EvoMp.Core.ConsoleHandler
                         continue;
                     }
 
-
                     // Colorcode can't found in left or right side -> broken.
                     brokenColorCodes = true;
 
@@ -421,12 +422,16 @@ namespace EvoMp.Core.ConsoleHandler
             // Check tilde count
             int countTilde = message.Count(c => c == '~');
             int countEscapedTilde = new Regex(Regex.Escape(@"\~")).Matches(message).Count;
+
+            if (countEscapedTilde % 2 != 0)
+                countEscapedTilde++;
+
             if ((countTilde - countEscapedTilde) % 2 != 0)
             {
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    $"Not closed or opened color code in message \n" +
-                    $"~o~\"{message}\"~;~.\n" +
-                    $"Message would not parsed. Escape tildes by using ~b~\"\\~\"~;~.");
+                    $"Not closed or opened color code in message.");
+                   // $"~o~\"{message}\"~;~.\n");
+                    //$"Message would not parsed. Escape tildes by using ~b~\"\\~\"~;~.");
                 return colorCodes;
             }
 

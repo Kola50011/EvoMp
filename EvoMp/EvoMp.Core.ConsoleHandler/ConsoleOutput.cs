@@ -38,18 +38,23 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             //ConsoleUtils.CleanUpColorCodes(restMessage).LastIndexOf(" ", StringComparison.Ordinal) != -1 ? ConsoleUtils.CleanUpColorCodes(restMessage).LastIndexOf(" ", StringComparison.Ordinal) : 
-            // Try to cut next on a free space.
-            int restMessageLength = ConsoleUtils.CleanUpColorCodes(restMessage).Length;
+            string cleanedRestMessage = ConsoleUtils.CleanUpColorCodes(restMessage);
 
-            int cutLength = restMessageLength;
+            int cutLength = cleanedRestMessage.Length;
             while (cutLength > Console.WindowWidth - _lastHeaderLength)
             {
-                cutLength = ConsoleUtils.CleanUpColorCodes(restMessage).Length;
+                //cutLength = ConsoleUtils.CleanUpColorCodes(restMessage).Length;
 
                 int unCleanMessageCutPos = ConsoleUtils.CleanedMessagePostionToUnCleanedMessagePositon(
                     restMessage, cutLength);
                 returnList.Add(restMessage.Substring(0, unCleanMessageCutPos));
-                restMessage = restMessage.Substring(unCleanMessageCutPos).TrimStart();
+                restMessage = restMessage.Substring(unCleanMessageCutPos);
+
+                // Try to cut next on a free space.
+                cutLength =
+                    cleanedRestMessage.LastIndexOf(" ", StringComparison.Ordinal) != -1
+                        ? cleanedRestMessage.LastIndexOf(" ", StringComparison.Ordinal)
+                        : cleanedRestMessage.Length; ;
             }
 
 
@@ -67,25 +72,41 @@ namespace EvoMp.Core.ConsoleHandler
         public static void Write(ConsoleType consoleType, string message)
         {
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (var i = 0; i < messages.Length; i++)
-                InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
-            /*   // wrapp messages if they are to long for the console space
-                   string[] wrappedMessages = WordWrapMessage(messages[i]);
-                   foreach (string wrappedMessage in wrappedMessages)
-                       InternalWrite(consoleType, wrappedMessage + (i == messages.Length && wrappedMessages.Length == 1 ? "" : "\n"));*/
+            {
+                //    InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
+                // wrapp messages if they are to long for the console space
+                string[] wrappedMessages = WordWrapMessage(messages[i]);
+                for (var b = 0; b < wrappedMessages.Length; b++)
+                {
+                    InternalWrite(consoleType,
+                        wrappedMessages[b] + (i == messages.Length && b == wrappedMessages.Length ? "" : "\n"));
+                }
+            }
         }
 
         public static void WriteLine(ConsoleType consoleType, string message)
         {
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
-
+            string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            /*
             // Cut messages to fit in the console
             for (var i = 0; i < messages.Length; i++)
-                InternalWrite(consoleType, messages[i] + "\n");
+                InternalWrite(consoleType, messages[i] + "\n");*/
+            // Cut messages to fit in the console
+            for (int i = 0; i < messages.Length; i++)
+            {
+                //    InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
+                // wrapp messages if they are to long for the console space
+                string[] wrappedMessages = WordWrapMessage(messages[i]);
+                for (int b = 0; b < wrappedMessages.Length; b++)
+                {
+                    InternalWrite(consoleType, wrappedMessages[b] + "\n");
+                }
+            }
         }
 
 
@@ -97,7 +118,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
 
             int longestTextLine = messages.OrderBy(s => s.Length).First().Length;
             foreach (string singleMessage in messages)
@@ -137,7 +158,7 @@ namespace EvoMp.Core.ConsoleHandler
                 if (_lastTimestamp == timestamp)
                 {
                     _countSameTimestamp++;
-                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
+                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float)0.011 * _countSameTimestamp);
                 }
                 else
                 {

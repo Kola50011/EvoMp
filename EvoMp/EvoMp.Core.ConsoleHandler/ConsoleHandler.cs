@@ -13,8 +13,10 @@ namespace EvoMp.Core.ConsoleHandler
             ConsoleUtils.GetConsoleMode(consoleHandle, out int currentMode);
             ConsoleUtils.SetConsoleMode(consoleHandle, currentMode | 0x0004);
 
+            
+
             // Set console size fixed
-            ConsoleUtils.SetConsoleFixedSize(60, 160);
+            ConsoleUtils.SetConsoleFixedSize(Console.LargestWindowHeight - 10, Console.LargestWindowWidth - 20);
         }
     }
 }

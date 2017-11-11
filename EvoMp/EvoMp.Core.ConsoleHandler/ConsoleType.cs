@@ -4,9 +4,9 @@
     {
         [ConsoleTypeProperties("~#FFF~")] Core,
         [ConsoleTypeProperties("~#00FF00~")] Info,
-        [ConsoleTypeProperties("~#ffa500~", "~#FFF~~_#ffa500~~...~")] Warn,
-        [ConsoleTypeProperties("~#ff3300~", "~#FFF~~_#E57373~~...~")] Error,
-        [ConsoleTypeProperties("~_~~#FF0000~", "~#FFF~~_#B71C1C~~...~~-^-~~-v-~~>-<~")] Fatal, // ~-^-~~-v-~
+        [ConsoleTypeProperties("~#ffa500~", "~#21201e~~_#fa984a~~...~")] Warn,
+        [ConsoleTypeProperties("~#ff3300~", "~#21201e~~_#d23c3c~~...~")] Error,
+        [ConsoleTypeProperties("~_~~#FF0000~", "~#FFF~~_#B71C1C~~...~~-^-~~-v-~~>-<~")] Fatal,
         [ConsoleTypeProperties("~#999999~")] Note,
         [ConsoleTypeProperties("~#696969~", "~#696969~~_#fff~")] Debug,
         [ConsoleTypeProperties("~#00ccff~", "", "DATA")] Database,
