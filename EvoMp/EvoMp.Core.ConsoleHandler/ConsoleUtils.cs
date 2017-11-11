@@ -409,7 +409,6 @@ namespace EvoMp.Core.ConsoleHandler
             return position;
         }
 
-
         /// <summary>
         ///     Parsing a message for all given text codes
         /// </summary>

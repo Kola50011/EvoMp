@@ -8,7 +8,7 @@ namespace EvoMp.Core.ConsoleHandler
         public ConsoleTypeProperties(string colorCodeType, string colorCodeText = "~#fff~", string displayName = null)
         {
             ColorCodeType = colorCodeType;
-            ColorCodeText = colorCodeText;
+            ColorCodeText = colorCodeText != "" ? colorCodeText : "~#fff~";
             DisplayName = displayName;
         }
 

@@ -27,41 +27,78 @@ namespace EvoMp.Core.ConsoleHandler
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            List<string> returnList = new List<string>();
-            string restMessage = message;
+            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength;
 
-            // No last header length given -> just return
-            if (_lastHeaderLength == 0)
+            // Message shorter then max -> return;
+            if (message.Length < maxMessageWidth)
+                return new[] { message };
+
+
+            List<string> returnList = new List<string>();
+            List<string> words = message.Split(' ').ToList();
+
+            // Save to message variants
+            string cleanMessage = ConsoleUtils.CleanUpColorCodes(message);
+            string dirtyMessage = message;
+
+            // No spaces -> just cut at length
+            if (words.Count == 1)
             {
-                returnList.Add(message);
+                // Run until dirtyMessage < maxMessageWidth
+                while (true)
+                {
+                    // Compare step by step
+                    for (int i = 0; i < dirtyMessage.Length; i++)
+                        if (ConsoleUtils.CleanUpColorCodes(dirtyMessage.Substring(0, i)) ==
+                            ConsoleUtils.CleanUpColorCodes(cleanMessage).Substring(0, maxMessageWidth))
+                        {
+                            returnList.Add(dirtyMessage.Substring(0, i));
+                            dirtyMessage = dirtyMessage.Substring(0, i);
+                            cleanMessage = cleanMessage.Substring(0, maxMessageWidth);
+                            // Jump out of the current for
+                            break;
+                        }
+
+                    if (ConsoleUtils.CleanUpColorCodes(dirtyMessage).Length <= maxMessageWidth)
+                    {
+                        returnList.Add(dirtyMessage);
+                        break;
+                    }
+                }
                 return returnList.ToArray();
             }
 
-            //ConsoleUtils.CleanUpColorCodes(restMessage).LastIndexOf(" ", StringComparison.Ordinal) != -1 ? ConsoleUtils.CleanUpColorCodes(restMessage).LastIndexOf(" ", StringComparison.Ordinal) : 
-            string cleanedRestMessage = ConsoleUtils.CleanUpColorCodes(restMessage);
-
-            int cutLength = cleanedRestMessage.Length;
-            while (cutLength > Console.WindowWidth - _lastHeaderLength)
+            // Stack words and get smallest match
+            string currentMessage = string.Empty;
+            //while (string.Join(" ", words.ToArray()).Length > maxMessageWidth && words.Count != 0)
+            for (var i = 0; i < words.Count; i++)
             {
-                //cutLength = ConsoleUtils.CleanUpColorCodes(restMessage).Length;
+                // stack message
+                currentMessage += words[i];
 
-                int unCleanMessageCutPos = ConsoleUtils.CleanedMessagePostionToUnCleanedMessagePositon(
-                    restMessage, cutLength);
-                returnList.Add(restMessage.Substring(0, unCleanMessageCutPos));
-                restMessage = restMessage.Substring(unCleanMessageCutPos);
+                // Last word -> break; 
+                if (words.Count == i + 1)
+                    continue;
 
-                // Try to cut next on a free space.
-                cutLength =
-                    cleanedRestMessage.LastIndexOf(" ", StringComparison.Ordinal) != -1
-                        ? cleanedRestMessage.LastIndexOf(" ", StringComparison.Ordinal)
-                        : cleanedRestMessage.Length; ;
+                if (words.Count == i)
+                    break;
+
+                currentMessage += " "; // Add Space
+
+                // Next word makes the string to long -> start new
+                if (ConsoleUtils.CleanUpColorCodes(currentMessage + " " + words[i + 1]).Length >
+                    maxMessageWidth)
+                {
+                    returnList.Add(currentMessage);
+                    currentMessage = "";
+                }
             }
 
-
-            // Add rest string to message
-            returnList.Add(restMessage);
+            if (currentMessage.Length != 0)
+                returnList.Add(currentMessage);
 
             return returnList.ToArray();
+
         }
 
         /// <summary>
@@ -81,15 +118,21 @@ namespace EvoMp.Core.ConsoleHandler
                 // wrapp messages if they are to long for the console space
                 string[] wrappedMessages = WordWrapMessage(messages[i]);
                 for (var b = 0; b < wrappedMessages.Length; b++)
-                {
                     InternalWrite(consoleType,
                         wrappedMessages[b] + (i == messages.Length && b == wrappedMessages.Length ? "" : "\n"));
-                }
             }
         }
 
-        public static void WriteLine(ConsoleType consoleType, string message)
+        public static void WriteLine(ConsoleType consoleType, string message, bool noWordWrap = false)
         {
+            // Now word wrap -> output & return;
+            if (noWordWrap)
+            {
+                InternalWrite(consoleType, message + "\n");
+                return;
+            }
+
+
             // Parse linebreaks for clear output
             string[] messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
             /*
@@ -103,9 +146,7 @@ namespace EvoMp.Core.ConsoleHandler
                 // wrapp messages if they are to long for the console space
                 string[] wrappedMessages = WordWrapMessage(messages[i]);
                 for (int b = 0; b < wrappedMessages.Length; b++)
-                {
                     InternalWrite(consoleType, wrappedMessages[b] + "\n");
-                }
             }
         }
 
@@ -125,6 +166,15 @@ namespace EvoMp.Core.ConsoleHandler
                 InternalWrite(consoleType, ConsoleUtils.AlignText(singleMessage, longestTextLine, true), true, "\n");
         }
 
+
+        /// <summary>
+        /// The internal write function.
+        /// Handles each write subfunction
+        /// </summary>
+        /// <param name="consoleType">ConsoleType</param>
+        /// <param name="message">The message with color codes</param>
+        /// <param name="centered">Should the text be centered?</param>
+        /// <param name="suffix">Message suffix?</param>
         private static void InternalWrite(ConsoleType consoleType, string message, bool centered = false,
             string suffix = "")
         {
@@ -260,7 +310,8 @@ namespace EvoMp.Core.ConsoleHandler
             // Replace reset controlcode with message defaultColor + resetControl
             string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
             if (writeMessage.Contains(resetIdentifer))
-                writeMessage = writeMessage.Replace(resetIdentifer, $"{resetIdentifer}{harmlessTypeTextCode}");
+                writeMessage = writeMessage.Replace(resetIdentifer, 
+                    $"{resetIdentifer}{harmlessTypeTextCode}");
 
             // Parse color and control codes
             writeMessage =
@@ -323,7 +374,7 @@ namespace EvoMp.Core.ConsoleHandler
             Console.ResetColor();
 
             // Write line
-            WriteLine(consoleType, colorCode + returnString);
+            WriteLine(consoleType, colorCode + returnString, true);
         }
     }
 }

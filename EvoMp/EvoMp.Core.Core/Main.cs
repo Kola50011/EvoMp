@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
 
@@ -142,6 +143,13 @@ namespace EvoMp.Core.Core
 
             // Load Modules
             new ModuleLoader(API).Load();
+
+
+            Task.Delay(1000).ContinueWith(_ =>
+            {
+                Console.SetWindowPosition(0, 0); // Debug
+            });
+            
         }
     }
 }

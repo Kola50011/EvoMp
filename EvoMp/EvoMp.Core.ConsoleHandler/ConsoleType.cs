@@ -9,9 +9,9 @@
         [ConsoleTypeProperties("~_~~#FF0000~", "~#FFF~~_#B71C1C~~...~~-^-~~-v-~~>-<~")] Fatal,
         [ConsoleTypeProperties("~#999999~")] Note,
         [ConsoleTypeProperties("~#696969~", "~#696969~~_#fff~")] Debug,
-        [ConsoleTypeProperties("~#00ccff~", "", "DATA")] Database,
+        [ConsoleTypeProperties("~#00ccff~", "", "Data")] Database,
         [ConsoleTypeProperties("~#999999~", "", "----")] Line,
-        [ConsoleTypeProperties("~#ff9672~")] Config,
+        [ConsoleTypeProperties("~#ff9672~", "~#fff~", "Cfg")] Config,
 
         /// <summary>
         ///     This type gives only the message to the console output.
