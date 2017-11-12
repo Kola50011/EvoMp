@@ -24,7 +24,6 @@ namespace EvoMp.Core.ConsoleHandler
 
         private static int _longestConsoleTypeLength;
 
-
         /// <summary>
         ///     Returns the propertys for the given ConsoleType
         /// </summary>
@@ -77,9 +76,9 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Text should be centered
             if (centered)
-                return string.Empty.PadRight((restLength ) / 2) +
+                return string.Empty.PadRight(restLength / 2) +
                        text + (restLength % 2 == 0 ? "" : " ") +
-                       string.Empty.PadRight((restLength ) / 2);
+                       string.Empty.PadRight(restLength / 2);
 
             // Or text is filled up
             return text + string.Empty.PadRight(restLength);
@@ -196,7 +195,7 @@ namespace EvoMp.Core.ConsoleHandler
 
                 // Parse position
                 int colorCodePosition = message.IndexOf($"~{colorCode}~", StringComparison.Ordinal)
-                                        + colorCode.Length + 2;
+                                        + colorCode.Length + 2; // 2 = "~ ~"
 
                 // Cut message, for next tilde parse
                 message = message.Substring(colorCodePosition);
@@ -210,14 +209,44 @@ namespace EvoMp.Core.ConsoleHandler
             return returnConsoleColors;
         }
 
+
+        /// <summary>
+        ///     Compares two colors and gives the difference as int for RGB
+        /// </summary>
+        /// <param name="color1">Color 1</param>
+        /// <param name="color2">Color 2</param>
+        /// <returns></returns>
+        public static int CompareColorsRgb(Color color1, Color color2)
+        {
+            return (int)Math.Sqrt((color1.R - color2.R) * (color1.R - color2.R)
+                                   + (color1.G - color2.G) * (color1.G - color2.G)
+                                   + (color1.B - color2.B) * (color1.B - color2.B));
+        }
+
+        /// <summary>
+        ///     Compares two colors by contrast and gives the difference
+        /// </summary>
+        /// <param name="color1">Color 1</param>
+        /// <param name="color2">Color 2</param>
+        /// <returns></returns>
+        public static int CompareColorsContrast(Color color1, Color color2)
+        {
+            return Math.Abs(((299 * color1.R + 587 * color1.G + 114 * color1.B) /
+                            1000) - ((299 * color2.R + 587 * color2.G +
+                                              114 * color2.B) / 1000));
+
+        }
+
         /// <summary>
         ///     Generates a colored string from the position/colors dictionary
         /// </summary>
-        /// <param name="colorsWithPosition">The position/color dictionary</param>
         /// <param name="message">The message with the color strings</param>
         /// <returns>Colored string</returns>
-        public static string GenerateColoredString(Dictionary<int, Color> colorsWithPosition, string message)
+        public static string GenerateColoredString(string message)
         {
+            // Parse colors from each code with position
+            Dictionary<int, Color> colorsWithPosition = ColorCodeToConsoleColor(message);
+
             string orignalMessage = message;
             bool codeParsingDisabled = false;
 
@@ -231,7 +260,9 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Set current foreground color (Default: white)
             Color foregroundColor = Color.White;
+            string suffix = string.Empty;
 
+            Color currentBackground = Color.Empty;
             // Replace color code 
             foreach (KeyValuePair<int, Color> currentCode in colorsWithPosition)
             {
@@ -247,10 +278,22 @@ namespace EvoMp.Core.ConsoleHandler
                     string foregroundColorString =
                         $"\x1B[38;2;{foregroundColor.R};{foregroundColor.G};{foregroundColor.B}";
 
-                    string backgroundColorString =
-                        colorCode.Length > 1 && !colorCode.StartsWith("#") || colorCode.StartsWith("_#")
-                            ? $";48;2;{currentCode.Value.R};{currentCode.Value.G};{currentCode.Value.B}"
-                            : "";
+                    string backgroundColorString = "";
+                    if (colorCode.Length > 1 && !colorCode.StartsWith("#") || colorCode.StartsWith("_#"))
+                    {
+                        backgroundColorString =
+                            $";48;2;{currentCode.Value.R};{currentCode.Value.G};{currentCode.Value.B}";
+                        currentBackground = currentCode.Value;
+                    }
+
+                    // Hint if background and foreground is similar
+                    if (currentBackground != Color.Empty)
+                        //if(Math.Abs(foregroundColor.GetHue() - currentBackground.GetHue()) <= 5)
+                        // if (foregroundColor.CompareColorsRgb(foregroundColor, currentBackground) < 110)
+                        if (CompareColorsContrast(foregroundColor, currentBackground) < 10)
+                            ConsoleOutput.WriteLine(ConsoleType.Error, //~;;~~w~
+                                $"Please correct next message. " +
+                                $"Sure you can read the text ~_~fine~|~ on this background?\n");
 
                     // Rebuild message
                     message = $"{message.Substring(0, currentCode.Key + completeColorCodesLength)}" +
@@ -263,20 +306,22 @@ namespace EvoMp.Core.ConsoleHandler
 
                 void BuildControlString()
                 {
-                    string suffix = string.Empty;
                     string ansiString = ColorCodeProperties.First(cc => cc.Identifier == $"~{colorCode}~")
                         .ControlCodeAnsi;
+
+                    // Is reset code -> reset last background
+                    if (ansiString == GetColorCodePropertie(ColorCode.ResetColor).ControlCodeAnsi)
+                        currentBackground = Color.Empty;
+
 
                     // Progress extra controls
                     switch (ansiString)
                     {
-                        // FillLineWithSpaces
-                        case "...":
-                            ansiString = ""; //~...~
-                                             // Fill line only if text is not to big
-                                             //if (CleanUpColorCodes(orignalMessage).Length < Console.WindowWidth)
-                            suffix = string.Empty.PadRight(
-                                    Console.WindowWidth - CleanUpColorCodes(orignalMessage.Replace("\n", "")).Length);
+                        case "...": // FillLineWithSpaces
+                            ansiString = "";
+                            // full suffix added later
+                            suffix += string.Empty.PadRight(
+                                Console.WindowWidth - CleanUpColorCodes(orignalMessage.Replace("\n", "")).Length);
                             break;
                         case "!00!": // Turn Code Parsing off
                             codeParsingDisabled = true;
@@ -288,10 +333,9 @@ namespace EvoMp.Core.ConsoleHandler
 
                     message = $"{message.Substring(0, currentCode.Key + completeColorCodesLength)}" +
                               ansiString +
-                              $"{message.Substring(currentCode.Key + completeColorCodesLength)}" +
-                              suffix;
+                              $"{message.Substring(currentCode.Key + completeColorCodesLength)}";
 
-                    completeColorCodesLength += ansiString.Length + suffix.Length;
+                    completeColorCodesLength += ansiString.Length;
                 }
 
                 // Parse color code
@@ -309,6 +353,9 @@ namespace EvoMp.Core.ConsoleHandler
                     BuildColorString();
             }
 
+            // Add Suffix
+            message += suffix;
+
             // Re add linebreak if existed
             if (orignalMessage.EndsWith("\n"))
                 message += "\n";
@@ -320,13 +367,19 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        ///     Cleans all color codes from a given message
+        ///     Cleans all color codes from a given message.
+        ///     If the given message is invalid, each ~ gets escaped
         /// </summary>
         /// <param name="message">The message wich should be cleaned</param>
+        /// <param name="onlyEscape">Only escape each tilde?</param>
         /// <returns></returns>
-        public static string CleanUpColorCodes(string message)
+        public static string CleanUpColorCodes(string message, bool onlyEscape = false)
         {
             List<string> colorCodes = ParseColorCodesSimple(message);
+
+            // invalid message -> return complete escaped
+            if (colorCodes == null || onlyEscape)
+                return message.Replace("\\~", "~").Replace("~", "\\~");
 
             string result = message;
             foreach (var code in colorCodes)
@@ -415,20 +468,20 @@ namespace EvoMp.Core.ConsoleHandler
             List<string> colorCodes = new List<string>();
 
             // Check tilde count
-            int countTilde = message.Count(c => c == '~');
-            int countEscapedTilde = new Regex(Regex.Escape(@"\~")).Matches(message).Count;
+            string tildeMessage = message;
+            int countTilde = tildeMessage.Count(c => c == '~');
+            tildeMessage = tildeMessage.Replace(@"\~", "");
+            int countEscapedTilde = countTilde - tildeMessage.Count(c => c == '~');
+            countTilde = tildeMessage.Count(c => c == '~');
 
+            // For easyer math (escaped tildes doesn't matter)
             if (countEscapedTilde % 2 != 0)
                 countEscapedTilde++;
 
+            // Open color codes exist -> return null;
             if ((countTilde - countEscapedTilde) % 2 != 0)
-            {
-                ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    $"Not closed or opened color code in message.");
-                   // $"~o~\"{message}\"~;~.\n");
-                    //$"Message would not parsed. Escape tildes by using ~b~\"\\~\"~;~.");
-                return colorCodes;
-            }
+                return null;
+
 
             // Parse color codes
             bool openTilde = false;
@@ -437,6 +490,7 @@ namespace EvoMp.Core.ConsoleHandler
             bool lastWasEscape = false;
             foreach (char messageChar in message)
             {
+                // Escape char -> notice & next
                 if (messageChar == '\\')
                 {
                     lastWasEscape = true;
@@ -534,7 +588,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <param name="marginTopLines">Extra empty lines in top of the text file</param>
         /// <param name="marginBottomLines">Extra empty lines after the text file</param>
         /// <returns></returns>
-        public static string ParseTextFileForConsole(string path, int marginTopLines = 0, int marginBottomLines =0) 
+        public static string ParseTextFileForConsole(string path, int marginTopLines = 0, int marginBottomLines = 0)
         {
             // File does not exist -> message & return;
             if (!File.Exists(path))
@@ -559,11 +613,11 @@ namespace EvoMp.Core.ConsoleHandler
 
             // MarginTop
             for (var i = 0; i < marginTopLines; i++)
-                returnString = String.Empty.PadRight(longestLineLength) + "~n~" + returnString;
+                returnString = string.Empty.PadRight(longestLineLength) + "~n~" + returnString;
 
             // MarginTop
             for (var i = 0; i < marginBottomLines; i++)
-                returnString += String.Empty.PadRight(longestLineLength) + "~n~";
+                returnString += string.Empty.PadRight(longestLineLength) + "~n~";
 
             streamReader.Close();
 

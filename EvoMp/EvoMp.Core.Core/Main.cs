@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
@@ -79,14 +78,13 @@ namespace EvoMp.Core.Core
                 "".PadRight(55, '-'));
 
             ConsoleOutput.WriteCentredText(ConsoleType.Info,
-                $"{leftServerInfo}{"Server mode:".PadRight(20)}{String.Empty.PadRight(5)}{rightServerInfo}{$"{moduleTypesString}".PadRight(20)}\n" +
-                $"{leftServerInfo}{"Runtime mode:".PadRight(20)}{String.Empty.PadRight(5)}{rightServerInfo}{$"{(Debug ? "Debugging" : "Release")}".PadRight(20)}\n" +
-                $"{leftServerInfo}{"Server name:".PadRight(20)}{String.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerName().Substring(0, 20)}".PadRight(20)}\n" +
-                $"{leftServerInfo}{"Server port:".PadRight(20)}{String.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerPort():0000}".PadRight(20)}\n" +
-                $"{leftServerInfo}{"Max players:".PadRight(20)}{String.Empty.PadRight(5)}{rightServerInfo}{$"{API.getMaxPlayers():0000}".PadRight(20)}\n");
+                $"{leftServerInfo}{"Server mode:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{moduleTypesString}".PadRight(20)}\n" +
+                $"{leftServerInfo}{"Runtime mode:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{(Debug ? "Debugging" : "Release")}".PadRight(20)}\n" +
+                $"{leftServerInfo}{"Server name:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerName().Substring(0, 20)}".PadRight(20)}\n" +
+                $"{leftServerInfo}{"Server port:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerPort():0000}".PadRight(20)}\n" +
+                $"{leftServerInfo}{"Max players:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getMaxPlayers():0000}".PadRight(20)}\n");
 
-            // Two empty lines
-            ConsoleOutput.PrintLine(" ");
+            // One empty lines
             ConsoleOutput.PrintLine(" ");
 
             // Small centered line with headline & developer
@@ -101,14 +99,14 @@ namespace EvoMp.Core.Core
             const string staffTitleColor = "~#B3E5FC~";
 
             ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                $"{diTitleColor}{"Roleplay Director".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"DevGrab".PadRight(20)}\n" +
-                $"{diTitleColor}{"Freeroam Director".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Ruffo/Christian".PadRight(20)}\n" +
-                $"{depyTitleColor}{"Roleplay Deputy".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(20)}\n" +
-                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(20)}\n" +
-                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Lukas/Nitac".PadRight(20)}\n" +
-                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Sopex".PadRight(20)}\n" +
-                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"Gary".PadRight(20)}\n" +
-                $"{staffTitleColor}{"Freeroam Staff".PadRight(20)}{String.Empty.PadRight(5)}{usernameColor}{"James".PadRight(20)}\n");
+                $"{diTitleColor}{"Roleplay Director".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"DevGrab".PadRight(20)}\n" +
+                $"{diTitleColor}{"Freeroam Director".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo/Christian".PadRight(20)}\n" +
+                $"{depyTitleColor}{"Roleplay Deputy".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(20)}\n" +
+                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(20)}\n" +
+                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Lukas/Nitac".PadRight(20)}\n" +
+                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Sopex".PadRight(20)}\n" +
+                $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Gary".PadRight(20)}\n" +
+                $"{staffTitleColor}{"Freeroam Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(20)}\n");
             // Two empty lines
             ConsoleOutput.PrintLine(" ");
 
@@ -132,37 +130,6 @@ namespace EvoMp.Core.Core
 
             // Load Modules
             new ModuleLoader(API).Load();
-            #region ConsoleModule tester
-
-            // Debugging
-
-            ConsoleOutput.WriteLine(ConsoleType.Debug, "Testoutputs for console module");
-            ConsoleOutput.PrintLine("-");
-            ConsoleOutput.WriteLine(ConsoleType.Info, "~w~~bg~White With Green Background ~;~Original Color " +
-                                                      "~g~Green ~o~Orange ~b~Blue ~y~Yellow!" +
-                                                      "~n~New Line ~_~Underline ~|~ Underline off" +
-                                                      "~h~Fett! ~g~Parsed text~!-!~~g~Parsing ~#FF0000~off!~!|!~~w~Parsing ~g~ on again!");
-            ConsoleOutput.PrintLine("_");
-            ConsoleOutput.WriteLine(ConsoleType.Info,
-                "Automatic WordWrap on too long textes. Just kidding, or not? I dont know. Is this sentence wrapped? Tell me please. And if not, its .. NOT OKAY! Wait.. what the hell i'm writing here? I only need a long text! By the way: I'm not 100% Satisfied with the console output and the color parsing etc. I think we can use it in the whole server too. Not only in the console. I mean the control codes parsing. .. I just got hungry for watermelon. My paprika is very fruityp Good night! zZz ~n~~_~(Whole message in one ConsoleOutput.WriteLine() call, including this.)");
-            ConsoleOutput.PrintLine("_");
-
-
-            ConsoleOutput.WriteLine(ConsoleType.Note,
-                "Demo ConsoleTypes~-^-~~-v-~ (~w~This Line unparsed: ~o~\"~!-!~Demo ConsoleTypes~-^-~~-v-~ ~!|!~\"~w~.");
-            ConsoleOutput.WriteLine(ConsoleType.Core, "A Core message");
-            ConsoleOutput.WriteLine(ConsoleType.Info, "A Info message");
-            ConsoleOutput.WriteLine(ConsoleType.Warn, "A Warn message");
-            ConsoleOutput.WriteLine(ConsoleType.Error, "A Error message");
-            ConsoleOutput.WriteLine(ConsoleType.Fatal, "A Fatal Error message");
-            ConsoleOutput.WriteLine(ConsoleType.Note, "A Note message");
-            ConsoleOutput.WriteLine(ConsoleType.Debug, "A Debug message");
-            ConsoleOutput.WriteLine(ConsoleType.Database, "A Database message");
-            ConsoleOutput.WriteLine(ConsoleType.Config, "A Config message");
-            ConsoleOutput.WriteLine(ConsoleType.Line, "A Line message");
-            ConsoleOutput.PrintLine("-");
-
-            #endregion ConsoleModule tester
         }
     }
 }

@@ -33,80 +33,107 @@ namespace EvoMp.Core.Core
         {
             _parameterList = new Dictionary<string, Parameter>();
 
-            // Parse Microsoft logic to string.
-            string commandLineArgument = string.Join(" ", Environment.GetCommandLineArgs());
-
-            // Parse char by char
-            bool parsingParameter = false;
-            bool openQuote = false;
-            string currentParse = string.Empty;
-            Parameter currentParameter = (Parameter)(-1);
-            ParameterProperties currentStartParameterProperties = null;
-
-            foreach (char commandLineChar in commandLineArgument)
-            {
-                // Starting parse new parameter if not parsing & - appears
-                if (commandLineChar == '-' && !parsingParameter)
-                {
-                    // Reset valuesy
-                    openQuote = false;
-                    parsingParameter = true;
-                    currentParameter = (Parameter)(-1);
-                    currentStartParameterProperties = null;
-                }
-
-                // Stack to code
-                if (parsingParameter)
-                    currentParse += commandLineChar;
-
-                // search for possible parameter
-                if (!parsingParameter)
-                {
-                    // Get all possible start parameters
-                    List<Parameter> possibleStartParameters =
-                    (from Parameter startParameter in Enum.GetValues(typeof(Parameter))
-                     let parameterPropertieses = GetStartParameterProperties(startParameter)
-                     where parameterPropertieses.ParameterIdentifier.ToLower().StartsWith(currentParse.ToLower()) ||
-                           parameterPropertieses.ShortParameterIdentifier.ToLower()
-                               .StartsWith(currentParse.ToLower())
-                     select startParameter).ToList();
-
-                    // Only one match -> we found the right
-                    if (possibleStartParameters.Count() == 1)
-                    {
-                        currentParameter = possibleStartParameters.First();
-                        currentStartParameterProperties = GetStartParameterProperties(currentParameter);
-                        parsingParameter = true;
-                    }
-                }
-
-                // Remove parameter call, but only if its ends with space
-                if (parsingParameter && currentParse.EndsWith(" "))
-                    if (currentParse.ToLower().Trim() == currentStartParameterProperties?.ParameterIdentifier.ToLower()
-                        || currentParse.ToLower().Trim() ==
-                        currentStartParameterProperties?.ShortParameterIdentifier.ToLower())
-                        currentParse = "";
-
-                // Check for quotes. For string values
-                if (commandLineChar == '\"')
-                    openQuote = !openQuote;
+            //// Only one parameter given -> return (first is path)
+            //List<string> parameters = Environment.GetCommandLineArgs().ToList();
+            //if(parameters.Count == 1)
+            //    return;
 
 
-                // Space and no open quote -> Parameter value complete
-                if (commandLineChar == ' ' && !openQuote && currentStartParameterProperties != null)
-                {
-                    parsingParameter = false;
 
-                    // Parameter is only allowed one time -> Write warn
-                    if (!currentStartParameterProperties.MultipleUseAllowed &&
-                        _parameterList.ContainsValue(currentParameter))
-                        ConsoleOutput.WriteLine(ConsoleType.Warn,
-                            $"Parameter ~b~\"{currentStartParameterProperties.ParameterIdentifier}\"~;~ is only allowed one time.\n" +
-                            $"Parameter ~o~\"{currentStartParameterProperties.ParameterIdentifier} {currentParse}\"~;~ would be ignored.");
-                    else
-                        _parameterList.Add(currentParse.Replace("\"", ""), currentParameter);
-                }
-            }
+            //// Remove path
+            //parameters.Remove(parameters.First());
+
+            //foreach (string parameter in parameters)
+            //{
+            //    // Get all possible start parameters
+            //    List<Parameter> possibleStartParameters =
+            //    (from Parameter startParameter in Enum.GetValues(typeof(Parameter))
+            //        let parameterPropertieses = GetStartParameterProperties(startParameter)
+            //        where parameterPropertieses.ParameterIdentifier.ToLower().StartsWith(parameter.Split(' ')[0].ToLower()) ||
+            //              parameterPropertieses.ShortParameterIdentifier.ToLower()
+            //                  .StartsWith(parameter.Split(' ')[0].ToLower())
+            //        select startParameter).ToList();
+
+
+            //        if (possibleStartParameters.Count() == 1)
+            //        {
+            //            currentParameter = possibleStartParameters.First();
+            //            currentStartParameterProperties = GetStartParameterProperties(currentParameter);
+            //        }
+            //}
+
+
+            //// Parse Microsoft logic to string.
+            //string commandLineArgument = string.Join(" ", parameter);
+
+            //// Parse char by char
+            //bool parsingParameter = false;
+            //bool openQuote = false;
+            //string currentParse = string.Empty;
+            //Parameter currentParameter = (Parameter)(-1);
+            //ParameterProperties currentStartParameterProperties = null;
+
+            //foreach (char commandLineChar in commandLineArgument)
+            //{
+            //    // Starting parse new parameter if not parsing & - appears
+            //    if (commandLineChar == '-' && !parsingParameter)
+            //    {
+            //        // Reset values
+            //        openQuote = false;
+            //        parsingParameter = true;
+            //        currentParameter = (Parameter)(-1);
+            //        currentStartParameterProperties = null;
+            //    }
+
+            //    // Stack to code
+            //    if (parsingParameter)
+            //        currentParse += commandLineChar;
+
+            //    // search for possible parameter
+            //    if (!parsingParameter)
+            //    {
+            //        // Get all possible start parameters
+            //        List<Parameter> possibleStartParameters =
+            //        (from Parameter startParameter in Enum.GetValues(typeof(Parameter))
+            //         let parameterPropertieses = GetStartParameterProperties(startParameter)
+            //         where parameterPropertieses.ParameterIdentifier.ToLower().StartsWith(currentParse.ToLower()) ||
+            //               parameterPropertieses.ShortParameterIdentifier.ToLower()
+            //                   .StartsWith(currentParse.ToLower())
+            //         select startParameter).ToList();
+
+            //        // Only one match -> we found the right
+                   
+            //            parsingParameter = true;
+            //        }
+            //    }
+
+            //    // Remove parameter call, but only if its ends with space
+            //    if (parsingParameter && currentParse.EndsWith(" "))
+            //        if (currentParse.ToLower().Trim() == currentStartParameterProperties?.ParameterIdentifier.ToLower()
+            //            || currentParse.ToLower().Trim() ==
+            //            currentStartParameterProperties?.ShortParameterIdentifier.ToLower())
+            //            currentParse = "";
+
+            //    // Check for quotes. For string values
+            //    if (commandLineChar == '\"')
+            //        openQuote = !openQuote;
+
+
+            //    // Space and no open quote -> Parameter value complete
+            //    if (commandLineChar == ' ' && !openQuote && currentStartParameterProperties != null)
+            //    {
+            //        parsingParameter = false;
+
+            //        // Parameter is only allowed one time -> Write warn
+            //        if (!currentStartParameterProperties.MultipleUseAllowed &&
+            //            _parameterList.ContainsValue(currentParameter))
+            //            ConsoleOutput.WriteLine(ConsoleType.Warn,
+            //                $"Parameter ~b~\"{currentStartParameterProperties.ParameterIdentifier}\"~;~ is only allowed one time.\n" +
+            //                $"Parameter ~o~\"{currentStartParameterProperties.ParameterIdentifier} {currentParse}\"~;~ would be ignored.");
+            //        else
+            //            _parameterList.Add(currentParse.Replace("\"", ""), currentParameter);
+            //    }
+            //}
         }
 
 

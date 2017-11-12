@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -35,10 +34,8 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~bu~", KnownColor.Black)] BackgroundBlack,
         [ColorCodePropertie("~bw~", KnownColor.White)] BackgroundWhite,
 
-
         // Control codes
         [ColorCodePropertie("~n~", 0, "\n")] NewLine,
-
         [ColorCodePropertie("~h~", 0, "\x1B[1m")] BoldText,
         [ColorCodePropertie("~_~", 0, "\x1B[4m")] UnderlineText,
         [ColorCodePropertie("~|~", 0, "\x1B[24m")] UnderlineReset,
@@ -47,6 +44,7 @@ namespace EvoMp.Core.ConsoleHandler
         // Taking affect in InternalWrite function
         [ColorCodePropertie("~...~", 0, "...", false, true)] FillLineWithSpaces,
         [ColorCodePropertie("~;~", 0, "\x1B[0m", false, true)] ResetColor,
+        [ColorCodePropertie("~;;~", 0, "\x1B[0m", false, true)] ResetToConsole,
         [ColorCodePropertie("~-^-~", 0, "", false, true)] LineTop,
         [ColorCodePropertie("~-v-~", 0, "", false, true)] LineBottom,
         [ColorCodePropertie("~>-<~", 0, "", false, true)] Centered,
