@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using EvoMp.Core.ConsoleHandler.Models;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -11,6 +12,8 @@ namespace EvoMp.Core.ConsoleHandler
         private static int _countSameTimestamp;
         private static int _lastHeaderLength;
 
+        private static int _currentBorderSizes = 0;
+        private static readonly Dictionary<int, Border> _activeBorderModes = new Dictionary<int, Border>();
 
         /// <summary>
         ///     Writes a empty line
@@ -27,7 +30,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength;
+            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength - _currentBorderSizes * 2;
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
@@ -187,6 +190,8 @@ namespace EvoMp.Core.ConsoleHandler
             bool wasControlCodeLine = false;
             bool messageHasLinebreak = false;
 
+            int maxInnerLineLength = Console.WindowWidth - _lastHeaderLength - _currentBorderSizes * 2;
+
             // Prepare message.
             if (message.EndsWith("\n"))
             {
@@ -222,11 +227,13 @@ namespace EvoMp.Core.ConsoleHandler
                                ConsoleUtils.AlignText(typeProperties.ColorCodeType + typeDisplayName + "~|~",
                                    ConsoleUtils.GetLengthOfLongestConsoleType());
 
+
                 // Vertical line
                 writeMessage = writeMessage + " ~w~│ ";
 
                 // Save header length for calculation
                 _lastHeaderLength = ConsoleUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
+                maxInnerLineLength = Console.WindowWidth - _lastHeaderLength - _currentBorderSizes * 2;
 
                 // Trim ConsoleType.Line for fit in console window
                 // Or Lines with other ConsoleType
@@ -240,11 +247,18 @@ namespace EvoMp.Core.ConsoleHandler
                     }
 
                     if (_lastHeaderLength < message.Length)
-                        message = message.Substring(_lastHeaderLength);
+                    {
+                        int colorCodeLength = message.Length - ConsoleUtils.CleanUpColorCodes(message).Length;
+                        string colorCode = message.Substring(0, colorCodeLength);
+                        message = colorCode + message.Substring(_lastHeaderLength);
+                    }
                 }
             }
 
+
             #endregion //Prepare Head and lines
+
+
 
             // Get message color from type
             string consoleTypeTextColorCode = typeProperties.ColorCodeText;
@@ -267,9 +281,8 @@ namespace EvoMp.Core.ConsoleHandler
                     consoleTypeTextColorCode = consoleTypeTextColorCode.Replace("~>-<~", "");
 
                 message = harmlessTypeTextCode +
-                          ConsoleUtils.AlignText(message, Console.WindowWidth - _lastHeaderLength, true);
+                          ConsoleUtils.AlignText(message, maxInnerLineLength, true);
             }
-
 
             // Message is line and was by consoleTypeTextColorCode given ->
             // Replace again or endless loop
@@ -288,15 +301,18 @@ namespace EvoMp.Core.ConsoleHandler
             if (message.Contains("~-^-~")) // Line Top
             {
                 PrintLine("-", "", consoleType);
-                message = message.Replace("~-^-~", "");
+                //message = message.Replace("~-^-~", "");
             }
             if (message.Contains("~-v-~")) // Line bottom
             {
                 printLineBottom = true;
-                message = message.Replace("~-v-~", "");
+                //message = message.Replace("~-v-~", "");
             }
 
             #endregion
+
+            // Add Border prefix to message
+            message = _activeBorderModes.Values.Aggregate(message, (current, activeBorder) => activeBorder.BorderColorCode + activeBorder.BorderChar + current);
 
             // Append message to complete message
             writeMessage += message;
@@ -304,13 +320,16 @@ namespace EvoMp.Core.ConsoleHandler
             // Add suffixs and possible linebreak
             writeMessage += suffix;
 
+            // Add Border suffix to message
+            message = _activeBorderModes.Values.Aggregate(message, (current, activeBorder) => current + activeBorder.BorderColorCode + activeBorder.BorderChar);
+
             if (messageHasLinebreak)
                 writeMessage += "\n";
 
             // Replace reset controlcode with message defaultColor + resetControl
             string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
             if (writeMessage.Contains(resetIdentifer))
-                writeMessage = writeMessage.Replace(resetIdentifer, 
+                writeMessage = writeMessage.Replace(resetIdentifer,
                     $"{resetIdentifer}{harmlessTypeTextCode}");
 
             // Parse color and control codes
@@ -357,7 +376,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void PrintLine(string linePattern, string colorCode = "",
             ConsoleType consoleType = ConsoleType.Line)
         {
-            string returnString = string.Empty;
+            string returnString = colorCode;
 
             // Generate line
             for (var i = 0; i * linePattern.Length < Console.WindowWidth; i++)
@@ -368,13 +387,89 @@ namespace EvoMp.Core.ConsoleHandler
                 returnString = returnString.Substring(0, Console.WindowWidth);
 
             if (consoleType != ConsoleType.Line)
-                colorCode = "~!--!~" + colorCode;
+                returnString = "~!--!~" + returnString;
 
             // Reset console colors
             Console.ResetColor();
 
             // Write line
-            WriteLine(consoleType, colorCode + returnString, true);
+            WriteLine(consoleType, returnString, true);
+        }
+
+        /// <summary>
+        /// //TODO: Fix border logic
+        /// Adds a border to the ConsoleOutut.
+        /// If border added, messages looks like this:
+        /// "#  message  #"
+        /// </summary>
+        /// <param name="consoleType">The ConsoleType of the start and end border line</param>
+        /// <param name="borderChar">The string used as border</param>
+        /// <param name="colorCode">optinal color code for the border</param>
+        /// <returns>Created border ID</returns>
+        public static int AddBorder(ConsoleType consoleType, string borderChar, string colorCode = "")
+        {
+            int id = _activeBorderModes.Count + 1;
+            _activeBorderModes.Add(id, new Border()
+            {
+                ConsoleType = consoleType,
+                BorderChar = borderChar,
+                BorderColorCode = colorCode
+
+            });
+
+            // Calculate new border size
+            _currentBorderSizes = _activeBorderModes.Sum(borderMode => borderMode.Value.BorderChar.Length);
+
+            // Print top line
+            PrintLine(borderChar, colorCode, consoleType);
+
+            return id;
+        }
+
+        /// <summary>
+        /// Removes all active borders
+        /// </summary>
+        /// <param name="borderCloseLine">Print border line to close. Default: false</param>
+        public static void RemoveAllBoder(bool borderCloseLine = false)
+        {
+            // Write bottom border
+            if (borderCloseLine)
+                foreach (KeyValuePair<int, Border> borderMode in _activeBorderModes)
+                    PrintLine(borderMode.Value.BorderChar, borderMode.Value.BorderColorCode, borderMode.Value.ConsoleType);
+
+            // Remove all border
+            _activeBorderModes.Clear();
+
+            // Set new border size
+            _currentBorderSizes = 0;
+        }
+
+        /// <summary>
+        /// Removes a Border mode
+        /// </summary>
+        /// <param name="id">The id of the added border mode</param>
+        /// <param name="borderCloseLine">Print border line to close. Default: true</param>
+        public static void RemoveBorder(int id, bool borderCloseLine = true)
+        {
+            // Borderid invalid -> message & return;
+            if (!_activeBorderModes.ContainsKey(id))
+            {
+                WriteLine(ConsoleType.Warn, $"Unable to remove console border. Border id doesn't exists.");
+                return;
+            }
+
+            // Write close line if wanted
+            if (borderCloseLine)
+            {
+                Border thisBorder = _activeBorderModes[id];
+                PrintLine(thisBorder.BorderChar, thisBorder.BorderColorCode, thisBorder.ConsoleType);
+            }
+
+            // Remove from active borders
+            _activeBorderModes.Remove(id);
+
+            // Calculate new border size
+            _currentBorderSizes = _activeBorderModes.Sum(borderMode => borderMode.Value.BorderChar.Length);
         }
     }
 }

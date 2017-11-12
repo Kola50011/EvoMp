@@ -54,3 +54,4 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~!|!~", 0, "!01!", true, true)] CodeParsingOn,
     }
 }
+

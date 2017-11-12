@@ -77,9 +77,9 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Text should be centered
             if (centered)
-                return string.Empty.PadRight((restLength - 1) / 2) +
+                return string.Empty.PadRight((restLength ) / 2) +
                        text + (restLength % 2 == 0 ? "" : " ") +
-                       string.Empty.PadRight((restLength - 1) / 2);
+                       string.Empty.PadRight((restLength ) / 2);
 
             // Or text is filled up
             return text + string.Empty.PadRight(restLength);
@@ -231,10 +231,6 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Set current foreground color (Default: white)
             Color foregroundColor = Color.White;
-
-            string asd;
-            if (message.Contains("Fatal"))
-                   asd = String.Empty + "asd";
 
             // Replace color code 
             foreach (KeyValuePair<int, Color> currentCode in colorsWithPosition)
@@ -534,9 +530,11 @@ namespace EvoMp.Core.ConsoleHandler
         ///     Parsing a file line by line to a new string.
         ///     Adds ~n~ after each line.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Path to the textfile</param>
+        /// <param name="marginTopLines">Extra empty lines in top of the text file</param>
+        /// <param name="marginBottomLines">Extra empty lines after the text file</param>
         /// <returns></returns>
-        public static string ParseTextFileForConsole(string path)
+        public static string ParseTextFileForConsole(string path, int marginTopLines = 0, int marginBottomLines =0) 
         {
             // File does not exist -> message & return;
             if (!File.Exists(path))
@@ -547,12 +545,25 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             string returnString = string.Empty;
+            int longestLineLength = 0;
 
             // Read file line by line
             string currentLine;
             StreamReader streamReader = new StreamReader(path);
             while ((currentLine = streamReader.ReadLine()) != null)
+            {
                 returnString += currentLine + "~n~";
+                if (currentLine.Length > longestLineLength)
+                    longestLineLength = currentLine.Length;
+            }
+
+            // MarginTop
+            for (var i = 0; i < marginTopLines; i++)
+                returnString = String.Empty.PadRight(longestLineLength) + "~n~" + returnString;
+
+            // MarginTop
+            for (var i = 0; i < marginBottomLines; i++)
+                returnString += String.Empty.PadRight(longestLineLength) + "~n~";
 
             streamReader.Close();
 

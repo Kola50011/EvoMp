@@ -8,10 +8,10 @@
         [ConsoleTypeProperties("~#ff3300~", "~#21201e~~_#d23c3c~~...~")] Error,
         [ConsoleTypeProperties("~_~~#FF0000~", "~#FFF~~_#B71C1C~~...~~-^-~~-v-~~>-<~")] Fatal,
         [ConsoleTypeProperties("~#999999~")] Note,
-        [ConsoleTypeProperties("~#696969~", "~#696969~~_#fff~")] Debug,
-        [ConsoleTypeProperties("~#00ccff~", "", "Data")] Database,
+        [ConsoleTypeProperties("~#696969~", "~#FFF~~_#2E9AFE~~-^-~~-v-~~>-<~")] Debug,
+        [ConsoleTypeProperties("~#00ccff~", "", "DATA")] Database,
         [ConsoleTypeProperties("~#999999~", "", "----")] Line,
-        [ConsoleTypeProperties("~#ff9672~", "~#fff~", "Cfg")] Config,
+        [ConsoleTypeProperties("~#ff9672~", "~#fff~", "CONF")] Config,
 
         /// <summary>
         ///     This type gives only the message to the console output.

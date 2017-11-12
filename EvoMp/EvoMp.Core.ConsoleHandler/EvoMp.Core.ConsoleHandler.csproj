@@ -61,6 +61,7 @@
     <Compile Include="ConsoleTypeProperties.cs" />
     <Compile Include="ConsoleType.cs" />
     <Compile Include="ConsoleUtils.cs" />
+    <Compile Include="Models\Border.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
