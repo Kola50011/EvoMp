@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EvoMp.Core.ConsoleHandler.Models;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -13,7 +12,6 @@ namespace EvoMp.Core.ConsoleHandler
         private static int _lastHeaderLength;
 
         private static int _currentBorderSizes = 0;
-        private static readonly Dictionary<int, Border> _activeBorderModes = new Dictionary<int, Border>();
 
         /// <summary>
         ///     Writes a empty line
@@ -254,8 +252,7 @@ namespace EvoMp.Core.ConsoleHandler
                     }
                 }
             }
-
-
+            
             #endregion //Prepare Head and lines
 
 
@@ -310,19 +307,13 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             #endregion
-
-            // Add Border prefix to message
-            message = _activeBorderModes.Values.Aggregate(message, (current, activeBorder) => activeBorder.BorderColorCode + activeBorder.BorderChar + current);
-
+            
             // Append message to complete message
             writeMessage += message;
 
             // Add suffixs and possible linebreak
             writeMessage += suffix;
-
-            // Add Border suffix to message
-            message = _activeBorderModes.Values.Aggregate(message, (current, activeBorder) => current + activeBorder.BorderColorCode + activeBorder.BorderChar);
-
+            
             if (messageHasLinebreak)
                 writeMessage += "\n";
 
@@ -394,82 +385,6 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Write line
             WriteLine(consoleType, returnString, true);
-        }
-
-        /// <summary>
-        /// //TODO: Fix border logic
-        /// Adds a border to the ConsoleOutut.
-        /// If border added, messages looks like this:
-        /// "#  message  #"
-        /// </summary>
-        /// <param name="consoleType">The ConsoleType of the start and end border line</param>
-        /// <param name="borderChar">The string used as border</param>
-        /// <param name="colorCode">optinal color code for the border</param>
-        /// <returns>Created border ID</returns>
-        public static int AddBorder(ConsoleType consoleType, string borderChar, string colorCode = "")
-        {
-            int id = _activeBorderModes.Count + 1;
-            _activeBorderModes.Add(id, new Border()
-            {
-                ConsoleType = consoleType,
-                BorderChar = borderChar,
-                BorderColorCode = colorCode
-
-            });
-
-            // Calculate new border size
-            _currentBorderSizes = _activeBorderModes.Sum(borderMode => borderMode.Value.BorderChar.Length);
-
-            // Print top line
-            PrintLine(borderChar, colorCode, consoleType);
-
-            return id;
-        }
-
-        /// <summary>
-        /// Removes all active borders
-        /// </summary>
-        /// <param name="borderCloseLine">Print border line to close. Default: false</param>
-        public static void RemoveAllBoder(bool borderCloseLine = false)
-        {
-            // Write bottom border
-            if (borderCloseLine)
-                foreach (KeyValuePair<int, Border> borderMode in _activeBorderModes)
-                    PrintLine(borderMode.Value.BorderChar, borderMode.Value.BorderColorCode, borderMode.Value.ConsoleType);
-
-            // Remove all border
-            _activeBorderModes.Clear();
-
-            // Set new border size
-            _currentBorderSizes = 0;
-        }
-
-        /// <summary>
-        /// Removes a Border mode
-        /// </summary>
-        /// <param name="id">The id of the added border mode</param>
-        /// <param name="borderCloseLine">Print border line to close. Default: true</param>
-        public static void RemoveBorder(int id, bool borderCloseLine = true)
-        {
-            // Borderid invalid -> message & return;
-            if (!_activeBorderModes.ContainsKey(id))
-            {
-                WriteLine(ConsoleType.Warn, $"Unable to remove console border. Border id doesn't exists.");
-                return;
-            }
-
-            // Write close line if wanted
-            if (borderCloseLine)
-            {
-                Border thisBorder = _activeBorderModes[id];
-                PrintLine(thisBorder.BorderChar, thisBorder.BorderColorCode, thisBorder.ConsoleType);
-            }
-
-            // Remove from active borders
-            _activeBorderModes.Remove(id);
-
-            // Calculate new border size
-            _currentBorderSizes = _activeBorderModes.Sum(borderMode => borderMode.Value.BorderChar.Length);
         }
     }
 }
