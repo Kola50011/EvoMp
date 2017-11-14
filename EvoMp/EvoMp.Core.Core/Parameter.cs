@@ -24,5 +24,7 @@ namespace EvoMp.Core.Core
         /// Should placed in the ServerFilesFolder
         /// </summary>
         [ParameterProperties("-lg", "--LogoPath","-lg \"Server_Logo.txt\"", false, "Default_Logo.txt")] LogoFileName,
+
+       // [ParameterProperties(null, null, "")] None,
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
@@ -37,11 +38,11 @@ namespace EvoMp.Core.Core
             ConsoleOutput.SetConsoleTitle("EvoMp GT-MP Server Core. All rights reserverd.");
 
             // Load core startup parameter
-            ServerFilesFolder = ParameterHandler.GetFirstParameterString(Parameter.ServerFilesFolder);
+            ServerFilesFolder = ParameterHandler.GetFirstParameterValue(Parameter.ServerFilesFolder);
             if (!ServerFilesFolder.EndsWith("/") && !ServerFilesFolder.EndsWith("\\"))
                 ServerFilesFolder += "/";
 
-            string asciiLogoFile = ParameterHandler.GetFirstParameterString(Parameter.LogoFileName);
+            string asciiLogoFile = ParameterHandler.GetFirstParameterValue(Parameter.LogoFileName);
 
             #region Logo, Copyright, Server informations
 
@@ -52,11 +53,13 @@ namespace EvoMp.Core.Core
 
             ConsoleOutput.PrintLine("-", "~#E6E6E6~");
             // No Logo defined -> message and use default Logo
-            if (asciiLogoFile == ParameterHandler.GetStartParameterProperties(Parameter.LogoFileName).DefaultValue)
+            if (asciiLogoFile == ParameterHandler.GetParameterProperties(Parameter.LogoFileName).DefaultValue)
             {
                 ConsoleOutput.WriteCentredText(ConsoleType.Config,
                     $"Using logo file ~o~\"{Path.GetFullPath($"{asciiLogoFile}")}\"~;~.\n" +
-                    $"Please start your server with the ~b~\"{ParameterHandler.GetStartParameterProperties(Parameter.LogoFileName).ParameterIdentifier}\" ~;~ parameter.");
+                    $"Please start your server with the ~b~" +
+                    $"\"{ParameterHandler.GetParameterProperties(Parameter.LogoFileName).ParameterIdentifier}\" ~;~ " +
+                    $"parameter.");
                 ConsoleOutput.PrintLine("-", "~#E6E6E6~", ConsoleType.Config);
             }
 

@@ -21,11 +21,11 @@ namespace EvoMp.Core.Core
             if (_serverTypes != null)
                 return _serverTypes;
 
-            List<string> serverGamemodes = ParameterHandler.GetParameterStrings(Parameter.Gamemode);
+            List<string> serverGamemodes = ParameterHandler.GetParameterValues(Parameter.Gamemode);
             
             // Only default parameter gamemode value loaded -> warning
             if (serverGamemodes.Count == 1 &&
-                serverGamemodes.First() == ParameterHandler.GetStartParameterProperties(Parameter.Gamemode).DefaultValue)
+                serverGamemodes.First() == ParameterHandler.GetParameterProperties(Parameter.Gamemode).DefaultValue)
                 ConsoleOutput.WriteLine(ConsoleType.Config,
                     $"The server started without defined gamemodes, so the default value~o~ \"any\"~;~ was used. " +
                     $"Nevertheless, it is strongly advised to include the desired gamemodes, "  +
