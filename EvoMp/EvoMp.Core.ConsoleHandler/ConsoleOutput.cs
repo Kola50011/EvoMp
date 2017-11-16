@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
@@ -41,7 +42,7 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
-                return new[] {message};
+                return new[] { message };
 
             List<string> returnList = new List<string>();
             List<string> words = message.Split(' ').ToList();
@@ -119,7 +120,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Parse linebreaks for clear output
-            string[] messages = message.Trim().Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Trim().Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -129,7 +130,7 @@ namespace EvoMp.Core.ConsoleHandler
                 for (int b = 0; b < wrappedMessages.Length; b++)
                 {
                     bool firstMessageOfSet = i == 0 && b == 0;
-                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length-1;
+                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
                     InternalWrite(consoleType, _prefix + wrappedMessages[b] + "\n", false, "", firstMessageOfSet,
                         lastMessageOfSet);
                 }
@@ -144,7 +145,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
 
             // No text -> return;
             if (!messages.Any())
@@ -251,7 +252,7 @@ namespace EvoMp.Core.ConsoleHandler
                 if (_lastTimestamp == timestamp)
                 {
                     _countSameTimestamp++;
-                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
+                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float)0.011 * _countSameTimestamp);
                 }
                 else
                 {
@@ -333,12 +334,12 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Line Top
             if (firstMessageOfSet)
-                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier)) 
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
                     PrintLine("-", firstMessageColorCodes, consoleType);
 
             // Line bottom
             if (lastMessageOfSet)
-                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier)) 
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier))
                     printLineBottom = true;
 
             // Append message to complete message
