@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using EvoMp.Core.Core;
 using EvoMp.Core.ModuleProperties;
-using EvoMp.Module.Logger;
+using EvoMp.Core.ConsoleHandler;
 
 namespace EvoMp.Module.DbAccess
 {
    
     public class DbAccess : IDbAccess
     {
-        public DbAccess(ILogger logger)
+        public DbAccess()
         {
             string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
@@ -27,8 +28,8 @@ namespace EvoMp.Module.DbAccess
                                                  Split(';').ToList();
 
             // Write console output
-            logger.Write($"Using Database {connectionParameters.Find(s => s.ToLower().StartsWith("initial catalog"))?.Trim()}", 
-                LogCase.System);
+            ConsoleOutput.WriteLine(ConsoleType.Database,
+                $"Database: ~#8effa3~{connectionParameters.Find(s => s.ToLower().StartsWith("initial catalog"))?.Trim()}");
         }
     }
 }

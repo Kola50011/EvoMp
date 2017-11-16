@@ -57,8 +57,6 @@ namespace EvoMp.Core.Core
                     $"parameter.");
             }
 
-            //ConsoleOutput.PrintLine("-", "~#E6E6E6~", ConsoleType.Config);
-
             // GetServerGamemodes writes cfg message to if not setten
             string moduleTypesString =
                 string.Join(", ", ModuleTypeHandler.GetServerGamemodes().ToList().ConvertAll(input => input.ToUpper()));

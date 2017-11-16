@@ -23,7 +23,7 @@ namespace EvoMp.Core.Core
             ConsoleOutput.PrintLine("-");
             ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules now.");
 
-            // Collec module paths
+            // Collect module paths
             List<string> modulePaths = Directory.GetFiles(@".\resources\EvoMp\dist", "EvoMp.Module.*.dll",
                 SearchOption.AllDirectories).ToList();
 
@@ -138,7 +138,7 @@ namespace EvoMp.Core.Core
                             $"~#51ff76~{moduleInterface.Name}~;~ [~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
                             $"~c~{moduleProperties.ModuleDescription}");
 
-                        ConsoleOutput.AppendPrefix("\t ~c~> ~w~");
+                        ConsoleOutput.AppendPrefix("\t ~w~> ");
 
                         // Start module
                         kernel.Get(moduleClass);

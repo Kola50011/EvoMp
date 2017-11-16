@@ -1,5 +1,5 @@
 ﻿using System.Timers;
-using EvoMp.Module.Logger;
+using EvoMp.Core.ConsoleHandler;
 using EvoMp.Module.UserHandler.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -10,15 +10,13 @@ namespace EvoMp.Module.UserHandler
     public class SpawnManager
     {
         private readonly API _api;
-        private readonly ILogger _logger;
         private readonly UserRepository _userRepository;
 
-        public SpawnManager(API api, UserRepository userRepository, ILogger logger)
+        public SpawnManager(API api, UserRepository userRepository)
         {
             _api = api;
             _api.onPlayerDisconnected += OnPlayerDisconnectedHandler;
             _userRepository = userRepository;
-            _logger = logger;
 
             Timer myTimer = new Timer();
             myTimer.Elapsed += DelayEvent;
@@ -53,7 +51,7 @@ namespace EvoMp.Module.UserHandler
                 Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
                 if (client == null)
                 {
-                    _logger.Write("Client is null in SaveUserPosition", LogCase.Warn);
+                    ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SaveUserPosition");
                     return;
                 }
                 userContext.Users.Attach(user);
@@ -74,7 +72,7 @@ namespace EvoMp.Module.UserHandler
             Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
             if (client == null)
             {
-                _logger.Write("Client is null in SaveUserPosition", LogCase.Warn);
+                ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SaveUserPosition");
                 return;
             }
 
@@ -95,7 +93,7 @@ namespace EvoMp.Module.UserHandler
             Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
             if (client == null)
             {
-                _logger.Write("Client is null in RestoreUserPosition", LogCase.Warn);
+                ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in RestoreUserPosition");
                 return;
             }
 
@@ -107,14 +105,14 @@ namespace EvoMp.Module.UserHandler
         {
             if (client == null)
             {
-                _logger.Write("Client is null in OnPlayerDisconnectedHandler", LogCase.Warn);
+                ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in OnPlayerDisconnectedHandler");
                 return;
             }
 
             User user = _userRepository.GetUserBySocialClubName(client.socialClubName);
             if (user == null)
             {
-                _logger.Write("User is null in OnPlayerDisconnectedHandler", LogCase.Warn);
+                ConsoleOutput.WriteLine(ConsoleType.Warn, "User is null in OnPlayerDisconnectedHandler");
                 return;
             }
             
@@ -126,7 +124,7 @@ namespace EvoMp.Module.UserHandler
             Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
             if (client == null)
             {
-                _logger.Write("Client is null in SpawnUser", LogCase.Warn);
+                ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SpawnUser");
                 return;
             }
 

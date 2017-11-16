@@ -95,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
+      <Project>{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}</Project>
+      <Name>EvoMp.Core.ConsoleHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
       <Name>EvoMp.Core.Core</Name>
@@ -110,10 +114,6 @@
     <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
       <Name>EvoMp.Module.EventHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.Logger\EvoMp.Module.Logger.csproj">
-      <Project>{86c15e76-4d13-425c-9d85-e8713f711721}</Project>
-      <Name>EvoMp.Module.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

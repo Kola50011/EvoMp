@@ -43,11 +43,12 @@ namespace EvoMp.Core.Core
             // (Including *.pdb files. Used for debugging)
             try
             {
+               ConsoleOutput.AppendPrefix("\t");
                 // Search for modules.
                 List<string> newModules = Directory.EnumerateFiles(projectSolutionCompiledModulesFolder,
                         "EvoMp.Module.*.*",
                         SearchOption.AllDirectories)
-                    .Where(path => path.Contains(@"bin\Debug"))
+                    .Where(path => path.Contains(@"bin\") && path.Contains(@" - Debug"))
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb"))
                     .ToList();
 
@@ -65,7 +66,7 @@ namespace EvoMp.Core.Core
                     File.Copy(newModule, destFile, true);
                     if (destFile.EndsWith(".dll"))
                         ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"  Copying module: \"{Path.GetFileName(destFile)}\".");
+                            $"Copying module: ~#83cfff~\"{Path.GetFileName(destFile)}\".");
                 }
 
                 // Delete old modules
@@ -74,13 +75,14 @@ namespace EvoMp.Core.Core
                 {
                     File.Delete(deleteModule);
                     ConsoleOutput.WriteLine(ConsoleType.Core,
-                        $"  Deleted old module: \"{Path.GetFileName(deleteModule)}\".");
+                        $"Delete old module: ~#83cfff~\"{Path.GetFileName(deleteModule)}\".");
                 }
+                ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)
             {
                 // Throw exception
-                throw new Exception($"  Internal error in \"EvoMp.Core.Core.ModuleStructure\" " +
+                throw new Exception($"Internal error in \"EvoMp.Core.Core.ModuleStructure\" " +
                                     $"{Environment.NewLine}" +
                                     $"{exception.Message}{Environment.NewLine}" +
                                     $"{exception.StackTrace}");
@@ -157,17 +159,20 @@ namespace EvoMp.Core.Core
                             continue;
                         }
                     }
+
                     if (!captionWritten)
                     {
                         ConsoleOutput.WriteLine(ConsoleType.Core, "Using dependencys: ");
                         captionWritten = true;
+                        ConsoleOutput.AppendPrefix("\t");
                     }
-
+                    
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                     if (packageFile.EndsWith(".dll"))
-                        ConsoleOutput.WriteLine(ConsoleType.Core, $"\t~#83cfff~\"{Path.GetFileName(packageFile)}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core, $"~#83cfff~\"{Path.GetFileName(packageFile)}\".");
                 }
+                ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)
             {
