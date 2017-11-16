@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EvoMp.Core.Core
+namespace EvoMp.Core.Parameter
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class ParameterProperties : Attribute
@@ -28,8 +28,8 @@ namespace EvoMp.Core.Core
 
 
             // Set properties
-            ParameterIdentifier = parameterIdentifier;
-            ShortParameterIdentifier = shortParameterIdentifier;
+            ParameterIdentifier = parameterIdentifier.ToLower();
+            ShortParameterIdentifier = shortParameterIdentifier.ToLower();
             Description = description;
             MultipleUseAllowed = multipleUseAllowed;
             DefaultValue = defaultValue;

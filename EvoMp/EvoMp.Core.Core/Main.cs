@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler;
+using EvoMp.Core.Parameter;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Core
@@ -30,35 +31,37 @@ namespace EvoMp.Core.Core
             // Prepare Console set title
             ConsoleHandler.ConsoleHandler.PrepareConsole();
 
-            // Prepare Parameter
-            ParameterHandler.PrepareParameter();
+            // Register Core Parameter Enum
+            ParameterHandler.RegisterParameterEnum(new CoreParameter());
+            ParameterHandler.RegisterParameterEnum(new CoreParameterTwoTest());
 
             #endregion // Core preparing / initialization
 
             ConsoleOutput.SetConsoleTitle("EvoMp GT-MP Server Core. All rights reserverd.");
 
             // Load core startup parameter
-            ServerFilesFolder = ParameterHandler.GetFirstParameterValue(Parameter.ServerFilesFolder);
+            ServerFilesFolder = ParameterHandler.GetFirstParameterValue(CoreParameter.ServerFilesFolder);
             if (!ServerFilesFolder.EndsWith("/") && !ServerFilesFolder.EndsWith("\\"))
                 ServerFilesFolder += "/";
 
-            string asciiLogoFile = ParameterHandler.GetFirstParameterValue(Parameter.LogoFileName);
+            string asciiLogoFile = ParameterHandler.GetFirstParameterValue(CoreParameter.LogoFileName);
 
             #region Logo, Copyright, Server informations
+
+            ConsoleOutput.PrintLine("-", "~#E6E6E6~");
 
             // Write logo from logo file
             ConsoleOutput.WriteCentredText(ConsoleType.Note,
                 ConsoleUtils.ParseTextFileForConsole($"{ServerFilesFolder}{asciiLogoFile}",
                     2, 1));
 
-            ConsoleOutput.PrintLine("-", "~#E6E6E6~");
             // No Logo defined -> message and use default Logo
-            if (asciiLogoFile == ParameterHandler.GetParameterProperties(Parameter.LogoFileName).DefaultValue)
+            if (asciiLogoFile == ParameterHandler.GetParameterProperties(CoreParameter.LogoFileName).DefaultValue)
             {
                 ConsoleOutput.WriteCentredText(ConsoleType.Config,
                     $"Using logo file ~o~\"{Path.GetFullPath($"{asciiLogoFile}")}\"~;~.\n" +
                     $"Please start your server with the ~b~" +
-                    $"\"{ParameterHandler.GetParameterProperties(Parameter.LogoFileName).ParameterIdentifier}\" ~;~ " +
+                    $"\"{ParameterHandler.GetParameterProperties(CoreParameter.LogoFileName).ParameterIdentifier}\" ~;~ " +
                     $"parameter.");
                 ConsoleOutput.PrintLine("-", "~#E6E6E6~", ConsoleType.Config);
             }

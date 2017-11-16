@@ -141,18 +141,19 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Parse linebreaks for clear output
             string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
-            /*
-            // Cut messages to fit in the console
-            for (var i = 0; i < messages.Length; i++)
-                InternalWrite(consoleType, messages[i] + "\n");*/
+
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
             {
-                //    InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
                 // wrapp messages if they are to long for the console space
                 string[] wrappedMessages = WordWrapMessage(messages[i]);
                 for (int b = 0; b < wrappedMessages.Length; b++)
-                    InternalWrite(consoleType, wrappedMessages[b] + "\n");
+                {
+                    bool firstMessageOfSet = i == 0 && b == 0;
+                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length-1;
+                    InternalWrite(consoleType, wrappedMessages[b] + "\n", false, "", firstMessageOfSet,
+                        lastMessageOfSet);
+                }
             }
         }
 
@@ -166,9 +167,18 @@ namespace EvoMp.Core.ConsoleHandler
             // Parse linebreaks for clear output
             string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
+            // No text -> return;
+            if (!messages.Any())
+                return;
+
             int longestTextLine = messages.OrderBy(s => s.Length).First().Length;
-            foreach (string singleMessage in messages)
-                InternalWrite(consoleType, ConsoleUtils.AlignText(singleMessage, longestTextLine, true), true, "\n");
+            for (var i = 0; i < messages.Length; i++)
+            {
+                bool firstMessageOfSet = i == 0;
+                bool lastMessageOfSet = i == messages.Length;
+                InternalWrite(consoleType, ConsoleUtils.AlignText(messages[i], longestTextLine, true), true, "\n",
+                    firstMessageOfSet, lastMessageOfSet);
+            }
         }
 
         /// <summary>
@@ -179,8 +189,10 @@ namespace EvoMp.Core.ConsoleHandler
         /// <param name="message">The message with color codes</param>
         /// <param name="centered">Should the text be centered?</param>
         /// <param name="suffix">Message suffix?</param>
+        /// <param name="firstMessageOfSet"></param>
+        /// <param name="lastMessageOfSet"></param>
         private static void InternalWrite(ConsoleType consoleType, string message, bool centered = false,
-            string suffix = "")
+            string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
             // Message empty -> return;
             if (string.IsNullOrEmpty(message))
@@ -207,8 +219,8 @@ namespace EvoMp.Core.ConsoleHandler
                 if (message.StartsWith($"{firstMessageColorCodes}{colorCode}"))
                     firstMessageColorCodes += colorCode;
 
-            ConsoleUtils.ParseColorCodesSimple(message);
-            
+            //ConsoleUtils.ParseColorCodesSimple(message);
+
             bool wasControlCodeLine = false;
             bool messageHasLinebreak = false;
 
@@ -316,10 +328,16 @@ namespace EvoMp.Core.ConsoleHandler
             bool printLineBottom = false;
 
             // React to special control codes
-            if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier)) // Line Top
-                PrintLine("-", firstMessageColorCodes, consoleType);
-            if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier)) // Line bottom
-                printLineBottom = true;
+
+            // Line Top
+            if (firstMessageOfSet)
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier)) 
+                    PrintLine("-", firstMessageColorCodes, consoleType);
+
+            // Line bottom
+            if (lastMessageOfSet)
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier)) 
+                    printLineBottom = true;
 
             // Append message to complete message
             writeMessage += message;
@@ -351,6 +369,16 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Reset console colors
             Console.ResetColor();
+        }
+
+        public static void WriteException(string message)
+        {
+            Exception exception = new Exception(message);
+            message = $"Exception: ~o~{exception.Message}~;~\n" +
+                      $"at: ~o~{exception.Source}~;~\n" +
+                      $"{" ".PadRight(60, '-')}\n" +
+                      $"{exception.StackTrace}";
+            WriteLine(ConsoleType.Fatal, message);
         }
 
         /// <summary>

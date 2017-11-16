@@ -12,7 +12,7 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~r~", KnownColor.Red)] Red,
         [ColorCodePropertie("~b~", KnownColor.Cyan)] Blue,
         [ColorCodePropertie("~g~", KnownColor.LimeGreen)] Green,
-        [ColorCodePropertie("~y~", KnownColor.LightYellow)] Yellow,
+        [ColorCodePropertie("~y~", KnownColor.Yellow)] Yellow,
         [ColorCodePropertie("~p~", KnownColor.Purple)] Purple,
         [ColorCodePropertie("~q~", KnownColor.Pink)] Pink,
         [ColorCodePropertie("~o~", KnownColor.Orange)] Orange,

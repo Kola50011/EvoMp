@@ -594,7 +594,7 @@ namespace EvoMp.Core.ConsoleHandler
             if (!File.Exists(path))
             {
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    $"Can't load the text file ~o~\"path\"~w~. File ignored.");
+                    $"Can't load the text file ~r~\"{path}\"~w~. File ignored.");
                 return string.Empty;
             }
 

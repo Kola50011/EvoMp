@@ -91,14 +91,13 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParameterProperties.cs" />
+    <Compile Include="CoreParameterTwoTest.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModuleLoader.cs" />
     <Compile Include="ModuleStructurer.cs" />
     <Compile Include="ModuleTypeHandler.cs" />
-    <Compile Include="ParameterHandler.cs" />
+    <Compile Include="CoreParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Parameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -114,6 +113,10 @@
     <ProjectReference Include="..\EvoMp.Core.ModuleProperties\EvoMp.Core.ModuleProperties.csproj">
       <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
       <Name>EvoMp.Core.ModuleProperties</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.ParameterHandler\EvoMp.Core.Parameter.csproj">
+      <Project>{EE63F684-46DB-466E-82B2-74F988F3DD4B}</Project>
+      <Name>EvoMp.Core.Parameter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

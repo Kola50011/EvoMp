@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EvoMp.Core.Parameter;
 
 namespace EvoMp.Core.Core
 {
-    public enum Parameter
+    public enum CoreParameter
     {
         /// <summary>
         /// Used to select server gamemode.
@@ -16,6 +12,7 @@ namespace EvoMp.Core.Core
 
         /// <summary>
         /// Folder where server relevant files placed
+        /// //TODO: Remove and only use full paths.
         /// </summary>
         [ParameterProperties("-sff", "--ServerFilesFolder", "-sff \"./ServerFiles/\"", false, "./ServerFiles/")] ServerFilesFolder,
 
@@ -25,6 +22,6 @@ namespace EvoMp.Core.Core
         /// </summary>
         [ParameterProperties("-lg", "--LogoPath","-lg \"Server_Logo.txt\"", false, "Default_Logo.txt")] LogoFileName,
 
-       // [ParameterProperties(null, null, "")] None,
+        //[ParameterProperties(null, null, "")] None,
     }
 }
