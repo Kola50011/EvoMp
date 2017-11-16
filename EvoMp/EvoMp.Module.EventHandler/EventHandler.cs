@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using EvoMp.Module.Logger;
+using EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -10,38 +10,35 @@ namespace EvoMp.Module.EventHandler
     public class EventHandler : IEventHandler
     {
         private readonly API _api;
-        private readonly ILogger _logger;
 
         //ServerEvents
         private readonly Dictionary<string, List<ServerEventHandle>> _subscriberList =
             new Dictionary<string, List<ServerEventHandle>>();
 
-        public EventHandler(API api, ILogger logger)
+        public EventHandler(API api)
         {
             _api = api;
             _api.onClientEventTrigger += InvokeServerEvent;
-            _logger = logger;
         }
 
         // ClientEvents
         public void InvokeClientEvent(Client client, string eventName, params object[] args)
         {
-            _logger.Write(eventName + " for " + client.name + " with " + JsonConvert.SerializeObject(args),
-                LogCase.ClientEvent);
+            ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " for " + client.name + " with " + JsonConvert.SerializeObject(args));
             _api.triggerClientEvent(client, eventName, args);
         }
 
         public void InvokeClientEvent(string eventName, params object[] args)
         {
-            _logger.Write(eventName + "for everyone with " + JsonConvert.SerializeObject(args),
-                LogCase.ClientEvent);
+            ConsoleOutput.WriteLine(ConsoleType.Event,
+                eventName + "for everyone with " + JsonConvert.SerializeObject(args));
             _api.triggerClientEventForAll(eventName, args);
         }
 
         public void SubscribeToServerEvent(string eventName, ServerEventHandle serverEventHandle)
         {
-            _logger.Write("SubscribeToServerEvent " + eventName + " with " + serverEventHandle.Cab.Method.Name,
-                LogCase.System);
+            ConsoleOutput.WriteLine(ConsoleType.Event,
+                "SubscribeToServerEvent " + eventName + " with " + serverEventHandle.Cab.Method.Name);
 
             List<ServerEventHandle> list = new List<ServerEventHandle>();
 
@@ -62,13 +59,13 @@ namespace EvoMp.Module.EventHandler
                 if (argsDir.ContainsKey("password"))
                     argsDir["password"] = "*****";
 
-                _logger.Write(eventName + " invoked by " + client.name + " with " +
-                              JsonConvert.SerializeObject(argsDir), LogCase.ServerEvent);
+                ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
+                              JsonConvert.SerializeObject(argsDir));
             }
             else
             {
-                _logger.Write(eventName + " invoked by " + client.name + " with " +
-                              JsonConvert.SerializeObject(args), LogCase.ServerEvent);
+                ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
+                              JsonConvert.SerializeObject(args));
             }
 
             if (_subscriberList.ContainsKey(eventName))

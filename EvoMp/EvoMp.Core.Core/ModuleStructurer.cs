@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EvoMp.Core.ConsoleHandler;
+
 
 namespace EvoMp.Core.Core
 {
+
+    //TODO: @OpenSource "EvoMp" entfernen
     public class ModuleStructurer
     {
         /// <summary>
@@ -19,7 +23,7 @@ namespace EvoMp.Core.Core
             Console.WriteLine("Release state. Copying modules skipped.");
             return;
 #endif
-            Console.WriteLine(
+            ConsoleOutput.WriteLine(ConsoleType.Core,
                 $"Refreshing server resource modules...");
             // Define constants for the folder top copy from and to copy to
             const string gtMpServerModulesFolder = @".\resources\EvoMp\dist";
@@ -39,11 +43,12 @@ namespace EvoMp.Core.Core
             // (Including *.pdb files. Used for debugging)
             try
             {
+               ConsoleOutput.AppendPrefix("\t");
                 // Search for modules.
                 List<string> newModules = Directory.EnumerateFiles(projectSolutionCompiledModulesFolder,
                         "EvoMp.Module.*.*",
                         SearchOption.AllDirectories)
-                    .Where(path => path.Contains(@"bin\Debug"))
+                    .Where(path => path.Contains(@"bin\") && path.Contains(@" - Debug"))
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb"))
                     .ToList();
 
@@ -60,7 +65,8 @@ namespace EvoMp.Core.Core
                     // Copy new module & write message
                     File.Copy(newModule, destFile, true);
                     if (destFile.EndsWith(".dll"))
-                        Console.WriteLine($"  Copying module: \"{Path.GetFileName(destFile)}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core,
+                            $"Copying module: ~#83cfff~\"{Path.GetFileName(destFile)}\".");
                 }
 
                 // Delete old modules
@@ -68,13 +74,15 @@ namespace EvoMp.Core.Core
                     .Contains(Path.GetFileName(t))))
                 {
                     File.Delete(deleteModule);
-                    Console.WriteLine($"  Deleted old module: \"{Path.GetFileName(deleteModule)}\".");
+                    ConsoleOutput.WriteLine(ConsoleType.Core,
+                        $"Delete old module: ~#83cfff~\"{Path.GetFileName(deleteModule)}\".");
                 }
+                ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)
             {
                 // Throw exception
-                throw new Exception($"  Internal error in \"EvoMp.Core.Core.ModuleStructure\" " +
+                throw new Exception($"Internal error in \"EvoMp.Core.Core.ModuleStructure\" " +
                                     $"{Environment.NewLine}" +
                                     $"{exception.Message}{Environment.NewLine}" +
                                     $"{exception.StackTrace}");
@@ -100,9 +108,9 @@ namespace EvoMp.Core.Core
             try
             {
                 // Search for module NuGet Packages
-                Console.WriteLine(
-                    $"Searching for new module dependency packages in " +
-                    $"\"{Path.GetFullPath(projectSolutionModulesFolder)}\\*\".");
+                ConsoleOutput.WriteLine(ConsoleType.Core,
+                    $"Searching for new module dependency packages in  " +
+                    $"~#83cfff~\"{Path.GetFullPath(projectSolutionModulesFolder)}\\*\"~;~.");
                 List<string> packageFiles = Directory.EnumerateFiles(projectSolutionModulesFolder,
                         projectSolutionModulesPackagesPattern,
                         SearchOption.AllDirectories)
@@ -111,9 +119,9 @@ namespace EvoMp.Core.Core
                     .ToList();
 
                 // Search for solution NuGet packages
-                Console.WriteLine(
+                ConsoleOutput.WriteLine(ConsoleType.Core,
                     $"Searching for new solution dependency packages in " +
-                    $"\"{Path.GetFullPath(projectSolutionNuGetPackagesFolder)}\\*\".");
+                    $"~#83cfff~\"{Path.GetFullPath(projectSolutionNuGetPackagesFolder)}\\*\"~;~.");
                 packageFiles.AddRange(Directory.EnumerateFiles(projectSolutionNuGetPackagesFolder, "*",
                         SearchOption.AllDirectories)
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("xml"))
@@ -124,6 +132,7 @@ namespace EvoMp.Core.Core
                 // Clear duplicates
                 packageFiles = packageFiles.Distinct().ToList();
 
+                bool captionWritten = false;
                 // Copy new NuGet packages
                 foreach (string packageFile in packageFiles)
                 {
@@ -151,11 +160,19 @@ namespace EvoMp.Core.Core
                         }
                     }
 
+                    if (!captionWritten)
+                    {
+                        ConsoleOutput.WriteLine(ConsoleType.Core, "Using dependencys: ");
+                        captionWritten = true;
+                        ConsoleOutput.AppendPrefix("\t");
+                    }
+                    
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                     if (packageFile.EndsWith(".dll"))
-                        Console.WriteLine($"  Using new package file: \"{Path.GetFileName(packageFile)}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core, $"~#83cfff~\"{Path.GetFileName(packageFile)}\".");
                 }
+                ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)
             {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EvoMp.Core.ConsoleHandler;
+using EvoMp.Core.Parameter;
 
 namespace EvoMp.Core.Core
 {
@@ -8,35 +10,40 @@ namespace EvoMp.Core.Core
     {
         private static string[] _serverTypes;
 
-        public static string[] GetServerTypes()
+        /// <summary>
+        /// Gets the given server gamemodes.
+        /// The gamemodes are used to load modules filtered.
+        /// If no gamemodes given, any modules would be loaded.
+        /// </summary>
+        /// <returns>Array[string] with server gamemodes</returns>
+        public static string[] GetServerGamemodes()
         {
             // ServerType already setten -> return;
             if (_serverTypes != null)
                 return _serverTypes;
 
-            List<string> moduleTypes = new List<string>();
+            List<string> serverGamemodes = ParameterHandler.GetParameterValues(CoreParameter.Gamemode);
+            
+            // Only default parameter gamemode value loaded -> warning
+            if (serverGamemodes.Count == 1 &&
+                serverGamemodes.First() == ParameterHandler.GetParameterProperties(CoreParameter.Gamemode).DefaultValue)
+                ConsoleOutput.WriteLine(ConsoleType.Config,
+                    $"The server started without defined gamemodes, so the default value~o~ \"any\"~;~ was used. " +
+                    $"Nevertheless, it is strongly advised to include the desired gamemodes, "  +
+                    $"because mode ~o~\"any\"~;~ could have massive side effects.");
 
-            foreach (string commandLineArg in Environment.GetCommandLineArgs())
-                if(commandLineArg.ToLower().StartsWith("-g "))
-                    moduleTypes.Add(commandLineArg.Substring("-g ".Length).Trim());
+            // Shared is always needed
+            serverGamemodes.Add("shared");
 
-            //TODO: remove later or find better solution
-            //TODO: Create issue for this todo
-            if (!moduleTypes.Any())
-            {
-                moduleTypes.Add("freeroam");
-                moduleTypes.Add("roleplay");
-            }
-
-            moduleTypes.Add("shared");
-
-            _serverTypes = moduleTypes.ToArray();
+            // Cast to array
+            _serverTypes = serverGamemodes.ToArray();
             return _serverTypes;
         }
 
         public static bool IsModuleTypeValid(string moduleType)
         {
-            return GetServerTypes().Select(s => s.ToLower()).Contains(moduleType.ToLower());
+            return GetServerGamemodes().Contains("any") || 
+                GetServerGamemodes().Select(s => s.ToLower()).Contains(moduleType.ToLower());
         }
     }
 }

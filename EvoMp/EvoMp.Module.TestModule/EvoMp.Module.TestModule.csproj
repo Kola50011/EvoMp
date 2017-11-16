@@ -94,10 +94,6 @@
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
       <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.Logger\EvoMp.Module.Logger.csproj">
-      <Project>{86C15E76-4D13-425C-9D85-E8713F711721}</Project>
-      <Name>EvoMp.Module.Logger</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

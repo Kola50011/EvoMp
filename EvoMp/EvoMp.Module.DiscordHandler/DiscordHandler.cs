@@ -1,7 +1,7 @@
 ﻿using System;
+using EvoMp.Core.ConsoleHandler;
 using EvoMp.Module.DiscordHandler.Entity;
 using EvoMp.Module.EventHandler;
-using EvoMp.Module.Logger;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.DiscordHandler
@@ -11,16 +11,16 @@ namespace EvoMp.Module.DiscordHandler
         public DiscordRepository DiscordRepository;
         public BotManagment.BotManagment BotManagment;
 
-        public DiscordHandler(API api, IEventHandler eventHandler, ILogger logger)
+        public DiscordHandler(API api, IEventHandler eventHandler)
         {
             DiscordRepository = DiscordRepository.GetInstance();
             DiscordEvents.GetInstance();
-            BotManagment = new BotManagment.BotManagment(DiscordRepository, logger);
+            BotManagment = new BotManagment.BotManagment(DiscordRepository);
 
             // Debug
             DiscordEvents.OnChannelMessage += (channel, author, message) =>
             {
-                logger.Write($"{channel.ChannelName} -> {author.Username}: ${message}", LogCase.Discord);
+                ConsoleOutput.WriteLine(ConsoleType.Debug, $"{channel.ChannelName} -> {author.Username}: ${message}");
             };
         }
     }
