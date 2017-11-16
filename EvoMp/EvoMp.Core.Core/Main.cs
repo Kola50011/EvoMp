@@ -19,8 +19,6 @@ namespace EvoMp.Core.Core
 
         #endregion //DebugKonstante
 
-        public static string ServerFilesFolder = string.Empty;
-
         public Main()
         {
             #region Core preparing / initialization
@@ -33,17 +31,12 @@ namespace EvoMp.Core.Core
 
             // Register Core Parameter Enum
             ParameterHandler.RegisterParameterEnum(new CoreParameter());
-            ParameterHandler.RegisterParameterEnum(new CoreParameterTwoTest());
 
             #endregion // Core preparing / initialization
 
             ConsoleOutput.SetConsoleTitle("EvoMp GT-MP Server Core. All rights reserverd.");
 
             // Load core startup parameter
-            ServerFilesFolder = ParameterHandler.GetFirstParameterValue(CoreParameter.ServerFilesFolder);
-            if (!ServerFilesFolder.EndsWith("/") && !ServerFilesFolder.EndsWith("\\"))
-                ServerFilesFolder += "/";
-
             string asciiLogoFile = ParameterHandler.GetFirstParameterValue(CoreParameter.LogoFileName);
 
             #region Logo, Copyright, Server informations
@@ -51,9 +44,8 @@ namespace EvoMp.Core.Core
             ConsoleOutput.PrintLine("-", "~#E6E6E6~");
 
             // Write logo from logo file
-            ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                ConsoleUtils.ParseTextFileForConsole($"{ServerFilesFolder}{asciiLogoFile}",
-                    2, 1));
+            ConsoleOutput.WriteCentredText(ConsoleType.Note, 
+                ConsoleUtils.ParseTextFileForConsole($"{asciiLogoFile}",2, 1));
 
             // No Logo defined -> message and use default Logo
             if (asciiLogoFile == ParameterHandler.GetParameterProperties(CoreParameter.LogoFileName).DefaultValue)
@@ -63,8 +55,9 @@ namespace EvoMp.Core.Core
                     $"Please start your server with the ~b~" +
                     $"\"{ParameterHandler.GetParameterProperties(CoreParameter.LogoFileName).ParameterIdentifier}\" ~;~ " +
                     $"parameter.");
-                ConsoleOutput.PrintLine("-", "~#E6E6E6~", ConsoleType.Config);
             }
+
+            //ConsoleOutput.PrintLine("-", "~#E6E6E6~", ConsoleType.Config);
 
             // GetServerGamemodes writes cfg message to if not setten
             string moduleTypesString =
@@ -74,7 +67,6 @@ namespace EvoMp.Core.Core
             const string rightServerInfo = "~#ECEFF1~";
 
             // Tiny gray line & Empty
-            ConsoleOutput.PrintLine("-", "~#E6E6E6~");
             ConsoleOutput.PrintLine(" ");
 
             // Small centered line with headline & developer
@@ -119,7 +111,6 @@ namespace EvoMp.Core.Core
             ConsoleOutput.PrintLine("-");
 
             #endregion Logo, Copyright, Server informations
-
 
             // Write information about Core startup
             ConsoleOutput.WriteLine(ConsoleType.Core, "Initializing EvoMp Core...");

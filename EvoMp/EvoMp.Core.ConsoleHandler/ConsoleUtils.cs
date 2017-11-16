@@ -164,7 +164,6 @@ namespace EvoMp.Core.ConsoleHandler
                 : ParseColorCode();
         }
 
-
         /// <summary>
         ///     Creates a Dictionary wich contains the gtmp color code
         ///     and the matching console color for the gtmp font color string.

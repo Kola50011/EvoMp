@@ -107,8 +107,8 @@ namespace EvoMp.Core.Core
             {
                 // Search for module NuGet Packages
                 ConsoleOutput.WriteLine(ConsoleType.Core,
-                    $"Searching for new module dependency packages in\n  " +
-                    $"\"{Path.GetFullPath(projectSolutionModulesFolder)}\\*\".");
+                    $"Searching for new module dependency packages in  " +
+                    $"~#83cfff~\"{Path.GetFullPath(projectSolutionModulesFolder)}\\*\"~;~.");
                 List<string> packageFiles = Directory.EnumerateFiles(projectSolutionModulesFolder,
                         projectSolutionModulesPackagesPattern,
                         SearchOption.AllDirectories)
@@ -118,8 +118,8 @@ namespace EvoMp.Core.Core
 
                 // Search for solution NuGet packages
                 ConsoleOutput.WriteLine(ConsoleType.Core,
-                    $"Searching for new solution dependency packages in\n  " +
-                    $"\"{Path.GetFullPath(projectSolutionNuGetPackagesFolder)}\\*\".");
+                    $"Searching for new solution dependency packages in " +
+                    $"~#83cfff~\"{Path.GetFullPath(projectSolutionNuGetPackagesFolder)}\\*\"~;~.");
                 packageFiles.AddRange(Directory.EnumerateFiles(projectSolutionNuGetPackagesFolder, "*",
                         SearchOption.AllDirectories)
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("xml"))
@@ -130,6 +130,7 @@ namespace EvoMp.Core.Core
                 // Clear duplicates
                 packageFiles = packageFiles.Distinct().ToList();
 
+                bool captionWritten = false;
                 // Copy new NuGet packages
                 foreach (string packageFile in packageFiles)
                 {
@@ -156,12 +157,16 @@ namespace EvoMp.Core.Core
                             continue;
                         }
                     }
+                    if (!captionWritten)
+                    {
+                        ConsoleOutput.WriteLine(ConsoleType.Core, "Using dependencys: ");
+                        captionWritten = true;
+                    }
 
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                     if (packageFile.EndsWith(".dll"))
-                        ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"  Using new package file: \"{Path.GetFileName(packageFile)}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core, $"\t~#83cfff~\"{Path.GetFileName(packageFile)}\".");
                 }
             }
             catch (Exception exception)

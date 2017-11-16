@@ -14,7 +14,7 @@ namespace EvoMp.Core.Parameter
         /// <summary>
         ///     List with all parameters and ther values
         /// </summary>
-        private static Dictionary<string, Parameter> _parameterList = new Dictionary<string, Parameter>();
+        private static Dictionary<string, Enum> _parameterList = new Dictionary<string, Enum>();
 
         /// <summary>
         ///     Stored all enums wich are registered as ParameterEnum
@@ -66,7 +66,11 @@ namespace EvoMp.Core.Parameter
             return onlyUnique;
         }
 
-
+        /// <summary>
+        ///     Registering a enum as parameter enum.
+        ///     All Enum items must use the ParameterProperties attribute.
+        /// </summary>
+        /// <param name="parameterEnum">The enum (new enum()) that should be registered.</param>
         public static void RegisterParameterEnum(Enum parameterEnum)
         {
             // Enum is already registered -> exception;
@@ -78,7 +82,7 @@ namespace EvoMp.Core.Parameter
                 throw new Exception(
                     $"All Items of the enum \"{parameterEnum.GetType()}\" must use the ParameterProperties attribute!");
 
-
+            // Add to registered parameters
             RegisteredParameterList.Add(parameterEnum.GetType());
 
             // Not only unique identifier -> remove enum & return;
@@ -88,6 +92,7 @@ namespace EvoMp.Core.Parameter
                 return;
             }
 
+            // Prepare parameter
             PrepareParameter();
 
             ConsoleOutput.WriteLine(ConsoleType.Note,
@@ -99,7 +104,7 @@ namespace EvoMp.Core.Parameter
         /// </summary>
         public static void PrepareParameter()
         {
-            _parameterList = new Dictionary<string, Parameter>();
+            _parameterList = new Dictionary<string, Enum>();
 
             // Only one parameter given -> return (first is path)
             List<string> startParameters = Environment.GetCommandLineArgs().ToList();
@@ -110,7 +115,8 @@ namespace EvoMp.Core.Parameter
             startParameters.Remove(startParameters.First());
 
             foreach (string startParameter in startParameters)
-            foreach (Parameter parameter in Enum.GetValues(typeof(Parameter)))
+            foreach (Type enumType in RegisteredParameterList)
+            foreach (Enum parameter in Enum.GetValues(enumType))
             {
                 string value = "";
                 ParameterProperties parameterPropertieses = GetParameterProperties(parameter);
@@ -165,8 +171,7 @@ namespace EvoMp.Core.Parameter
 
         public static string GetFirstParameterValue(Enum parameter)
         {
-            return "";
-            //return GetParameterValues(parameter).FirstOrDefault();
+            return GetParameterValues(parameter).FirstOrDefault();
         }
 
         public static string[] GetAllParameterValue(bool withExecuteablePath = false)
@@ -189,12 +194,12 @@ namespace EvoMp.Core.Parameter
         /// </summary>
         /// <param name="parameter">The searched parameter</param>
         /// <returns></returns>
-        public static List<string> GetParameterValues(Parameter parameter)
+        public static List<string> GetParameterValues(Enum parameter)
         {
             ParameterProperties startParameterProperties = GetParameterProperties(parameter);
 
             List<string> parameterValues = (from startParameter in _parameterList
-                where startParameter.Value == parameter
+                where Equals(startParameter.Value, parameter)
                 select startParameter.Key).ToList();
 
             // No parameters found -> check for default value
@@ -203,12 +208,6 @@ namespace EvoMp.Core.Parameter
                     parameterValues.Add(startParameterProperties.DefaultValue);
 
             return parameterValues;
-        }
-
-
-        public static List<string> GetParameterValues(Enum parameter)
-        {
-            return new List<string>();
         }
     }
 }

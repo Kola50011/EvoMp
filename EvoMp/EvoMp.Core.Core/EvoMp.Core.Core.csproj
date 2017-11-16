@@ -91,7 +91,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreParameterTwoTest.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModuleLoader.cs" />
     <Compile Include="ModuleStructurer.cs" />

@@ -12,6 +12,8 @@
         [ConsoleTypeProperties("~#00ccff~", "", "DATA")] Database,
         [ConsoleTypeProperties("~#999999~", "", "----")] Line,
         [ConsoleTypeProperties("~#ff9672~", "~#fff~", "CONF")] Config,
+        [ConsoleTypeProperties("~#999999~", "", "CON")] Console,
+        [ConsoleTypeProperties("~#654d68~", "", "GTMP")] GtMp,
 
         /// <summary>
         ///     This type gives only the message to the console output.

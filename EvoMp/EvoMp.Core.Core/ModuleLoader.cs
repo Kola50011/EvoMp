@@ -29,13 +29,13 @@ namespace EvoMp.Core.Core
 
             // Bind modules
             IKernel kernel = BindModules(modulePaths);
-            ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules complete.");
+            ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules completed.");
             ConsoleOutput.PrintLine("-");
 
             // Start modules
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules now.");
             StartModules(modulePaths, kernel);
-            ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules complete.");
+            ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules completed.");
             ConsoleOutput.PrintLine("-");
         }
 
@@ -49,6 +49,8 @@ namespace EvoMp.Core.Core
         {
             //TODO: Write "getInstance" for standardKernel instance. Neccesarry for "onFly" module loding
             IKernel kernel = new StandardKernel();
+
+            ConsoleOutput.AppendPrefix("\t");
 
             // Progressing each module
             foreach (string modulePath in modulePaths)
@@ -72,16 +74,14 @@ namespace EvoMp.Core.Core
                         // Moduletype is not given as startup parameter -> Message & next module;
                         if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
                         {
-                            ConsoleOutput.WriteLine(ConsoleType.Note,
-                                $"~m~  Skipped module ~o~\"{moduleInterface.Name}\"~w~. " +
-                                $"Model type isn't given.");
+                            ConsoleOutput.WriteLine(ConsoleType.Core,
+                                $"~#51ff76~{moduleInterface.Name}~;~ skipped. Wrong gamemode.");
                             continue;
                         }
 
                         // Console output
                         ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"~c~  Binding ~b~\"{moduleInterface.Name}\" ~w~" +
-                            $"to ~b~\"{moduleClass.FullName}\"~w~.");
+                            $"~#51ff76~{moduleInterface.Name}~;~ -> ~#83ff9d~{moduleClass.FullName}~;~.");
 
                         // Bind module
                         kernel.Bind(moduleInterface, moduleClass).To(moduleClass).InSingletonScope()
@@ -94,7 +94,7 @@ namespace EvoMp.Core.Core
                                         $"in the main Interface. " + Environment.NewLine +
                                         "Please add the needed interface");
             }
-
+            ConsoleOutput.ResetPrefix();
             // return created kernel
             return kernel;
         }
@@ -132,24 +132,17 @@ namespace EvoMp.Core.Core
                         if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
                             continue;
 
+                        ConsoleOutput.AppendPrefix("\t");
                         // Write console output
                         ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"  Starting module ~b~\"{moduleInterface.Name}\"~w~ " +
-                            $"by ~c~\"{moduleProperties.ModuleAuthors}\"~w~.");
-                        ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"    ~w~> ~c~{moduleProperties.ModuleDescription}.");
+                            $"~#51ff76~{moduleInterface.Name}~;~ [~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
+                            $"~c~{moduleProperties.ModuleDescription}");
 
-                        //Save old Cursors position for clear startup output
-                        var consoleCursorLeft = Console.CursorLeft;
-                        var consoleCursorTop = Console.CursorTop;
+                        ConsoleOutput.AppendPrefix("\t ~c~> ~w~");
 
                         // Start module
                         kernel.Get(moduleClass);
-
-                        // Set last console cursor, clear line, reset cursor
-                        Console.SetCursorPosition(consoleCursorLeft, consoleCursorTop);
-                        ConsoleOutput.WriteEmptyLine();
-                        Console.SetCursorPosition(consoleCursorLeft, consoleCursorTop);
+                        ConsoleOutput.ResetPrefix();
                     }
 
                 // No implemention of "IModule" -> message

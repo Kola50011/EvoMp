@@ -10,6 +10,7 @@ namespace EvoMp.Core.ConsoleHandler
         private static string _lastTimestamp = string.Empty;
         private static int _countSameTimestamp;
         private static int _lastHeaderLength;
+        private static string _prefix = String.Empty;
 
         /// <summary>
         ///     Writes a empty line
@@ -108,28 +109,6 @@ namespace EvoMp.Core.ConsoleHandler
             return returnList.ToArray();
         }
 
-        /// <summary>
-        ///     Writes a console entry. With automatic word wrap.
-        /// </summary>
-        /// <param name="consoleType"></param>
-        /// <param name="message"></param>
-        public static void Write(ConsoleType consoleType, string message)
-        {
-            // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
-
-            // Cut messages to fit in the console
-            for (var i = 0; i < messages.Length; i++)
-            {
-                //    InternalWrite(consoleType, messages[i] + (i != message.Length ? "\n" : ""));
-                // wrapp messages if they are to long for the console space
-                string[] wrappedMessages = WordWrapMessage(messages[i]);
-                for (var b = 0; b < wrappedMessages.Length; b++)
-                    InternalWrite(consoleType,
-                        wrappedMessages[b] + (i == messages.Length && b == wrappedMessages.Length ? "" : "\n"));
-            }
-        }
-
         public static void WriteLine(ConsoleType consoleType, string message, bool noWordWrap = false)
         {
             // Now word wrap -> output & return;
@@ -140,7 +119,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Trim().Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -151,7 +130,7 @@ namespace EvoMp.Core.ConsoleHandler
                 {
                     bool firstMessageOfSet = i == 0 && b == 0;
                     bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length-1;
-                    InternalWrite(consoleType, wrappedMessages[b] + "\n", false, "", firstMessageOfSet,
+                    InternalWrite(consoleType, _prefix + wrappedMessages[b] + "\n", false, "", firstMessageOfSet,
                         lastMessageOfSet);
                 }
             }
@@ -171,14 +150,39 @@ namespace EvoMp.Core.ConsoleHandler
             if (!messages.Any())
                 return;
 
+            //Make each line the same length
             int longestTextLine = messages.OrderBy(s => s.Length).First().Length;
-            for (var i = 0; i < messages.Length; i++)
+            for (int i = 0; i < messages.Length; i++)
             {
-                bool firstMessageOfSet = i == 0;
-                bool lastMessageOfSet = i == messages.Length;
-                InternalWrite(consoleType, ConsoleUtils.AlignText(messages[i], longestTextLine, true), true, "\n",
-                    firstMessageOfSet, lastMessageOfSet);
+                // wrapp messages if they are to long for the console space
+                string[] wrappedMessages = WordWrapMessage(messages[i]);
+                for (int b = 0; b < wrappedMessages.Length; b++)
+                {
+                    bool firstMessageOfSet = i == 0 && b == 0;
+                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
+                    InternalWrite(consoleType, _prefix + ConsoleUtils.AlignText(wrappedMessages[b], longestTextLine, true), true, "\n", firstMessageOfSet, lastMessageOfSet);
+                }
             }
+        }
+
+
+        /// <summary>
+        /// Appends the prefix between message and messsage head for
+        /// each console message after this.
+        /// Until ResetPrefix() called
+        /// </summary>
+        /// <param name="prefix">The Prefix between the messages</param>
+        public static void AppendPrefix(string prefix)
+        {
+            _prefix += prefix;
+        }
+
+        /// <summary>
+        ///  Resets the given prefix
+        /// </summary>
+        public static void ResetPrefix()
+        {
+            _prefix = String.Empty;
         }
 
         /// <summary>
@@ -189,8 +193,8 @@ namespace EvoMp.Core.ConsoleHandler
         /// <param name="message">The message with color codes</param>
         /// <param name="centered">Should the text be centered?</param>
         /// <param name="suffix">Message suffix?</param>
-        /// <param name="firstMessageOfSet"></param>
-        /// <param name="lastMessageOfSet"></param>
+        /// <param name="firstMessageOfSet">The first message of a bunch of splitted messages?</param>
+        /// <param name="lastMessageOfSet">The last message of a bunch of splitted messages?</param>
         private static void InternalWrite(ConsoleType consoleType, string message, bool centered = false,
             string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
@@ -287,9 +291,7 @@ namespace EvoMp.Core.ConsoleHandler
                     }
                 }
             }
-
             #endregion //Prepare Head and lines
-
 
             // Get message color from type
             string consoleTypeTextColorCode = typeProperties.ColorCodeText;
@@ -361,14 +363,18 @@ namespace EvoMp.Core.ConsoleHandler
             writeMessage = writeMessage.Replace("\t", "  ");
 
             // Write message
+            Console.SetOut(ConsoleHandler.OriginalTextWriter);
             Console.Write(writeMessage);
+            Console.SetOut(ConsoleHandler.NewTextWriter);
 
             // Print, if control code was given, bottom line
             if (printLineBottom)
                 PrintLine("-", "", consoleType);
 
             // Reset console colors
+            Console.SetOut(ConsoleHandler.OriginalTextWriter);
             Console.ResetColor();
+            Console.SetOut(ConsoleHandler.NewTextWriter);
         }
 
         public static void WriteException(string message)
@@ -421,7 +427,9 @@ namespace EvoMp.Core.ConsoleHandler
                 returnString = "~!--!~" + returnString;
 
             // Reset console colors
+            Console.SetOut(ConsoleHandler.OriginalTextWriter);
             Console.ResetColor();
+            Console.SetOut(ConsoleHandler.NewTextWriter);
 
             // Write line
             WriteLine(consoleType, returnString, true);
