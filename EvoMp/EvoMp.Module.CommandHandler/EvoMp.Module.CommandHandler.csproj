@@ -56,7 +56,7 @@
     <Compile Include="Attributes\ICommand.cs" />
     <Compile Include="Attributes\PlayerCommand.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="CommandParse.cs" />
+    <Compile Include="CommandParser.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

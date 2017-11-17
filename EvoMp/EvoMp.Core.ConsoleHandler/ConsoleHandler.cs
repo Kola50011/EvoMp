@@ -8,8 +8,8 @@ namespace EvoMp.Core.ConsoleHandler
 {
     public static class ConsoleHandler
     {
-        internal static TextWriter OriginalTextWriter;
-        internal static StringWriter NewTextWriter;
+        public static TextWriter OriginalTextWriter;
+        public static StringWriter NewTextWriter;
 
         public static void PrepareConsole()
         {
@@ -36,8 +36,8 @@ namespace EvoMp.Core.ConsoleHandler
                 const int warnEachMs = 5 * 1000; // 5 seconds
                 while (true)
                 {
-                    // Wait 0.1Sec.
-                    Thread.Sleep(100);
+                    // Wait 10ms.
+                    Thread.Sleep(10);
 
                     // Text didn't canged -> continue;
                     if (NewTextWriter.ToString() == "")

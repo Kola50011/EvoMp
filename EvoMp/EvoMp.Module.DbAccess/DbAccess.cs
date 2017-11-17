@@ -10,9 +10,13 @@ using EvoMp.Module.CommandHandler.Attributes;
 
 namespace EvoMp.Module.DbAccess
 {
-   
+
     public class DbAccess : IDbAccess
     {
+        public DbCommands DbCommands { get; set; }
+        public DbCommands2 DbCommands2;
+
+
         public DbAccess(ICommandHandler commandHandler)
         {
             const string dataBaseName = "EvoMpGtMpServer";
@@ -20,18 +24,20 @@ namespace EvoMp.Module.DbAccess
 
             if (dbConnectionString == null)
                 Environment.SetEnvironmentVariable("NameOrConnectionString",
-                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=" + dataBaseName +";Integrated Security=True;" +
+                    "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=" + dataBaseName + ";Integrated Security=True;" +
                     "Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
                     "MultiSubnetFailover=False;MultipleActiveResultSets = True;");
             else
                 Environment.SetEnvironmentVariable("NameOrConnectionString",
                     Environment.GetEnvironmentVariable("EvoMp_dbConnectionString"));
-            
+
             // Write console output
             ConsoleOutput.WriteLine(ConsoleType.Database,
                 $"Database: ~#8effa3~{dataBaseName}");
 
-            DbCommands dbCommands = new DbCommands(commandHandler);
+            // Debug
+            DbCommands = new DbCommands(commandHandler);
+            DbCommands2 = new DbCommands2(commandHandler);
         }
 
         [PlayerCommand("/testdb2")]

@@ -66,7 +66,7 @@ namespace EvoMp.Core.Core
                     if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
                     {
                         hasNeededInterface = true;
-
+                        
                         // Load module interface Attribute, to get module informations
                         ModuleProperties moduleProperties = (ModuleProperties)
                             Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
@@ -109,52 +109,74 @@ namespace EvoMp.Core.Core
         /// <returns>IKernel</returns>
         private void StartModules(List<string> modulePaths, IKernel kernel)
         {
+            var possibleAfterEffects = false;
+
             // Process each module
             foreach (string modulePath in modulePaths)
-            {
-                // Load assembly
-                Assembly moduleAssembly = Assembly.LoadFrom(modulePath);
-                bool moduleIsCorrectImplemented = false;
+                try
+                {
+                    // Load assembly
+                    Assembly moduleAssembly = Assembly.LoadFrom(modulePath);
+                    bool moduleIsCorrectImplemented = false;
 
-                // Search for "ModulePropert" interface class in assembly
-                // and, if given, start the module4
-                foreach (Type moduleClass in moduleAssembly.GetTypes())
-                foreach (Type moduleInterface in moduleClass.GetInterfaces())
-                    if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
-                    {
-                        moduleIsCorrectImplemented = true;
+                    // Search for "ModulePropert" interface class in assembly
+                    // and, if given, start the module4
+                    foreach (Type moduleClass in moduleAssembly.GetTypes())
+                    foreach (Type moduleInterface in moduleClass.GetInterfaces())
+                        if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
+                        {
+                            moduleIsCorrectImplemented = true;
 
-                        // Load module properties from interface
-                        ModuleProperties moduleProperties = (ModuleProperties)
-                            Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
+                            // Load module properties from interface
+                            ModuleProperties moduleProperties = (ModuleProperties)
+                                Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
 
-                        // Moduletype is not given as startup parameter -> next module;
-                        if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
-                            continue;
+                            // Moduletype is not given as startup parameter -> next module;
+                            if (!ModuleTypeHandler.IsModuleTypeValid
+                                (moduleProperties.ModuleType))
+                                continue;
+                            try
+                            {
+                                ConsoleOutput.AppendPrefix("\t");
+                                // Write console output
+                                ConsoleOutput.WriteLine(ConsoleType.Core,
+                                    $"~#51ff76~{moduleInterface.Name}~;~ " +
+                                    $"[~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
+                                    $"~c~{moduleProperties.ModuleDescription}");
 
-                        ConsoleOutput.AppendPrefix("\t");
-                        // Write console output
-                        ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"~#51ff76~{moduleInterface.Name}~;~ [~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
-                            $"~c~{moduleProperties.ModuleDescription}");
+                                ConsoleOutput.AppendPrefix("\t ~w~> ~;~");
 
-                        ConsoleOutput.AppendPrefix("\t ~w~> ");
+                                // Start module
+                                object instance = kernel.Get(moduleClass);
+                                Shared.OnOnModuleLoaded(instance);
+                            }
+                            finally
+                            {
+                                ConsoleOutput.ResetPrefix();
+                            }
+                        }
 
-
-                        // Start module
-                        object instance = kernel.Get(moduleClass);
-                            
-
-                        Shared.OnOnModuleLoaded(moduleAssembly.GetTypes(), instance);
-                        ConsoleOutput.ResetPrefix();
-                    }
-
-                // No implemention of "IModule" -> message
-                if (moduleIsCorrectImplemented == false)
+                    // No implemention of "IModule" -> message
+                    if (moduleIsCorrectImplemented == false)
+                        ConsoleOutput.WriteLine(ConsoleType.Error,
+                            $"Module ~o~\"{Path.GetFileNameWithoutExtension(modulePath)}\"~;~ is incorrect. " +
+                            $"Implement the ~g~\"ModuleProperties\"~;~ attribute in the given module interface.");
+                }
+                catch (Exception exception)
+                {
                     ConsoleOutput.WriteLine(ConsoleType.Error,
-                        $"  Module ~o~\"{Path.GetFileNameWithoutExtension(modulePath)}\"~w~ is incorrect. " +
-                        $"Implement the ~g~\"ModuleProperties\"~w~ attribute in the given module interface.");
-            }
+                        $"The module ~o~{modulePath}~;~ could not start. ");
+
+                    if (possibleAfterEffects)
+                        ConsoleOutput.WriteLine(ConsoleType.Note,
+                            "This could be a follow-up error, " +
+                            "because other modules have not been started.");
+
+                    possibleAfterEffects = true;
+
+                    ConsoleOutput.WriteLine(ConsoleType.Error, $"{exception.Message}");
+                    ConsoleOutput.WriteLine(ConsoleType.Empty, $"{exception.StackTrace}");
+                }
         }
     }
 }

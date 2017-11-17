@@ -28,7 +28,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength;
+            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength - _prefix.Length;
 
             // LineTop identifier avalible -> line top as first
             if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
@@ -178,6 +178,24 @@ namespace EvoMp.Core.ConsoleHandler
         public static void AppendPrefix(string prefix)
         {
             _prefix += prefix;
+        }
+
+        /// <summary>
+        /// Sets the prefix for each message.
+        /// </summary>
+        /// <param name="prefix">New prefix</param>
+        public static void SetPrefix(string prefix)
+        {
+            _prefix = prefix;
+        }
+
+        /// <summary>
+        /// Returns the current prefix.
+        /// </summary>
+        /// <returns>Current message prefix</returns>
+        public static string GetPrefix()
+        {
+            return _prefix;
         }
 
         /// <summary>

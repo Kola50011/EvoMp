@@ -18,7 +18,7 @@ namespace EvoMp.Module.CommandHandler
         {
             _messageHandler = messageHandler;
             // Inspect each module for commands on load
-            Shared.OnAssemblyLoaded += SharedOnModuleLoaded;
+            Shared.OnModuleLoaded += SharedOnModuleLoaded;
 
             // api events for ingame command execute
             api.onChatMessage += ApiOnOnChatMessage;
@@ -41,12 +41,10 @@ namespace EvoMp.Module.CommandHandler
         /// <summary>
         ///     Called on module loaded
         /// </summary>
-        /// <param name="loadedClasses"></param>
         /// <param name="moduleInstance">The module instance</param>
-        private void SharedOnModuleLoaded(Type[] loadedClasses, object moduleInstance)
+        private void SharedOnModuleLoaded(object moduleInstance)
         {
-            foreach (Type type in loadedClasses)
-                CommandParse.Inspect(type, moduleInstance);
+                CommandParser.InspectModule(moduleInstance);
         }
 
         /// <summary>
@@ -72,7 +70,7 @@ namespace EvoMp.Module.CommandHandler
         private void ApiOnOnChatMessage(Client sender, string message, CancelEventArgs cancel)
         {
             // Message is not a command -> return;
-            if (CommandParse.GetCommand(message) == null)
+            if (CommandParser.GetCommand(message) == null)
                 return;
 
             // Message is a command -> Set cancel
@@ -84,7 +82,7 @@ namespace EvoMp.Module.CommandHandler
 
         public bool EvalCommand(Client sender, string message)
         {
-            ICommand command = CommandParse.GetCommand(message);
+            ICommand command = CommandParser.GetCommand(message);
             // Message is not a command -> message & return;
             if (command == null)
             {

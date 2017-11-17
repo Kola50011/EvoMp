@@ -1,23 +1,34 @@
 ﻿using System;
+using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Module
 {
     public static class Shared
     {
+        public delegate void ModuleLoadingStart(API api);
         public delegate void CoreStartupCompleted();
-        public delegate void AssemblyLoaded(Type[] loadedAssembly, object moduleInstance);
+        public delegate void ModuleLoaded(object moduleInstance);
 
+        public static event ModuleLoadingStart OnModuleLoadingStart;
         public static event CoreStartupCompleted OnCoreStartupCompleted;
-        public static event AssemblyLoaded OnAssemblyLoaded;
+        public static event ModuleLoaded OnModuleLoaded;
+
+        public static API Api;
 
         public static void OnOnCoreStartupCompleted()
         {
             OnCoreStartupCompleted?.Invoke();
         }
 
-        public static void OnOnModuleLoaded(Type[] loadedClasses, object moduleInstance)
+        public static void OnOnModuleLoaded(object moduleInstance)
         {
-            OnAssemblyLoaded?.Invoke(loadedClasses, moduleInstance);
+            OnModuleLoaded?.Invoke(moduleInstance);
+        }
+
+        public static void OnOnModuleLoadingStart(API api)
+        {
+            Api = api;
+            OnModuleLoadingStart?.Invoke(api);
         }
     }
 }

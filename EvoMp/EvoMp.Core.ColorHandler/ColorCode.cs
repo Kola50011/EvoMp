@@ -10,7 +10,7 @@ namespace EvoMp.Core.ColorHandler
     {
         // Foreground colors
         [ColorCodePropertie("~r~", KnownColor.Red)] Red,
-        [ColorCodePropertie("~b~", KnownColor.Cyan)] Blue,
+        [ColorCodePropertie("~b~", KnownColor.LightBlue)] Blue,
         [ColorCodePropertie("~g~", KnownColor.LimeGreen)] Green,
         [ColorCodePropertie("~y~", KnownColor.Yellow)] Yellow,
         [ColorCodePropertie("~p~", KnownColor.Purple)] Purple,
@@ -18,6 +18,7 @@ namespace EvoMp.Core.ColorHandler
         [ColorCodePropertie("~o~", KnownColor.Orange)] Orange,
         [ColorCodePropertie("~c~", KnownColor.Gray)] Grey,
         [ColorCodePropertie("~m~", KnownColor.DarkGray)] DarkerGrey,
+        [ColorCodePropertie("~l~", KnownColor.LightGray)] LigthGrey,
         [ColorCodePropertie("~u~", KnownColor.Black)] Black,
         [ColorCodePropertie("~w~", KnownColor.White)] White,
 

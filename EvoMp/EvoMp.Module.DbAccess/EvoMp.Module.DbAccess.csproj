@@ -71,6 +71,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbCommands2.cs" />
     <Compile Include="DbCommands.cs" />
     <Compile Include="DbAccess.cs" />
     <Compile Include="IDbAccess.cs" />

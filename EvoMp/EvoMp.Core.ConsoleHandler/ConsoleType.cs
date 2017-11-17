@@ -4,8 +4,8 @@
     {
         [ConsoleTypeProperties("~#FFF~")] Core,
         [ConsoleTypeProperties("~#00FF00~")] Info,
-        [ConsoleTypeProperties("~#ffa500~", "~#21201e~~_#fa984a~~...~")] Warn,
-        [ConsoleTypeProperties("~#ff3300~", "~#21201e~~_#d23c3c~~...~")] Error,
+        [ConsoleTypeProperties("~#ffa500~", "~#ffa500~~...~")] Warn,
+        [ConsoleTypeProperties("~#ff3300~", "~#ff3300~~...~")] Error,
         [ConsoleTypeProperties("~_~~#FF0000~", "~#FFF~~_#B71C1C~~...~~-^-~~-v-~~>-<~")] Fatal,
         [ConsoleTypeProperties("~#999999~")] Note,
         [ConsoleTypeProperties("~#2E9AFE~", "~#FFF~~_#2E9AFE~")] Debug,
@@ -15,7 +15,7 @@
         [ConsoleTypeProperties("~#999999~", "", "CON")] Console,
         [ConsoleTypeProperties("~#654d68~", "", "GTMP")] GtMp,
         [ConsoleTypeProperties("~#e1f585~", "")] Event,
-        [ConsoleTypeProperties("~#a485f5~", "", "CMD")] Command,
+        [ConsoleTypeProperties("~#7eb6b3~", "~#7eb6b3~", "CMD")] Command,
 
         /// <summary>
         ///     This type gives only the message to the console output.
