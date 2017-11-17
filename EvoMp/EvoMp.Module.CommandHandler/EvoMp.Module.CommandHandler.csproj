@@ -67,6 +67,10 @@
       <Project>{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}</Project>
       <Name>EvoMp.Core.ConsoleHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
+      <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
+      <Name>EvoMp.Core.Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
