@@ -56,8 +56,7 @@
     <Compile Include="Attributes\ICommand.cs" />
     <Compile Include="Attributes\PlayerCommand.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="CommandManager.cs" />
-    <Compile Include="CommandParsing.cs" />
+    <Compile Include="CommandParse.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,9 +70,10 @@
       <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
       <Name>EvoMp.Core.Module</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE.txt" />
+    <ProjectReference Include="..\EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj">
+      <Project>{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}</Project>
+      <Name>EvoMp.Module.MessageHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

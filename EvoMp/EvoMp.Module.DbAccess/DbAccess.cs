@@ -6,13 +6,14 @@ using EvoMp.Core.Core;
 using EvoMp.Core.ConsoleHandler;
 using GrandTheftMultiplayer.Server.Elements;
 using EvoMp.Module.CommandHandler;
+using EvoMp.Module.CommandHandler.Attributes;
 
 namespace EvoMp.Module.DbAccess
 {
    
     public class DbAccess : IDbAccess
     {
-        public DbAccess()
+        public DbAccess(ICommandHandler commandHandler)
         {
             const string dataBaseName = "EvoMpGtMpServer";
             string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
@@ -29,6 +30,15 @@ namespace EvoMp.Module.DbAccess
             // Write console output
             ConsoleOutput.WriteLine(ConsoleType.Database,
                 $"Database: ~#8effa3~{dataBaseName}");
+
+            DbCommands dbCommands = new DbCommands(commandHandler);
+        }
+
+        [PlayerCommand("/testdb2")]
+        public void TestFunctionDatabase2(Client sender)
+        {
+            ConsoleOutput.WriteLine(ConsoleType.Debug, "Test function in database module");
+
         }
     }
 }

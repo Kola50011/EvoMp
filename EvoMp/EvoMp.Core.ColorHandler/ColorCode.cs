@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace EvoMp.Core.ConsoleHandler
+namespace EvoMp.Core.ColorHandler
 {
     /// <summary>
     ///     Avalible stringcolor codes.

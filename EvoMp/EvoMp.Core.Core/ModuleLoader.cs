@@ -142,8 +142,10 @@ namespace EvoMp.Core.Core
 
 
                         // Start module
-                        kernel.Get(moduleClass);
-                        Shared.OnOnModuleLoaded(moduleAssembly.GetTypes());
+                        object instance = kernel.Get(moduleClass);
+                            
+
+                        Shared.OnOnModuleLoaded(moduleAssembly.GetTypes(), instance);
                         ConsoleOutput.ResetPrefix();
                     }
 

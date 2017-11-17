@@ -5,7 +5,7 @@ namespace EvoMp.Core.Module
     public static class Shared
     {
         public delegate void CoreStartupCompleted();
-        public delegate void AssemblyLoaded(Type[] loadedAssembly);
+        public delegate void AssemblyLoaded(Type[] loadedAssembly, object moduleInstance);
 
         public static event CoreStartupCompleted OnCoreStartupCompleted;
         public static event AssemblyLoaded OnAssemblyLoaded;
@@ -15,9 +15,9 @@ namespace EvoMp.Core.Module
             OnCoreStartupCompleted?.Invoke();
         }
 
-        public static void OnOnModuleLoaded(Type[] loadedClasses)
+        public static void OnOnModuleLoaded(Type[] loadedClasses, object moduleInstance)
         {
-            OnAssemblyLoaded?.Invoke(loadedClasses);
+            OnAssemblyLoaded?.Invoke(loadedClasses, moduleInstance);
         }
     }
 }

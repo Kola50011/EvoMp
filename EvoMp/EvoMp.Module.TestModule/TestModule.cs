@@ -14,7 +14,7 @@ namespace EvoMp.Module.TestModule
             _api = api;
         }
 
-        [PlayerCommand("/test", testMinHealth: 20)]
+        [PlayerCommand("/test")]
         public void TestCommand(Client sender)
         {
             _api.sendChatMessageToPlayer(sender, "Test command runned.");

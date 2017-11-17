@@ -12,7 +12,7 @@ namespace EvoMp.Module.DbAccess
 {
     public class DbCommands
     {
-        public DbCommands()
+        public DbCommands(ICommandHandler commandHandler)
         {
 
         }
@@ -20,10 +20,7 @@ namespace EvoMp.Module.DbAccess
         [PlayerCommand("/testdb")]
         public void TestFunctionDatabase(Client sender)
         {
-        }
-
-        public void TestFunction2()
-        {
+            ConsoleOutput.WriteLine(ConsoleType.Debug, "Test function in database module");
 
         }
     }

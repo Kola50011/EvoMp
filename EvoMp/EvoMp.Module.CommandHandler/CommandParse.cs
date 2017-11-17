@@ -9,27 +9,35 @@ using EvoMp.Module.CommandHandler.Attributes;
 
 namespace EvoMp.Module.CommandHandler
 {
-    class CommandParsing
+    /// <summary>
+    /// Contains functions for parsing and inspection
+    /// </summary>
+    public class CommandParse
     {
         /// <summary>
-        /// Checks if the given message is a command call
+        /// Gives the correct command for the given message.
+        /// Or null, if the message is no command
         /// </summary>
         /// <param name="message">The message wich should be checked</param>
-        /// <returns>True if message is command call. Otherwise false</returns>
-        public static bool IsCommand(string message)
+        /// <returns>ICommand or null</returns>
+        public static ICommand GetCommand(string message)
         {
-            foreach (ICommand command in CommandManager.GetCommands())
-                if (message.ToLower().StartsWith(command.Command.ToLower()))
-                    return true;
+            string commandStr = message;
+            if (commandStr.Contains(" ")) commandStr = commandStr.Split(' ')[0];
+            foreach (ICommand command in CommandHandler.Commands)
+                if (commandStr.ToLower() == command.Command.ToLower() ||
+                    command.CommandAliases.Contains(commandStr.ToLower()))
+                    return command;
 
-            return false;
+            return null;
         }
 
         /// <summary>
         /// Inspects a class for Commands.
         /// </summary>
         /// <param name="commandClass">The class wich should be inspected</param>
-        public static void Inspect(Type commandClass)
+        /// <param name="moduleInstance"></param>
+        public static void Inspect(Type commandClass, object moduleInstance)
         {
             //Search for all Methods in this commandClass
             IEnumerable<MethodInfo> methodInfos = commandClass.GetMethods();
@@ -40,10 +48,12 @@ namespace EvoMp.Module.CommandHandler
                 {
                     ICommand playerCommand = (ICommand)attributes[0];
                     playerCommand.MethodInfo = methodInfo;
-                    
-                    if(CommandManager.AddToCommands(playerCommand))
+                    playerCommand.ClassInstance = moduleInstance;
+
+                    //TODO: Passe ausgabe noch besser an
+                    if (CommandHandler.AddToCommands(playerCommand))
                         ConsoleOutput.WriteLine(ConsoleType.Command, 
-                            $"Command ~#a485f5~{playerCommand.Command}~;~ added.");
+                            $"Registered command ~#a485f5~{playerCommand.Command}~;~.");
                 }
             }
         }

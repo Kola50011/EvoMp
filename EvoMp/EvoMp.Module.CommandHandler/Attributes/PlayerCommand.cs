@@ -11,6 +11,7 @@ namespace EvoMp.Module.CommandHandler.Attributes
 
         public PlayerOnlyState PlayerOnlyState { get; }
         public MethodInfo MethodInfo { get; set; }
+        public object ClassInstance { get; set; }
 
         public int TestMinHealth { get; }
 
