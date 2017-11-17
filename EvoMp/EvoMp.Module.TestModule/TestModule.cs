@@ -9,6 +9,8 @@ namespace EvoMp.Module.TestModule
     public class TestModule : ITestModule
     {
         private readonly API _api;
+        public TestInitialized TestInitialized = new TestInitialized();
+
         public TestModule(API api, ICommandHandler commandHandler)
         {
             _api = api;

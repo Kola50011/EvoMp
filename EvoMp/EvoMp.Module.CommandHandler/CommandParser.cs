@@ -12,6 +12,55 @@ namespace EvoMp.Module.CommandHandler
     /// </summary>
     public class CommandParser
     {
+        internal static readonly List<ICommand> Commands = new List<ICommand>();
+        private static bool _commandUsageSend;
+
+        /// <summary>
+        ///     Adding new command to the existings commands.
+        ///     Checks all command attributes, to get no duplicates.
+        /// </summary>
+        /// <param name="newCommand">The new command</param>
+        /// <returns>true if new command is unique, else false (with console message)</returns>
+        internal static bool AddToCommands(ICommand newCommand)
+        {
+            bool returnValue = true;
+            string oldPrefix = ConsoleOutput.GetPrefix();
+            ConsoleOutput.SetPrefix(oldPrefix.Replace("> ", ""));
+            try
+            {
+                // Already used command string -> message & rename command String;
+                ICommand blockingCommand = Commands.FirstOrDefault(cmd =>
+                    cmd.Command.ToLower() == newCommand.Command.ToLower());
+
+                if (blockingCommand != null)
+                {
+                    ConsoleOutput.WriteLine(ConsoleType.Warn,
+                        $"Command {blockingCommand.FullName()} with same command string! Command string removed.");
+                    newCommand.Command = "";
+                    returnValue = false;
+                }
+
+                // Already used alias command string -> message & remove aliases
+                blockingCommand = Commands.FirstOrDefault(cmd => cmd.CommandAliases.Contains(newCommand.Command) ||
+                                                                 cmd.CommandAliases.Any(sa => newCommand.CommandAliases
+                                                                     .Select(s => s.ToLower()).Contains(sa)));
+                if (blockingCommand != null)
+                {
+                    ConsoleOutput.WriteLine(ConsoleType.Warn, 
+                        $"Command {blockingCommand.FullName()} with same alias. Aliases removed.");
+                    newCommand.CommandAliases = new string[] { };
+                    returnValue = false;
+                }
+                
+                Commands.Add(newCommand);
+                return returnValue;
+            }
+            finally
+            {
+                ConsoleOutput.SetPrefix(oldPrefix);
+            }
+        }
+
         /// <summary>
         ///     Gives the correct command for the given message.
         ///     Or null, if the message is no command
@@ -22,7 +71,7 @@ namespace EvoMp.Module.CommandHandler
         {
             string commandStr = message;
             if (commandStr.Contains(" ")) commandStr = commandStr.Split(' ')[0];
-            foreach (ICommand command in CommandHandler.Commands)
+            foreach (ICommand command in Commands)
                 if (commandStr.ToLower() == command.Command.ToLower() ||
                     command.CommandAliases.Contains(commandStr.ToLower()))
                     return command;
@@ -56,33 +105,37 @@ namespace EvoMp.Module.CommandHandler
             ParseInvalidCommands();
             if (invalidCommands.Any())
             {
-                ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    "Command methods were found which could not be loaded correctly. " +
-                    "~w~~_~Any~;~ command method ~w~~_~must be public~;~. " +
-                    "In addition, the class where those methods are located " +
-                    "~w~~_~must be instanced as a public field or property~;~.\n" +
-                    "Except: ~w~~_~Static command functions - can be public only.~;~" +
-                    "\n\n" +
-                    "The following methods were not loaded:");
-
-                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace(">", "!"));
-                foreach (ICommand invalidCommand in invalidCommands)
+                if (!_commandUsageSend)
+                {
                     ConsoleOutput.WriteLine(ConsoleType.Warn,
-                        $"{invalidCommand.Command} - ~c~{invalidCommand.MethodInfo.DeclaringType?.FullName}");
-                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace("!", ">"));
+                        "Command methods were found which could not be loaded correctly. " +
+                        "~w~~_~Any~;~ command method ~w~~_~must be public~;~. " +
+                        "In addition, the class where those methods are located " +
+                        "~w~~_~must be instanced as a public field or property~;~.\n" +
+                        "Except: ~w~~_~Static command functions - can be public only.~;~" +
+                        "See ~r~!~;~ for affected commands.");
+                    _commandUsageSend = true;
+                }
+
+                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace(">", "~r~!"));
+
+                foreach (ICommand invalidCommand in invalidCommands)
+                    ConsoleOutput.WriteLine(ConsoleType.Command, invalidCommand.FullName());
+
+                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace("~r~!", ">"));
             }
 
             // Register commands
             if (validCommands.Any())
-            {
-                //ConsoleOutput.WriteLine(ConsoleType.Command, $"Registered commands:");
-                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace(">", "+"));
                 foreach (ICommand command in validCommands)
-                    if (CommandHandler.AddToCommands(command))
-                        ConsoleOutput.WriteLine(ConsoleType.Command,
-                            $"{command.Command}~;~ ~c~{command.MethodInfo.DeclaringType?.FullName}");
-                ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace("+", ">"));
-            }
+                {
+                    ConsoleOutput.SetPrefix(AddToCommands(command)
+                        ? ConsoleOutput.GetPrefix().Replace(">", "~g~+")
+                        : ConsoleOutput.GetPrefix().Replace(">", "~o~?"));
+
+                    ConsoleOutput.WriteLine(ConsoleType.Command, command.FullName());
+                    ConsoleOutput.SetPrefix(ConsoleOutput.GetPrefix().Replace("~g~+", ">").Replace("~o~?", ">"));
+                }
 
             void ParseInvalidCommands()
             {
@@ -113,7 +166,7 @@ namespace EvoMp.Module.CommandHandler
             {
                 foreach (Type type in moduleInstance.GetType().Assembly.GetTypes())
                 foreach (MethodInfo methodInfo in type.GetMethods()
-                        .Where(info => info.IsStatic && info.IsPublic && !info.IsConstructor))
+                    .Where(info => info.IsStatic && info.IsPublic && !info.IsConstructor))
                 {
                     object[] attributes = methodInfo.GetCustomAttributes(typeof(ICommand), true);
 

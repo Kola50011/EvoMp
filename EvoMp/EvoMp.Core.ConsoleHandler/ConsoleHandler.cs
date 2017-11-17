@@ -20,7 +20,7 @@ namespace EvoMp.Core.ConsoleHandler
             ConsoleUtils.SetConsoleMode(consoleHandle, currentMode | 0x0004);
 
             // Set console size fixed
-            int height = Math.Min(Console.LargestWindowHeight, 70);
+            int height = Math.Min(Console.LargestWindowHeight, 50);
             int width = Math.Min(Console.LargestWindowWidth, 150);
             ConsoleUtils.SetConsoleFixedSize(height, width);
 
@@ -28,6 +28,10 @@ namespace EvoMp.Core.ConsoleHandler
             NewTextWriter = new StringWriter();
             OriginalTextWriter = Console.Out;
             Console.SetOut(NewTextWriter);
+
+            // Set Cursor position for input line
+            Console.SetCursorPosition(Console.CursorLeft, 1);
+
 
             // Start thread to fetch old ConsoleOutputs.
             new Thread(() =>

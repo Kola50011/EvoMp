@@ -11,7 +11,7 @@ namespace EvoMp.Module.CommandHandler
 {
     public class CommandHandler : ICommandHandler
     {
-        public static readonly List<ICommand> Commands = new List<ICommand>();
+        
         private readonly IMessageHandler _messageHandler;
 
         public CommandHandler(API api, IMessageHandler messageHandler)
@@ -23,19 +23,6 @@ namespace EvoMp.Module.CommandHandler
             // api events for ingame command execute
             api.onChatMessage += ApiOnOnChatMessage;
             api.onChatCommand += ApiOnOnChatCommand;
-        }
-
-        /// <summary>
-        ///     Adding new command to the existings commands.
-        ///     Checks all command attributes, to get no duplicates.
-        /// </summary>
-        /// <param name="command">The new command</param>
-        /// <returns>true if new command is unique, else false (with console message)</returns>
-        internal static bool AddToCommands(ICommand command)
-        {
-            //TODO: Compare each existing command, to get no duplicates
-            Commands.Add(command);
-            return true;
         }
 
         /// <summary>

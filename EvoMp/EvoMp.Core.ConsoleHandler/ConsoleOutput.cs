@@ -386,6 +386,7 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Write message
             Console.SetOut(ConsoleHandler.OriginalTextWriter);
+            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop);
             Console.Write(writeMessage);
             Console.SetOut(ConsoleHandler.NewTextWriter);
 

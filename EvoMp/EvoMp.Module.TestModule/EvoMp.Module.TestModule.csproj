@@ -80,6 +80,7 @@
     <Compile Include="ITestModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestModule.cs" />
+    <Compile Include="TestInitialized.cs" />
     <Compile Include="TestNotInitializedClass.cs" />
   </ItemGroup>
   <ItemGroup>
