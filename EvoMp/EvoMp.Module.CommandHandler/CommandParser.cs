@@ -33,7 +33,7 @@ namespace EvoMp.Module.CommandHandler
         /// <summary>
         ///     Inspects a class for Commands.
         /// </summary>
-        /// <param name="moduleInstance"></param>
+        /// <param name="moduleInstance">The instance of the module wich should be inspected.</param>
         internal static void InspectModule(object moduleInstance)
         {
             List<ICommand> validCommands = new List<ICommand>();
@@ -49,15 +49,19 @@ namespace EvoMp.Module.CommandHandler
             foreach (PropertyInfo propertyInfo in moduleInstance.GetType().GetProperties())
                 ParseMemberInfo(propertyInfo, null, moduleInstance);
 
+            // Parse static commands 
+            ParseStaticCommands();
+
             // Check for invalid commands & write message if given
             ParseInvalidCommands();
             if (invalidCommands.Any())
             {
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
                     "Command methods were found which could not be loaded correctly. " +
-                    "Command methods ~w~~_~must be public~;~. " +
+                    "~w~~_~Any~;~ command method ~w~~_~must be public~;~. " +
                     "In addition, the class where those methods are located " +
-                    "~w~~_~must be instanced as a public field or property on module loading~;~." +
+                    "~w~~_~must be instanced as a public field or property~;~.\n" +
+                    "Except: ~w~~_~Static command functions - can be public only.~;~" +
                     "\n\n" +
                     "The following methods were not loaded:");
 
@@ -83,46 +87,70 @@ namespace EvoMp.Module.CommandHandler
             void ParseInvalidCommands()
             {
                 foreach (Type type in moduleInstance.GetType().Assembly.GetTypes())
-                    foreach (MethodInfo methodInfo in type.GetMethods())
-                    {
-                        object[] attributes = methodInfo.GetCustomAttributes(typeof(ICommand), true);
+                foreach (MethodInfo methodInfo in type.GetMethods())
+                {
+                    object[] attributes = methodInfo.GetCustomAttributes(typeof(ICommand), true);
 
-                        if (attributes.Length <= 0)
+                    if (attributes.Length <= 0)
+                        continue;
+
+                    foreach (object commandObject in attributes)
+                    {
+                        // Method is registered as valid -> next.
+                        if (validCommands.Any(cmd => cmd.MethodInfo == methodInfo))
                             continue;
 
-                        foreach (object commandObject in attributes)
-                        {
-                            // Method is registered as valid -> next.
-                            if (validCommands.Any(cmd => cmd.MethodInfo == methodInfo))
-                                continue;
+                        ICommand command = (ICommand) commandObject;
 
-                            ICommand command = (ICommand)commandObject;
-
-                            // Save MethodInfo and Class instance
-                            command.MethodInfo = methodInfo;
-                            invalidCommands.Add(command);
-                        }
+                        // Save MethodInfo and Class instance
+                        command.MethodInfo = methodInfo;
+                        invalidCommands.Add(command);
                     }
+                }
+            }
+
+            void ParseStaticCommands()
+            {
+                foreach (Type type in moduleInstance.GetType().Assembly.GetTypes())
+                foreach (MethodInfo methodInfo in type.GetMethods()
+                        .Where(info => info.IsStatic && info.IsPublic && !info.IsConstructor))
+                {
+                    object[] attributes = methodInfo.GetCustomAttributes(typeof(ICommand), true);
+
+                    if (attributes.Length <= 0)
+                        continue;
+
+                    foreach (object commandObject in attributes)
+                    {
+                        ICommand command = (ICommand) commandObject;
+
+                        // Save MethodInfo and Class instance
+                        command.MethodInfo = methodInfo;
+                        command.ClassInstance = null;
+                        validCommands.Add(command);
+                    }
+                }
             }
 
             void ParseCommands(object instance)
             {
-                foreach (MethodInfo methodInfo in instance.GetType().GetMethods())
+                foreach (MethodInfo methodInfo in instance.GetType().GetMethods()
+                    .Where(info => !info.IsStatic && info.IsPublic && !info.IsConstructor))
                 {
-                    if(!methodInfo.IsPublic) continue;
-                    if(methodInfo.IsConstructor) continue;
-
                     object[] attributes = methodInfo.GetCustomAttributes(typeof(ICommand), true);
-                    if (attributes.Length > 0)
-                        foreach (object commandObject in attributes)
-                        {
-                            ICommand command = (ICommand)commandObject;
 
-                            // Save MethodInfo and Class instance
-                            command.MethodInfo = methodInfo;
-                            command.ClassInstance = instance;
-                            validCommands.Add(command);
-                        }
+                    if (attributes.Length <= 0)
+                        continue;
+
+                    foreach (object commandObject in attributes)
+                    {
+                        ICommand command = (ICommand) commandObject;
+
+                        // Save MethodInfo and Class instance
+                        command.MethodInfo = methodInfo;
+                        command.ClassInstance = instance;
+                        validCommands.Add(command);
+                    }
                 }
             }
 
@@ -130,7 +158,7 @@ namespace EvoMp.Module.CommandHandler
             {
                 object instance = propertyInfo?.GetValue(classInstance) ?? fieldInfo?.GetValue(classInstance);
 
-                if (instance == null || 
+                if (instance == null ||
                     instance.GetType().Assembly != moduleInstance.GetType().Assembly || !instance.GetType().IsClass)
                     return;
 
@@ -141,7 +169,6 @@ namespace EvoMp.Module.CommandHandler
 
                 foreach (PropertyInfo property in instance.GetType().GetProperties())
                     ParseMemberInfo(property, null, instance);
-
             }
         }
     }

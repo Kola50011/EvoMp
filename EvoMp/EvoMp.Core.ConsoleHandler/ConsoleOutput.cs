@@ -220,7 +220,7 @@ namespace EvoMp.Core.ConsoleHandler
             string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
             // Message empty -> return;
-            if (string.IsNullOrEmpty(message))
+            if (string.IsNullOrEmpty(message?.Replace("\n", "")))
                 return;
 
             // ColorCodes contains invalid code -> message & return;
