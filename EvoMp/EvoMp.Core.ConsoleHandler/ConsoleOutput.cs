@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -13,8 +10,7 @@ namespace EvoMp.Core.ConsoleHandler
         private static string _lastTimestamp = string.Empty;
         private static int _countSameTimestamp;
         private static int _lastHeaderLength;
-        private static string _prefix = String.Empty;
-        private static Mutex _mutex = new Mutex();
+        private static string _prefix = string.Empty;
 
         /// <summary>
         ///     Writes a empty line
@@ -45,7 +41,7 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
-                return new[] { message };
+                return new[] {message};
 
             List<string> returnList = new List<string>();
             List<string> words = message.Split(' ').ToList();
@@ -123,7 +119,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Parse linebreaks for clear output
-            string[] messages = message.Trim().Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Trim().Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -148,7 +144,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            string[] messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // No text -> return;
             if (!messages.Any())
@@ -164,16 +160,18 @@ namespace EvoMp.Core.ConsoleHandler
                 {
                     bool firstMessageOfSet = i == 0 && b == 0;
                     bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
-                    InternalWrite(consoleType, _prefix + ConsoleUtils.AlignText(wrappedMessages[b], longestTextLine, true), true, "\n", firstMessageOfSet, lastMessageOfSet);
+                    InternalWrite(consoleType,
+                        _prefix + ConsoleUtils.AlignText(wrappedMessages[b], longestTextLine, true), true, "\n",
+                        firstMessageOfSet, lastMessageOfSet);
                 }
             }
         }
 
 
         /// <summary>
-        /// Appends the prefix between message and messsage head for
-        /// each console message after this.
-        /// Until ResetPrefix() called
+        ///     Appends the prefix between message and messsage head for
+        ///     each console message after this.
+        ///     Until ResetPrefix() called
         /// </summary>
         /// <param name="prefix">The Prefix between the messages</param>
         public static void AppendPrefix(string prefix)
@@ -182,11 +180,11 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        ///  Resets the given prefix
+        ///     Resets the given prefix
         /// </summary>
         public static void ResetPrefix()
         {
-            _prefix = String.Empty;
+            _prefix = string.Empty;
         }
 
         /// <summary>
@@ -202,196 +200,184 @@ namespace EvoMp.Core.ConsoleHandler
         private static void InternalWrite(ConsoleType consoleType, string message, bool centered = false,
             string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
-            Task.Run(() =>
+            // Message empty -> return;
+            if (string.IsNullOrEmpty(message))
+                return;
+
+            // ColorCodes contains invalid code -> message & return;
+            List<string> colorCodes = ConsoleUtils.ParseColorCodesSimple(message);
+            if (colorCodes == null)
             {
-                try
+                WriteLine(ConsoleType.Warn,
+                    "Not closed or opened color code in message: \n" +
+                    $"~w~\"{message.Replace("~", @"\~").Trim()}\"~;~.\n" +
+                    "Message will be ignored. ~#0000FF~Escape tildes by using \"\\\\~code\\\\~\"~;~!");
+                return;
+            }
+
+            // Format message output
+            string writeMessage = string.Empty;
+
+            // Save the color codes if the message starts with any
+            // Used for mutiline control codes
+            string firstMessageColorCodes = "";
+            foreach (string colorCode in colorCodes)
+                if (message.StartsWith($"{firstMessageColorCodes}{colorCode}"))
+                    firstMessageColorCodes += colorCode;
+
+            //ConsoleUtils.ParseColorCodesSimple(message);
+
+            bool wasControlCodeLine = false;
+            bool messageHasLinebreak = false;
+
+            int maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
+
+            // Prepare message.
+            if (message.EndsWith("\n"))
+            {
+                messageHasLinebreak = true;
+                message = message.Substring(0, message.Length - "\n".Length);
+            }
+            message = message.Replace("\t", "  ");
+
+            // Get consoleType properties & parse message colors
+            ConsoleTypeProperties typeProperties = ConsoleUtils.GetConsoleTypeProperties(consoleType);
+
+            #region Prepare Head and lines
+
+            if (consoleType != ConsoleType.Empty)
+            {
+                string timestamp = $"~#cccccc~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
+
+                // Timestamp didn't changed -> dark it up
+                if (_lastTimestamp == timestamp)
                 {
-                    _mutex.WaitOne();
-
-                    // Message empty -> return;
-                    if (string.IsNullOrEmpty(message))
-                        return;
-
-                    // ColorCodes contains invalid code -> message & return;
-                    List<string> colorCodes = ConsoleUtils.ParseColorCodesSimple(message);
-                    if (colorCodes == null)
-                    {
-                        WriteLine(ConsoleType.Warn,
-                            "Not closed or opened color code in message: \n" +
-                            $"~w~\"{message.Replace("~", @"\~").Trim()}\"~;~.\n" +
-                            "Message will be ignored. ~#0000FF~Escape tildes by using \"\\\\~code\\\\~\"~;~!");
-                        return;
-                    }
-
-                    // Format message output
-                    string writeMessage = string.Empty;
-
-                    // Save the color codes if the message starts with any
-                    // Used for mutiline control codes
-                    string firstMessageColorCodes = "";
-                    foreach (string colorCode in colorCodes)
-                        if (message.StartsWith($"{firstMessageColorCodes}{colorCode}"))
-                            firstMessageColorCodes += colorCode;
-
-                    //ConsoleUtils.ParseColorCodesSimple(message);
-
-                    bool wasControlCodeLine = false;
-                    bool messageHasLinebreak = false;
-
-                    int maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
-
-                    // Prepare message.
-                    if (message.EndsWith("\n"))
-                    {
-                        messageHasLinebreak = true;
-                        message = message.Substring(0, message.Length - "\n".Length);
-                    }
-                    message = message.Replace("\t", "  ");
-
-                    // Get consoleType properties & parse message colors
-                    ConsoleTypeProperties typeProperties = ConsoleUtils.GetConsoleTypeProperties(consoleType);
-
-                    #region Prepare Head and lines
-
-                    if (consoleType != ConsoleType.Empty)
-                    {
-                        string timestamp = $"~#cccccc~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
-
-                        // Timestamp didn't changed -> dark it up
-                        if (_lastTimestamp == timestamp)
-                        {
-                            _countSameTimestamp++;
-                            timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
-                        }
-                        else
-                        {
-                            _lastTimestamp = timestamp;
-                            _countSameTimestamp = 0;
-                        }
-
-                        // Write log type information
-                        string typeDisplayName = typeProperties.DisplayName?.ToUpper() ?? $"{consoleType}".ToUpper();
-                        writeMessage = timestamp + "~w~ │ " +
-                                       ConsoleUtils.AlignText(typeProperties.ColorCodeType + typeDisplayName + "~|~",
-                                           ConsoleUtils.GetLengthOfLongestConsoleType());
-
-                        // Vertical line
-                        writeMessage = writeMessage + " ~w~│ ";
-
-                        // Save header length for calculation
-                        _lastHeaderLength = ConsoleUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
-                        maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
-
-                        // Trim ConsoleType.Line for fit in console window
-                        // Or Lines with other ConsoleType
-                        if (consoleType == ConsoleType.Line || message.StartsWith("~!--!~"))
-                        {
-                            // Cut special line switch
-                            if (message.StartsWith("~!--!~"))
-                            {
-                                message = message.Substring("~!--!~".Length);
-                                wasControlCodeLine = true;
-                            }
-
-                            if (_lastHeaderLength < message.Length)
-                            {
-                                int colorCodeLength = message.Length - ConsoleUtils.CleanUpColorCodes(message).Length;
-                                string colorCode = message.Substring(0, colorCodeLength);
-                                message = colorCode + message.Substring(_lastHeaderLength);
-                            }
-                        }
-                    }
-
-                    #endregion //Prepare Head and lines
-
-                    // Get message color from type
-                    string consoleTypeTextColorCode = typeProperties.ColorCodeText;
-
-
-                    // Filter all control codes from the typetextcode to use it as reset code
-                    string harmlessTypeTextCode = consoleTypeTextColorCode;
-                    foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
-                    {
-                        ColorCodePropertie colorCodePropertie = ConsoleUtils.GetColorCodePropertie(colorCode);
-                        if (colorCodePropertie.HasSpecialLogic)
-                            harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
-                    }
-
-                    // Center text if it should full centered, 
-                    // or if control key (~>-<~) given. But not if message is a control coded line
-                    if (centered || consoleTypeTextColorCode.Contains("~>-<~") && !wasControlCodeLine)
-                    {
-                        if (consoleTypeTextColorCode.Contains("~>-<~"))
-                            consoleTypeTextColorCode = consoleTypeTextColorCode.Replace("~>-<~", "");
-
-                        message = harmlessTypeTextCode +
-                                  ConsoleUtils.AlignText(message, maxInnerLineLength, true);
-                    }
-
-                    // Message is line and was by consoleTypeTextColorCode given ->
-                    // Replace again or endless loop
-                    if (wasControlCodeLine)
-                        consoleTypeTextColorCode = harmlessTypeTextCode;
-
-                    // Append message
-                    message = $"{consoleTypeTextColorCode}{message}";
-
-
-                    // React to some special control codes
-                    bool printLineBottom = false;
-
-                    // React to special control codes
-
-                    // Line Top
-                    if (firstMessageOfSet)
-                        if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
-                            PrintLine("-", firstMessageColorCodes, consoleType);
-
-                    // Line bottom
-                    if (lastMessageOfSet)
-                        if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier))
-                            printLineBottom = true;
-
-                    // Append message to complete message
-                    writeMessage += message;
-
-                    // Add suffixs and possible linebreak
-                    writeMessage += suffix;
-
-                    if (messageHasLinebreak)
-                        writeMessage += "\n";
-
-                    // Replace reset controlcode with message defaultColor + resetControl
-                    string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
-                    if (writeMessage.Contains(resetIdentifer))
-                        writeMessage = writeMessage.Replace(resetIdentifer,
-                            $"{resetIdentifer}{harmlessTypeTextCode}");
-
-                    // Parse color and control codes
-                    writeMessage = ConsoleUtils.GenerateColoredString(writeMessage);
-
-                    // Replace tab with spaces
-                    writeMessage = writeMessage.Replace("\t", "  ");
-
-                    // Write message
-                    Console.SetOut(ConsoleHandler.OriginalTextWriter);
-                    Console.Write(writeMessage);
-                    Console.SetOut(ConsoleHandler.NewTextWriter);
-
-                    // Print, if control code was given, bottom line
-                    if (printLineBottom)
-                        PrintLine("-", "", consoleType);
-
-                    // Reset console colors
-                    Console.SetOut(ConsoleHandler.OriginalTextWriter);
-                    Console.ResetColor();
-                    Console.SetOut(ConsoleHandler.NewTextWriter);
+                    _countSameTimestamp++;
+                    timestamp = ConsoleUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
                 }
-                finally
+                else
                 {
-                    _mutex.ReleaseMutex();
+                    _lastTimestamp = timestamp;
+                    _countSameTimestamp = 0;
                 }
-            });
+
+                // Write log type information
+                string typeDisplayName = typeProperties.DisplayName?.ToUpper() ?? $"{consoleType}".ToUpper();
+                writeMessage = timestamp + "~w~ │ " +
+                               ConsoleUtils.AlignText(typeProperties.ColorCodeType + typeDisplayName + "~|~",
+                                   ConsoleUtils.GetLengthOfLongestConsoleType());
+
+                // Vertical line
+                writeMessage = writeMessage + " ~w~│ ";
+
+                // Save header length for calculation
+                _lastHeaderLength = ConsoleUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
+                maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
+
+                // Trim ConsoleType.Line for fit in console window
+                // Or Lines with other ConsoleType
+                if (consoleType == ConsoleType.Line || message.StartsWith("~!--!~"))
+                {
+                    // Cut special line switch
+                    if (message.StartsWith("~!--!~"))
+                    {
+                        message = message.Substring("~!--!~".Length);
+                        wasControlCodeLine = true;
+                    }
+
+                    if (_lastHeaderLength < message.Length)
+                    {
+                        int colorCodeLength = message.Length - ConsoleUtils.CleanUpColorCodes(message).Length;
+                        string colorCode = message.Substring(0, colorCodeLength);
+                        message = colorCode + message.Substring(_lastHeaderLength);
+                    }
+                }
+            }
+
+            #endregion //Prepare Head and lines
+
+            // Get message color from type
+            string consoleTypeTextColorCode = typeProperties.ColorCodeText;
+
+
+            // Filter all control codes from the typetextcode to use it as reset code
+            string harmlessTypeTextCode = consoleTypeTextColorCode;
+            foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
+            {
+                ColorCodePropertie colorCodePropertie = ConsoleUtils.GetColorCodePropertie(colorCode);
+                if (colorCodePropertie.HasSpecialLogic)
+                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
+            }
+
+            // Center text if it should full centered, 
+            // or if control key (~>-<~) given. But not if message is a control coded line
+            if (centered || consoleTypeTextColorCode.Contains("~>-<~") && !wasControlCodeLine)
+            {
+                if (consoleTypeTextColorCode.Contains("~>-<~"))
+                    consoleTypeTextColorCode = consoleTypeTextColorCode.Replace("~>-<~", "");
+
+                message = harmlessTypeTextCode +
+                          ConsoleUtils.AlignText(message, maxInnerLineLength, true);
+            }
+
+            // Message is line and was by consoleTypeTextColorCode given ->
+            // Replace again or endless loop
+            if (wasControlCodeLine)
+                consoleTypeTextColorCode = harmlessTypeTextCode;
+
+            // Append message
+            message = $"{consoleTypeTextColorCode}{message}";
+
+
+            // React to some special control codes
+            bool printLineBottom = false;
+
+            // React to special control codes
+
+            // Line Top
+            if (firstMessageOfSet)
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
+                    PrintLine("-", firstMessageColorCodes, consoleType);
+
+            // Line bottom
+            if (lastMessageOfSet)
+                if (message.Contains(ConsoleUtils.GetColorCodePropertie(ColorCode.LineBottom).Identifier))
+                    printLineBottom = true;
+
+            // Append message to complete message
+            writeMessage += message;
+
+            // Add suffixs and possible linebreak
+            writeMessage += suffix;
+
+            if (messageHasLinebreak)
+                writeMessage += "\n";
+
+            // Replace reset controlcode with message defaultColor + resetControl
+            string resetIdentifer = ConsoleUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
+            if (writeMessage.Contains(resetIdentifer))
+                writeMessage = writeMessage.Replace(resetIdentifer,
+                    $"{resetIdentifer}{harmlessTypeTextCode}");
+
+            // Parse color and control codes
+            writeMessage = ConsoleUtils.GenerateColoredString(writeMessage);
+
+            // Replace tab with spaces
+            writeMessage = writeMessage.Replace("\t", "  ");
+
+            // Write message
+            Console.SetOut(ConsoleHandler.OriginalTextWriter);
+            Console.Write(writeMessage);
+            Console.SetOut(ConsoleHandler.NewTextWriter);
+
+            // Print, if control code was given, bottom line
+            if (printLineBottom)
+                PrintLine("-", "", consoleType);
+
+            // Reset console colors
+            Console.SetOut(ConsoleHandler.OriginalTextWriter);
+            Console.ResetColor();
+            Console.SetOut(ConsoleHandler.NewTextWriter);
         }
 
         public static void WriteException(string message)
