@@ -15,6 +15,7 @@
         [ConsoleTypeProperties("~#999999~", "", "CON")] Console,
         [ConsoleTypeProperties("~#654d68~", "", "GTMP")] GtMp,
         [ConsoleTypeProperties("~#e1f585~", "")] Event,
+        [ConsoleTypeProperties("~#a485f5~", "", "CMD")] Command,
 
         /// <summary>
         ///     This type gives only the message to the console output.

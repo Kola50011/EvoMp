@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -12,6 +13,7 @@ namespace EvoMp.Core.ConsoleHandler
         private static int _countSameTimestamp;
         private static int _lastHeaderLength;
         private static string _prefix = String.Empty;
+        private static Mutex _mutex = new Mutex();
 
         /// <summary>
         ///     Writes a empty line
@@ -199,6 +201,10 @@ namespace EvoMp.Core.ConsoleHandler
         private static void InternalWrite(ConsoleType consoleType, string message, bool centered = false,
             string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
+            try
+            {
+                _mutex.WaitOne();
+            
             // Message empty -> return;
             if (string.IsNullOrEmpty(message))
                 return;
@@ -376,6 +382,11 @@ namespace EvoMp.Core.ConsoleHandler
             Console.SetOut(ConsoleHandler.OriginalTextWriter);
             Console.ResetColor();
             Console.SetOut(ConsoleHandler.NewTextWriter);
+            }
+            finally
+            {
+                _mutex.ReleaseMutex();
+            }
         }
 
         public static void WriteException(string message)

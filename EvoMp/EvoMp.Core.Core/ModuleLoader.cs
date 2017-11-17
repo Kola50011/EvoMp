@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler;
+using EvoMp.Core.Module;
 using GrandTheftMultiplayer.Server.API;
 using Ninject;
 
@@ -51,7 +52,6 @@ namespace EvoMp.Core.Core
             IKernel kernel = new StandardKernel();
 
             ConsoleOutput.AppendPrefix("\t");
-
             // Progressing each module
             foreach (string modulePath in modulePaths)
             {
@@ -63,13 +63,13 @@ namespace EvoMp.Core.Core
                 //Search for interface that's using the ModuleProperties attribute
                 foreach (Type moduleClass in moduleAssembly.GetTypes())
                 foreach (Type moduleInterface in moduleClass.GetInterfaces())
-                    if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties.ModuleProperties)))
+                    if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
                     {
                         hasNeededInterface = true;
 
                         // Load module interface Attribute, to get module informations
-                        ModuleProperties.ModuleProperties moduleProperties = (ModuleProperties.ModuleProperties)
-                            Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties.ModuleProperties));
+                        ModuleProperties moduleProperties = (ModuleProperties)
+                            Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
 
                         // Moduletype is not given as startup parameter -> Message & next module;
                         if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
@@ -120,13 +120,13 @@ namespace EvoMp.Core.Core
                 // and, if given, start the module4
                 foreach (Type moduleClass in moduleAssembly.GetTypes())
                 foreach (Type moduleInterface in moduleClass.GetInterfaces())
-                    if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties.ModuleProperties)))
+                    if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
                     {
                         moduleIsCorrectImplemented = true;
 
                         // Load module properties from interface
-                        ModuleProperties.ModuleProperties moduleProperties = (ModuleProperties.ModuleProperties)
-                            Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties.ModuleProperties));
+                        ModuleProperties moduleProperties = (ModuleProperties)
+                            Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
 
                         // Moduletype is not given as startup parameter -> next module;
                         if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
@@ -140,8 +140,10 @@ namespace EvoMp.Core.Core
 
                         ConsoleOutput.AppendPrefix("\t ~w~> ");
 
+
                         // Start module
                         kernel.Get(moduleClass);
+                        Shared.OnOnModuleLoaded(moduleAssembly.GetTypes());
                         ConsoleOutput.ResetPrefix();
                     }
 

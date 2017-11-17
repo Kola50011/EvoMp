@@ -1,5 +1,5 @@
 using EvoMp.Core.Core;
-using EvoMp.Core.ModuleProperties;
+using EvoMp.Core.Module;
 
 namespace EvoMp.Module.UserHandler
 {

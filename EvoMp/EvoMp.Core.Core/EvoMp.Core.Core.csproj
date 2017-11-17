@@ -109,14 +109,6 @@
       <Project>{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}</Project>
       <Name>EvoMp.Core.ConsoleHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.ModuleProperties\EvoMp.Core.ModuleProperties.csproj">
-      <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
-      <Name>EvoMp.Core.ModuleProperties</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.ParameterHandler\EvoMp.Core.Parameter.csproj">
-      <Project>{EE63F684-46DB-466E-82B2-74F988F3DD4B}</Project>
-      <Name>EvoMp.Core.Parameter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

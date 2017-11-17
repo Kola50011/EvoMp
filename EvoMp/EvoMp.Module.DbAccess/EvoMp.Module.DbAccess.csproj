@@ -71,6 +71,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbCommands.cs" />
     <Compile Include="DbAccess.cs" />
     <Compile Include="IDbAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,9 +85,9 @@
       <Project>{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}</Project>
       <Name>EvoMp.Core.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.ModuleProperties\EvoMp.Core.ModuleProperties.csproj">
-      <Project>{F4B5EDA5-1BFB-46FD-920F-FEBC1CE90EA1}</Project>
-      <Name>EvoMp.Core.ModuleProperties</Name>
+    <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
+      <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
+      <Name>EvoMp.Module.CommandHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

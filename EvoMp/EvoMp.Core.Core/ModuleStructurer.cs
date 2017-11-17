@@ -48,9 +48,30 @@ namespace EvoMp.Core.Core
                 List<string> newModules = Directory.EnumerateFiles(projectSolutionCompiledModulesFolder,
                         "EvoMp.Module.*.*",
                         SearchOption.AllDirectories)
-                    .Where(path => path.Contains(@"bin\") && path.Contains(@" - Debug"))
+                    .Where(path => path.Contains(@"bin\") && path.Contains(@"Debug"))
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb"))
                     .ToList();
+
+                // Clean old modules wich existing as dll's in other modules
+                foreach (string module in newModules.ToArray())
+                {
+                    // modulePath contains no "\" -> next
+                    if(!module.Contains("\\"))
+                        continue;
+                    
+                    string moduleFile = module.Substring(module.LastIndexOf("\\", StringComparison.Ordinal));
+                    string modulePath = module.Substring(0, module.LastIndexOf("\\", StringComparison.Ordinal));
+
+                    // ModuleFile contains no "." -> next
+                    if (!moduleFile.Contains("."))
+                        continue;
+                    // Remove .dll .pdb etc..
+                    moduleFile = moduleFile.Substring(0, moduleFile.LastIndexOf(".", StringComparison.Ordinal));
+
+                    // Path didn't contains the name of the module file -> remove from new modules
+                    if (!modulePath.Contains(moduleFile))
+                        newModules.Remove(module);
+                }
 
                 // Copy new modules
                 foreach (string newModule in newModules)

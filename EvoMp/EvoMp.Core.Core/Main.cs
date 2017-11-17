@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler;
+using EvoMp.Core.Module;
 using EvoMp.Core.Parameter;
 using GrandTheftMultiplayer.Server.API;
 
@@ -125,6 +126,9 @@ namespace EvoMp.Core.Core
 
             // Load Modules
             new ModuleLoader(API).Load();
+            ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
+            ConsoleOutput.PrintLine("-");
+            Shared.OnOnCoreStartupCompleted();
         }
     }
 }
