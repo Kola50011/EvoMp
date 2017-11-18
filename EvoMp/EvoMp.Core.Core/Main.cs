@@ -28,7 +28,7 @@ namespace EvoMp.Core.Core
                 #region Core preparing / initialization
 
                 // Clear console, set console color & write copyright
-                ConsoleOutput.Clear();
+                ConsoleUtils.Clear();
 
                 // Prepare Console set title
                 ConsoleHandler.ConsoleHandler.PrepareConsole();
@@ -38,7 +38,7 @@ namespace EvoMp.Core.Core
 
                 #endregion // Core preparing / initialization
 
-                ConsoleOutput.SetConsoleTitle("EvoMp GT-MP Server Core. All rights reserverd.");
+                ConsoleUtils.SetConsoleTitle("EvoMp GT-MP Server Core. All rights reserverd.");
 
                 // Load core startup parameter
                 string asciiLogoFile = ParameterHandler.GetFirstParameterValue(CoreParameter.LogoFileName);
@@ -131,15 +131,15 @@ namespace EvoMp.Core.Core
 
                 // Load Modules
                 new ModuleLoader(API).Load();
+
+                // Finish sequence
+                Shared.OnOnCoreStartupCompleted();
                 ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
                 ConsoleOutput.PrintLine("-");
-                Shared.OnOnCoreStartupCompleted();
             }
             catch (Exception e)
             {
-                Console.SetOut(ConsoleHandler.ConsoleHandler.OriginalTextWriter);
-                Console.WriteLine(e);
-                //throw;
+                ConsoleUtils.InternalConsoleWrite(e.ToString());
             }
         }
     }

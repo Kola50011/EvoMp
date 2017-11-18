@@ -46,7 +46,7 @@ namespace EvoMp.Core.ColorHandler
             {
                 // Get the correct color code from the tilde & return it
                 ColorCodePropertie colorCodePropertie =
-                    ColorCodeProperties.FirstOrDefault(cc => cc.Identifier == $"~{colorCode}~");
+                    ColorCodeProperties.FirstOrDefault(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~");
 
                 // Return color code, if not control code
                 if (colorCodePropertie != null)
@@ -109,9 +109,9 @@ namespace EvoMp.Core.ColorHandler
 
                 // Check for invalid color string
                 if (equalConsoleColor == Color.Empty &&
-                    ColorCodeProperties.All(propertie => propertie.Identifier != $"~{colorCode}~"))
+                    ColorCodeProperties.All(propertie => propertie.Identifier.ToLower() != $"~{colorCode.ToLower()}~"))
                     Console.WriteLine(
-                        $"~o~Unknown ~;~color string ~b~\"\\~{colorCode}\\~\"~;~!\n" +
+                        $"~o~Unknown ~;~color string ~b~\"\\~{colorCode.ToLower()}\\~\"~;~!\n" +
                         $"Message: ~b~{CleanUpColorCodes(message)}~r~.");
 
                 // Parse position
@@ -213,7 +213,7 @@ namespace EvoMp.Core.ColorHandler
 
                 void BuildControlString()
                 {
-                    string ansiString = ColorCodeProperties.First(cc => cc.Identifier == $"~{colorCode}~")
+                    string ansiString = ColorCodeProperties.First(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~")
                         .ControlCodeAnsi;
 
                     // Is reset code -> reset last background
@@ -253,7 +253,7 @@ namespace EvoMp.Core.ColorHandler
                         break;
 
                 // Color code is Control code -> Build Control String
-                if (ColorCodeProperties.Any(cc => cc.Identifier == $"~{colorCode}~" && cc.ControlCodeAnsi != null
+                if (ColorCodeProperties.Any(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~" && cc.ControlCodeAnsi != null
                                                   && (!codeParsingDisabled || cc.IgnoresParsingDisabled)))
                     BuildControlString();
                 else if (!codeParsingDisabled)
@@ -331,7 +331,7 @@ namespace EvoMp.Core.ColorHandler
                 // Check now each colorCodes and each side of new string
                 foreach (string colorCode in colorCodes)
                 {
-                    if (uncleanedTestMessageLeft.Contains($"~{colorCode}~"))
+                    if (uncleanedTestMessageLeft.ToLower().Contains($"~{colorCode.ToLower()}~"))
                     {
                         uncleanedTestMessageLeft =
                             new Regex(Regex.Escape($"~{colorCode}~")).Replace(uncleanedTestMessageLeft, "", 1);

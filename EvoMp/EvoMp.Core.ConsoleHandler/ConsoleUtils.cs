@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using EvoMp.Core.ColorHandler;
 
 namespace EvoMp.Core.ConsoleHandler
@@ -14,6 +10,8 @@ namespace EvoMp.Core.ConsoleHandler
     public class ConsoleUtils
     {
         private static int _longestConsoleTypeLength;
+        private static int _lastConsoleTop;
+        internal static int ConsoleInputStartLeft;
 
         /// <summary>
         ///     Returns the propertys for the given ConsoleType
@@ -24,11 +22,130 @@ namespace EvoMp.Core.ConsoleHandler
         {
             MemberInfo[] memberInfo = consoleType.GetType().GetMember(consoleType.ToString());
             ConsoleTypeProperties attributes =
-                (ConsoleTypeProperties)memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
+                (ConsoleTypeProperties) memberInfo[0].GetCustomAttribute(typeof(ConsoleTypeProperties), false);
 
             return attributes;
         }
-        
+
+        /// <summary>
+        /// Switches the console output safe to original and back.
+        /// </summary>
+        /// <param name="action">Functionblock between switching</param>
+        public static void SafeSystemConsoleUse(Action action)
+        {
+            if (ConsoleOutput.OriginalTextWriter != null)
+                Console.SetOut(ConsoleOutput.OriginalTextWriter);
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                // Reset output
+                if (ConsoleOutput.NewTextWriter != null)
+                    Console.SetOut(ConsoleOutput.NewTextWriter);
+
+                // Set error
+                if (ConsoleOutput.OriginalTextWriter != null)
+                    Console.SetError(ConsoleOutput.OriginalTextWriter);
+            }
+        }
+
+        /// <summary>
+        ///     Writes the message final to the console
+        /// </summary>
+        /// <param name="message">Message wich should be written</param>
+        public static void InternalConsoleWrite(string message)
+        {
+            SafeSystemConsoleUse(() =>
+            {
+                if (Console.BufferHeight - Console.WindowHeight > 0)
+                {
+                    // Last pos, clear line, write message & save top
+                    Console.SetCursorPosition(0, _lastConsoleTop);
+                    Console.Write("".PadRight(Console.WindowWidth));
+                    Console.SetCursorPosition(0, _lastConsoleTop);
+                }
+                Console.Write(message);
+                _lastConsoleTop = Console.CursorTop;
+
+                // Console text fits in window -> return;
+                //if (_lastConsoleTop <= Console.WindowHeight)
+                if (Console.CursorTop < Console.WindowHeight)
+                    return;
+
+                // Write input field
+                ConsoleTypeProperties conInProps = GetConsoleTypeProperties(ConsoleType.ConsoleInput);
+                string inputLine =
+                    $"~w~ │{conInProps.ColorCodeType} {conInProps.DisplayName}" +
+                    $"{"".PadRight(_longestConsoleTypeLength - ColorUtils.CleanUpColorCodes(conInProps.DisplayName).Length)} ~;~~w~│";
+
+                float multipler = (float) 0.011 * ConsoleOutput.CountSameTimestamp;
+                multipler = multipler < 0.9 ? multipler : (float) 0.9;
+
+                inputLine =
+                    ColorUtils.DarkUpHexColors(ConsoleOutput.LastTimestamp, multipler) +
+                    $"~w~ │" +
+                    string.Empty.PadRight(_longestConsoleTypeLength + 2, '_') + "~w~│" +
+                    "".PadRight(Console.WindowWidth
+                                - ColorUtils.CleanUpColorCodes(inputLine).Length
+                                - ColorUtils.CleanUpColorCodes(ConsoleOutput.LastTimestamp).Length, '_') +
+                    "\n" +
+                    ColorUtils.DarkUpHexColors(ConsoleOutput.LastTimestamp, (float) 0.011 + multipler) +
+                    inputLine + "  > ";
+
+                if (Console.CursorTop + 2 > Console.BufferHeight)
+                    Console.BufferHeight++;
+
+                Console.Write(ColorUtils.GenerateColoredString(inputLine));
+                ConsoleInputStartLeft = Console.CursorLeft;
+                Console.Write(ConsoleInput.CurrentConsoleInput);
+            });
+        }
+
+        /// <summary>
+        ///     Checks if a System.Console.* Message is a GtMp Message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        internal static bool IsGtmpConsoleMessage(string message)
+        {
+            string[] gtmpConsoleParts =
+            {
+                " | Debug | GameServer | ",
+                " |  Info | Program |",
+                " |  Info | GameServer |"
+            };
+
+            return gtmpConsoleParts.Any(message.Contains);
+        }
+
+        /// <summary>
+        ///     Reset console colors
+        /// </summary>
+        internal static void ResetColor()
+        {
+            SafeSystemConsoleUse(Console.ResetColor);
+        }
+
+        /// <summary>
+        ///     Sets the console title
+        /// </summary>
+        /// <param name="title">New console title</param>
+        public static void SetConsoleTitle(string title)
+        {
+            Console.Title = title;
+        }
+
+        /// <summary>
+        ///     Clears the console window
+        /// </summary>
+        public static void Clear()
+        {
+            SafeSystemConsoleUse(Console.Clear);
+        }
+
         /// <summary>
         ///     Fills up a string with needed spaces,
         ///     or centering a string into wanted length
@@ -75,11 +192,11 @@ namespace EvoMp.Core.ConsoleHandler
             foreach (ConsoleType consoleType in Enum.GetValues(typeof(ConsoleType)))
             {
                 ConsoleTypeProperties consoleTypeProperties = GetConsoleTypeProperties(consoleType);
-
                 if (consoleTypeProperties.DisplayName != null)
                 {
-                    if (consoleTypeProperties.DisplayName.Length > _longestConsoleTypeLength)
-                        _longestConsoleTypeLength = consoleTypeProperties.DisplayName.Length;
+                    string displayName = ColorUtils.CleanUpColorCodes(consoleTypeProperties.DisplayName);
+                    if (displayName.Length > _longestConsoleTypeLength)
+                        _longestConsoleTypeLength = displayName.Length;
                 }
                 else if ($"{consoleType}".Length > _longestConsoleTypeLength)
                 {
@@ -90,9 +207,6 @@ namespace EvoMp.Core.ConsoleHandler
             return _longestConsoleTypeLength;
         }
 
-       
-
-        
 
         /// <summary>
         ///     Parsing a file line by line to a new string.

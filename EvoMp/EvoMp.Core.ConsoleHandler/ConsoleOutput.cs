@@ -1,17 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using EvoMp.Core.ColorHandler;
+using GrandTheftMultiplayer.Server.Util;
 
 namespace EvoMp.Core.ConsoleHandler
 {
     public static class ConsoleOutput
     {
-        private static string _lastTimestamp = string.Empty;
-        private static int _countSameTimestamp;
-        private static int _lastHeaderLength;
+        internal static string LastTimestamp = string.Empty;
+        internal static int CountSameTimestamp = -1;
+        internal static int LastHeaderLength;
         private static string _prefix = string.Empty;
+
+        public static TextWriter OriginalTextWriter;
+        public static StringWriter NewTextWriter;
+
+        static Process p = Process.GetCurrentProcess();
+
+        /// <summary>
+        /// Prepares the ConsoleOutput.
+        /// Mostly setup fetch other console inputs. 
+        /// </summary>
+        internal static void PrepareConsoleOutput()
+        {
+            // Bind original Console.Out
+            NewTextWriter = new StringWriter();
+            OriginalTextWriter = Console.Out;
+            Console.SetError(Console.Out);
+
+            Console.SetOut(NewTextWriter);
+
+            // Start thread to fetch old ConsoleOutputs.
+            new Thread(SystemConsoleWatcher).Start();
+        }
+
+        private static void SystemConsoleWatcher()
+        {
+            DateTime lastWarnSend = DateTime.MinValue;
+            const int warnEachMs = 5 * 1000; // 5 seconds
+            while (true)
+            {
+                // Wait 100ms.
+                Thread.Sleep(100);
+
+                // Text didn't canged -> continue;
+                if (NewTextWriter.ToString() == "")
+                    continue;
+
+                string message = NewTextWriter.ToString().Trim();
+                bool gtMpMessage = ConsoleUtils.IsGtmpConsoleMessage(message);
+
+                // Print Text as invalid console use.
+                if (!gtMpMessage && lastWarnSend.AddMilliseconds(warnEachMs) < DateTime.Now)
+                {
+                    WriteLine(ConsoleType.Warn,
+                        "Use ConsoleOutput.* for console output. " + "Other console outputs get catched.");
+                    lastWarnSend = DateTime.Now;
+                }
+
+                // Remove GtMp console tags
+                if (gtMpMessage)
+                    message = message.Substring(message.LastIndexOf(" | ", StringComparison.Ordinal) + 3);
+
+                // Write console line
+                string[] newLines = message.Split('\n');
+                foreach (string line in newLines)
+                    WriteLine(gtMpMessage ? ConsoleType.GtMp : ConsoleType.ConsoleOutput, line);
+
+                // Clear string Writer
+                StringBuilder stringBuilder = NewTextWriter.GetStringBuilder();
+                stringBuilder.Remove(0, stringBuilder.Length);
+            }
+            // ReSharper disable once FunctionNeverReturns
+        }
 
         /// <summary>
         ///     Writes a empty line
@@ -28,7 +96,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            int maxMessageWidth = Console.WindowWidth - _lastHeaderLength - _prefix.Length;
+            int maxMessageWidth = Console.WindowWidth - LastHeaderLength - _prefix.Length;
 
             // LineTop identifier avalible -> line top as first
             if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
@@ -120,7 +188,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Parse linebreaks for clear output
-            string[] messages = message.Trim().Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -181,7 +249,7 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Sets the prefix for each message.
+        ///     Sets the prefix for each message.
         /// </summary>
         /// <param name="prefix">New prefix</param>
         public static void SetPrefix(string prefix)
@@ -190,7 +258,7 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Returns the current prefix.
+        ///     Returns the current prefix.
         /// </summary>
         /// <returns>Current message prefix</returns>
         public static string GetPrefix()
@@ -249,7 +317,7 @@ namespace EvoMp.Core.ConsoleHandler
             bool wasControlCodeLine = false;
             bool messageHasLinebreak = false;
 
-            int maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
+            int maxInnerLineLength = Console.WindowWidth - LastHeaderLength;
 
             // Prepare message.
             if (message.EndsWith("\n"))
@@ -266,32 +334,29 @@ namespace EvoMp.Core.ConsoleHandler
 
             if (consoleType != ConsoleType.Empty)
             {
-                string timestamp = $"~#cccccc~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
+                string timestamp = $"~#FFFFFF~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
 
                 // Timestamp didn't changed -> dark it up
-                if (_lastTimestamp == timestamp)
-                {
-                    _countSameTimestamp++;
-                    timestamp = ColorUtils.DarkUpHexColors(timestamp, (float) 0.011 * _countSameTimestamp);
-                }
-                else
-                {
-                    _lastTimestamp = timestamp;
-                    _countSameTimestamp = 0;
-                }
+                if (LastTimestamp != timestamp)
+                    CountSameTimestamp = -1;
+
+                LastTimestamp = timestamp;
+                CountSameTimestamp++;
+                float multipler = (float) 0.011 * CountSameTimestamp;
+                timestamp = ColorUtils.DarkUpHexColors(timestamp, multipler < 0.9 ? multipler : (float) 0.9);
+
 
                 // Write log type information
                 string typeDisplayName = typeProperties.DisplayName?.ToUpper() ?? $"{consoleType}".ToUpper();
-                writeMessage = timestamp + "~w~ │ " +
-                               ConsoleUtils.AlignText(typeProperties.ColorCodeType + typeDisplayName + "~|~",
-                                   ConsoleUtils.GetLengthOfLongestConsoleType());
+                writeMessage =
+                    $"{timestamp}~w~ │{typeProperties.ColorCodeType} {ConsoleUtils.AlignText(typeDisplayName + "~|~", ConsoleUtils.GetLengthOfLongestConsoleType())}";
 
                 // Vertical line
-                writeMessage = writeMessage + " ~w~│ ";
+                writeMessage = writeMessage + " ~;~~w~│ ";
 
                 // Save header length for calculation
-                _lastHeaderLength = ColorUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
-                maxInnerLineLength = Console.WindowWidth - _lastHeaderLength;
+                LastHeaderLength = ColorUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
+                maxInnerLineLength = Console.WindowWidth - LastHeaderLength;
 
                 // Trim ConsoleType.Line for fit in console window
                 // Or Lines with other ConsoleType
@@ -304,11 +369,11 @@ namespace EvoMp.Core.ConsoleHandler
                         wasControlCodeLine = true;
                     }
 
-                    if (_lastHeaderLength < message.Length)
+                    if (LastHeaderLength < message.Length)
                     {
                         int colorCodeLength = message.Length - ColorUtils.CleanUpColorCodes(message).Length;
                         string colorCode = message.Substring(0, colorCodeLength);
-                        message = colorCode + message.Substring(_lastHeaderLength);
+                        message = colorCode + message.Substring(LastHeaderLength);
                     }
                 }
             }
@@ -384,20 +449,13 @@ namespace EvoMp.Core.ConsoleHandler
             // Replace tab with spaces
             writeMessage = writeMessage.Replace("\t", "  ");
 
-            // Write message
-            Console.SetOut(ConsoleHandler.OriginalTextWriter);
-            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop);
-            Console.Write(writeMessage);
-            Console.SetOut(ConsoleHandler.NewTextWriter);
+            ConsoleUtils.InternalConsoleWrite(writeMessage);
 
             // Print, if control code was given, bottom line
             if (printLineBottom)
                 PrintLine("-", "", consoleType);
 
-            // Reset console colors
-            Console.SetOut(ConsoleHandler.OriginalTextWriter);
-            Console.ResetColor();
-            Console.SetOut(ConsoleHandler.NewTextWriter);
+            ConsoleUtils.ResetColor();
         }
 
         public static void WriteException(string message)
@@ -408,23 +466,6 @@ namespace EvoMp.Core.ConsoleHandler
                       $"{" ".PadRight(60, '-')}\n" +
                       $"{exception.StackTrace}";
             WriteLine(ConsoleType.Fatal, message);
-        }
-
-        /// <summary>
-        ///     Sets the console title
-        /// </summary>
-        /// <param name="title">New console title</param>
-        public static void SetConsoleTitle(string title)
-        {
-            Console.Title = title;
-        }
-
-        /// <summary>
-        ///     Clears the console window
-        /// </summary>
-        public static void Clear()
-        {
-            Console.Clear();
         }
 
         /// <summary>
@@ -449,10 +490,7 @@ namespace EvoMp.Core.ConsoleHandler
             if (consoleType != ConsoleType.Line)
                 returnString = "~!--!~" + returnString;
 
-            // Reset console colors
-            Console.SetOut(ConsoleHandler.OriginalTextWriter);
-            Console.ResetColor();
-            Console.SetOut(ConsoleHandler.NewTextWriter);
+            ConsoleUtils.ResetColor();
 
             // Write line
             WriteLine(consoleType, returnString, true);

@@ -35,7 +35,7 @@ namespace EvoMp.Module.CommandHandler
                 if (blockingCommand != null)
                 {
                     ConsoleOutput.WriteLine(ConsoleType.Warn,
-                        $"Command {blockingCommand.FullName()} with same command string! Command string removed.");
+                        $"Command {blockingCommand.FullName()} with same command string!");
                     newCommand.Command = "";
                     returnValue = false;
                 }
