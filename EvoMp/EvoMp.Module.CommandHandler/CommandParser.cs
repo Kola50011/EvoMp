@@ -110,7 +110,7 @@ namespace EvoMp.Module.CommandHandler
                         "~w~~_~Any~;~ command method ~w~~_~must be public~;~. " +
                         "In addition, the class where those methods are located " +
                         "~w~~_~must be instanced as a public field or property~;~.\n" +
-                        "Except: ~w~~_~Static command functions - can be public only.~;~ \n" +
+                        "Except: ~w~~_~Static command functions - can be public only~;~.\n" +
                         "See ~r~!~;~ for affected commands.");
                     _commandUsageSend = true;
                 }

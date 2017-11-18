@@ -11,6 +11,7 @@ namespace EvoMp.Core.ConsoleHandler
     {
         internal static int LongestTypeLength;
         internal static int InputCursorLeftStart;
+        public static bool OriginalWriterInUse { get; set; }
 
         /// <summary>
         ///     Returns the propertys for the given ConsoleType
@@ -32,6 +33,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <param name="action">Functionblock between switching</param>
         public static void SafeSystemConsoleUse(Action action)
         {
+            OriginalWriterInUse = true;
             if (ConsoleOutput.OriginalTextWriter != null)
                 Console.SetOut(ConsoleOutput.OriginalTextWriter);
             try
@@ -47,7 +49,7 @@ namespace EvoMp.Core.ConsoleHandler
                 /*// Set error
                 if (ConsoleOutput.NewTextWriter != null)
                     Console.SetError(ConsoleOutput.NewTextWriter);*/
-
+                OriginalWriterInUse = false;
             }
         }
 
