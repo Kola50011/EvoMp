@@ -30,8 +30,8 @@ namespace EvoMp.Core.ConsoleHandler
         internal static ConsoleCommand GetConsoleCommand(string commandString)
 
         {
-            return Commands.FirstOrDefault(command => command.Command.ToLower() != commandString.ToLower()
-                                                      && !command.CommandAliases.Select(ca => ca.ToLower())
+            return Commands.FirstOrDefault(command => command.Command.ToLower() == commandString.ToLower()
+                                                      || command.CommandAliases.Select(ca => ca.ToLower())
                                                           .Contains(commandString.ToLower()));
         }
 
@@ -57,7 +57,6 @@ namespace EvoMp.Core.ConsoleHandler
                 // Check for parameters
                 List<object> parameterValues = new List<object>();
                 ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
-                bool invalidMethodParameter = false;
 
                 string currentParameterString = String.Empty;
                 for (int i = 0; i < commandParameters.Length; i++)
@@ -101,14 +100,9 @@ namespace EvoMp.Core.ConsoleHandler
                     {
                         ConsoleOutput.WriteLine(ConsoleType.Error,
                             $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
-                        invalidMethodParameter = true;
-                        break;
+                        return;
                     }
                 }
-
-                // Invalid cast exception -> next command
-                if (invalidMethodParameter)
-                    continue;
 
                 // Not enough parameter values -> message & next;
                 if (commandParameters.Count(info => !info.IsOptional) != parameterValues.Count)
@@ -116,13 +110,14 @@ namespace EvoMp.Core.ConsoleHandler
                     ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand,
                         $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +
                         $"Type ~b~\"/help {enteredCommand}\"~;~ for more information.");
-                    continue;
+                    return;
                 }
 
                 //TODO: check for optional parameters needed
 
                 // Invoke command
                 command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());
+                return;
             }
         }
 

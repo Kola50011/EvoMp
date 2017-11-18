@@ -18,7 +18,7 @@
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "CCMD")] ConsoleCommand,
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "COUT")] ConsoleOutput,
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "CIN")] ConsoleInput,
-        [ConsoleTypeProperties("~#009cff~", "Help", "~#009cff~")] Help,
+        [ConsoleTypeProperties("~#80b8db~", "Help", "~#80b8db~")] Help,
 
         /// <summary>
         ///     This type gives only the message to the console output.

@@ -18,14 +18,21 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Show command help
-            string commandParameter = string.Join("\n", command.MethodInfo.GetParameters()
-                .Select(info => $"~c~{info.ParameterType}~;~ {info.Name} " +
-                                $"~l~{(info.IsOptional ? $" = [{info.DefaultValue}]" : "")}~;~"));
+            string commandParameter = string.Join(", ", command.MethodInfo.GetParameters()
+                .Select(info => $"~m~{info.ParameterType}~;~ {info.Name} " +
+                                $"~l~{(info.IsOptional ? $" = [{info.DefaultValue}] " : "")}~;~"));
 
             ConsoleOutput.WriteLine(ConsoleType.Help,
                 $"Command: ~w~{command.Command}~;~\n" +
                 $"Aliase: ~w~{string.Join(", ", command.CommandAliases)}\n" +
-                $"Parameter usage: {commandParameter}");
+                $"Usage: ~w~{command.Command} {commandParameter}");
+        }
+
+        [ConsoleCommand("/testfunc", new[] {"-t"})]
+        public static void ViewHelpInformations(string helloWorldStr, int lottozahlen, double niederschlag,
+            bool playingCsGo,
+            string nutella = "ja")
+        {
         }
     }
 }
