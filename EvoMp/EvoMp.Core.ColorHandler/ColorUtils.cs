@@ -30,7 +30,7 @@ namespace EvoMp.Core.ColorHandler
         {
             MemberInfo[] memberInfo = colorCode.GetType().GetMember(colorCode.ToString());
             ColorCodePropertie attributes =
-                (ColorCodePropertie)memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
+                (ColorCodePropertie) memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
 
             return attributes;
         }
@@ -139,10 +139,9 @@ namespace EvoMp.Core.ColorHandler
         /// <returns></returns>
         public static int CompareColorsContrast(Color color1, Color color2)
         {
-            return Math.Abs(((299 * color1.R + 587 * color1.G + 114 * color1.B) /
-                            1000) - ((299 * color2.R + 587 * color2.G +
-                                              114 * color2.B) / 1000));
-
+            return Math.Abs((299 * color1.R + 587 * color1.G + 114 * color1.B) /
+                            1000 - (299 * color2.R + 587 * color2.G +
+                                    114 * color2.B) / 1000);
         }
 
         /// <summary>
@@ -200,7 +199,7 @@ namespace EvoMp.Core.ColorHandler
                         // if (foregroundColor.CompareColorsRgb(foregroundColor, currentBackground) < 110)
                         if (CompareColorsContrast(foregroundColor, currentBackground) < 10)
                             Console.Error.WriteLine($"Please correct next message. " +
-                                $"Sure you can read the text ~_~fine~|~ on this background?\n");
+                                                    $"Sure you can read the text ~_~fine~|~ on this background?\n");
 
                     // Rebuild message
                     message = $"{message.Substring(0, currentCode.Key + completeColorCodesLength)}" +
@@ -213,7 +212,8 @@ namespace EvoMp.Core.ColorHandler
 
                 void BuildControlString()
                 {
-                    string ansiString = ColorCodeProperties.First(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~")
+                    string ansiString = ColorCodeProperties
+                        .First(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~")
                         .ControlCodeAnsi;
 
                     // Is reset code -> reset last background
@@ -253,8 +253,9 @@ namespace EvoMp.Core.ColorHandler
                         break;
 
                 // Color code is Control code -> Build Control String
-                if (ColorCodeProperties.Any(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~" && cc.ControlCodeAnsi != null
-                                                  && (!codeParsingDisabled || cc.IgnoresParsingDisabled)))
+                if (ColorCodeProperties.Any(cc =>
+                    cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~" && cc.ControlCodeAnsi != null
+                    && (!codeParsingDisabled || cc.IgnoresParsingDisabled)))
                     BuildControlString();
                 else if (!codeParsingDisabled)
                     BuildColorString();
