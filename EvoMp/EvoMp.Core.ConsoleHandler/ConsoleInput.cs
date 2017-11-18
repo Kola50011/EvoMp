@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using EvoMp.Core.ConsoleHandler.Properties;
@@ -8,11 +9,11 @@ namespace EvoMp.Core.ConsoleHandler
 {
     internal class ConsoleInput
     {
-        public delegate void ConsoleHistorySelection(string consoleInput);
-
         public delegate void ConsoleKeyPress(ConsoleKeyInfo moduleInstance);
 
-        public delegate void ConsoleStringInput(string consoleInput);
+        public delegate void ConsoleString(string consoleString, CancelEventArgs cancelEventArgs);
+
+        public delegate void InputValueChange(string consoleInput);
 
         internal static string CurrentConsoleInput = "... Blocked on startup ...";
 
@@ -22,10 +23,9 @@ namespace EvoMp.Core.ConsoleHandler
         internal static bool CursorInsertMode = true;
         private static readonly int OriginalCursorSize = Console.CursorSize;
 
-
         public static event ConsoleKeyPress OnConsoleKeyPress;
-        public static event ConsoleStringInput OnConsoleStringInput;
-        public static event ConsoleHistorySelection OnConsoleInputHistorySelected;
+        public static event ConsoleString OnConsoleString;
+        public static event InputValueChange OnInputValueChange;
 
         /// <summary>
         ///     Prepares the console input routine.
@@ -46,8 +46,12 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Bind console input events
             OnConsoleKeyPress += WriteConsoleKeyPress;
-            OnConsoleStringInput += input => ConsoleOutput.WriteLine(ConsoleType.ConsoleInput, input);
-            OnConsoleInputHistorySelected += WriteHistoryChange;
+            OnInputValueChange += WriteHistoryChange;
+            OnConsoleString += (consoleString, args) =>
+            {
+                if (!args.Cancel)
+                    ConsoleOutput.WriteLine(ConsoleType.ConsoleInput, consoleString);
+            };
         }
 
         /// <summary>
@@ -74,7 +78,7 @@ namespace EvoMp.Core.ConsoleHandler
                     }
                     case ConsoleKey.Enter:
                     {
-                        string finalConsoleInput = CurrentConsoleInput;
+                        string newConsoleInput = CurrentConsoleInput;
                         CurrentConsoleInput = string.Empty;
 
                         // Remove current temp
@@ -84,17 +88,17 @@ namespace EvoMp.Core.ConsoleHandler
                         _cursorPos = 0;
 
                         // Save in settings
-                        if (!string.IsNullOrWhiteSpace(finalConsoleInput))
+                        if (!string.IsNullOrWhiteSpace(newConsoleInput))
                         {
-                            InputHistory.Remove(finalConsoleInput);
-                            InputHistory.Add(finalConsoleInput);
+                            InputHistory.Remove(newConsoleInput);
+                            InputHistory.Add(newConsoleInput);
 
                             Settings.Default.ConsoleInputHistory.Clear();
                             foreach (string s in InputHistory.GetRange(0, Math.Min(InputHistory.Count, 2000)))
                                 Settings.Default.ConsoleInputHistory.Add(s);
                             Settings.Default.Save();
                         }
-                        NewConsoleStringInput(finalConsoleInput);
+                        TriggerConsoleString(newConsoleInput);
                         break;
                     }
                     case ConsoleKey.Backspace:
@@ -139,11 +143,9 @@ namespace EvoMp.Core.ConsoleHandler
                             _historyIndex--;
                         }
                         else
-                        {
                             _historyIndex--;
-                        }
 
-                        SelectHistoryItem(InputHistory[_historyIndex]);
+                        TriggerInputValueChange(InputHistory[_historyIndex]);
                         break;
                     }
                     case ConsoleKey.DownArrow:
@@ -154,7 +156,7 @@ namespace EvoMp.Core.ConsoleHandler
                         if (InputHistory.Count - 1 > _historyIndex)
                             _historyIndex++;
 
-                        SelectHistoryItem(InputHistory[_historyIndex]);
+                        TriggerInputValueChange(InputHistory[_historyIndex]);
                         break;
                     }
                     case ConsoleKey.RightArrow:
@@ -206,7 +208,7 @@ namespace EvoMp.Core.ConsoleHandler
                         break;
                     }
                 }
-                OnOnConsoleKeyPress(key);
+                TriggerConsoleKeyPress(key);
             }
         }
 
@@ -219,10 +221,10 @@ namespace EvoMp.Core.ConsoleHandler
         {
             ConsoleUtils.SafeSystemConsoleUse(() =>
             {
-                string cleanUpStr = string.Empty.PadRight(Console.BufferWidth - ConsoleUtils.ConsoleInputStartLeft);
-                Console.CursorLeft = ConsoleUtils.ConsoleInputStartLeft;
+                string cleanUpStr = string.Empty.PadRight(Console.BufferWidth - ConsoleUtils.InputCursorLeftStart);
+                Console.CursorLeft = ConsoleUtils.InputCursorLeftStart;
                 Console.Write(cleanUpStr);
-                Console.CursorLeft = ConsoleUtils.ConsoleInputStartLeft;
+                Console.CursorLeft = ConsoleUtils.InputCursorLeftStart;
                 Console.Write(consoleInput);
             });
         }
@@ -241,12 +243,14 @@ namespace EvoMp.Core.ConsoleHandler
                 switch (consoleKeyInfo.Key)
                 {
                     case ConsoleKey.Backspace:
-                        Console.CursorLeft--;
+                        if (Console.CursorLeft > 0)
+                            Console.CursorLeft--;
                         Console.Write(" ");
                         break;
                     case ConsoleKey.Delete:
                         Console.Write(" ");
-                        Console.CursorLeft--;
+                        if (Console.CursorLeft > 0)
+                            Console.CursorLeft--;
                         break;
                     default:
                         if (char.IsControl(consoleKeyInfo.KeyChar))
@@ -258,25 +262,25 @@ namespace EvoMp.Core.ConsoleHandler
                         break;
                 }
                 // Set correct console cursor position
-                Console.CursorLeft = ConsoleUtils.ConsoleInputStartLeft + _cursorPos;
+                Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + _cursorPos;
             });
         }
 
-        private static void OnOnConsoleKeyPress(ConsoleKeyInfo moduleinstance)
+        private static void TriggerConsoleKeyPress(ConsoleKeyInfo moduleInstance)
         {
-            OnConsoleKeyPress?.Invoke(moduleinstance);
+            OnConsoleKeyPress?.Invoke(moduleInstance);
         }
 
-        private static void NewConsoleStringInput(string consoleinput)
+        private static void TriggerConsoleString(string consoleString)
         {
-            OnConsoleStringInput?.Invoke(consoleinput);
+            OnConsoleString?.Invoke(consoleString, new CancelEventArgs());
         }
 
-        private static void SelectHistoryItem(string consoleinput)
+        private static void TriggerInputValueChange(string newValue)
         {
-            CurrentConsoleInput = consoleinput;
-            _cursorPos = consoleinput.Length;
-            OnConsoleInputHistorySelected?.Invoke(consoleinput);
+            CurrentConsoleInput = newValue;
+            _cursorPos = newValue.Length;
+            OnInputValueChange?.Invoke(newValue);
         }
     }
 }

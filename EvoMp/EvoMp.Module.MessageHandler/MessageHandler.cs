@@ -1,6 +1,4 @@
-﻿using System;
-using EvoMp.Core.ColorHandler;
-using EvoMp.Core.Module;
+﻿using EvoMp.Core.ColorHandler;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
@@ -18,7 +16,7 @@ namespace EvoMp.Module.MessageHandler
 
         public void PlayerMessage(Client sender, string message)
         {
-            _api.sendChatMessageToPlayer(sender, ColorUtils.CleanUpColorCodes(message));
+            _api.sendChatMessageToPlayer(sender, ColorUtils.CleanUp(message));
         }
     }
 }

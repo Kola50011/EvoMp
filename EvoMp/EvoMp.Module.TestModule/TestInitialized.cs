@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EvoMp.Core.Module;
-using EvoMp.Module.CommandHandler.Attributes;
+﻿using EvoMp.Module.CommandHandler.Attributes;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.TestModule

@@ -1,5 +1,4 @@
-﻿using System;
-using GrandTheftMultiplayer.Server.API;
+﻿using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Module
 {

@@ -1,6 +1,5 @@
 ﻿using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Attributes;
-using EvoMp.Module.EventHandler;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 

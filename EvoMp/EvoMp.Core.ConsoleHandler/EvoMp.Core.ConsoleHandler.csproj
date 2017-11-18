@@ -55,7 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
+    <Compile Include="ConsoleCommand.cs" />
     <Compile Include="ConsoleHandler.cs" />
+    <Compile Include="ConsoleCommandHandler.cs" />
     <Compile Include="ConsoleInput.cs" />
     <Compile Include="ConsoleError.cs" />
     <Compile Include="ConsoleOutput.cs" />

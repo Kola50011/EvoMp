@@ -30,6 +30,10 @@ namespace EvoMp.Module.CommandHandler.Attributes
         /// </summary>
         object ClassInstance { get; set; }
 
+        /// <summary>
+        /// Returns the full namespace + method name from the command.
+        /// </summary>
+        /// <returns></returns>
         string FullName();
     }
 }

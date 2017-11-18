@@ -139,7 +139,7 @@ namespace EvoMp.Core.Core
             }
             catch (Exception e)
             {
-                ConsoleUtils.InternalConsoleWrite(e.ToString());
+                ConsoleOutput.FinalConsoleWrite(e.ToString(), true);
             }
         }
     }

@@ -9,9 +9,8 @@ namespace EvoMp.Core.ConsoleHandler
 {
     public class ConsoleUtils
     {
-        private static int _longestConsoleTypeLength;
-        private static int _lastConsoleTop;
-        internal static int ConsoleInputStartLeft;
+        internal static int LongestTypeLength;
+        internal static int InputCursorLeftStart;
 
         /// <summary>
         ///     Returns the propertys for the given ConsoleType
@@ -28,17 +27,16 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Switches the console output safe to original and back.
+        ///     Switches the console output safe to original and back.
         /// </summary>
         /// <param name="action">Functionblock between switching</param>
         public static void SafeSystemConsoleUse(Action action)
         {
             if (ConsoleOutput.OriginalTextWriter != null)
                 Console.SetOut(ConsoleOutput.OriginalTextWriter);
-
             try
             {
-                action();
+                action.DynamicInvoke();
             }
             finally
             {
@@ -46,63 +44,15 @@ namespace EvoMp.Core.ConsoleHandler
                 if (ConsoleOutput.NewTextWriter != null)
                     Console.SetOut(ConsoleOutput.NewTextWriter);
 
-                // Set error
-                if (ConsoleOutput.OriginalTextWriter != null)
-                    Console.SetError(ConsoleOutput.OriginalTextWriter);
+                /*// Set error
+                if (ConsoleOutput.NewTextWriter != null)
+                    Console.SetError(ConsoleOutput.NewTextWriter);*/
+
             }
         }
 
-        /// <summary>
-        ///     Writes the message final to the console
-        /// </summary>
-        /// <param name="message">Message wich should be written</param>
-        public static void InternalConsoleWrite(string message)
-        {
-            SafeSystemConsoleUse(() =>
-            {
-                if (Console.BufferHeight - Console.WindowHeight > 0)
-                {
-                    // Last pos, clear line, write message & save top
-                    Console.SetCursorPosition(0, _lastConsoleTop);
-                    Console.Write("".PadRight(Console.WindowWidth));
-                    Console.SetCursorPosition(0, _lastConsoleTop);
-                }
-                Console.Write(message);
-                _lastConsoleTop = Console.CursorTop;
+        
 
-                // Console text fits in window -> return;
-                //if (_lastConsoleTop <= Console.WindowHeight)
-                if (Console.CursorTop < Console.WindowHeight)
-                    return;
-
-                // Write input field
-                ConsoleTypeProperties conInProps = GetConsoleTypeProperties(ConsoleType.ConsoleInput);
-                string inputLine =
-                    $"~w~ │{conInProps.ColorCodeType} {conInProps.DisplayName}" +
-                    $"{"".PadRight(_longestConsoleTypeLength - ColorUtils.CleanUpColorCodes(conInProps.DisplayName).Length)} ~;~~w~│";
-
-                float multipler = (float) 0.011 * ConsoleOutput.CountSameTimestamp;
-                multipler = multipler < 0.9 ? multipler : (float) 0.9;
-
-                inputLine =
-                    ColorUtils.DarkUpHexColors(ConsoleOutput.LastTimestamp, multipler) +
-                    $"~w~ │" +
-                    string.Empty.PadRight(_longestConsoleTypeLength + 2, '_') + "~w~│" +
-                    "".PadRight(Console.WindowWidth
-                                - ColorUtils.CleanUpColorCodes(inputLine).Length
-                                - ColorUtils.CleanUpColorCodes(ConsoleOutput.LastTimestamp).Length, '_') +
-                    "\n" +
-                    ColorUtils.DarkUpHexColors(ConsoleOutput.LastTimestamp, (float) 0.011 + multipler) +
-                    inputLine + "  > ";
-
-                if (Console.CursorTop + 2 > Console.BufferHeight)
-                    Console.BufferHeight++;
-
-                Console.Write(ColorUtils.GenerateColoredString(inputLine));
-                ConsoleInputStartLeft = Console.CursorLeft;
-                Console.Write(ConsoleInput.CurrentConsoleInput);
-            });
-        }
 
         /// <summary>
         ///     Checks if a System.Console.* Message is a GtMp Message
@@ -160,7 +110,7 @@ namespace EvoMp.Core.ConsoleHandler
             if (text.Length == wantedLength)
                 return text;
 
-            string cleanedText = ColorUtils.CleanUpColorCodes(text);
+            string cleanedText = ColorUtils.CleanUp(text);
 
             // text is longer then lineLenght -> return text
             if (cleanedText.Length > wantedLength)
@@ -186,25 +136,25 @@ namespace EvoMp.Core.ConsoleHandler
         public static int GetLengthOfLongestConsoleType()
         {
             // Longest type alread getted -> return;
-            if (_longestConsoleTypeLength != 0) return _longestConsoleTypeLength;
+            if (LongestTypeLength != 0) return LongestTypeLength;
 
             // Search for longest console type
             foreach (ConsoleType consoleType in Enum.GetValues(typeof(ConsoleType)))
             {
                 ConsoleTypeProperties consoleTypeProperties = GetConsoleTypeProperties(consoleType);
-                if (consoleTypeProperties.DisplayName != null)
+                if (consoleTypeProperties.TypeName != null)
                 {
-                    string displayName = ColorUtils.CleanUpColorCodes(consoleTypeProperties.DisplayName);
-                    if (displayName.Length > _longestConsoleTypeLength)
-                        _longestConsoleTypeLength = displayName.Length;
+                    string displayName = ColorUtils.CleanUp(consoleTypeProperties.TypeName);
+                    if (displayName.Length > LongestTypeLength)
+                        LongestTypeLength = displayName.Length;
                 }
-                else if ($"{consoleType}".Length > _longestConsoleTypeLength)
+                else if ($"{consoleType}".Length > LongestTypeLength)
                 {
-                    _longestConsoleTypeLength = $"{consoleType}".Length;
+                    LongestTypeLength = $"{consoleType}".Length;
                 }
             }
 
-            return _longestConsoleTypeLength;
+            return LongestTypeLength;
         }
 
 
@@ -274,7 +224,8 @@ namespace EvoMp.Core.ConsoleHandler
 
         #region Dll console imports
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [
+            DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, int mode);
 
         [DllImport("kernel32.dll", SetLastError = true)]

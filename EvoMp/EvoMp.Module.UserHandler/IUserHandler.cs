@@ -1,4 +1,3 @@
-using EvoMp.Core.Core;
 using EvoMp.Core.Module;
 
 namespace EvoMp.Module.UserHandler

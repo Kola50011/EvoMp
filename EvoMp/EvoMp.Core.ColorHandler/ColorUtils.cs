@@ -75,7 +75,7 @@ namespace EvoMp.Core.ColorHandler
                 catch (Exception)
                 {
                     returnColor = Color.FromArgb(55, 55, 55);
-                    Console.WriteLine($"~w~Invalid Hex code ~o~{colorCode}~w~.");
+                    Console.Error.WriteLine($"~w~Invalid Hex code ~o~{colorCode}~w~.");
                 }
 
                 return returnColor;
@@ -110,9 +110,9 @@ namespace EvoMp.Core.ColorHandler
                 // Check for invalid color string
                 if (equalConsoleColor == Color.Empty &&
                     ColorCodeProperties.All(propertie => propertie.Identifier.ToLower() != $"~{colorCode.ToLower()}~"))
-                    Console.WriteLine(
+                    Console.Error.WriteLine(
                         $"~o~Unknown ~;~color string ~b~\"\\~{colorCode.ToLower()}\\~\"~;~!\n" +
-                        $"Message: ~b~{CleanUpColorCodes(message)}~r~.");
+                        $"Message: ~b~{CleanUp(message)}~r~.");
 
                 // Parse position
                 int colorCodePosition = message.IndexOf($"~{colorCode}~", StringComparison.Ordinal)
@@ -150,7 +150,7 @@ namespace EvoMp.Core.ColorHandler
         /// </summary>
         /// <param name="message">The message with the color strings</param>
         /// <returns>Colored string</returns>
-        public static string GenerateColoredString(string message)
+        public static string ColorizeAscii(string message)
         {
             // Parse colors from each code with position
             Dictionary<int, Color> colorsWithPosition = ColorCodeToConsoleColor(message);
@@ -199,7 +199,7 @@ namespace EvoMp.Core.ColorHandler
                         //if(Math.Abs(foregroundColor.GetHue() - currentBackground.GetHue()) <= 5)
                         // if (foregroundColor.CompareColorsRgb(foregroundColor, currentBackground) < 110)
                         if (CompareColorsContrast(foregroundColor, currentBackground) < 10)
-                            Console.WriteLine($"Please correct next message. " +
+                            Console.Error.WriteLine($"Please correct next message. " +
                                 $"Sure you can read the text ~_~fine~|~ on this background?\n");
 
                     // Rebuild message
@@ -228,7 +228,7 @@ namespace EvoMp.Core.ColorHandler
                             ansiString = "";
                             // full suffix added later
                             suffix += string.Empty.PadRight(
-                                Console.WindowWidth - CleanUpColorCodes(orignalMessage.Replace("\n", "")).Length);
+                                Console.WindowWidth - CleanUp(orignalMessage.Replace("\n", "")).Length);
                             break;
                         case "!00!": // Turn Code Parsing off
                             codeParsingDisabled = true;
@@ -268,7 +268,7 @@ namespace EvoMp.Core.ColorHandler
                 message += "\n";
 
             // Remove color identifiers & escape quotes
-            message = CleanUpColorCodes(message);
+            message = CleanUp(message);
 
             return message;
         }
@@ -280,7 +280,7 @@ namespace EvoMp.Core.ColorHandler
         /// <param name="message">The message wich should be cleaned</param>
         /// <param name="onlyEscape">Only escape each tilde?</param>
         /// <returns></returns>
-        public static string CleanUpColorCodes(string message, bool onlyEscape = false)
+        public static string CleanUp(string message, bool onlyEscape = false)
         {
             List<string> colorCodes = ParseColorCodesSimple(message);
 
@@ -304,7 +304,7 @@ namespace EvoMp.Core.ColorHandler
         /// <returns></returns>
         public static int CleanedMessagePostionToUnCleanedMessagePositon(string uncleanedMessage, int cleanedCutLength)
         {
-            string fullCleanedString = CleanUpColorCodes(uncleanedMessage);
+            string fullCleanedString = CleanUp(uncleanedMessage);
             int position = cleanedCutLength;
 
             List<string> colorCodes = ParseColorCodesSimple(uncleanedMessage).ToList();
@@ -312,7 +312,7 @@ namespace EvoMp.Core.ColorHandler
 
             // Get best possible postion 
             for (int i = 0; i < uncleanedMessage.Length; i++)
-                if (CleanUpColorCodes(uncleanedMessage.Substring(0, i)) ==
+                if (CleanUp(uncleanedMessage.Substring(0, i)) ==
                     fullCleanedString.Substring(0, cleanedCutLength))
                 {
                     position = i;

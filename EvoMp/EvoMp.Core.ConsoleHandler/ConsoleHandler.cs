@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
-using EvoMp.Core.ConsoleHandler.Properties;
 using EvoMp.Core.Module;
 
 namespace EvoMp.Core.ConsoleHandler
@@ -22,14 +20,26 @@ namespace EvoMp.Core.ConsoleHandler
             int height = Math.Min(Console.LargestWindowHeight, 50);
             int width = Math.Min(Console.LargestWindowWidth, 150);
             ConsoleUtils.SetConsoleFixedSize(height, width);
-            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight + 1);
             WindowWidth = width;
             WindowHeight = height;
+            Console.SetBufferSize(WindowWidth, WindowHeight + 3); // later resetting on the fly
 
             // Prepare submodules
             ConsoleOutput.PrepareConsoleOutput();
             ConsoleError.PrepareConsoleError();
-            Shared.OnCoreStartupCompleted += ConsoleInput.PrepareConsoleInput;
+            ConsoleCommandHandler.PrepareConsoleCommands();
+
+            Shared.OnCoreStartupCompleted += () =>
+            {
+                ConsoleInput.PrepareConsoleInput();
+                
+                // Register Console commands. (In core not automaticly)
+                ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand, "ConsoleHandler commands.");
+                ConsoleOutput.AppendPrefix("\t > ~;~");
+                ConsoleCommandHandler.InspectModule(new Commands());
+                ConsoleOutput.ResetPrefix();
+            };
+            
 
             // Catch CTRL + C
             Console.CancelKeyPress += (sender, args) =>

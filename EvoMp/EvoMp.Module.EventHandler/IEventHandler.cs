@@ -1,5 +1,4 @@
-﻿using EvoMp.Core.Core;
-using EvoMp.Core.Module;
+﻿using EvoMp.Core.Module;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.EventHandler

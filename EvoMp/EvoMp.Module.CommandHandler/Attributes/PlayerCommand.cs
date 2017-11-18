@@ -18,7 +18,7 @@ namespace EvoMp.Module.CommandHandler.Attributes
 
         public string FullName()
         {
-            return $"{Command} (~c~{MethodInfo.DeclaringType?.FullName}~;~)";
+            return $"{MethodInfo.DeclaringType?.FullName}.{MethodInfo.Name}";
         }
         public int TestMinHealth { get; }
 

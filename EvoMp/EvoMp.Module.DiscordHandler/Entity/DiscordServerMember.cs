@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.UserHandler.Entity;
 
 namespace EvoMp.Module.DiscordHandler.Entity
 {

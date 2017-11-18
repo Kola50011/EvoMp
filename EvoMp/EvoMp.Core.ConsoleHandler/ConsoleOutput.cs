@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Windows.Forms;
+using System.Threading.Tasks;
 using EvoMp.Core.ColorHandler;
-using GrandTheftMultiplayer.Server.Util;
 
 namespace EvoMp.Core.ConsoleHandler
 {
     public static class ConsoleOutput
     {
-        internal static string LastTimestamp = string.Empty;
+        internal static string LastTimestamp = String.Empty;
         internal static int CountSameTimestamp = -1;
         internal static int LastHeaderLength;
-        private static string _prefix = string.Empty;
+        private static int _lastConsoleTop;
+        private static string _prefix = String.Empty;
+        internal static int PrefixLength = 0;
+
 
         public static TextWriter OriginalTextWriter;
         public static StringWriter NewTextWriter;
 
-        static Process p = Process.GetCurrentProcess();
-
         /// <summary>
-        /// Prepares the ConsoleOutput.
-        /// Mostly setup fetch other console inputs. 
+        ///     Prepares the ConsoleOutput.
+        ///     Mostly setup fetch other console inputs.
         /// </summary>
         internal static void PrepareConsoleOutput()
         {
+            ConsoleUtils.GetLengthOfLongestConsoleType();
             // Bind original Console.Out
             NewTextWriter = new StringWriter();
             OriginalTextWriter = Console.Out;
-            Console.SetError(Console.Out);
+            //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
 
@@ -51,10 +51,10 @@ namespace EvoMp.Core.ConsoleHandler
                 Thread.Sleep(100);
 
                 // Text didn't canged -> continue;
-                if (NewTextWriter.ToString() == "")
+                if (NewTextWriter.ToString().Trim() == "")
                     continue;
 
-                string message = NewTextWriter.ToString().Trim();
+                string message = NewTextWriter.ToString();
                 bool gtMpMessage = ConsoleUtils.IsGtmpConsoleMessage(message);
 
                 // Print Text as invalid console use.
@@ -86,7 +86,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// </summary>
         public static void WriteEmptyLine()
         {
-            Console.WriteLine(new string(' ', Console.WindowWidth * 3));
+            Console.WriteLine(new string(' ', ConsoleHandler.WindowWidth * 3));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace EvoMp.Core.ConsoleHandler
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            int maxMessageWidth = Console.WindowWidth - LastHeaderLength - _prefix.Length;
+            int maxMessageWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
 
             // LineTop identifier avalible -> line top as first
             if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
@@ -116,7 +116,7 @@ namespace EvoMp.Core.ConsoleHandler
             List<string> words = message.Split(' ').ToList();
 
             // Save to message variants
-            string cleanMessage = ColorUtils.CleanUpColorCodes(message);
+            string cleanMessage = ColorUtils.CleanUp(message);
             string dirtyMessage = message;
 
             // No spaces -> just cut at length
@@ -127,8 +127,8 @@ namespace EvoMp.Core.ConsoleHandler
                 {
                     // Compare step by step
                     for (int i = 0; i < dirtyMessage.Length; i++)
-                        if (ColorUtils.CleanUpColorCodes(dirtyMessage.Substring(0, i)) ==
-                            ColorUtils.CleanUpColorCodes(cleanMessage).Substring(0, maxMessageWidth))
+                        if (ColorUtils.CleanUp(dirtyMessage.Substring(0, i)) ==
+                            ColorUtils.CleanUp(cleanMessage).Substring(0, maxMessageWidth))
                         {
                             returnList.Add(dirtyMessage.Substring(0, i));
                             dirtyMessage = dirtyMessage.Substring(0, i);
@@ -137,7 +137,7 @@ namespace EvoMp.Core.ConsoleHandler
                             break;
                         }
 
-                    if (ColorUtils.CleanUpColorCodes(dirtyMessage).Length <= maxMessageWidth)
+                    if (ColorUtils.CleanUp(dirtyMessage).Length <= maxMessageWidth)
                     {
                         returnList.Add(dirtyMessage);
                         break;
@@ -147,7 +147,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Stack words and get smallest match
-            string currentMessage = string.Empty;
+            string currentMessage = String.Empty;
             //while (string.Join(" ", words.ToArray()).Length > maxMessageWidth && words.Count != 0)
             for (var i = 0; i < words.Count; i++)
             {
@@ -164,7 +164,7 @@ namespace EvoMp.Core.ConsoleHandler
                 currentMessage += " "; // Add Space
 
                 // Next word makes the string to long -> start new
-                if (ColorUtils.CleanUpColorCodes(currentMessage + " " + words[i + 1]).Length >
+                if (ColorUtils.CleanUp(currentMessage + " " + words[i + 1]).Length >
                     maxMessageWidth)
                 {
                     returnList.Add(currentMessage);
@@ -246,6 +246,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void AppendPrefix(string prefix)
         {
             _prefix += prefix;
+            PrefixLength = ColorUtils.CleanUp(_prefix).Length;
         }
 
         /// <summary>
@@ -255,6 +256,7 @@ namespace EvoMp.Core.ConsoleHandler
         public static void SetPrefix(string prefix)
         {
             _prefix = prefix;
+            PrefixLength = ColorUtils.CleanUp(_prefix).Length;
         }
 
         /// <summary>
@@ -271,7 +273,8 @@ namespace EvoMp.Core.ConsoleHandler
         /// </summary>
         public static void ResetPrefix()
         {
-            _prefix = string.Empty;
+            _prefix = String.Empty;
+            PrefixLength = ColorUtils.CleanUp(_prefix).Length;
         }
 
         /// <summary>
@@ -288,8 +291,9 @@ namespace EvoMp.Core.ConsoleHandler
             string suffix = "", bool firstMessageOfSet = true, bool lastMessageOfSet = true)
         {
             // Message empty -> return;
-            if (string.IsNullOrEmpty(message?.Replace("\n", "")))
+            if (String.IsNullOrEmpty(message?.Replace("\n", "")))
                 return;
+
 
             // ColorCodes contains invalid code -> message & return;
             List<string> colorCodes = ColorUtils.ParseColorCodesSimple(message);
@@ -303,7 +307,7 @@ namespace EvoMp.Core.ConsoleHandler
             }
 
             // Format message output
-            string writeMessage = string.Empty;
+            string writeMessage = String.Empty;
 
             // Save the color codes if the message starts with any
             // Used for mutiline control codes
@@ -317,7 +321,7 @@ namespace EvoMp.Core.ConsoleHandler
             bool wasControlCodeLine = false;
             bool messageHasLinebreak = false;
 
-            int maxInnerLineLength = Console.WindowWidth - LastHeaderLength;
+            int maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
 
             // Prepare message.
             if (message.EndsWith("\n"))
@@ -347,16 +351,12 @@ namespace EvoMp.Core.ConsoleHandler
 
 
                 // Write log type information
-                string typeDisplayName = typeProperties.DisplayName?.ToUpper() ?? $"{consoleType}".ToUpper();
                 writeMessage =
-                    $"{timestamp}~w~ │{typeProperties.ColorCodeType} {ConsoleUtils.AlignText(typeDisplayName + "~|~", ConsoleUtils.GetLengthOfLongestConsoleType())}";
-
-                // Vertical line
-                writeMessage = writeMessage + " ~;~~w~│ ";
+                    $"{timestamp}~w~ │{typeProperties.TypeText(' ', " ")} ~;~~w~│ ";
 
                 // Save header length for calculation
-                LastHeaderLength = ColorUtils.CleanUpColorCodes(writeMessage).Replace("\t", "  ").Length;
-                maxInnerLineLength = Console.WindowWidth - LastHeaderLength;
+                LastHeaderLength = ColorUtils.CleanUp(writeMessage).Replace("\t", "  ").Length;
+                maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
 
                 // Trim ConsoleType.Line for fit in console window
                 // Or Lines with other ConsoleType
@@ -371,7 +371,7 @@ namespace EvoMp.Core.ConsoleHandler
 
                     if (LastHeaderLength < message.Length)
                     {
-                        int colorCodeLength = message.Length - ColorUtils.CleanUpColorCodes(message).Length;
+                        int colorCodeLength = message.Length - ColorUtils.CleanUp(message).Length;
                         string colorCode = message.Substring(0, colorCodeLength);
                         message = colorCode + message.Substring(LastHeaderLength);
                     }
@@ -381,7 +381,7 @@ namespace EvoMp.Core.ConsoleHandler
             #endregion //Prepare Head and lines
 
             // Get message color from type
-            string consoleTypeTextColorCode = typeProperties.ColorCodeText;
+            string consoleTypeTextColorCode = typeProperties.TextCode;
 
 
             // Filter all control codes from the typetextcode to use it as reset code
@@ -416,8 +416,6 @@ namespace EvoMp.Core.ConsoleHandler
             // React to some special control codes
             bool printLineBottom = false;
 
-            // React to special control codes
-
             // Line Top
             if (firstMessageOfSet)
                 if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.LineTop).Identifier))
@@ -431,8 +429,11 @@ namespace EvoMp.Core.ConsoleHandler
             // Append message to complete message
             writeMessage += message;
 
+            string fillUpString =
+                "".PadRight(ConsoleHandler.WindowWidth - ColorUtils.CleanUp(writeMessage + suffix).Replace("\n", "").Length);
+
             // Add suffixs and possible linebreak
-            writeMessage += suffix;
+            writeMessage += fillUpString + suffix;
 
             if (messageHasLinebreak)
                 writeMessage += "\n";
@@ -444,19 +445,106 @@ namespace EvoMp.Core.ConsoleHandler
                     $"{resetIdentifer}{harmlessTypeTextCode}");
 
             // Parse color and control codes
-            writeMessage = ColorUtils.GenerateColoredString(writeMessage);
-
-            // Replace tab with spaces
-            writeMessage = writeMessage.Replace("\t", "  ");
-
-            ConsoleUtils.InternalConsoleWrite(writeMessage);
+            FinalConsoleWrite(writeMessage);
 
             // Print, if control code was given, bottom line
             if (printLineBottom)
                 PrintLine("-", "", consoleType);
 
-            ConsoleUtils.ResetColor();
+            //ConsoleUtils.ResetColor();
         }
+
+        /// <summary>
+        ///     Writes the message final to the console
+        /// </summary>
+        /// <param name="message">Message wich should be written</param>
+        /// <param name="simpeWriteLine">MEssage should only be printed with a simple Console.WriteLine?</param>
+        public static void FinalConsoleWrite(string message, bool simpeWriteLine = false)
+        {
+            const char horizontalBar = '─';
+            //const char bottomBar = '_';
+            //const char topBar = '‾';
+
+            ConsoleUtils.SafeSystemConsoleUse(() =>
+            {
+                if (simpeWriteLine)
+                {
+                    Console.WriteLine(ColorUtils.ColorizeAscii(message));
+                    return;
+                }
+
+                // Cleanup & write
+                if (Console.BufferHeight - ConsoleHandler.WindowHeight > 0)
+                {
+                    // Last pos, clear line, write message & save top
+                    Console.SetCursorPosition(0, _lastConsoleTop);
+                    Console.Write("".PadRight(ConsoleHandler.WindowWidth));
+                    //if(_lastConsoleTop + 1 < ConsoleHandler.WindowWidth)
+                    //Console.SetCursorPosition(0, _lastConsoleTop + 1);
+                    //Console.Write("".PadRight(ConsoleHandler.WindowWidth));
+                }
+                Console.SetCursorPosition(0, _lastConsoleTop);
+
+                Console.Write(ColorUtils.ColorizeAscii(message));
+
+                // Remember cursor pos
+                _lastConsoleTop = Console.CursorTop;
+
+                // Make buffer free for input box
+                if (Console.CursorTop + 3 > Console.BufferHeight)
+                    Console.BufferHeight++;
+
+                WriteInput();
+
+               // Thread.Sleep(50); // Debug
+
+                void WriteInput()
+                {
+                    ConsoleTypeProperties cInProps = ConsoleUtils.GetConsoleTypeProperties(ConsoleType.ConsoleInput);
+                    float multipler = (float) 0.011 * CountSameTimestamp;
+                    multipler = multipler < 0.9 ? multipler : (float) 0.9;
+
+                    string lineHead =
+                        $"~w~ │{String.Empty.PadRight(ConsoleUtils.LongestTypeLength + 2, horizontalBar)}~;~~w~│ ";
+                    int lineWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
+
+
+                    // Empty line
+                    string timestampStr = ColorUtils.DarkUpHexColors(LastTimestamp, multipler);
+                    string emptyLine = $"{timestampStr}{lineHead.Replace(horizontalBar, ' ')}{"".PadRight(lineWidth)}";
+
+                    // Top Line
+                    string topLine = $"{timestampStr}{lineHead}{"".PadRight(lineWidth, horizontalBar)}";
+
+                    // Middle (input) line
+                    string inputLine =
+                        $"{timestampStr}~w~ │{cInProps.TypeText(' ', " ")} ~;~~w~│ > {ConsoleInput.CurrentConsoleInput}";
+
+                    // Input cursor position & fill up input
+                    ConsoleUtils.InputCursorLeftStart = ColorUtils.CleanUp(inputLine).Length - ConsoleInput.CurrentConsoleInput.Length;
+                    inputLine = inputLine + "".PadRight(ConsoleHandler.WindowWidth -
+                                                        ColorUtils.CleanUp(inputLine).Length);
+
+                    // Footer line
+                    string footerLine = $"{timestampStr}{lineHead}{"".PadRight(lineWidth, horizontalBar)}";
+
+                    // Set cursor left.
+                    Console.CursorLeft = 0;
+
+                    // Write lines
+                    Console.Write(ColorUtils.ColorizeAscii($"{topLine}\n"));
+                    int cursorInputTop = Console.CursorTop;
+                    Console.Write(ColorUtils.ColorizeAscii($"{inputLine}\n"));
+                    Console.Write(ColorUtils.ColorizeAscii($"{footerLine}"));
+
+
+                    // Cursor inside input
+                    Console.CursorTop = cursorInputTop;
+                    Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
+                }
+            });
+        }
+
 
         public static void WriteException(string message)
         {
@@ -480,12 +568,12 @@ namespace EvoMp.Core.ConsoleHandler
             string returnString = colorCode;
 
             // Generate line
-            for (var i = 0; i * linePattern.Length < Console.WindowWidth; i++)
+            for (var i = 0; i * linePattern.Length < ConsoleHandler.WindowWidth; i++)
                 returnString += linePattern;
 
             // Optional cut line
-            if (returnString.Length > Console.WindowWidth)
-                returnString = returnString.Substring(0, Console.WindowWidth);
+            if (returnString.Length > ConsoleHandler.WindowWidth)
+                returnString = returnString.Substring(0, ConsoleHandler.WindowWidth);
 
             if (consoleType != ConsoleType.Line)
                 returnString = "~!--!~" + returnString;
