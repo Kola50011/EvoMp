@@ -38,7 +38,7 @@ namespace EvoMp.Core.ConsoleHandler
                 Console.SetOut(ConsoleOutput.OriginalTextWriter);
             try
             {
-                action.DynamicInvoke();
+                action.Invoke();
             }
             finally
             {
