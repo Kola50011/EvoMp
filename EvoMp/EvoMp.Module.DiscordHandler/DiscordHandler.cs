@@ -1,5 +1,4 @@
-﻿using System;
-using EvoMp.Core.ConsoleHandler;
+﻿using EvoMp.Core.ConsoleHandler;
 using EvoMp.Module.DiscordHandler.Entity;
 using EvoMp.Module.EventHandler;
 using GrandTheftMultiplayer.Server.API;

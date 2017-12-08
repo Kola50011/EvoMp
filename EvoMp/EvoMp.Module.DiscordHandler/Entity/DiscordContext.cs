@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Data.Entity.Migrations.Model;
-using System.Linq;
 
 namespace EvoMp.Module.DiscordHandler.Entity
 {

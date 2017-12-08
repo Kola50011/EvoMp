@@ -39,6 +39,7 @@
     <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\grandtheftmultiplayer.api.0.1.640.64\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -54,18 +55,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
+    <Compile Include="ConsoleCommand.cs" />
     <Compile Include="ConsoleHandler.cs" />
+    <Compile Include="ConsoleCommandHandler.cs" />
+    <Compile Include="ConsoleInput.cs" />
+    <Compile Include="ConsoleError.cs" />
     <Compile Include="ConsoleOutput.cs" />
-    <Compile Include="ColorCodePropertie.cs" />
-    <Compile Include="ColorCode.cs" />
     <Compile Include="ConsoleTypeProperties.cs" />
     <Compile Include="ConsoleType.cs" />
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EvoMp.Core.ColorHandler\EvoMp.Core.ColorHandler.csproj">
+      <Project>{c0437dc2-2bb7-4af0-89a9-22ce4b6e7c25}</Project>
+      <Name>EvoMp.Core.ColorHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
+      <Project>{F4B5EDA5-1BFB-46FD-920F-FEBC1CE90EA1}</Project>
+      <Name>EvoMp.Core.Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

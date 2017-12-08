@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace EvoMp.Core.ConsoleHandler
+namespace EvoMp.Core.ColorHandler
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class ColorCodePropertie : Attribute

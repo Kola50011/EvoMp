@@ -1,15 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("EvoMp.Core.ModuleProperties")]
+[assembly: AssemblyTitle("EvoMp.Core.MessageHandler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EvoMp.Core.ModuleProperties")]
+[assembly: AssemblyProduct("EvoMp.Core.MessageHandler")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("f4b5eda5-1bfb-46fd-920f-febc1ce90ea1")]
+[assembly: Guid("c0437dc2-2bb7-4af0-89a9-22ce4b6e7c25")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

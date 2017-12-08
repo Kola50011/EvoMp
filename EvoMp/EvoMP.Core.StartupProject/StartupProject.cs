@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EvoMP.Core.StartupProject
+﻿namespace EvoMP.Core.StartupProject
 {
     public class StartupProject
     {

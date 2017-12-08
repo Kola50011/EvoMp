@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace EvoMp.Core.ConsoleHandler
+namespace EvoMp.Core.ColorHandler
 {
     /// <summary>
     ///     Avalible stringcolor codes.
@@ -10,7 +10,7 @@ namespace EvoMp.Core.ConsoleHandler
     {
         // Foreground colors
         [ColorCodePropertie("~r~", KnownColor.Red)] Red,
-        [ColorCodePropertie("~b~", KnownColor.Cyan)] Blue,
+        [ColorCodePropertie("~b~", KnownColor.LightBlue)] Blue,
         [ColorCodePropertie("~g~", KnownColor.LimeGreen)] Green,
         [ColorCodePropertie("~y~", KnownColor.Yellow)] Yellow,
         [ColorCodePropertie("~p~", KnownColor.Purple)] Purple,
@@ -18,6 +18,7 @@ namespace EvoMp.Core.ConsoleHandler
         [ColorCodePropertie("~o~", KnownColor.Orange)] Orange,
         [ColorCodePropertie("~c~", KnownColor.Gray)] Grey,
         [ColorCodePropertie("~m~", KnownColor.DarkGray)] DarkerGrey,
+        [ColorCodePropertie("~l~", KnownColor.LightGray)] LigthGrey,
         [ColorCodePropertie("~u~", KnownColor.Black)] Black,
         [ColorCodePropertie("~w~", KnownColor.White)] White,
 

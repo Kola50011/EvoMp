@@ -15,3 +15,5 @@ GTMP_Server/resources/EvoMp/dist/EvoMp.Module.DbAccess.dll
 GTMP_Server/resources/EvoMp/dist/EvoMp.Core.Core.pdb
 GTMP_Server/resources/EvoMp/dist/EvoMp.Core.Core.dll
 GTMP_Server/server.log
+GTMP_Server/EvoMp.Core.ConsoleHandler.dll.config
+GTMP_Server/resources/EvoMp/dist/EvoMp.Core.ConsoleHandler.dll.config
