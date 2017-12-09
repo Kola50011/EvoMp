@@ -45,9 +45,10 @@ namespace EvoMp.Core.ColorHandler
         // Taking affect in InternalWrite function
         [ColorCodePropertie("~...~", 0, "...", false, true)] FillLineWithSpaces,
         [ColorCodePropertie("~;~", 0, "\x1B[0m", false, true)] ResetColor,
+        //TODO: Wozu ist das da?
         [ColorCodePropertie("~;;~", 0, "\x1B[0m", false, true)] ResetToConsole,
-        [ColorCodePropertie("~-^-~", 0, "", false, true)] LineTop,
-        [ColorCodePropertie("~-v-~", 0, "", false, true)] LineBottom,
+        [ColorCodePropertie("~-^-~", 0, "", false, true)] InsertLineAbove,
+        [ColorCodePropertie("~-v-~", 0, "", false, true)] InsertLineBelow,
         [ColorCodePropertie("~>-<~", 0, "", false, true)] Centered,
         [ColorCodePropertie("~!-!~", 0, "!00!", true, true)] CodeParsingOff,
         [ColorCodePropertie("~!|!~", 0, "!01!", true, true)] CodeParsingOn,
