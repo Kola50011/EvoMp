@@ -53,21 +53,19 @@ namespace EvoMp.Core.ConsoleHandler
             }
         }
 
-        
-
-
         /// <summary>
         ///     Checks if a System.Console.* Message is a GtMp Message
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        internal static bool IsGtmpConsoleMessage(string message)
+        public static bool IsGtmpConsoleMessage(string message)
         {
             string[] gtmpConsoleParts =
             {
                 " | Debug | GameServer | ",
                 " |  Info | Program |",
-                " |  Info | GameServer |"
+                " |  Info | GameServer |",
+                " |  Info | ServerAPI |"
             };
 
             return gtmpConsoleParts.Any(message.Contains);

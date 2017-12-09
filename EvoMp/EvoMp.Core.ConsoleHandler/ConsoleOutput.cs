@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using EvoMp.Core.ColorHandler;
+using EvoMp.Core.Core;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -30,57 +31,11 @@ namespace EvoMp.Core.ConsoleHandler
         {
             ConsoleUtils.GetLengthOfLongestConsoleType();
             // Bind original Console.Out
-            NewTextWriter = new StringWriter();
+            NewTextWriter = new CustomTextWriter();
             OriginalTextWriter = Console.Out;
             //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
-
-            // Start thread to fetch old ConsoleOutputs.
-            new Thread(SystemConsoleWatcher).Start();
-        }
-
-        private static void SystemConsoleWatcher()
-        {
-            DateTime lastWarnSend = DateTime.MinValue;
-            const int warnEachMs = 5 * 1000; // 5 seconds
-            while (true)
-            {
-                // Wait 1sec.
-                Thread.Sleep(1000);
-
-                // Text didn't canged -> continue;
-                if (NewTextWriter.ToString().Trim() == "")
-                    continue;
-
-                string message = NewTextWriter.ToString();
-                bool gtMpMessage = ConsoleUtils.IsGtmpConsoleMessage(message);
-
-                // Print Text as invalid console use.
-                if (!gtMpMessage && lastWarnSend.AddMilliseconds(warnEachMs) < DateTime.Now)
-                {
-                    WriteLine(ConsoleType.Warn,
-                        "Use ConsoleOutput.* for console output. " + "Other console outputs get catched.");
-                    lastWarnSend = DateTime.Now;
-                }
-
-                // Remove GtMp console tags
-                if (gtMpMessage)
-                    message = message.Substring(message.LastIndexOf(" | ", StringComparison.Ordinal) + 3);
-
-                if (!ConsoleUtils.OriginalWriterInUse)
-                {
-                    // Write console line
-                    string[] newLines = message.Split('\n');
-                    foreach (string line in newLines)
-                        WriteLine(gtMpMessage ? ConsoleType.GtMp : ConsoleType.ConsoleOutput, line);
-                }
-
-                // Clear string Writer
-                StringBuilder stringBuilder = NewTextWriter.GetStringBuilder();
-                stringBuilder.Remove(0, stringBuilder.Length);
-            }
-            // ReSharper disable once FunctionNeverReturns
         }
 
         /// <summary>
@@ -142,7 +97,7 @@ namespace EvoMp.Core.ConsoleHandler
 
             // Stack words and get smallest match
             string currentMessage = string.Empty;
-           
+
             for (var i = 0; i < words.Count; i++)
             {
                 // stack message

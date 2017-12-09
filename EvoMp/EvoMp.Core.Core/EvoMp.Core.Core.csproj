@@ -91,6 +91,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomTextWriter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModuleLoader.cs" />
     <Compile Include="ModuleStructurer.cs" />
