@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using EvoMp.Core.ColorHandler;
 using EvoMp.Core.Core;
@@ -48,82 +47,36 @@ namespace EvoMp.Core.ConsoleHandler
             int maxMessageWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
 
             // InsertLineAbove identifier avalible -> line top as first
-            if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineAbove).Identifier))
-                message = ColorUtils.GetColorCodePropertie(ColorCode.InsertLineAbove).Identifier +
-                          message.Replace(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineAbove).Identifier, "");
+            if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier))
+                message = ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier +
+                          message.Replace(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier, "");
 
             // InsertLineBelow identifier avalible -> line bottom as last
-            if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineBelow).Identifier))
-                message = message.Replace(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineBelow).Identifier, "") +
-                          ColorUtils.GetColorCodePropertie(ColorCode.InsertLineBelow).Identifier;
+            if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineBelow).Identifier))
+                message = message.Replace(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineBelow).Identifier, "") +
+                          ColorUtils.GetColorCodeProperty(ColorCode.InsertLineBelow).Identifier;
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
                 return new[] {message};
 
             List<string> returnList = new List<string>();
-            List<string> words = message.Split(' ').ToList();
 
-            // Save to message variants
-            string cleanMessage = ColorUtils.CleanUp(message);
-            string dirtyMessage = message;
-
-            // No spaces -> just cut at length & return;
-            if (words.Count == 1)
+            while (message.Length > maxMessageWidth)
             {
-                // Run until dirtyMessage < maxMessageWidth
-                while (true)
+                int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length), StringComparison.Ordinal);
+                if (space == -1)
                 {
-                    // Compare step by step
-                    for (int i = 0; i < dirtyMessage.Length; i++)
-                        if (ColorUtils.CleanUp(dirtyMessage.Substring(0, i)) ==
-                            ColorUtils.CleanUp(cleanMessage).Substring(0, maxMessageWidth))
-                        {
-                            returnList.Add(dirtyMessage.Substring(0, i));
-                            dirtyMessage = dirtyMessage.Substring(0, i);
-                            cleanMessage = cleanMessage.Substring(0, maxMessageWidth);
-                            // Jump out of the current for
-                            break;
-                        }
-
-                    if (ColorUtils.CleanUp(dirtyMessage).Length <= maxMessageWidth)
-                    {
-                        returnList.Add(dirtyMessage);
-                        break;
-                    }
+                    returnList.Add(message.Substring(0, Math.Min(maxMessageWidth, message.Length)));
+                    message = message.Substring(Math.Min(maxMessageWidth, message.Length)).Trim();
                 }
-                return returnList.ToArray();
-            }
-
-            // Stack words and get smallest match
-            string currentMessage = string.Empty;
-
-            for (var i = 0; i < words.Count; i++)
-            {
-                // stack message
-                currentMessage += words[i];
-
-                // Last word -> break; 
-                if (words.Count == i + 1)
-                    continue;
-
-                if (words.Count == i)
-                    break;
-
-                currentMessage += " "; // Add Space
-
-                // Next word makes the string to long -> start new
-                if (ColorUtils.CleanUp(currentMessage + " " + words[i + 1]).Length >
-                    maxMessageWidth)
+                else
                 {
-                    returnList.Add(currentMessage);
-                    currentMessage = "";
+                    returnList.Add(message.Substring(0, space));
+                    message = message.Substring(space).Trim();
                 }
             }
-
-            // Add rest message, if given, to list
-            if (currentMessage.Length != 0)
-                returnList.Add(currentMessage);
+            returnList.Add(message);
 
             return returnList.ToArray();
         }
@@ -143,7 +96,7 @@ namespace EvoMp.Core.ConsoleHandler
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
             {
-                // wrapp messages if they are to long for the console space
+                // wrap messages if they are too long for the console space
                 string[] wrappedMessages = WordWrapMessage(messages[i]);
                 for (int b = 0; b < wrappedMessages.Length; b++)
                 {
@@ -246,16 +199,7 @@ namespace EvoMp.Core.ConsoleHandler
 
             message = message.Replace("\r\n", "\n");
 
-            // ColorCodes contains invalid code -> message & return;
             List<string> colorCodes = ColorUtils.ParseColorCodesSimple(message);
-            if (colorCodes == null)
-            {
-                WriteLine(ConsoleType.Warn,
-                    "Not closed or opened color code in message: \n" +
-                    $"~w~\"{message.Replace("~", @"\~").Trim()}\"~;~.\n" +
-                    "Message will be ignored. ~#0000FF~Escape tildes by using \"\\\\~code\\\\~\"~;~!");
-                return;
-            }
 
             // Format message output
             string writeMessage = string.Empty;
@@ -339,9 +283,9 @@ namespace EvoMp.Core.ConsoleHandler
             string harmlessTypeTextCode = consoleTypeTextColorCode;
             foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
             {
-                ColorCodePropertie colorCodePropertie = ColorUtils.GetColorCodePropertie(colorCode);
-                if (colorCodePropertie.HasSpecialLogic)
-                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodePropertie.Identifier, "");
+                ColorCodeProperty colorCodeProperty = ColorUtils.GetColorCodeProperty(colorCode);
+                if (colorCodeProperty.HasSpecialLogic)
+                    harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodeProperty.Identifier, "");
             }
 
             // Center text if it should full centered, 
@@ -367,14 +311,14 @@ namespace EvoMp.Core.ConsoleHandler
             // React to some special control codes
             bool printLineBottom = false;
 
-            // Line Top
+            // Line Above
             if (firstMessageOfSet)
-                if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineAbove).Identifier))
+                if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier))
                     PrintLine("-", firstMessageColorCodes, consoleType);
 
-            // Line bottom
+            // Line Below
             if (lastMessageOfSet)
-                if (message.Contains(ColorUtils.GetColorCodePropertie(ColorCode.InsertLineBelow).Identifier))
+                if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineBelow).Identifier))
                     printLineBottom = true;
 
             // Append message to complete message
@@ -391,7 +335,7 @@ namespace EvoMp.Core.ConsoleHandler
                 writeMessage += "\n";
 
             // Replace reset controlcode with message defaultColor + resetControl
-            string resetIdentifer = ColorUtils.GetColorCodePropertie(ColorCode.ResetColor).Identifier;
+            string resetIdentifer = ColorUtils.GetColorCodeProperty(ColorCode.ResetColor).Identifier;
             if (writeMessage.Contains(resetIdentifer))
                 writeMessage = writeMessage.Replace(resetIdentifer,
                     $"{resetIdentifer}{harmlessTypeTextCode}");
