@@ -87,6 +87,14 @@ namespace EvoMp.Core.ConsoleHandler
                     // Try parse & reset string
                     try
                     {
+                        // Barse boolean parameter for Convert functions
+                        if (commandParameters[i].ParameterType == typeof(Boolean))
+                            if (currentParameterString == "1")
+                                currentParameterString = "true";
+                            else if (currentParameterString == "0")
+                                currentParameterString = "false";
+
+
                         object parameterValue =
                             Convert.ChangeType(currentParameterString, commandParameters[i].ParameterType);
                         currentParameterString = String.Empty;
@@ -102,10 +110,16 @@ namespace EvoMp.Core.ConsoleHandler
                             $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
                         return;
                     }
+                    catch
+                    {
+                        ConsoleOutput.WriteLine(ConsoleType.Error,
+                            $"Invalid type given for parameter {commandParameters[i].Name}.");
+                        return;
+                    }
                 }
 
                 // Not enough parameter values -> message & next;
-                if (commandParameters.Count(info => !info.IsOptional) != parameterValues.Count)
+                if (commandParameters.Count(info => !info.IsOptional) > parameterValues.Count)
                 {
                     ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand,
                         $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +
