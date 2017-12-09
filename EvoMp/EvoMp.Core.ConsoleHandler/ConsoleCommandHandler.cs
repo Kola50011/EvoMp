@@ -22,8 +22,8 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Returns the ConsoleCommand object for the given commandString.
-        /// Returns null if no ConsoleCommand found.
+        ///     Returns the ConsoleCommand object for the given commandString.
+        ///     Returns null if no ConsoleCommand found.
         /// </summary>
         /// <param name="commandString">ConsoleCommand command string</param>
         /// <returns>ConsoleCommand or null</returns>
@@ -58,7 +58,7 @@ namespace EvoMp.Core.ConsoleHandler
                 List<object> parameterValues = new List<object>();
                 ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
 
-                string currentParameterString = String.Empty;
+                string currentParameterString = string.Empty;
                 for (int i = 0; i < commandParameters.Length; i++)
                 {
                     // No more string parameters -> break;
@@ -87,9 +87,17 @@ namespace EvoMp.Core.ConsoleHandler
                     // Try parse & reset string
                     try
                     {
+                        // Barse boolean parameter for Convert functions
+                        if (commandParameters[i].ParameterType == typeof(bool))
+                            if (currentParameterString == "1")
+                                currentParameterString = "true";
+                            else if (currentParameterString == "0")
+                                currentParameterString = "false";
+
+
                         object parameterValue =
                             Convert.ChangeType(currentParameterString, commandParameters[i].ParameterType);
-                        currentParameterString = String.Empty;
+                        currentParameterString = string.Empty;
 
                         if (parameterValue == null)
                             break;
@@ -102,10 +110,16 @@ namespace EvoMp.Core.ConsoleHandler
                             $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
                         return;
                     }
+                    catch
+                    {
+                        ConsoleOutput.WriteLine(ConsoleType.Error,
+                            $"Invalid type given for parameter {commandParameters[i].Name}.");
+                        return;
+                    }
                 }
 
                 // Not enough parameter values -> message & next;
-                if (commandParameters.Count(info => !info.IsOptional) != parameterValues.Count)
+                if (commandParameters.Count(info => !info.IsOptional) > parameterValues.Count)
                 {
                     ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand,
                         $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +

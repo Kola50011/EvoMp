@@ -14,7 +14,8 @@ namespace EvoMp.Core.ColorHandler
         /// <param name="controlCodeAscii">Ascii string, if ColorCode is controlCode</param>
         /// <param name="ignoresParsingDisabled">Can this ColorCode ignore the disabled Parsing?</param>
         /// <param name="hasSpecialLogic">Is this Color code implemented by a special ("hardcoded") Logic?</param>
-        public ColorCodeProperty(string colorCodeIdentifier, KnownColor color, string controlCodeAscii = null, bool ignoresParsingDisabled = false, bool hasSpecialLogic = false)
+        public ColorCodeProperty(string colorCodeIdentifier, KnownColor color, string controlCodeAscii = null,
+            bool ignoresParsingDisabled = false, bool hasSpecialLogic = false)
         {
             Identifier = colorCodeIdentifier;
             Color = color;
@@ -34,7 +35,7 @@ namespace EvoMp.Core.ColorHandler
         public KnownColor Color { get; }
 
         /// <summary>
-        /// The Control code Ascii String
+        ///     The Control code Ascii String
         /// </summary>
         public string ControlCodeAnsi { get; }
 

@@ -6,8 +6,8 @@ namespace EvoMp.Core.ConsoleHandler
     public static class ConsoleError
     {
         /// <summary>
-        /// Prepares the ConsoleError.
-        /// Mostly setup fetch other console inputs. 
+        ///     Prepares the ConsoleError.
+        ///     Mostly setup fetch other console inputs.
         /// </summary>
         internal static void PrepareConsoleError()
         {

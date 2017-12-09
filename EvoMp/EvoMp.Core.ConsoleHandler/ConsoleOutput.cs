@@ -64,7 +64,8 @@ namespace EvoMp.Core.ConsoleHandler
 
             while (message.Length > maxMessageWidth)
             {
-                int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length), StringComparison.Ordinal);
+                int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length),
+                    StringComparison.Ordinal);
                 if (space == -1)
                 {
                     returnList.Add(message.Substring(0, Math.Min(maxMessageWidth, message.Length)));

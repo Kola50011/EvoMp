@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using EvoMp.Core.ConsoleHandler.Properties;
 
 namespace EvoMp.Core.ConsoleHandler
 {
@@ -29,16 +33,53 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
 
-        [ConsoleCommand("/fullscreen", new[] {"-f",}, "Toggles the fullscreen mode für the GTMP console")]
-        public static void Fullscreen(bool fullscreen, int display)
+        [ConsoleCommand("/fullscreen", new[] {"-f"}, "Toggles the fullscreen mode für the GTMP console. ~n~" +
+                                                     "No display given: Primary display used.")]
+        public static void Fullscreen(bool fullscreen, int display = -1)
         {
             // Fullscreen disabled -> Save, message & return;
             if (!fullscreen)
             {
-                ConsoleOutput.WriteLine(ConsoleType.Config, "Disabled fullscreen mode. Changes take effect on next Start.");
+                // Save settings
+                Settings.Default.ConsoleFullscreenDisplay = -1;
+                Settings.Default.ConsoleFullscreenMode = false;
+                Settings.Default.Save();
 
+                ConsoleOutput.WriteLine(ConsoleType.Config,
+                    "Disabled fullscreen mode. ~b~Changes take effect on next Start.");
+                return;
+            }
+            // invalid display given -> Warning & return;
+            if (display >= 0 && Screen.AllScreens.Length < display)
+            {
+                ConsoleOutput.WriteLine(ConsoleType.Warn,
+                    $"Invalid display ~o~{display}~;~. Available displays: 0 - {Screen.AllScreens.Length}");
+                return;
             }
 
+            // No display given -> select primary display & message
+            if (display == -1)
+            {
+                display = Screen.AllScreens.ToList().FindIndex(screen => screen.Primary);
+                ConsoleOutput.WriteLine(ConsoleType.Note,
+                    $"No display given. Using display {display} (primary).");
+            }
+
+            // Save settings message
+            Settings.Default.ConsoleFullscreenDisplay = display;
+            Settings.Default.ConsoleFullscreenMode = true;
+            Settings.Default.Save();
+            ConsoleOutput.WriteLine(ConsoleType.Config, $"Enabled fullscreen mode for display ~b~{display}~;~.  " +
+                                                        $"~b~Changes take effect on next Start.");
+        }
+
+        [ConsoleCommand("/SaveConsolePos", new[] {"-scw"}, "Save the console window position for future starts.~n~" +
+                                                           "~b~Fullscreen mode ignores saved positions.")]
+        public static void SaveConsolePos()
+        {
+            Settings.Default.ConsolePosition = new Point(Console.WindowLeft, Console.WindowTop);
+            Settings.Default.Save();
+            ConsoleOutput.WriteLine(ConsoleType.Config, "Saved the current console positon.");
         }
     }
 }
