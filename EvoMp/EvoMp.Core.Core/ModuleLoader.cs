@@ -75,7 +75,7 @@ namespace EvoMp.Core.Core
                         if (!ModuleTypeHandler.IsModuleTypeValid(moduleProperties.ModuleType))
                         {
                             ConsoleOutput.WriteLine(ConsoleType.Core,
-                                $"~#51ff76~{moduleInterface.Name}~;~ skipped. Wrong gamemode.");
+                                $"~#51ff76~{moduleInterface.Name}~;~ skipped. Wrong gamemode. ~c~{moduleProperties.ModuleType}");
                             continue;
                         }
 

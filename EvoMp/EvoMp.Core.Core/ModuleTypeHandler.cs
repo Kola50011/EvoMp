@@ -41,8 +41,8 @@ namespace EvoMp.Core.Core
 
         public static bool IsModuleTypeValid(string moduleType)
         {
-            return GetServerGamemodes().Contains("any") || 
-                GetServerGamemodes().Select(s => s.ToLower()).Contains(moduleType.ToLower());
+            return  (GetServerGamemodes().Contains("any") || 
+                GetServerGamemodes().Select(s => s.ToLower()).Contains(moduleType.ToLower())) && moduleType.ToLower() != "disabled";
         }
     }
 }

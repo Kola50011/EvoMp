@@ -28,11 +28,17 @@ namespace EvoMp.Core.ConsoleHandler
                 $"Usage: ~w~{command.Command} {commandParameter}");
         }
 
-        [ConsoleCommand("/testfunc", new[] {"-t"})]
-        public static void ViewHelpInformations(string helloWorldStr, int lottozahlen, double niederschlag,
-            bool playingCsGo,
-            string nutella = "ja")
+
+        [ConsoleCommand("/fullscreen", new[] {"-f",}, "Toggles the fullscreen mode für the GTMP console")]
+        public static void Fullscreen(bool fullscreen, int display)
         {
+            // Fullscreen disabled -> Save, message & return;
+            if (!fullscreen)
+            {
+                ConsoleOutput.WriteLine(ConsoleType.Config, "Disabled fullscreen mode. Changes take effect on next Start.");
+
+            }
+
         }
     }
 }
