@@ -8,7 +8,7 @@ namespace EvoMp.Core.ConsoleHandler
 {
     public class Commands
     {
-        [ConsoleCommand("/help", new[] {"-h", "--help"})]
+        [ConsoleCommand("/help", new[] { "-h", "--help" }, "Shows information for any console command.")]
         public static void ViewHelpInformations(string commandName)
         {
             ConsoleCommand command = ConsoleCommandHandler.GetConsoleCommand(commandName);
@@ -33,8 +33,9 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
 
-        [ConsoleCommand("/fullscreen", new[] {"-f",}, "Toggles the fullscreen mode für the GTMP console. ~n~" +
-                                                      "No display given: Primary display used.")]
+        [ConsoleCommand("/fullscreen", new[] { "-f" },
+            "Toggles server fullscreen mode. ~n~" +
+            "No display given: Primary display used.", true)]
         public static void Fullscreen(bool fullscreen, int display = -1)
         {
             // Fullscreen disabled -> Save, message & return;
@@ -69,17 +70,29 @@ namespace EvoMp.Core.ConsoleHandler
             Settings.Default.ConsoleFullscreenDisplay = display;
             Settings.Default.ConsoleFullscreenMode = true;
             Settings.Default.Save();
-            ConsoleOutput.WriteLine(ConsoleType.Config, $"Enabled fullscreen mode for display ~b~{display}~;~.  " +
-                                                        $"~b~Changes take effect on next Start.");
+            ConsoleOutput.WriteLine(ConsoleType.Config,
+                $"Enabled fullscreen mode for display ~b~{display}~;~.  " +
+                $"~b~Changes take effect on next Start.");
         }
 
-        [ConsoleCommand("/SaveConsolePos", new[] {"-scw",}, "Save the console window position for future starts.~n~" +
-                                                            "~b~Fullscreen mode ignores saved positions.")]
+        [ConsoleCommand("/SaveConsolePos", new[] { "-scw" },
+            "Save the console window position for future starts.~n~" +
+            "~b~Fullscreen mode ignores saved positions.", true)]
         public static void SaveConsolePos()
         {
             Settings.Default.ConsolePosition = new Point(Console.WindowLeft, Console.WindowTop);
             Settings.Default.Save();
             ConsoleOutput.WriteLine(ConsoleType.Config, "Saved the current console positon.");
+        }
+
+        [ConsoleCommand("/resetconsole", new[] { "-rc" },
+            "Reset all console propertys. ~n~" +
+            "~b~Changes take effect on next Start.", true)]
+        public static void ResetConsoleSettings()
+        {
+            Settings.Default.Reset();
+            Settings.Default.Save();
+            ConsoleOutput.WriteLine(ConsoleType.Config, "Console propertys reseted to default.");
         }
     }
 }

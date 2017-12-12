@@ -6,14 +6,16 @@ namespace EvoMp.Core.ConsoleHandler
     [AttributeUsage(AttributeTargets.Method)]
     public class ConsoleCommand : Attribute
     {
-        public ConsoleCommand(string command, string[] commandAliases = null, string description = null)
+        public ConsoleCommand(string command, string[] commandAliases = null, string description = null, bool importantCommand = false)
         {
             Command = command;
-            Description = description ?? "...";
+            ImportantCommand = importantCommand;
+            Description = description ?? "";
             CommandAliases = commandAliases ?? new string[] { };
         }
 
         public string Command { get; set; }
+
         public string Description { get; }
 
         public string[] CommandAliases { get; set; }
@@ -21,6 +23,8 @@ namespace EvoMp.Core.ConsoleHandler
         public MethodInfo MethodInfo { get; set; }
 
         public object ClassInstance { get; set; }
+
+        public bool ImportantCommand { get; set; }
 
         public string FullName()
         {

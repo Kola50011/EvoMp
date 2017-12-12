@@ -222,10 +222,19 @@ namespace EvoMp.Core.ConsoleHandler
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scSize, mfBycommand);
         }
 
+        /// <summary>
+        /// Toggles the console fullscreen mode.
+        /// Internal by (ALT + enter)
+        /// </summary>
+        public static void ToggleConsoleFullscreenMode()
+        {
+           // ::SendMessage(::GetConsoleWindow(), , , 0x20000000);
+            SendMessage((int)GetConsoleWindow(), 0x0104, 0x0D, 0x20000000);
+        }
+        
         #region Dll console imports
 
-        [
-            DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, int mode);
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -245,6 +254,9 @@ namespace EvoMp.Core.ConsoleHandler
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern string SendMessage(int hWnd, int msg, string wParam, IntPtr lParam);
+
+        [DllImport("User32.dll", EntryPoint = "SendMessage")]
+        public static extern int SendMessage(int hWnd, int Msg, int wParam, int lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);

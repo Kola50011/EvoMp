@@ -20,7 +20,7 @@ namespace EvoMp.Core.ConsoleHandler
             ConsoleUtils.GetConsoleMode(ConsoleHandle, out int currentMode);
             ConsoleUtils.SetConsoleMode(ConsoleHandle, currentMode | 0x0004);
 
-            modifyConsoleWindow();
+            ModifyConsoleWindow();
 
             Shared.OnCoreStartupCompleted += () =>
             {
@@ -43,35 +43,36 @@ namespace EvoMp.Core.ConsoleHandler
             };
         }
 
-        private static void modifyConsoleWindow()
+        /// <summary>
+        /// Modifys the console window propertys
+        /// </summary>
+        private static void ModifyConsoleWindow()
         {
-
             int height;
             int width;
 
-            //TODO: in progress
             // Fullscreen
-            //if (Settings.Default.ConsoleFullscreenMode)
-            //{
-            //    // Setting screen or primary screen
-            //    Screen screen = Screen.AllScreens.ElementAt(Settings.Default.ConsoleFullscreenDisplay) ??
-            //                    Screen.PrimaryScreen;
-            //    IntPtr ptr = ConsoleUtils.GetConsoleWindow();
+            if (Settings.Default.ConsoleFullscreenMode)
+            {
+                // Setting screen or primary screen
+                Screen screen = Screen.AllScreens.ElementAt(Settings.Default.ConsoleFullscreenDisplay) ??
+                                Screen.PrimaryScreen;
+                IntPtr ptr = ConsoleUtils.GetConsoleWindow();
 
-            //    ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top, 1000, 400, true);
+                // Move to wanted display
+                ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top,
+                    Console.LargestWindowWidth, Console.LargestWindowHeight, true);
 
-            //    // Alt + Enter
-            //    SendKeys.Send("%~");
-
-            //    height = Math.Min(Console.LargestWindowHeight, 50);
-            //    width = Math.Min(Console.LargestWindowWidth, 150);
-            //}
-            //else
-            //{
+                ConsoleUtils.ToggleConsoleFullscreenMode();
+                height = Console.WindowHeight;
+                width = Console.WindowWidth;
+            }
+            else
+            {
                 height = Math.Min(Console.LargestWindowHeight, 50);
                 width = Math.Min(Console.LargestWindowWidth, 150);
                 ConsoleUtils.SetConsoleFixedSize(height, width);
-            //}
+            }
             // Set console size fixed
             WindowWidth = width;
             WindowHeight = height;
