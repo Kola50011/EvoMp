@@ -22,8 +22,8 @@ namespace EvoMp.Core.ConsoleHandler
         }
 
         /// <summary>
-        /// Returns the ConsoleCommand object for the given commandString.
-        /// Returns null if no ConsoleCommand found.
+        ///     Returns the ConsoleCommand object for the given commandString.
+        ///     Returns null if no ConsoleCommand found.
         /// </summary>
         /// <param name="commandString">ConsoleCommand command string</param>
         /// <returns>ConsoleCommand or null</returns>
@@ -58,7 +58,7 @@ namespace EvoMp.Core.ConsoleHandler
                 List<object> parameterValues = new List<object>();
                 ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
 
-                string currentParameterString = String.Empty;
+                string currentParameterString = string.Empty;
                 for (int i = 0; i < commandParameters.Length; i++)
                 {
                     // No more string parameters -> break;
@@ -88,7 +88,7 @@ namespace EvoMp.Core.ConsoleHandler
                     try
                     {
                         // Barse boolean parameter for Convert functions
-                        if (commandParameters[i].ParameterType == typeof(Boolean))
+                        if (commandParameters[i].ParameterType == typeof(bool))
                             if (currentParameterString == "1")
                                 currentParameterString = "true";
                             else if (currentParameterString == "0")
@@ -97,7 +97,7 @@ namespace EvoMp.Core.ConsoleHandler
 
                         object parameterValue =
                             Convert.ChangeType(currentParameterString, commandParameters[i].ParameterType);
-                        currentParameterString = String.Empty;
+                        currentParameterString = string.Empty;
 
                         if (parameterValue == null)
                             break;

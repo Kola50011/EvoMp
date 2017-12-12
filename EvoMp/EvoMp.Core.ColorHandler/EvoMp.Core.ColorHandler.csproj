@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorCode.cs" />
-    <Compile Include="ColorCodePropertie.cs" />
+    <Compile Include="ColorCodeProperty.cs" />
     <Compile Include="ColorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

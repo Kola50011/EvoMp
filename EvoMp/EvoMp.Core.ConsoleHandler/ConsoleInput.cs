@@ -143,7 +143,9 @@ namespace EvoMp.Core.ConsoleHandler
                             _historyIndex--;
                         }
                         else
+                        {
                             _historyIndex--;
+                        }
 
                         TriggerInputValueChange(InputHistory[_historyIndex]);
                         break;

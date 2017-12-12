@@ -10,27 +10,27 @@ namespace EvoMp.Core.ColorHandler
 {
     public class ColorUtils
     {
-        // Storage colorCodeProperties for better perfomance
-        private static readonly IEnumerable<ColorCodePropertie> ColorCodeProperties =
+        // Store colorCodeProperties for better perfomance
+        private static readonly IEnumerable<ColorCodeProperty> ColorCodeProperties =
             Enum.GetValues(typeof(ColorCode))
                 .Cast<ColorCode>()
                 .Where(code => code.HasFlag(code))
                 .Select(code => typeof(ColorCode)
                     .GetField(code.ToString()))
-                .Select(info => info.GetCustomAttribute(typeof(ColorCodePropertie), false))
-                .Cast<ColorCodePropertie>();
+                .Select(info => info.GetCustomAttribute(typeof(ColorCodeProperty), false))
+                .Cast<ColorCodeProperty>();
 
 
         /// <summary>
-        ///     Returns the propertys for the given color code
+        ///     Returns the properties for the given color code
         /// </summary>
         /// <param name="colorCode">The requested color code</param>
         /// <returns></returns>
-        public static ColorCodePropertie GetColorCodePropertie(ColorCode colorCode)
+        public static ColorCodeProperty GetColorCodeProperty(ColorCode colorCode)
         {
             MemberInfo[] memberInfo = colorCode.GetType().GetMember(colorCode.ToString());
-            ColorCodePropertie attributes =
-                (ColorCodePropertie) memberInfo[0].GetCustomAttribute(typeof(ColorCodePropertie), false);
+            ColorCodeProperty attributes =
+                (ColorCodeProperty) memberInfo[0].GetCustomAttribute(typeof(ColorCodeProperty), false);
 
             return attributes;
         }
@@ -45,13 +45,13 @@ namespace EvoMp.Core.ColorHandler
             Color ParseColorCode()
             {
                 // Get the correct color code from the tilde & return it
-                ColorCodePropertie colorCodePropertie =
+                ColorCodeProperty colorCodeProperty =
                     ColorCodeProperties.FirstOrDefault(cc => cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~");
 
                 // Return color code, if not control code
-                if (colorCodePropertie != null)
-                    if (colorCodePropertie.ControlCodeAnsi == null)
-                        return Color.FromKnownColor(colorCodePropertie.Color);
+                if (colorCodeProperty != null)
+                    if (colorCodeProperty.ControlCodeAnsi == null)
+                        return Color.FromKnownColor(colorCodeProperty.Color);
 
                 return Color.Empty;
             }
@@ -87,7 +87,7 @@ namespace EvoMp.Core.ColorHandler
         }
 
         /// <summary>
-        ///     Creates a Dictionary wich contains the gtmp color code
+        ///     Creates a Dictionary which contains the gtmp color code
         ///     and the matching console color for the gtmp font color string.
         /// </summary>
         /// <param name="message">The gtMp colored string</param>
@@ -217,7 +217,7 @@ namespace EvoMp.Core.ColorHandler
                         .ControlCodeAnsi;
 
                     // Is reset code -> reset last background
-                    if (ansiString == GetColorCodePropertie(ColorCode.ResetColor).ControlCodeAnsi)
+                    if (ansiString == GetColorCodeProperty(ColorCode.ResetColor).ControlCodeAnsi)
                         currentBackground = Color.Empty;
 
 
@@ -283,88 +283,18 @@ namespace EvoMp.Core.ColorHandler
         /// <returns></returns>
         public static string CleanUp(string message, bool onlyEscape = false)
         {
+            string ret = "";
             List<string> colorCodes = ParseColorCodesSimple(message);
 
-            // invalid message -> return complete escaped
-            if (colorCodes == null || onlyEscape)
-                return message.Replace("\\~", "~").Replace("~", "\\~");
-
-            string result = message;
-            foreach (var code in colorCodes)
-                result = new Regex(Regex.Escape($"~{code}~")).Replace(result, "", 1);
-
-            return result.Replace("\\~", "~");
-        }
-
-
-        /// <summary>
-        ///     Gives the correct cut positin for a uncleaned string, based on a cleaned string
-        /// </summary>
-        /// <param name="uncleanedMessage">The uncleaned message with colorcodes</param>
-        /// <param name="cleanedCutLength">Position of the cleaned final message cut</param>
-        /// <returns></returns>
-        public static int CleanedMessagePostionToUnCleanedMessagePositon(string uncleanedMessage, int cleanedCutLength)
-        {
-            string fullCleanedString = CleanUp(uncleanedMessage);
-            int position = cleanedCutLength;
-
-            List<string> colorCodes = ParseColorCodesSimple(uncleanedMessage).ToList();
-
-
-            // Get best possible postion 
-            for (int i = 0; i < uncleanedMessage.Length; i++)
-                if (CleanUp(uncleanedMessage.Substring(0, i)) ==
-                    fullCleanedString.Substring(0, cleanedCutLength))
-                {
-                    position = i;
-                    break;
-                }
-
-            bool brokenColorCodes = true;
-
-            while (brokenColorCodes)
+            int startPos = 0;
+            foreach (string code in colorCodes)
             {
-                brokenColorCodes = false;
-                // Left and right side of the new cutten text
-                string uncleanedTestMessageLeft = uncleanedMessage.Substring(0, position);
-                string uncleanedTestMessageRight = uncleanedMessage.Substring(position);
-
-                // Check now each colorCodes and each side of new string
-                foreach (string colorCode in colorCodes)
-                {
-                    if (uncleanedTestMessageLeft.ToLower().Contains($"~{colorCode.ToLower()}~"))
-                    {
-                        uncleanedTestMessageLeft =
-                            new Regex(Regex.Escape($"~{colorCode}~")).Replace(uncleanedTestMessageLeft, "", 1);
-                        continue;
-                    }
-                    if (uncleanedTestMessageRight.Contains($"~{colorCode}~"))
-                    {
-                        uncleanedTestMessageRight =
-                            new Regex(Regex.Escape($"~{colorCode}~")).Replace(uncleanedTestMessageRight, "", 1);
-                        continue;
-                    }
-
-                    // Colorcode can't found in left or right side -> broken.
-                    brokenColorCodes = true;
-
-                    // Go backwards, try with spaces
-                    if (uncleanedMessage.Substring(0, position).Contains(" "))
-                    {
-                        position = uncleanedMessage.Substring(0, position).LastIndexOf(" ", StringComparison.Ordinal);
-
-                        if (position != 1)
-                            position--;
-                    }
-                    else // Otherwhite find any position where cut is possible without destroying a colorCode
-                    {
-                        position--;
-                    }
-                    break;
-                }
+                string tildeCode = "~" + code + "~";
+                int pos = message.IndexOf(tildeCode, startPos, StringComparison.Ordinal);
+                ret += message.Substring(startPos, pos - startPos);
+                startPos = pos + tildeCode.Length;
             }
-
-            return position;
+            return ret + message.Substring(startPos);
         }
 
         /// <summary>
@@ -374,85 +304,32 @@ namespace EvoMp.Core.ColorHandler
         /// <returns>List of text codes, orderd by position in message</returns>
         public static List<string> ParseColorCodesSimple(string message)
         {
-            List<string> colorCodes = new List<string>();
+            List<string> ret = new List<string>();
 
-            // Check tilde count
-            string tildeMessage = message;
-            int countTilde = tildeMessage.Count(c => c == '~');
-            tildeMessage = tildeMessage.Replace(@"\~", "");
-            int countEscapedTilde = countTilde - tildeMessage.Count(c => c == '~');
-            countTilde = tildeMessage.Count(c => c == '~');
+            string pattern = "(~)(.*?)(~)";
+            bool parse = true;
+            string parseOn = GetColorCodeProperty(ColorCode.CodeParsingOn).Identifier;
+            string parseOff = GetColorCodeProperty(ColorCode.CodeParsingOff).Identifier;
 
-            // For easyer math (escaped tildes doesn't matter)
-            if (countEscapedTilde % 2 != 0)
-                countEscapedTilde++;
-
-            // Open color codes exist -> return null;
-            if ((countTilde - countEscapedTilde) % 2 != 0)
-                return null;
-
-
-            // Parse color codes
-            bool openTilde = false;
-            string currentCode = string.Empty;
-            bool parsing = true;
-            bool lastWasEscape = false;
-            foreach (char messageChar in message)
+            foreach (Match match in Regex.Matches(message, pattern))
             {
-                // Escape char -> notice & next
-                if (messageChar == '\\')
+                string matchValue = match.Value.Replace("~", "");
+                if (match.Value == parseOn)
                 {
-                    lastWasEscape = true;
-                    continue;
+                    parse = true;
+                    ret.Add(matchValue);
                 }
-
-                if (messageChar == '~')
+                else if (match.Value == parseOff)
                 {
-                    if (lastWasEscape)
-                    {
-                        lastWasEscape = false;
-                        continue;
-                    }
-
-                    if (openTilde)
-                    {
-                        openTilde = false;
-
-                        // Get possible code
-                        ColorCodePropertie colorCodePropertie =
-                            ColorCodeProperties.FirstOrDefault(ccp => ccp.Identifier == $"~{currentCode}~");
-
-                        // Add if parsing active
-                        if (parsing || colorCodePropertie != null && colorCodePropertie.IgnoresParsingDisabled)
-                            colorCodes.Add(currentCode);
-
-                        if (colorCodePropertie != null)
-                        {
-                            // Change parsing state if needed
-                            if (colorCodePropertie.ControlCodeAnsi == "!00!")
-                                parsing = false;
-
-                            if (colorCodePropertie.ControlCodeAnsi == "!01!")
-                                parsing = true;
-                        }
-
-                        currentCode = string.Empty;
-                    }
-                    else
-                    {
-                        openTilde = true;
-                    }
+                    parse = false;
+                    ret.Add(matchValue);
                 }
-                else if (openTilde)
+                else if (parse)
                 {
-                    currentCode += messageChar;
+                    ret.Add(matchValue);
                 }
-
-                // Reset escape bool
-                lastWasEscape = false;
             }
-
-            return colorCodes;
+            return ret;
         }
 
         /// <summary>
