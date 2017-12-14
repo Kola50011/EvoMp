@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -260,6 +261,9 @@ namespace EvoMp.Core.ConsoleHandler
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        [DllImport("user32.dll")]
+        public static extern long GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
 
         #endregion //Dll console imports
     }

@@ -71,6 +71,13 @@ namespace EvoMp.Core.ConsoleHandler
             {
                 height = Math.Min(Console.LargestWindowHeight, 50);
                 width = Math.Min(Console.LargestWindowWidth, 150);
+
+                // set console window position if setten
+                if (Settings.Default.ConsolePosition.X != -1 && Settings.Default.ConsolePosition.Y != -1)
+                    ConsoleUtils.MoveWindow(ConsoleUtils.GetConsoleWindow(),
+                        Settings.Default.ConsolePosition.X, Settings.Default.ConsolePosition.Y,
+                        width, height + 3, true);
+
                 ConsoleUtils.SetConsoleFixedSize(height, width);
             }
             // Set console size fixed

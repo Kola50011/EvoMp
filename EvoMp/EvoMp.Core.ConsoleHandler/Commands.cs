@@ -51,10 +51,10 @@ namespace EvoMp.Core.ConsoleHandler
                 return;
             }
             // invalid display given -> Warning & return;
-            if (display >= 0 && Screen.AllScreens.Length < display)
+            if (display < 0 || Screen.AllScreens.Length - 1 < display)
             {
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    $"Invalid display ~o~{display}~;~. Available displays: 0 - {Screen.AllScreens.Length}");
+                    $"Invalid display ~o~{display}~;~. Available displays: 0 - {Screen.AllScreens.Length - 1 }");
                 return;
             }
 
@@ -80,7 +80,9 @@ namespace EvoMp.Core.ConsoleHandler
             "~b~Fullscreen mode ignores saved positions.", true)]
         public static void SaveConsolePos()
         {
-            Settings.Default.ConsolePosition = new Point(Console.WindowLeft, Console.WindowTop);
+            Rectangle rect = new Rectangle();
+            ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
+            Settings.Default.ConsolePosition = new Point(rect.X, rect.Y);
             Settings.Default.Save();
             ConsoleOutput.WriteLine(ConsoleType.Config, "Saved the current console positon.");
         }
