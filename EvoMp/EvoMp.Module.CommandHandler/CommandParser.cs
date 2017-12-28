@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler;
 using EvoMp.Module.CommandHandler.Attributes;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.CommandHandler
 {
