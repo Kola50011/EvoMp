@@ -57,32 +57,22 @@ namespace EvoMp.Module.CommandHandler
         /// <param name="cancel">The cancel event</param>
         private void ApiOnOnChatMessage(Client sender, string message, CancelEventArgs cancel)
         {
-            // Message is not a command -> return;
-            if (CommandParser.GetCommand(message) == null)
-                return;
-
             // Message is a command -> Set cancel
-            cancel.Cancel = true;
-
-            // Eval command
-            EvalCommand(sender, message);
+            cancel.Cancel = EvalCommand(sender, message);
         }
 
-        public bool EvalCommand(Client sender, string message)
+        public bool EvalCommand(Client sender, string commandString)
         {
             List<string> commandStringParts = commandString.Split(' ').ToList();
 
-            foreach (ICommand command in Commands)
+            foreach (ICommand command in CommandParser.Commands)
             {
                 // command string not command -> continue;
                 if (command.Command.ToLower() != commandStringParts[0].ToLower()
                     && !command.CommandAliases.Select(ca => ca.ToLower())
                         .Contains(commandStringParts[0].ToLower()))
                     continue;
-
-                // Cancle event
-                cancelEventArgs.Cancel = true;
-
+                
                 // Remove command
                 string enteredCommand = commandStringParts[0];
                 commandStringParts.Remove(enteredCommand);
@@ -92,7 +82,8 @@ namespace EvoMp.Module.CommandHandler
                 ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
 
                 string currentParameterString = string.Empty;
-                for (int i = 0; i < commandParameters.Length; i++)
+                parameterValues.Add(sender);
+                for (int i = 1; i < commandParameters.Length; i++)
                 {
                     // No more string parameters -> break;
                     if (commandStringParts.FirstOrDefault() == null)
@@ -139,25 +130,25 @@ namespace EvoMp.Module.CommandHandler
                     }
                     catch (InvalidCastException)
                     {
-                        ConsoleOutput.WriteLine(ConsoleType.Error,
+                        MessageHandler.PlayerMessage(sender,
                             $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
-                        return;
+                        return true;
                     }
                     catch
                     {
-                        ConsoleOutput.WriteLine(ConsoleType.Error,
+                        MessageHandler.PlayerMessage(sender,
                             $"Invalid type given for parameter {commandParameters[i].Name}.");
-                        return;
+                        return true;
                     }
                 }
 
                 // Not enough parameter values -> message & next;
                 if (commandParameters.Count(info => !info.IsOptional) > parameterValues.Count)
                 {
-                    ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand,
+                    MessageHandler.PlayerMessage(sender,
                         $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +
                         $"Type ~b~\"/help {enteredCommand}\"~;~ for more information.");
-                    return false;
+                    return true;
                 }
 
                 //TODO: check for optional parameters needed
@@ -166,9 +157,11 @@ namespace EvoMp.Module.CommandHandler
                 command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());
 
                 ConsoleOutput.WriteLine(ConsoleType.Command,
-                    $"~b~{sender.name} ~;~-> ~o~{command.Command}~;~.");
+                    $"~b~{sender.name} ~;~-> ~o~{command.Command}~;~. ~c~(~w~{commandString}~c~)");
+                return true;
             }
-            return true;
+
+            return false;
         }
     }
 }
