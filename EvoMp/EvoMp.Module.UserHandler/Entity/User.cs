@@ -8,7 +8,8 @@ namespace EvoMp.Module.UserHandler.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [Column("ID")]
+        [Required]
+        [Column("Id")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "You have to set an username to register an account")]
@@ -25,15 +26,15 @@ namespace EvoMp.Module.UserHandler.Entity
         [Column("Social_club_name")]
         public string SocialClubName { get; set; }
 
-        [MaxLength(32)]
-        [MinLength(3)]
-        [Index(IsUnique = true)]
+        //[MaxLength(32)]
+        //[MinLength(3)]
+        //[Index(IsUnique = true)]
         [Column("First_name")]
         public string FirstName { get; set; }
 
         [MaxLength(32, ErrorMessage = "Your first name can be up to 32 characters")]
         [MinLength(3, ErrorMessage = "Your last name needs to be at least 3 characters")]
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         [Column("Last_name")]
         public string LastName { get; set; }
 

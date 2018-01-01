@@ -59,14 +59,6 @@ namespace EvoMp.Module.UserHandler.Entity
 
             Database.Connection.Open();
 
-            /*
-                  Console.WriteLine("Drop Database Users? (y/n)");
-                  if (Console.ReadLine() == "y")
-                  {
-                      foreach (User user in Users.ToList())
-                          Users.Remove(user);
-                      SaveChanges();
-                  }*/
         }
     }
 }
