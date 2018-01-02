@@ -1,0 +1,147 @@
+﻿@import "../../EvoMp.Temp.Ionicons/Web/ionicons";
+
+$debug-background-color: #fefefe;
+$icon-background-color: #ef622f;
+$icon-color: #ffffff;
+$notification-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.75);
+$notification-border-color: #2c3e50;
+
+.notification-list {
+  height: 100vh;
+  list-style-type: none;
+  margin: 0;
+  max-height: 100vh;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  //width: 344px;
+}
+
+.notification {
+  animation: moveIn 0.75s ease-out, moveOut 0.45s 4.5s ease-in forwards;
+  background-color: rgba(255, 255, 255, 1); //$debug-background-color;
+  // border: double thin $notification-border-color;
+  box-shadow: $notification-box-shadow;
+  display: flex;
+  min-height: 48px;
+  margin: 16px;
+  width: 432px;
+
+  .icon {
+    align-items: center;
+    font-size: 30px;
+    color: $icon-color;
+    display: inline-flex;
+    justify-content: center;
+    width: 48px;
+  }
+
+  .content {
+    align-items: center;
+    display: flex;
+    //justify-content: center;
+    width: 364px;
+    word-break: break-word;
+    padding: 10px;
+    // padding-right: 25px;
+    color: #000;
+    .title {
+      display: block;
+      font-size: small;
+    }
+  }
+
+  .time {
+    animation: timer linear 3.5s forwards;
+    animation-delay: 0.75s;
+    background-color: $icon-background-color;
+    bottom: 0;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    width: 264px;
+  }
+}
+
+@keyframes moveIn {
+  from {
+    box-shadow: none;
+    transform: translate(0, -100vh);
+    z-index: -1;
+  }
+
+  to {
+    box-shadow: $notification-box-shadow;
+    transform: translate(0, 0);
+    z-index: 0;
+  }
+}
+
+@keyframes moveOut {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(400px, 0);
+  }
+}
+
+@keyframes timer {
+  from {
+    width: 264px;
+  }
+
+  to {
+    width: 0;
+  }
+}
+
+.gtaFontRed {
+  color: #de3232;
+}
+
+.gtaFontBlue {
+  color: #5cb4e3;
+}
+
+.gtaFontGreen {
+  color: #379137;
+}
+
+.gtaFontYellow {
+  color: #eec650;
+}
+
+.gtaFontPurple {
+  color: #8365e0;
+}
+
+.gtaFontOrange {
+  color: #b96431;
+}
+
+.gtaFontGrey {
+  color: #8b8b8b;
+}
+
+.gtaFontDarkerGrey {
+  color: #636363;
+}
+
+.gtaFontBlack {
+  color: #000;
+}
+
+.gtaFontBoldText {
+  font-weight: bold;
+}
+
+.gtaFontDefaultWhite {
+  color: #000;
+}
+
+.gtaFontWhite {
+  color: #000;
+}

@@ -1,0 +1,10 @@
+overrides:
+- files: "EvoMp/**/*.ts"
+  options:
+    semi: false
+    singleQuote: true
+    trailingComma: "none"
+    useTabs: false
+    tabWidth: 2
+    bracketSpacing: false
+    arrowParens: "always"
