@@ -91,12 +91,12 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomTextWriter.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="ModuleLoader.cs" />
-    <Compile Include="ModuleStructurer.cs" />
-    <Compile Include="ModuleTypeHandler.cs" />
-    <Compile Include="CoreParameter.cs" />
+    <Compile Include="Server\CustomTextWriter.cs" />
+    <Compile Include="Server\Main.cs" />
+    <Compile Include="Server\ModuleLoader.cs" />
+    <Compile Include="Server\ModuleStructurer.cs" />
+    <Compile Include="Server\ModuleTypeHandler.cs" />
+    <Compile Include="Server\CoreParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -51,14 +51,14 @@
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="DSharpPlus, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DSharpPlus.3.2.2\lib\net46\DSharpPlus.dll</HintPath>
+    <Reference Include="DSharpPlus, Version=3.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DSharpPlus.3.2.3\lib\net46\DSharpPlus.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.640.64, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\grandtheftmultiplayer.api.0.1.640.64\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
@@ -83,18 +83,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BotManagment\Initalization.cs" />
-    <Compile Include="BotManagment\BotManagment.cs" />
-    <Compile Include="ServerMemberManagment.cs" />
-    <Compile Include="ChannelManagment.cs" />
-    <Compile Include="DiscordEvents.cs" />
-    <Compile Include="DiscordHandler.cs" />
-    <Compile Include="Entity\DiscordBotChannel.cs" />
-    <Compile Include="Entity\DiscordServerMember.cs" />
-    <Compile Include="Entity\DiscordBot.cs" />
-    <Compile Include="Entity\DiscordContext.cs" />
-    <Compile Include="Entity\DiscordRepository.cs" />
-    <Compile Include="IDiscordHandler.cs" />
+    <Compile Include="Server\BotManagment\Initalization.cs" />
+    <Compile Include="Server\BotManagment\BotManagment.cs" />
+    <Compile Include="Server\ServerMemberManagment.cs" />
+    <Compile Include="Server\ChannelManagment.cs" />
+    <Compile Include="Server\DiscordEvents.cs" />
+    <Compile Include="Server\DiscordHandler.cs" />
+    <Compile Include="Server\Entity\DiscordBotChannel.cs" />
+    <Compile Include="Server\Entity\DiscordServerMember.cs" />
+    <Compile Include="Server\Entity\DiscordBot.cs" />
+    <Compile Include="Server\Entity\DiscordContext.cs" />
+    <Compile Include="Server\Entity\DiscordRepository.cs" />
+    <Compile Include="Server\IDiscordHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +126,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

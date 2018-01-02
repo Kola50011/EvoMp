@@ -55,17 +55,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
-    <Compile Include="ConsoleCommand.cs" />
-    <Compile Include="ConsoleHandler.cs" />
-    <Compile Include="ConsoleCommandHandler.cs" />
-    <Compile Include="ConsoleInput.cs" />
-    <Compile Include="ConsoleError.cs" />
-    <Compile Include="ConsoleOutput.cs" />
-    <Compile Include="ConsoleTypeProperties.cs" />
-    <Compile Include="ConsoleType.cs" />
-    <Compile Include="ConsoleUtils.cs" />
-    <Compile Include="CustomTextWriter.cs" />
+    <Compile Include="Server\Commands.cs" />
+    <Compile Include="Server\ConsoleCommand.cs" />
+    <Compile Include="Server\ConsoleHandler.cs" />
+    <Compile Include="Server\ConsoleCommandHandler.cs" />
+    <Compile Include="Server\ConsoleInput.cs" />
+    <Compile Include="Server\ConsoleError.cs" />
+    <Compile Include="Server\ConsoleOutput.cs" />
+    <Compile Include="Server\ConsoleTypeProperties.cs" />
+    <Compile Include="Server\ConsoleType.cs" />
+    <Compile Include="Server\ConsoleUtils.cs" />
+    <Compile Include="Server\CustomTextWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

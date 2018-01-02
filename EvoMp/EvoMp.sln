@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1742-4032-B885-2DDCFE385E22}"
 EndProject
@@ -34,6 +34,42 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.MessageHandler", "EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj", "{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.ColorHandler", "EvoMp.Core.ColorHandler\EvoMp.Core.ColorHandler.csproj", "{C0437DC2-2BB7-4AF0-89A9-22CE4B6E7C25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{D51D2071-6765-4DCC-9627-A3949D8C1DFD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		gulpfile.js = gulpfile.js
+		package.json = package.json
+		tsconfig-dev.json = tsconfig-dev.json
+		tsconfig.json = tsconfig.json
+		tslint.json = tslint.json
+		webpack.config.js = webpack.config.js
+		webpack.dev.js = webpack.dev.js
+		yarn.lock = yarn.lock
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typings", "typings", "{4032BEA5-165C-4976-AD86-EB495F177042}"
+	ProjectSection(SolutionItems) = preProject
+		typings\Declarations.d.ts = typings\Declarations.d.ts
+		typings\Enums.ts = typings\Enums.ts
+		typings\GTANetwork.dll.d.ts = typings\GTANetwork.dll.d.ts
+		typings\GTANetworkShared.dll.d.ts = typings\GTANetworkShared.dll.d.ts
+		typings\index.d.ts = typings\index.d.ts
+		typings\NativeUI.dll.d.ts = typings\NativeUI.dll.d.ts
+		typings\ScriptHookVDotNet.dll.d.ts = typings\ScriptHookVDotNet.dll.d.ts
+		typings\System.d.ts = typings\System.d.ts
+		typings\System.Drawing.dll.d.ts = typings\System.Drawing.dll.d.ts
+		typings\Xilium.CefGlue.dll.d.ts = typings\Xilium.CefGlue.dll.d.ts
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp", "gulp", "{29845475-AB8D-4D36-BFF2-7F7153167842}"
+	ProjectSection(SolutionItems) = preProject
+		gulp\build.js = gulp\build.js
+		gulp\buildDev.js = gulp\buildDev.js
+		gulp\cp.js = gulp\cp.js
+		gulp\lint.js = gulp\lint.js
+		gulp\watch.js = gulp\watch.js
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -174,6 +210,8 @@ Global
 		{EE63F684-46DB-466E-82B2-74F988F3DD4B} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 		{CF764600-E3A0-46BF-8CC9-7AA352D07B4E} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{C0437DC2-2BB7-4AF0-89A9-22CE4B6E7C25} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
+		{4032BEA5-165C-4976-AD86-EB495F177042} = {D51D2071-6765-4DCC-9627-A3949D8C1DFD}
+		{29845475-AB8D-4D36-BFF2-7F7153167842} = {D51D2071-6765-4DCC-9627-A3949D8C1DFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DA49ECC-9D08-42FC-B5AB-6318780C1619}

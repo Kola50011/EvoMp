@@ -42,9 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorCode.cs" />
-    <Compile Include="ColorCodeProperty.cs" />
-    <Compile Include="ColorUtils.cs" />
+    <Compile Include="Server\ColorCode.cs" />
+    <Compile Include="Server\ColorCodeProperty.cs" />
+    <Compile Include="Server\ColorUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

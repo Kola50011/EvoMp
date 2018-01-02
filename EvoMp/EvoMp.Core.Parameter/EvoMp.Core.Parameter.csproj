@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parameter.cs" />
-    <Compile Include="ParameterHandler.cs" />
-    <Compile Include="ParameterProperties.cs" />
+    <Compile Include="Server\Parameter.cs" />
+    <Compile Include="Server\ParameterHandler.cs" />
+    <Compile Include="Server\ParameterProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
