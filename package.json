@@ -1,0 +1,36 @@
+{
+  "name": "evomp",
+  "version": "1.0.0",
+  "description": "A GT-MP Multiplayer framework. Frontend only.",
+  "repository": "git@github.com:Kola50011/EvoMp.git",
+  "author": "Sascha <sascha8a@gmail.com>",
+  "private": true,
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.4.1",
+    "cross-env": "^5.1.3",
+    "glob": "^7.1.2",
+    "hard-source-webpack-plugin": "^0.5.14",
+    "node-sass": "^4.7.2",
+    "nsp": "^3.1.0",
+    "parcel-bundler": "^1.4.1",
+    "parcel-plugin-markdown": "^0.2.1",
+    "parcel-plugin-pug": "^0.2.1",
+    "prettier": "^1.9.2",
+    "prettier-standard": "^8.0.0",
+    "tslint": "^5.8.0",
+    "tslint-config-prettier": "^1.6.0",
+    "tslint-config-standard": "^7.0.0",
+    "tslint-webpack-plugin": "^1.0.0",
+    "typescript": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.1.5",
+    "webpack": "^3.10.0",
+    "xmlbuilder": "^9.0.4"
+  },
+  "scripts": {
+    "build": "yarn format && yarn checksec && cross-env NODE_ENV=production node Build/Web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta",
+    "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch && start cross-env NODE_ENV=development node Build/createMeta",
+    "format": "prettier-standard \"EvoMp/**/*.js\" && prettier \"EvoMp/**/*.+(ts|scss|css|vue|less|md|json)\" --write",
+    "checksec": "nsp check",
+    "generateMeta": "start cross-env NODE_ENV=development node Build/createMeta"
+  }
+}
