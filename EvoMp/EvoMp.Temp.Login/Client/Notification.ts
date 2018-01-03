@@ -1,7 +1,7 @@
 ﻿/// <reference path='../../../typings/index.d.ts' />
 
-import { Cef } from './Cef'
-import { ServerEventHandlerSingleton } from './ServerEventHandlerSingleton'
+import {Cef} from './Cef'
+import {ServerEventHandlerSingleton} from './ServerEventHandlerSingleton'
 
 /**
  * Notifications, pretty self explainatory
@@ -11,12 +11,17 @@ export class Notification {
   private static cef: Cef
   private static cefReady: boolean = false
 
-  constructor (icon: string, message: string, color: string) {
-    if (Notification.cefReady) Notification.cef.call('notify', icon, message, color)
+  constructor(icon: string, message: string, color: string) {
+    if (Notification.cefReady) {
+      Notification.cef.call('notify', icon, message, color)
+    }
   }
 
-  public static async init (): Promise<void> {
-    Notification.cef = new Cef('Notification', './dist/Notification.Web/Notification.html')
+  public static async init(): Promise<void> {
+    Notification.cef = new Cef(
+      'Notification',
+      './dist/Notification.Web/Notification.html'
+    )
     Notification.cef.setHeadless(false)
     Notification.cef.setChatVisible(true)
     Notification.cef.setCursorVisible(false)
@@ -26,14 +31,17 @@ export class Notification {
 }
 
 API.onResourceStart.connect(() => {
-  Notification.init()
-  .then(() => {
+  Notification.init().then(() => {
     // tslint:disable-next-line:no-unused-variable
-    let notification: Notification = new Notification('ion-bug', 'Notifications initialised', 'red')
+    let notification: Notification = new Notification(
+      'ion-bug',
+      'Notifications initialised',
+      'red'
+    )
   })
 })
 
-ServerEventHandlerSingleton.getInstance().on('notify', args => {
+ServerEventHandlerSingleton.getInstance().on('notify', (args) => {
   // tslint:disable-next-line:no-unused-variable
   let notification: Notification = new Notification(args[0], args[1], args[2])
 })

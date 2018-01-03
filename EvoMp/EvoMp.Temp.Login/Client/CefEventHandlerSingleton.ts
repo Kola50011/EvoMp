@@ -1,6 +1,6 @@
 ﻿/// <reference path='../../../typings/index.d.ts' />
 
-import { EventHandler } from './EventHandler'
+import {EventHandler} from './EventHandler'
 
 /**
  * @desc Singleton that handles all events incoming from the web.
@@ -9,11 +9,11 @@ import { EventHandler } from './EventHandler'
 export class CefEventHandlerSingleton extends EventHandler {
   private static instance: CefEventHandlerSingleton
 
-  private constructor () {
+  private constructor() {
     super()
   }
 
-  public static getInstance (): CefEventHandlerSingleton {
+  public static getInstance(): CefEventHandlerSingleton {
     if (!CefEventHandlerSingleton.instance) {
       CefEventHandlerSingleton.instance = new CefEventHandlerSingleton()
     }

@@ -1,12 +1,12 @@
 /// <reference path='../../../typings/index.d.ts' />
 
-import { Cef } from './Cef'
-import { Debugger } from './Debugger'
-import { EventListener } from './EventListener'
-import { ServerEventHandlerSingleton } from './ServerEventHandlerSingleton'
+import {Cef} from './Cef'
+import {Debugger} from './Debugger'
+import {EventListener} from './EventListener'
+import {ServerEventHandlerSingleton} from './ServerEventHandlerSingleton'
 
 interface LoginResponse {
-  Successfull: boolean,
+  Successfull: boolean
   Messages: String[]
 }
 
@@ -20,16 +20,22 @@ export class LoginHandler {
   private loginRequestListener: EventListener
   private loginResponseListener: EventListener
 
-  constructor () {
+  constructor() {
     this.cef = new Cef('Login', './dist/Login.Web/Login.html')
     this.cef.setHudVisible(false)
     this.cef.setChatVisible(false)
     this.cef.setCursorVisible(true)
 
-    this.loginRequestListener = new EventListener('loginRequest', this.handleRequest)
+    this.loginRequestListener = new EventListener(
+      'loginRequest',
+      this.handleRequest
+    )
     this.cef.add(this.loginRequestListener)
 
-    this.loginResponseListener = new EventListener('loginResponse', (args: any[]) => this.handleResponse(args))
+    this.loginResponseListener = new EventListener(
+      'loginResponse',
+      (args: any[]) => this.handleResponse(args)
+    )
     ServerEventHandlerSingleton.getInstance().add(this.loginResponseListener)
   }
 
@@ -37,14 +43,14 @@ export class LoginHandler {
    * open the Login Window.
    * @param username {string} Well, the username...
    */
-  public async open (username: string): Promise<void> {
+  public async open(username: string): Promise<void> {
     await this.cef.load()
   }
 
   /**
    * Properly delete all references in all listeners etc.
    */
-  public delete () {
+  public delete() {
     this.cef.remove(this.loginRequestListener)
     this.cef.destroy()
 
@@ -52,11 +58,11 @@ export class LoginHandler {
     delete this.loginRequestListener
   }
 
-    /**
-     * Handles incoming LoginRequest.
-     * @param args {any[]}
-     */
-  private handleRequest (args: any[]): void {
+  /**
+   * Handles incoming LoginRequest.
+   * @param args {any[]}
+   */
+  private handleRequest(args: any[]): void {
     API.triggerServerEvent('loginRequest', JSON.stringify(args))
   }
 
@@ -64,7 +70,7 @@ export class LoginHandler {
    * Handles incoming loginResponse.
    * @param args {LoginResponse}
    */
-  private handleResponse (args: any[]): void {
+  private handleResponse(args: any[]): void {
     try {
       let response: LoginResponse = JSON.parse(args[0])
       if (response.Successfull) {

@@ -1,9 +1,8 @@
 /// <reference path='../../../typings/index.d.ts' />
 
-import { CefEventHandlerSingleton } from './CefEventHandlerSingleton'
-import { CefLoadHandlerSingleton } from './CefLoadHandlerSingleton'
-import { EventHandler } from './EventHandler'
-import { EventListener } from './EventListener'
+import {CefEventHandlerSingleton} from './CefEventHandlerSingleton'
+import {CefLoadHandlerSingleton} from './CefLoadHandlerSingleton'
+import {EventListener} from './EventListener'
 
 /**
  * Wrapper around the Chromium Embedded Framework, for GT-MP
@@ -21,12 +20,16 @@ export class Cef {
   private chat: boolean = false
   private hud: boolean = true
 
-  constructor (name: string, path: string) {
+  constructor(name: string, path: string) {
     this.name = name
     this.path = path
 
     const resolution: Size = API.getScreenResolution()
-    this.browser = API.createCefBrowser(resolution.Width, resolution.Height, !this.external)
+    this.browser = API.createCefBrowser(
+      resolution.Width,
+      resolution.Height,
+      !this.external
+    )
     API.setCefBrowserPosition(this.browser, 0, 0)
     API.waitUntilCefBrowserInit(this.browser)
   }
@@ -35,7 +38,7 @@ export class Cef {
    * Openes the webpage.
    * @param {string} path You can still change the site to load until the last minute.
    */
-  public async load (path?: string): Promise<void> {
+  public async load(path?: string): Promise<void> {
     if (path) this.path = path
     if (this.open) return
 
@@ -43,21 +46,33 @@ export class Cef {
 
     await CefLoadHandlerSingleton.getInstance().finishedLoading(this.name)
 
-    if (!this.chat) { API.setCanOpenChat(false) }
-    if (!this.hud) { API.setHudVisible(false) }
-    if (this.cursor) { API.showCursor(true) }
+    if (!this.chat) {
+      API.setCanOpenChat(false)
+    }
+    if (!this.hud) {
+      API.setHudVisible(false)
+    }
+    if (this.cursor) {
+      API.showCursor(true)
+    }
     this.setOpen(true)
   }
 
   /**
    * Closes the whole website.
    */
-  public destroy (): void {
+  public destroy(): void {
     API.destroyCefBrowser(this.browser)
 
-    if (!this.chat) { API.setCanOpenChat(true) }
-    if (!this.hud) { API.setHudVisible(true) }
-    if (this.cursor) { API.showCursor(false) }
+    if (!this.chat) {
+      API.setCanOpenChat(true)
+    }
+    if (!this.hud) {
+      API.setHudVisible(true)
+    }
+    if (this.cursor) {
+      API.showCursor(false)
+    }
 
     this.setOpen(false)
   }
@@ -66,7 +81,7 @@ export class Cef {
    * Evaluates the string inside the web context. Basically runs the string like you'd type it inside the Chrome Dev Tools Console
    * @param {string} evalString The String to evaluate
    */
-  public eval (evalString: string): void {
+  public eval(evalString: string): void {
     this.browser.eval(evalString)
   }
 
@@ -75,7 +90,7 @@ export class Cef {
    * @param {string} method  Method to call
    * @param {any[]}  ...args the arguments
    */
-  public call (method: string, ...args: any[]): void {
+  public call(method: string, ...args: any[]): void {
     this.browser.call(method, ...args)
   }
 
@@ -84,7 +99,7 @@ export class Cef {
    * @param  {string} eventName The name of the event
    * @param  {any[]}  cb        Callback
    */
-  public on (eventName: string, cb: (args: any[]) => void): void {
+  public on(eventName: string, cb: (args: any[]) => void): void {
     this.cefEventHandler.on(`${this.name}.${eventName}`, cb)
   }
 
@@ -104,12 +119,24 @@ export class Cef {
     this.cefEventHandler.remove(listener)
   }
 
+  public setExternal(newValue: boolean): void {
+    this.external = newValue
+  }
+  public setHeadless(newValue: boolean): void {
+    this.headless = newValue
+    API.setCefBrowserHeadless(this.browser, this.headless)
+  }
+  public setCursorVisible(newValue: boolean): void {
+    this.cursor = newValue
+  }
+  public setChatVisible(newValue: boolean): void {
+    this.chat = newValue
+  }
+  public setHudVisible(newValue: boolean): void {
+    this.hud = newValue
+  }
 
-  public setExternal (newValue: boolean): void { this.external = newValue }
-  public setHeadless (newValue: boolean): void { this.headless = newValue; API.setCefBrowserHeadless(this.browser, this.headless) }
-  public setCursorVisible (newValue: boolean): void { this.cursor = newValue }
-  public setChatVisible (newValue: boolean): void { this.chat = newValue }
-  public setHudVisible (newValue: boolean): void { this.hud = newValue }
-
-  private setOpen (newValue: boolean): void { this.open = newValue }
+  private setOpen(newValue: boolean): void {
+    this.open = newValue
+  }
 }
