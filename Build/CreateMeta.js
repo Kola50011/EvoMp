@@ -27,7 +27,7 @@ function writeXml () {
       continue
     }
     let fileElem = root.element('file')
-    fileElem.attribute('src', file)
+    fileElem.attribute('src', file.replace('GTMP_Server/resources/EvoMp/', ''))
   }
 
   const xml = root.end({pretty: true})
