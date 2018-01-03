@@ -44,7 +44,7 @@ module.exports = {
   },
   plugins: [
     new HardSourceWebpackPlugin({
-      cacheDirectory: '.cache'
+      cacheDirectory: '../../../../.cache'
     }),
     new TSLintPlugin({
       files: files,

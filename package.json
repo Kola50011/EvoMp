@@ -23,12 +23,14 @@
     "tslint-webpack-plugin": "^1.0.0",
     "typescript": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.5",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "xmlbuilder": "^9.0.4"
   },
   "scripts": {
-    "build": "yarn format && yarn checksec && cross-env NODE_ENV=production node Build/Web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js",
-    "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch",
+    "build": "yarn format && yarn checksec && cross-env NODE_ENV=production node Build/Web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta",
+    "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch && start cross-env NODE_ENV=development node Build/createMeta",
     "format": "prettier-standard \"EvoMp/**/*.js\" && prettier \"EvoMp/**/*.+(ts|scss|css|vue|less|md|json)\" --write",
-    "checksec": "nsp check"
+    "checksec": "nsp check",
+    "generateMeta": "start cross-env NODE_ENV=development node Build/createMeta"
   }
 }
