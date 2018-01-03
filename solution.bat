@@ -1,1 +1,0 @@
-start EvoMp/EvoMp.sln
