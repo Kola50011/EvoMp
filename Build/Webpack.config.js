@@ -2,11 +2,14 @@ const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const { CheckerPlugin } = require('awesome-typescript-loader')
+const TSLintPlugin = require('tslint-webpack-plugin')
 
 var files = glob.sync('./EvoMp/*/Client/*.ts')
 
 module.exports = {
+  context: path.resolve(__dirname, '../'),
   entry: {
     main: files
   },
@@ -22,17 +25,34 @@ module.exports = {
       }
     ]
   },
+  performance: {
+    hints: 'warning'
+  },
+  stats: {
+    all: false,
+    assets: true,
+    cached: true,
+    cachedAssets: true,
+    colors: true,
+    env: true,
+    errors: true,
+    warnings: true,
+    assetsSort: 'field'
+  },
   resolve: {
     extensions: ['.ts']
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
+    new HardSourceWebpackPlugin({
+      cacheDirectory: '.cache'
     }),
-    new UglifyJSPlugin(),
+    new TSLintPlugin({
+      files: files,
+      typeCheck: true,
+      project: 'tsconfig.json'
+    }),
     new CheckerPlugin(),
+    new UglifyJSPlugin(),
     new webpack.BannerPlugin(require('fs').readFileSync('LICENSE', 'utf8'))
   ]
 }

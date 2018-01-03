@@ -6,10 +6,11 @@
     "sourceMap": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "lib": ["es2015"]
+    "lib": ["es2015"],
+    "strict": true
   },
   "awesomeTypescriptLoaderOptions": {
-    "useCache ": true,
+    "useCache": true,
     "cacheDirectory": ".cache"
   },
   "include": [
