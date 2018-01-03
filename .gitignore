@@ -320,6 +320,7 @@ ASALocalRun/
 
 # EVOMP-Specific
 GTMP_Server/resources/EvoMp/dist/*
+GTMP_Server/resources/EvoMp/meta.xml
 GTMP_Server/server.log
 GTMP_Server/EvoMp.*
 obj/Debug/*
