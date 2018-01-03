@@ -1,7 +1,7 @@
-﻿namespace EvoMp.Module.UserHandler.Authentication.Requests
+namespace EvoMp.Module.UserHandler.Server.Authentication.Requests
 {
-    public class OpenLogin
-    {
-        public string Name { get; set; }
-    }
+	public class OpenLogin
+	{
+		public string Name { get; set; }
+	}
 }

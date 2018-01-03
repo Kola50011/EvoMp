@@ -1,8 +1,8 @@
-﻿namespace EvoMp.Module.UserHandler.Authentication.Requests
+namespace EvoMp.Module.UserHandler.Server.Authentication.Requests
 {
-    internal class LoginRequest
-    {
-        public string Name { get; set; }
-        public string Password { get; set; }
-    }
+	internal class LoginRequest
+	{
+		public string Name { get; set; }
+		public string Password { get; set; }
+	}
 }

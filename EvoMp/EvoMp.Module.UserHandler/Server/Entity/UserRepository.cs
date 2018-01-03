@@ -1,8 +1,9 @@
-﻿using System.Linq;
+using System.Linq;
+using EvoMp.Module.UserHandler.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
-namespace EvoMp.Module.UserHandler.Entity
+namespace EvoMp.Module.UserHandler.Server.Entity
 {
     public class UserRepository
     {
