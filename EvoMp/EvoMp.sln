@@ -37,15 +37,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.ColorHandler", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{D51D2071-6765-4DCC-9627-A3949D8C1DFD}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		gulpfile.js = gulpfile.js
-		package.json = package.json
-		tsconfig-dev.json = tsconfig-dev.json
-		tsconfig.json = tsconfig.json
-		tslint.json = tslint.json
-		webpack.config.js = webpack.config.js
-		webpack.dev.js = webpack.dev.js
-		yarn.lock = yarn.lock
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\.prettierrc.yaml = ..\.prettierrc.yaml
+		..\LICENSE = ..\LICENSE
+		..\package.json = ..\package.json
+		..\readme.md = ..\readme.md
+		..\tsconfig.json = ..\tsconfig.json
+		..\tslint.json = ..\tslint.json
+		..\yarn.lock = ..\yarn.lock
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typings", "typings", "{4032BEA5-165C-4976-AD86-EB495F177042}"
@@ -62,13 +62,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typings", "typings", "{4032
 		typings\Xilium.CefGlue.dll.d.ts = typings\Xilium.CefGlue.dll.d.ts
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gulp", "gulp", "{29845475-AB8D-4D36-BFF2-7F7153167842}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{29845475-AB8D-4D36-BFF2-7F7153167842}"
 	ProjectSection(SolutionItems) = preProject
-		gulp\build.js = gulp\build.js
-		gulp\buildDev.js = gulp\buildDev.js
-		gulp\cp.js = gulp\cp.js
-		gulp\lint.js = gulp\lint.js
-		gulp\watch.js = gulp\watch.js
+		..\Build\CreateMeta.js = ..\Build\CreateMeta.js
+		..\Build\Web.js = ..\Build\Web.js
+		..\Build\Webpack.config.js = ..\Build\Webpack.config.js
 	EndProjectSection
 EndProject
 Global
