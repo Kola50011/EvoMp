@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -236,7 +236,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                         if (!string.IsNullOrEmpty(command.Description))
                         {
                             string currentPrefix = ConsoleOutput.GetPrefix();
-                            ConsoleOutput.SetPrefix("\t~c~ > ~;~");
+                            ConsoleOutput.SetPrefix("\t\t~c~ > ~;~");
                             ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand, command.Description);
                             ConsoleOutput.SetPrefix(currentPrefix);
                         }

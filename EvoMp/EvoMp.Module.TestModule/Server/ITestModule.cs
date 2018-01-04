@@ -1,8 +1,8 @@
-﻿using EvoMp.Core.Module.Server;
+using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.TestModule.Server
 {
-    [ModuleProperties("shared", "James, Ruffo", "Module for testing.")]
+    [ModuleProperties("disabled", "James, Ruffo", "Module for testing.")]
     public interface ITestModule
     {
     }

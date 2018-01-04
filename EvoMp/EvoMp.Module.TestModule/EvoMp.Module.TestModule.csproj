@@ -70,14 +70,7 @@
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\ITestModule.cs" />
@@ -87,10 +80,6 @@
     <Compile Include="Server\TestNotInitializedClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
-      <Project>{8eefb99a-d966-4332-9fce-bc7fee18f464}</Project>
-      <Name>EvoMp.Core.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
       <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
       <Name>EvoMp.Core.Module</Name>
@@ -98,10 +87,6 @@
     <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
       <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
       <Name>EvoMp.Module.CommandHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
-      <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
-      <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
