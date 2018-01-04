@@ -74,8 +74,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Server\DbCommands2.cs" />
-    <Compile Include="Server\DbCommands.cs" />
     <Compile Include="Server\DbAccess.cs" />
     <Compile Include="Server\IDbAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
