@@ -31,6 +31,7 @@
     "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch && start cross-env NODE_ENV=development node Build/createMeta",
     "format": "prettier-standard \"EvoMp/**/*.js\" && prettier \"EvoMp/**/*.+(ts|scss|css|vue|less|md|json)\" --write",
     "checksec": "nsp check",
+    "webpackDebug": "cross-env NODE_ENV=production webpack --config Build/webpack.config.js",
     "generateMeta": "start cross-env NODE_ENV=development node Build/createMeta"
   }
 }

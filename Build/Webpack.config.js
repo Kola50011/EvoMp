@@ -21,7 +21,7 @@ module.exports = {
     loaders: [
       {
         test: /\.ts/,
-        loader: 'awesome-typescript-loader?configFileName=tsconfig.json'
+        loader: 'awesome-typescript-loader?configFileName=./tsconfig.json'
       }
     ]
   },
