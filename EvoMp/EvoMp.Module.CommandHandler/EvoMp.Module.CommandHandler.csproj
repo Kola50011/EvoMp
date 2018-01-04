@@ -52,14 +52,7 @@
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\Attributes\ICommand.cs" />
@@ -71,10 +64,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EvoMp.Core.ColorHandler\EvoMp.Core.ColorHandler.csproj">
-      <Project>{C0437DC2-2BB7-4AF0-89A9-22CE4B6E7C25}</Project>
-      <Name>EvoMp.Core.ColorHandler</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
       <Project>{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}</Project>
       <Name>EvoMp.Core.ConsoleHandler</Name>
