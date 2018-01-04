@@ -1,13 +1,16 @@
 {
   "version": "1.0.0",
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es5",
+    "module": "esnext",
+    "target": "es2017",
     "sourceMap": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "lib": ["es2015"],
+    "lib": ["es2016", "scripthost"],
     "strict": true
+  },
+  "typeAcquisition": {
+    "enable": true
   },
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,
