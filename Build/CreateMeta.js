@@ -3,7 +3,7 @@ const Glob = require('Glob')
 const fs = require('fs')
 
 function writeXml () {
-  const files = Glob.sync('GTMP_Server/resources/EvoMp/dist/*.*')
+  const files = Glob.sync('GTMP_Server/resources/EvoMp/dist/!(*.dll|*.pdb|*.exe|*.config|*.xml)')
   let root = xmlbuilder.create('meta')
 
   let infoElem = root.element('info')
