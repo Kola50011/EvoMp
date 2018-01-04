@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+using System;
+using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
 
@@ -95,5 +97,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
             Settings.Default.Save();
             ConsoleOutput.WriteLine(ConsoleType.Config, "Console propertys reseted to default.");
         }
-    }
+
+	    [ConsoleCommand("/exit", new[] { "-e", "exit" },
+		    "Closes the Console" , true)]
+	    public static void CloseConsole()
+	    {
+		    ConsoleOutput.WriteLine(ConsoleType.Core, "Shutting down!");
+			Thread.Sleep(1000);
+		    Environment.Exit(0);
+	    }
+	}
 }
