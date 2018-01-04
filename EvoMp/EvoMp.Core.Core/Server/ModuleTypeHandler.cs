@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Parameter.Server;
@@ -17,19 +17,22 @@ namespace EvoMp.Core.Core.Server
         /// <returns>Array[string] with server gamemodes</returns>
         public static string[] GetServerGamemodes()
         {
-            // ServerType already setten -> return;
-            if (_serverTypes != null)
+	        // Set defaults
+	        ParameterHandler.SetDefault("Gamemode", "any");
+
+			// ServerType already setten -> return;
+			if (_serverTypes != null)
                 return _serverTypes;
 
-            List<string> serverGamemodes = ParameterHandler.GetParameterValues(CoreParameter.Gamemode);
+	        List<string> serverGamemodes = ParameterHandler.GetValue("Gamemode").Split(',').ToList();
+			serverGamemodes.ForEach(x => x = x.Trim());
 
             // Only default parameter gamemode value loaded -> warning
-            if (serverGamemodes.Count == 1 &&
-                serverGamemodes.First() == ParameterHandler.GetParameterProperties(CoreParameter.Gamemode).DefaultValue)
+            if (ParameterHandler.IsDefault("Gamemode"))
                 ConsoleOutput.WriteLine(ConsoleType.Config,
-                    $"The server started without defined gamemodes, so the default value~o~ \"any\"~;~ was used. " +
+                    $"~-^-~The server started without defined gamemodes, so the default value~o~ \"any\"~;~ was used. " +
                     $"Nevertheless, it is strongly advised to include the desired gamemodes, " +
-                    $"because mode ~o~\"any\"~;~ could have massive side effects.");
+                    $"because mode ~o~\"any\"~;~ could have massive side effects.~-v-~");
 
             // Shared is always needed
             serverGamemodes.Add("shared");
