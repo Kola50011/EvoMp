@@ -16,6 +16,9 @@
     "**/EvoMp.*.*.csproj": true,
     "**/packages.config": true,
     "**/EvoMp.sln":true,
-    "node_modules": true
+    "node_modules": true,
+    "packages": true,
+    "EvoMp.sln.DotSettings": true,
+    ".vs": true
   }
 }
