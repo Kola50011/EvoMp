@@ -1,6 +1,7 @@
 overrides:
 - files: "EvoMp/**/*.ts"
   options:
+    printWidth: 200
     semi: false
     singleQuote: true
     trailingComma: "none"
