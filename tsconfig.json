@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2017",
+    "sourceMap": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "lib": ["es2016", "scripthost"],
+    "strict": true
+  },
+  "typeAcquisition": {
+    "enable": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useCache": true,
+    "cacheDirectory": ".cache"
+  },
+  "include": [
+    "EvoMp/*/Client/*.ts"
+  ]
+}

@@ -1,0 +1,27 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+js_control_statements_braces = end_of_line
+js_types_braces = end_of_line
+js_indent_switch_labels = true
+js_quote_style = singlequoted
+js_indent_style = space
+js_indent_size = 2
+js_alignment_tab_fill_style = use_spaces
+js_keep_blank_lines_in_code = 1
+js_keep_blank_lines_between_declarations = 1
+js_min_blank_lines_around_functions = 1
+
+[*.cs]
+indent_style = tab
+indent_size = 4
+
+[{*.js, *.jsx, *.ts, *.tsx}]
+termination_style = drop_semicolon
