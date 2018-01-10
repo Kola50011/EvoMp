@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login Form - EvoMp</title>
+  <link rel="stylesheet" href="../../EvoMp.Modules.UIKit/Web/uikit.min.css">
+  <script src="Login.js"></script>
+  <link rel="stylesheet" href="Login.scss">
+</head>
+
+<body>
+  <div class="uk-transition-fade uk-flex-top uk-flex uk-open" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+
+      <form>
+        <fieldset class="uk-fieldset">
+
+          <legend class="uk-legend">Legend</legend>
+
+          <div class="uk-margin">
+            <input class="uk-input" type="text" placeholder="Input">
+          </div>
+
+          <div class="uk-margin">
+            <select class="uk-select">
+              <option>Option 01</option>
+              <option>Option 02</option>
+            </select>
+          </div>
+
+          <div class="uk-margin">
+            <textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
+          </div>
+
+          <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <label>
+              <input class="uk-radio" type="radio" name="radio2" checked> A</label>
+            <label>
+              <input class="uk-radio" type="radio" name="radio2"> B</label>
+          </div>
+
+          <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <label>
+              <input class="uk-checkbox" type="checkbox" checked> A</label>
+            <label>
+              <input class="uk-checkbox" type="checkbox"> B</label>
+          </div>
+
+          <div class="uk-margin">
+            <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1">
+          </div>
+
+        </fieldset>
+      </form>
+
+    </div>
+  </div>
+</body>
+
+</html>
