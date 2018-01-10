@@ -1,57 +1,113 @@
+using System;
+using System.Data.Entity.Validation;
 using System.Linq;
-using EvoMp.Module.UserHandler.Entity;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
 using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.UserHandler.Server.Entity
 {
-    public class UserRepository
-    {
-        private readonly API _api;
+	public class UserRepository
+	{
+		private readonly API _api;
 
-        public UserRepository(API api)
-        {
-            _api = api;
-            new UserContext().FirstInit();
-        }
+		public UserRepository(API api)
+		{
+			_api = api;
+			new UserContext().FirstInit();
+		}
 
-        public User GetUserByName(string name)
-        {
-            using (UserContext userContext = GetUserContext())
-            {
-                return userContext.Users.DefaultIfEmpty(null).FirstOrDefault(user => user.Name == name);
-            }
-        }
+		public User GetUser([Optional] string name, [Optional] string socialClubName,
+			[Optional] string email, [Optional] string hwId, int id = -1)
+		{
+			using (UserContext context = GetUserContext())
+			{
+				if (name != null)
+					return context.Users.FirstOrDefault(u => u.Name == name);
 
-        public User GetUserBySocialClubName(string socialClubName)
-        {
-            using (UserContext userContext = GetUserContext())
-            {
-                return userContext.Users.DefaultIfEmpty(null)
-                .FirstOrDefault(user => user.SocialClubName == socialClubName);
-            }
-        }
+				if (socialClubName != null)
+					return context.Users.FirstOrDefault(u => u.SocialClubName == socialClubName);
 
-        public User GetUserById(int id)
-        {
-            using (UserContext userContext = GetUserContext())
-            {
-                return userContext.Users.DefaultIfEmpty(null).FirstOrDefault(user => user.Id == id);
-            }
-        }
+				if (email != null)
+					return context.Users.FirstOrDefault(u => u.Email == email);
 
-        public Client GetClientBySocialClubName(string socialClubName)
-        {
-            return _api
-                .getAllPlayers()
-                .First(client => client.socialClubName == socialClubName);
-        }
+				if (hwId != null)
+					return context.Users.FirstOrDefault(u => u.HwId == hwId);
 
-        public UserContext GetUserContext()
-        {
-            UserContext context = new UserContext();
-            context.Init();
-            return context;
-        }
-    }
+				if (id != -1)
+					return context.Users.FirstOrDefault(u => u.Id == id);
+
+				return null;
+			}
+		}
+
+		public bool CreateUser(User user)
+		{
+			if (!IsEmailValid(user.Email))
+				throw new DbEntityValidationException($"The entered e-mail {user.Email} is invalid!");
+
+			if ( GetUser(user.Name) != null)
+				throw new DbEntityValidationException($"The entered username {user.Name} is already taken!");
+
+			if (GetUser(socialClubName: user.SocialClubName) != null)
+				throw new DbEntityValidationException($"The entered Social Club Name {user.SocialClubName} is already taken!");
+
+			using (UserContext userContext = GetUserContext())
+			{
+				userContext.Users.Add(user);
+				userContext.SaveChanges();
+			}
+			return true;
+		}
+
+		public UserContext GetUserContext()
+		{
+			UserContext context = new UserContext();
+			context.Init();
+			return context;
+		}
+
+		public User UpdateUser(User user, [Optional] string name, [Optional] string socialClubName,
+			[Optional] string email, [Optional] string hwId, [Optional] DateTime lastLogin, int id = -1)
+		{
+			using (UserContext context = GetUserContext())
+			{
+				context.Users.Attach(user);
+
+				if (name != null)
+					user.Name = name;
+
+				if (socialClubName != null)
+					user.SocialClubName = socialClubName;
+
+				if (email != null)
+					user.Email = email;
+
+				if (hwId != null)
+					user.HwId = hwId;
+
+				if (lastLogin != DateTime.MinValue)
+					user.LastLogin = lastLogin;
+
+				if (id != -1)
+					user.Id = id;
+
+				context.SaveChanges();
+			}
+			return user;
+		}
+
+		private bool IsEmailValid(string email)
+		{
+			try
+			{
+				MailAddress m = new MailAddress(email);
+				return true;
+			}
+			catch (FormatException)
+			{
+				return false;
+			}
+		}
+	}
 }

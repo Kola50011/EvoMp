@@ -1,6 +1,6 @@
-using System.Timers;
+using System.Linq;
+using System.Runtime.InteropServices;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Module.UserHandler.Entity;
 using EvoMp.Module.UserHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -16,136 +16,57 @@ namespace EvoMp.Module.UserHandler.Server
 		public SpawnManager(API api, UserRepository userRepository)
 		{
 			_api = api;
-			_api.onPlayerDisconnected += OnPlayerDisconnectedHandler;
 			_userRepository = userRepository;
-
-			Timer myTimer = new Timer();
-			myTimer.Elapsed += DelayEvent;
-			myTimer.Interval = 10000; // Every 10 seconds
-			myTimer.Start();
-
-			_api.onPlayerConnected += RestrictClient;
+			_api.onPlayerConnected += client => { Restrict(client); };
 		}
 
-		private void DelayEvent(object source, ElapsedEventArgs e)
+		private Client GetClientByUser(User user)
 		{
-			SaveAllUserPositions();
-		}
-
-		private void SaveAllUserPositions()
-		{
-			using (UserContext userContext = _userRepository.GetUserContext())
-			{
-				foreach (Client client in _api.getAllPlayers())
-				{
-					User user = _userRepository.GetUserBySocialClubName(client.socialClubName);
-					if (user == null) continue;
-					SaveUserPosition(user, userContext);
-				}
-				userContext.SaveChanges();
-			}
-		}
-
-		private void SaveUserPosition(User user)
-		{
-			using (UserContext userContext = _userRepository.GetUserContext())
-			{
-				Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
-				if (client == null)
-				{
-					ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SaveUserPosition");
-					return;
-				}
-				userContext.Users.Attach(user);
-
-				user.PosX = client.position.X;
-				user.PosY = client.position.Y;
-				user.PosZ = client.position.Z;
-				user.RotX = client.rotation.X;
-				user.RotY = client.rotation.Y;
-				user.RotZ = client.rotation.Z;
-
-				userContext.SaveChanges();
-			}
-		}
-
-		private void SaveUserPosition(User user, UserContext userContext)
-		{
-			Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
+			Client client = _api.getAllPlayers().First(c => c.socialClubName == user.SocialClubName);
 			if (client == null)
 			{
-				ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SaveUserPosition");
-				return;
+				ConsoleOutput.WriteLine(ConsoleType.Warn,
+					$"Unable to get Client from User! Username: {user.Name} | SCName: {user.SocialClubName}");
+				return null;
 			}
-
-			userContext.Users.Attach(user);
-
-			user.PosX = client.position.X;
-			user.PosY = client.position.Y;
-			user.PosZ = client.position.Z;
-			user.RotX = client.rotation.X;
-			user.RotY = client.rotation.Y;
-			user.RotZ = client.rotation.Z;
+			return client;
 		}
 
-		private void RestoreUserPosition(User user)
+		public bool SpawnUser(User user)
 		{
-			Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
-			if (client == null)
-			{
-				ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in RestoreUserPosition");
-				return;
-			}
-
-			client.position = new Vector3(user.PosX, user.PosY, user.PosZ + 1);
-			client.rotation = new Vector3(user.RotX, user.RotY, user.RotZ);
+			Client client = GetClientByUser(user);
+			client.position = new Vector3(0, 0, 0);
+			return true;
 		}
 
-		private void OnPlayerDisconnectedHandler(Client client, string reason)
+		public bool Restrict([Optional] Client client, [Optional] User user)
 		{
-			if (client == null)
-			{
-				ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in OnPlayerDisconnectedHandler");
-				return;
-			}
+			if (user != null)
+				client = GetClientByUser(user);
 
-			User user = _userRepository.GetUserBySocialClubName(client.socialClubName);
-			if (user == null)
-			{
-				ConsoleOutput.WriteLine(ConsoleType.Warn, "User is null in OnPlayerDisconnectedHandler");
-				return;
-			}
+			if (client == null) return false;
 
-			SaveUserPosition(user);
+			_api.setEntityInvincible(client.handle, true);
+			_api.freezePlayer(client, true);
+			_api.setEntityTransparency(client.handle, 0);
+			_api.setEntityCollisionless(client.handle, true);
+
+			return true;
 		}
 
-		public void SpawnUser(User user)
+		public bool UnRestrict([Optional] Client client, [Optional] User user)
 		{
-			Client client = _userRepository.GetClientBySocialClubName(user.SocialClubName);
-			if (client == null)
-			{
-				ConsoleOutput.WriteLine(ConsoleType.Warn, "Client is null in SpawnUser");
-				return;
-			}
+			if (user != null)
+				client = GetClientByUser(user);
 
-			RestoreUserPosition(user);
-			UnRestrictClient(client);
-		}
+			if (client == null) return false;
 
-		private void RestrictClient(Client user)
-		{
-			_api.setEntityInvincible(user.handle, true);
-			_api.freezePlayer(user, true);
-			_api.setEntityTransparency(user.handle, 0);
-			_api.setEntityCollisionless(user.handle, true);
-		}
+			_api.setEntityInvincible(client.handle, false);
+			_api.freezePlayer(client, false);
+			_api.setEntityTransparency(client.handle, 255);
+			_api.setEntityCollisionless(client.handle, false);
 
-		private void UnRestrictClient(Client user)
-		{
-			_api.setEntityInvincible(user.handle, false);
-			_api.freezePlayer(user, false);
-			_api.setEntityTransparency(user.handle, 255);
-			_api.setEntityCollisionless(user.handle, false);
+			return true;
 		}
 	}
 }

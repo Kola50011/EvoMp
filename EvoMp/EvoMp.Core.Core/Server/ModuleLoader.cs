@@ -162,7 +162,19 @@ namespace EvoMp.Core.Core.Server
 							$"Module ~o~\"{Path.GetFileNameWithoutExtension(modulePath)}\"~;~ is incorrect. " +
 							$"Implement the ~g~\"ModuleProperties\"~;~ attribute in the given module interface.");
 				}
-				catch (Exception exception)
+				catch (ActivationException e)
+				{
+					ConsoleOutput.WriteLine(ConsoleType.Error,
+						$"The module ~o~{modulePath}~;~ could not start, because one or more dependecies are missing!.");
+
+					if (possibleAfterEffects)
+						ConsoleOutput.WriteLine(ConsoleType.Note,
+							"This could be a follow-up error, " +
+							"because other modules have not been started.");
+
+					ConsoleOutput.WriteLine(ConsoleType.Error, $"{e.Message}");
+				}
+				catch (Exception e)
 				{
 					ConsoleOutput.WriteLine(ConsoleType.Error,
 						$"The module ~o~{modulePath}~;~ could not start. ");
@@ -174,8 +186,8 @@ namespace EvoMp.Core.Core.Server
 
 					possibleAfterEffects = true;
 
-					ConsoleOutput.WriteLine(ConsoleType.Error, $"{exception.Message}");
-					ConsoleOutput.WriteLine(ConsoleType.Empty, $"{exception.StackTrace}");
+					ConsoleOutput.WriteLine(ConsoleType.Error, $"{e.Message}");
+					ConsoleOutput.WriteLine(ConsoleType.Empty, $"{e.StackTrace}");
 				}
 		}
 	}

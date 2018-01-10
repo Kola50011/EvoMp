@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -6,59 +6,58 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Reflection;
 
-namespace EvoMp.Module.UserHandler.Entity
+namespace EvoMp.Module.UserHandler.Server.Entity
 {
-    public class UserContext : DbContext
-    {
-        public UserContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
-        {
-        }
+	public class UserContext : DbContext
+	{
+		public UserContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
+		{
+		}
 
-        public DbSet<User> Users { get; set; }
+		public DbSet<User> Users { get; set; }
 
-        public override int SaveChanges()
-        {
-            AddTimestamps();
-            return base.SaveChanges();
-        }
+		public override int SaveChanges()
+		{
+			AddTimestamps();
+			return base.SaveChanges();
+		}
 
-        private void AddTimestamps()
-        {
-            IEnumerable<DbEntityEntry> entities = ChangeTracker.Entries()
-                .Where(x => x.State == EntityState.Modified || x.State == EntityState.Added)
-                .Where(x => x.Entity.GetType().GetProperty("LastUpdate") != null);
+		private void AddTimestamps()
+		{
+			IEnumerable<DbEntityEntry> entities = ChangeTracker.Entries()
+				.Where(x => x.State == EntityState.Modified || x.State == EntityState.Added)
+				.Where(x => x.Entity.GetType().GetProperty("LastUpdate") != null);
 
-            foreach (DbEntityEntry entity in entities)
-            {
-                PropertyInfo propertyInfo = entity.Entity.GetType().GetProperty("LastUpdate");
+			foreach (DbEntityEntry entity in entities)
+			{
+				PropertyInfo propertyInfo = entity.Entity.GetType().GetProperty("LastUpdate");
 
-                if (propertyInfo != null)
-                    propertyInfo.SetValue(entity.Entity, DateTime.Now);
-            }
-        }
+				if (propertyInfo != null)
+					propertyInfo.SetValue(entity.Entity, DateTime.Now);
+			}
+		}
 
-        public void Init()
-        {
-            Database.SetInitializer<UserContext>(null);
-            Database.Connection.Open();
-        }
+		public void Init()
+		{
+			Database.SetInitializer<UserContext>(null);
+			Database.Connection.Open();
+		}
 
-        public void FirstInit()
-        {
-            Database.SetInitializer<UserContext>(null);
+		public void FirstInit()
+		{
+			Database.SetInitializer<UserContext>(null);
 
-            DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<UserContext>
-            {
-                AutomaticMigrationsEnabled = true,
-                AutomaticMigrationDataLossAllowed = true
-            };
+			DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<UserContext>
+			{
+				AutomaticMigrationsEnabled = true,
+				AutomaticMigrationDataLossAllowed = true
+			};
 
-            DbMigrator dbMigrator = new DbMigrator(migratorConfig);
+			DbMigrator dbMigrator = new DbMigrator(migratorConfig);
 
-            dbMigrator.Update();
+			dbMigrator.Update();
 
-            Database.Connection.Open();
-
-        }
-    }
+			Database.Connection.Open();
+		}
+	}
 }
