@@ -1,7 +1,11 @@
 # Setup project solution guide
 
-## Required settings
+## Required Software
+- Visual Studio > 2017
+- NodeJs > 8.X
+- 
 
+## Required settings
 - Open "EvoMp/EvoMp.sln".
 - Right click on project "EvoMp.Core.StartupProject".
   Go to "Debuggen/Debugging"
@@ -12,6 +16,11 @@
 
 - Right click on "Project Solution / Projektmappe", click "rebuild all / Alles neu erstellen".
 - Click on Start.
+
+### Clientside
+- Open CMD and go to root directory
+- Run command "yarn install"
+- Run "yarn build"
 
 ## Optimal settings
 
