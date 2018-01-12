@@ -1,5 +1,5 @@
 const Bundler = require('parcel-bundler')
-const Glob = require('Glob')
+const Glob = require('glob')
 
 async function main () {
   let files = Glob.sync('EvoMp/*/Web/*.+(html|pug)')
