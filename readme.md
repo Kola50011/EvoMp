@@ -33,3 +33,9 @@
 - [Prettier-Standard Code Formatter (JavaScript Files)](https://marketplace.visualstudio.com/items?itemName=iSayme.vscode-prettier-standard)
 - [Prettier-Standard Code Formatter (TypeScript Files)](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Typescript Linter TSLint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+
+
+## Custom GT-MP type overwrites
+- __Any custom type begins with the prefix "Extended"__
+  -> VehicleHandler ~ ExtendedVehicle
+  -> ...
