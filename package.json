@@ -26,7 +26,7 @@
     "xmlbuilder": "^9.0.4"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node Build/Web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta",
+    "build": "cross-env NODE_ENV=production node Build/web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta",
     "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch && start cross-env NODE_ENV=development node Build/createMeta",
     "format": "prettier-standard \"EvoMp/**/*.js\" && prettier \"EvoMp/**/*.+(ts|scss|css|vue|less|md|json)\" --write",
     "webpackDebug": "cross-env NODE_ENV=production webpack --config Build/webpack.config.js",

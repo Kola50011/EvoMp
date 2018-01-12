@@ -1,5 +1,5 @@
 const xmlbuilder = require('xmlbuilder')
-const Glob = require('Glob')
+const Glob = require('glob')
 const fs = require('fs')
 
 function writeXml () {
