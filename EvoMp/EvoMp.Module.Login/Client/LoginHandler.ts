@@ -2,10 +2,13 @@
 
 import {Cef} from '../../EvoMp.Module.Cef/Client/Cef'
 
-let resourceStartHandler = API.onResourceStart.connect(() => {
+async function test() {
+  resourceStartHandler.disconnect()
   API.triggerServerEvent('ready')
   API.sendChatMessage('Initialised!')
-  const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {chat: false, hud: false, cursor: true})
-  cefWindow.load()
-  resourceStartHandler.disconnect()
-})
+  const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
+  await cefWindow.load()
+  API.sendChatMessage('Loaded Login')
+}
+
+let resourceStartHandler = API.onResourceStart.connect(test)

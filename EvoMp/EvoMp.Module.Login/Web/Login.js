@@ -1,16 +1,14 @@
+import EventHandler from '../../EvoMp.Module.Cef/Web/EventHandler.ts'
+
 async function doStuff () {
-  const UIkit = await import('../../EvoMp.Modules.UIKit/Web/uikit.min.js')
-  const Icons = await import('../../EvoMp.Modules.UIKit/Web/uikit-icons.min.js')
+  const UIkit = await import('../../EvoMp.Module.UIKit/Web/uikit.min.js')
+  const Icons = await import('../../EvoMp.Module.UIKit/Web/uikit-icons.min.js')
 
   UIkit.use(Icons)
-
-  try {
-    resourceEval(`API.sendChatMessage("Login open!")`)
-  } catch (error) {
-    console.warn('resourceEval not supported!')
-  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  EventHandler.setName('Login')
+  EventHandler.doneLoading()
   doStuff()
 })
