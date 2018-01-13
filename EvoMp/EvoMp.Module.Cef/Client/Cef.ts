@@ -4,11 +4,13 @@ import {CefEventCollector} from './CefEventCollector'
 interface CefOptions {
   readonly external: boolean
   readonly headless: boolean
+  readonly fps: number
 }
 
 interface CefOptionsArgument {
   readonly external?: boolean
   readonly headless?: boolean
+  readonly fps: number
 }
 
 /**
@@ -29,11 +31,14 @@ export class Cef {
     this.path = path
     this.options = {
       external: options.external ? options.external : false,
-      headless: options.headless ? options.headless : false
+      headless: options.headless ? options.headless : false,
+      fps: options.fps ? options.fps : 30,
     }
 
     const res = API.getScreenResolution()
     this.browser = API.createCefBrowser(res.Width, res.Height, !this.options.external)
+    API.setCefBrowserHeadless(this.browser, this.options.headless)
+    API.setCefBrowserPosition(this.browser, 0, 0)
 
     CefEventCollector.register(this)
     this.addEventListener('doneLoading', this.loadingResolve)
@@ -45,14 +50,7 @@ export class Cef {
   }
 
   async load(): Promise<void> {
-    API.setCefBrowserHeadless(this.browser, this.options.headless)
-
-    API.setCefBrowserPosition(this.browser, 0, 0)
-    API.waitUntilCefBrowserInit(this.browser)
     API.loadPageCefBrowser(this.browser, this.path)
-    API.waitUntilCefBrowserLoaded(this.browser)
-
-    this.open = true
 
     return new Promise<void>(resolve => {
       this.loadingResolve = resolve
