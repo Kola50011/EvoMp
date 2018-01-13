@@ -16,6 +16,7 @@
     "parcel-plugin-pug": "^0.2.1",
     "prettier": "^1.9.2",
     "prettier-standard": "^8.0.0",
+    "standard": "^10.0.3",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
     "tslint-config-standard": "^7.0.0",
