@@ -18,7 +18,7 @@ interface CefOptionsArgument {
 
 /**
  * Wrapper around the Chromium Embedded Framework, for GT-MP
- * @author Sascha <sascha@localhost.systems>
+ * @author Sascha <sascha(at)localhost.systems>
  */
 export class Cef {
   private browser: GTANetwork.GUI.Browser
