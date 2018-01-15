@@ -24,4 +24,9 @@ export class CefEventCollector {
 }
 
 // So we can uniquely identify the CEC from each CEF.
-resource.CEC = new CefEventCollector()
+
+let resourceStartHandler = API.onResourceStart.connect(() => {
+  resourceStartHandler.disconnect()
+
+  resource.CEC = new CefEventCollector()
+})
