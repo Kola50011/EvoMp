@@ -10,7 +10,7 @@ interface CefOptions {
 interface CefOptionsArgument {
   readonly external?: boolean
   readonly headless?: boolean
-  readonly fps: number
+  readonly fps?: number
 }
 
 /**
