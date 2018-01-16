@@ -3,9 +3,7 @@
 ```TypeScript
   interface AuthOpen {
     type: 'Register' | 'Login',
-    loginInfo?: {
-      username: string
-    }
+    username?: string
   }
 
   interface AuthRequest {
