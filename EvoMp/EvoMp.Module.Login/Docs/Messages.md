@@ -15,6 +15,6 @@
   interface AuthResponse {
     type: 'Login' | 'Register',
     success: boolean,
-    error?: string
+    error: Array<string>
   }
 ```
