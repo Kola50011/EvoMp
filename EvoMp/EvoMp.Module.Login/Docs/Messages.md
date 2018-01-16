@@ -2,7 +2,7 @@
 
 ```TypeScript
   interface AuthOpen {
-    type: 'Register' | 'Login',
+    type: 'Login' | 'Register',
     username?: string
   }
 
