@@ -88,6 +88,10 @@
       <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
       <Name>EvoMp.Module.CommandHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.VehicleHandler\EvoMp.Module.VehicleHandler.csproj">
+      <Project>{340F8F6E-0B27-4EA5-90E9-ECB208808F32}</Project>
+      <Name>EvoMp.Module.VehicleHandler</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

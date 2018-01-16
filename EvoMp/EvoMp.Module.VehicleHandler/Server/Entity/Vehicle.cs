@@ -19,8 +19,12 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleHash")]
         public VehicleHash VehicleHash { get; set; }
 
-        //public Vector3 Position  { get; set; }
-        //public Vector3 Rotation  { get; set; }
+        //[Column("Position")]
+        //public Vector3 Position { get; set; }
+
+        //[Column("Rotation")]
+        //public Vector3 Rotation { get; set; }
+
         //public string PrimaryColorID  { get; set; }
         //public string SecondaryColorID  { get; set; }
 

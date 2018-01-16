@@ -73,6 +73,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server\Entity\Vector3.cs" />
     <Compile Include="Server\ModuleProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Shared.cs" />

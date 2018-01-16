@@ -61,6 +61,7 @@
     <Compile Include="Server\Enum\SirenState.cs" />
     <Compile Include="Server\Enum\EngineState.cs" />
     <Compile Include="Server\Enum\VehicleState.cs" />
+    <Compile Include="Server\ExtendedVehicle.cs" />
     <Compile Include="Server\IVehicleHandler.cs" />
     <Compile Include="Server\VehicleHandler.cs" />
   </ItemGroup>

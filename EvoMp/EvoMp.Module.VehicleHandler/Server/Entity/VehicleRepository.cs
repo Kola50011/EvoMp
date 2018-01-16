@@ -15,7 +15,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             new VehicleContext().FirstInit();
         }
 
-        public VehicleContext GetUserContext()
+        public static VehicleContext GetVehicleContext()
         {
             VehicleContext context = new VehicleContext();
             context.Init();
