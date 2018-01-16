@@ -20,7 +20,7 @@ js_keep_blank_lines_between_declarations = 1
 js_min_blank_lines_around_functions = 1
 
 [*.cs]
-indent_style = tab
+indent_style = space
 indent_size = 4
 
 [{*.js, *.jsx, *.ts, *.tsx}]

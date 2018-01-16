@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Server.Attributes;
+using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -10,11 +11,13 @@ namespace EvoMp.Module.TestModule.Server
     public class TestModule : ITestModule
     {
         private readonly API _api;
+        private readonly IVehicleHandler _vehicleHandler;
         public TestInitialized TestInitialized = new TestInitialized();
 
-        public TestModule(API api, ICommandHandler commandHandler)
+        public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler)
         {
             _api = api;
+            _vehicleHandler = vehicleHandler;
         }
 
         [PlayerCommand("/test")]
@@ -34,6 +37,12 @@ namespace EvoMp.Module.TestModule.Server
                         sender.dimension);
                     _api.setPlayerIntoVehicle(sender, newVehicle, -1);
                     _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{vehicleHash}~w~ created.");
+
+
+                    // Create new Database vehicle entry
+                    ExtendedVehicle newTestVehicle = new ExtendedVehicle(vehicleHash, sender.position, sender.rotation);
+                    // save enw Database vehcile entry
+                    newTestVehicle.Save();
                 }
         }
     }
