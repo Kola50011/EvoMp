@@ -1,30 +1,21 @@
 # openAuth
 
 ```TypeScript
-  interface OpenAuth {
+  interface AuthOpen {
     type: 'Register' | 'Login',
     loginInfo?: {
       username: string
     }
   }
 
-  interface LoginRequest {
+  interface AuthRequest {
+    type: 'Login' | 'Register',
     username: string,
     password: string
   }
 
-  interface LoginResponse {
-    success: boolean,
-    error?: string
-  }
-
-  interface RegisterRequest {
-    username: string,
-    email: string,
-    password: string
-  }
-
-  interface RegisterResponse {
+  interface AuthResponse {
+    type: 'Login' | 'Register',
     success: boolean,
     error?: string
   }
