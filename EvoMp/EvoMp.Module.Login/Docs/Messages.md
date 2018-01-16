@@ -9,7 +9,8 @@
   interface AuthRequest {
     type: 'Login' | 'Register',
     username: string,
-    password: string
+    password: string,
+    email?: string,
   }
 
   interface AuthResponse {
