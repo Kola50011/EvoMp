@@ -9,9 +9,9 @@ namespace EvoMp.Module.Login.Server
 {
 	public class Login : ILogin
 	{
-		public Login(API api, IEventHandler eventHandler, IUserHandler userHandler)
+		public Login(API api, IEventHandler eventHandler, IClientHandler clientHandler)
 		{
-			Authentication.Authentication auth = new Authentication.Authentication(api, eventHandler, userHandler);
+			Authentication.Authentication auth = new Authentication.Authentication(api, eventHandler, clientHandler);
 		}
 	}
 }

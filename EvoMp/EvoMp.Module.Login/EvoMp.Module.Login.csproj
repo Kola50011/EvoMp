@@ -63,11 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\Authentication\Authentication.cs" />
-    <Compile Include="Server\Authentication\Requests\LoginRequest.cs" />
-    <Compile Include="Server\Authentication\Requests\OpenLogin.cs" />
-    <Compile Include="Server\Authentication\Requests\RegisterRequest.cs" />
-    <Compile Include="Server\Authentication\Responses\LoginResponse.cs" />
-    <Compile Include="Server\Authentication\Responses\RegisterResponse.cs" />
+    <Compile Include="Server\Authentication\Communication\AuthOpen.cs" />
+    <Compile Include="Server\Authentication\Communication\AuthRequest.cs" />
+    <Compile Include="Server\Authentication\Communication\AuthResponse.cs" />
     <Compile Include="Server\Authentication\SecurePasswordHasher.cs" />
     <Compile Include="Server\ILogin.cs" />
     <Compile Include="Server\Login.cs" />
@@ -86,9 +84,9 @@
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
       <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.UserHandler\EvoMp.Module.UserHandler.csproj">
+    <ProjectReference Include="..\EvoMp.Module.UserHandler\EvoMp.Module.ClientHandler.csproj">
       <Project>{5D3D1B81-DB2F-4503-A6C9-DF5D6468E355}</Project>
-      <Name>EvoMp.Module.UserHandler</Name>
+      <Name>EvoMp.Module.ClientHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

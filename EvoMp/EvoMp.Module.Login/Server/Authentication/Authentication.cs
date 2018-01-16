@@ -1,9 +1,8 @@
 using System;
 using System.Data.Entity.Validation;
 using EvoMp.Module.EventHandler.Server;
+using EvoMp.Module.Login.Server.Authentication.Communication;
 using EvoMp.Module.UserHandler.Server;
-using EvoMp.Module.UserHandler.Server.Authentication.Requests;
-using EvoMp.Module.UserHandler.Server.Authentication.Responses;
 using EvoMp.Module.UserHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -11,131 +10,142 @@ using Newtonsoft.Json;
 
 namespace EvoMp.Module.Login.Server.Authentication
 {
-	public class Authentication
-	{
-		private readonly API _api;
-		private readonly IEventHandler _eventHandler;
-		private readonly IUserHandler _userHandler;
+    public class Authentication
+    {
+        private readonly API _api;
+        private readonly IClientHandler _clientHandler;
+        private readonly IEventHandler _eventHandler;
 
-		// handles the whole authentication
-		// gets the dependencies (Script, EventHandler and UserHandler) to register some
-		// events. Then subscribe for to Client to Server events to handle login/registration separately
-		public Authentication(API api, IEventHandler eventHandler, IUserHandler userHandler)
-		{
-			_api = api;
-			_eventHandler = eventHandler;
-			_userHandler = userHandler;
+        // handles the whole authentication
+        // gets the dependencies (Script, EventHandler and UserHandler) to register some
+        // events. Then subscribe for to Client to Server events to handle login/registration separately
+        public Authentication(API api, IEventHandler eventHandler, IClientHandler clientHandler)
+        {
+            _api = api;
+            _eventHandler = eventHandler;
+            _clientHandler = clientHandler;
 
-			_eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
-			_eventHandler.SubscribeToServerEvent("registerRequest", new ServerEventHandle(RegisterRequest));
-			_eventHandler.SubscribeToServerEvent("loginRequest", new ServerEventHandle(LoginRequest));
-		}
+            _eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
+            _eventHandler.SubscribeToServerEvent("AuthRequest", new ServerEventHandle(AuthRequest));
+        }
 
-		// gets called after the player/client connected and he is ready to receive triggers
-		// If the users exists in the database, open the login otherwise the register
-		public void OnPlayerReadyHandler(Client client, string eventName, object[] args)
-		{
-			User user = _userHandler.GetUser(socialClubName: client.socialClubName);
+        // gets called after the player/client connected and he is ready to receive triggers
+        // If the users exists in the database, open the login otherwise the register
+        public void OnPlayerReadyHandler(Client client, string eventName, object[] args)
+        {
+            ExtendetClient extendetClient =
+                _clientHandler.GetExtendetClient(c => c.SocialClubName == client.socialClubName);
 
-			// TODO Send the message to open the correct panel on the client, instead of skipping
+            if (extendetClient.Properties.Name == null)
+            {
+                AuthOpen authOpen = new AuthOpen
+                {
+                    Type = "Register"
+                };
+                _eventHandler.InvokeClientEvent(client, "AuthOpen", JsonConvert.SerializeObject(authOpen));
+            }
+            else
+            {
+                AuthOpen authOpen = new AuthOpen
+                {
+                    Type = "Login",
+                    Username = extendetClient.Properties.Name
+                };
+                _eventHandler.InvokeClientEvent(client, "AuthOpen", JsonConvert.SerializeObject(authOpen));
+            }
+        }
 
-			if (user != null)
-				LoginClient(client, client.name, "asd");
-			else
-				RegisterClient(client, client.name, "asd", $"{client.name}@bla.de");
-		}
+        // handles the submission of the registration/login form
+        public void AuthRequest(Client client, string eventName, object[] args)
+        {
+            AuthRequest authRequest = JsonConvert.DeserializeObject<AuthRequest>(args[0].ToString());
 
-		// handles the submission of the registration form
-		public void RegisterRequest(Client client, string eventName, object[] args)
-		{
-			RegisterRequest registerRequest = JsonConvert.DeserializeObject<RegisterRequest>(args[0].ToString());
+            if (authRequest.Type == "Login")
+                LoginClient(client, authRequest.Username, authRequest.Password);
+            else
+                RegisterClient(client, authRequest.Username, authRequest.Password,
+                    authRequest.Email);
+        }
 
-			RegisterClient(client, registerRequest.Name, registerRequest.Password,
-				registerRequest.Email);
-		}
+        // Creates a new user object and save it to the database
+        public void RegisterClient(Client client, string email, string name, string password)
+        {
+            if (client == null)
+                return;
 
-		// handles the submission of the login form
-		public void LoginRequest(Client client, string eventName, object[] args)
-		{
-			LoginRequest loginRequest = JsonConvert.DeserializeObject<LoginRequest>(args[0].ToString());
+            AuthResponse authResponse = new AuthResponse();
 
-			LoginClient(client, loginRequest.Name, loginRequest.Password);
-		}
+            try
+            {
+                string salt = _api.generateBCryptSalt(12);
+                string passwordHash = _api.getPasswordHashBCrypt(password, salt);
+                ExtendetClient extendetClient = new ExtendetClient
+                {
+                    Properties =
+                    {
+                        Email = email,
+                        HwId = client.uniqueHardwareId,
+                        Name = name,
+                        PasswordHash = passwordHash,
+                        Salt = salt,
+                        SocialClubName = client.socialClubName
+                    }
+                };
 
-		// Creates a new user object and save it to the database
-		public void RegisterClient(Client client, string email, string name, string password)
-		{
-			if (client == null)
-				return;
+                extendetClient.Save();
 
-			RegisterResponse registerResponse = new RegisterResponse();
-			try
-			{
-				string salt = _api.generateBCryptSalt(12);
-				string passwordHash = _api.getPasswordHashBCrypt(password, salt);
-				User user = new User
-				{
-					Email = email,
-					HwId = client.uniqueHardwareId,
-					Name = name,
-					PasswordHash = passwordHash,
-					Salt = salt,
-					SocialClubName = client.socialClubName
-				};
-				_userHandler.CreateUser(user);
+                authResponse.Success = true;
+            }
+            catch (DbEntityValidationException e)
+            {
+                if (!e.Message.Contains("Validation failed for one or more"))
+                    authResponse.Error.Add(e.Message);
 
-				registerResponse.Successfull = true;
-				registerResponse.Messages.Add("Successfully registered user!");
-			}
-			catch (DbEntityValidationException e)
-			{
-				if (!e.Message.Contains("Validation failed for one or more"))
-					registerResponse.Messages.Add(e.Message);
+                foreach (var eve in e.EntityValidationErrors)
+                foreach (var ve in eve.ValidationErrors)
+                    authResponse.Error.Add(ve.ErrorMessage);
 
-				foreach (var eve in e.EntityValidationErrors)
-				foreach (var ve in eve.ValidationErrors)
-					registerResponse.Messages.Add(ve.ErrorMessage);
+                authResponse.Success = false;
+            }
 
-				registerResponse.Successfull = false;
-			}
+            _eventHandler.InvokeClientEvent(client, "AuthResponse",
+                JsonConvert.SerializeObject(authResponse));
+        }
 
-			_eventHandler.InvokeClientEvent(client, "registerResponse",
-				JsonConvert.SerializeObject(registerResponse));
-		}
+        // Gets the existing user object if there is one and login the user, otherwise return error to client
+        public void LoginClient(Client client, string name, string password)
+        {
+            if (client == null)
+                return;
 
-		// Gets the existing user object if there is one and login the user, otherwise return error to client
-		public void LoginClient(Client client, string name, string password)
-		{
-			if (client == null)
-				return;
+            ExtendetClient extendetClient = _clientHandler.GetExtendetClient(c => c.Name == name);
 
-			User user = _userHandler.GetUser(name);
+            AuthResponse authResponse = new AuthResponse();
 
-			LoginResponse loginResponse = new LoginResponse();
+            if (extendetClient.Properties.Name == null)
+            {
+                authResponse.Success = false;
+                authResponse.Error.Add("Username not found!");
+            }
+            else if (!_api.verifyPasswordHashBCrypt(password, extendetClient.Properties.PasswordHash))
+            {
+                authResponse.Success = false;
+                authResponse.Error.Add("The entered password is incorrect!");
+            }
+            else
+            {
+                authResponse.Success = true;
 
-			if (user == null)
-			{
-				loginResponse.Successfull = false;
-				loginResponse.Messages.Add("Username not found!");
-			}
-			else if (!_api.verifyPasswordHashBCrypt(password, user.PasswordHash))
-			{
-				loginResponse.Successfull = false;
-				loginResponse.Messages.Add("The entered password is incorrect!");
-			}
-			else
-			{
-				loginResponse.Successfull = true;
-				loginResponse.Messages.Add("Login Successfull.");
+                extendetClient.Properties.SocialClubName = client.socialClubName;
+                extendetClient.Properties.HwId = client.uniqueHardwareId;
+                extendetClient.Properties.LastLogin = DateTime.Now;
 
-				_userHandler.UpdateUser(user, socialClubName: client.socialClubName, hwId: client.uniqueHardwareId,
-					lastLogin: DateTime.Now);
-				_userHandler.SpawnUser(user);
-				_userHandler.UnRestrict(user: user);
-			}
+                _clientHandler.SpawnExtendetClient(extendetClient);
+                _clientHandler.UnRestrict(extendetClient: extendetClient);
+            }
 
-			_eventHandler.InvokeClientEvent(client, "loginResponse",
-				JsonConvert.SerializeObject(loginResponse));
-		}
-	}
+            _eventHandler.InvokeClientEvent(client, "AuthResponse",
+                JsonConvert.SerializeObject(authResponse));
+        }
+    }
 }

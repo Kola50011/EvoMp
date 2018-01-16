@@ -1,0 +1,47 @@
+using System;
+using System.Linq;
+using System.Runtime.InteropServices;
+using EvoMp.Module.DbAccess.Server;
+using EvoMp.Module.EventHandler.Server;
+using EvoMp.Module.UserHandler.Server.Entity;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
+
+namespace EvoMp.Module.UserHandler.Server
+{
+    /*
+     * Handles Users and Spawning of them
+     */
+
+    public class ClientHandler : IClientHandler
+    {
+        private readonly ClientRepository _clientRepository;
+        private readonly SpawnManager _spawnManager;
+
+        public ClientHandler(API api, IEventHandler eventHandler, IDbAccess db)
+        {
+            _clientRepository = new ClientRepository(api);
+            _spawnManager = new SpawnManager(api);
+        }
+
+        public ExtendetClient GetExtendetClient(Func<ClientDto, bool> predicate)
+        {
+            return new ExtendetClient(_clientRepository.GetContext().Clients.FirstOrDefault(predicate));
+        }
+
+        public bool SpawnExtendetClient(ExtendetClient extendetClient)
+        {
+            return _spawnManager.SpawnExtendetClient(extendetClient);
+        }
+
+        public bool Restrict([Optional] Client client, [Optional] ExtendetClient extendetClient)
+        {
+            return _spawnManager.Restrict(client, extendetClient);
+        }
+
+        public bool UnRestrict([Optional] Client client, [Optional] ExtendetClient extendetClient)
+        {
+            return _spawnManager.UnRestrict(client, extendetClient);
+        }
+    }
+}

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1742-4032-B885-2DDCFE385E22}"
 EndProject
@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.ItemManager", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.TestModule", "EvoMp.Module.TestModule\EvoMp.Module.TestModule.csproj", "{73FA5524-663A-4AF7-97D7-C77EF5859A9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.UserHandler", "EvoMp.Module.UserHandler\EvoMp.Module.UserHandler.csproj", "{5D3D1B81-DB2F-4503-A6C9-DF5D6468E355}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.ClientHandler", "EvoMp.Module.UserHandler\EvoMp.Module.ClientHandler.csproj", "{5D3D1B81-DB2F-4503-A6C9-DF5D6468E355}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.ConsoleHandler", "EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj", "{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}"
 EndProject
