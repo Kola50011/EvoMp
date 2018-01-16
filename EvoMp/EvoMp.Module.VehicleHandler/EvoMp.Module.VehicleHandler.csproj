@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{340F8F6E-0B27-4EA5-90E9-ECB208808F32}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EvoMp.Module.VehicleHandler</RootNamespace>
+    <AssemblyName>EvoMp.Module.VehicleHandler</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GrandTheftMultiplayer.Server">
+      <HintPath>E:\Desktop Datum\14.09.2017\Evo-Mp Old\Freeroam\Release-Server\GTMP\GrandTheftMultiplayer.Server.exe</HintPath>
+    </Reference>
+    <Reference Include="GrandTheftMultiplayer.Shared">
+      <HintPath>E:\Desktop Datum\14.09.2017\Evo-Mp Old\Freeroam\Release-Server\GTMP\GrandTheftMultiplayer.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Entity\Vehicle.cs" />
+    <Compile Include="Server\Entity\VehicleContext.cs" />
+    <Compile Include="Server\Entity\VehicleRepository.cs" />
+    <Compile Include="Server\Enum\SpecialLightState.cs" />
+    <Compile Include="Server\Enum\SirenState.cs" />
+    <Compile Include="Server\Enum\EngineState.cs" />
+    <Compile Include="Server\Enum\VehicleState.cs" />
+    <Compile Include="Server\IVehicleHandler.cs" />
+    <Compile Include="Server\VehicleHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EvoMp.Core.ColorHandler\EvoMp.Core.ColorHandler.csproj">
+      <Project>{c0437dc2-2bb7-4af0-89a9-22ce4b6e7c25}</Project>
+      <Name>EvoMp.Core.ColorHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
+      <Project>{c78e7d97-2d34-4c47-a48e-df1a3e960d61}</Project>
+      <Name>EvoMp.Core.ConsoleHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
+      <Project>{8eefb99a-d966-4332-9fce-bc7fee18f464}</Project>
+      <Name>EvoMp.Core.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
+      <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
+      <Name>EvoMp.Core.Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Parameter\EvoMp.Core.Parameter.csproj">
+      <Project>{ee63f684-46db-466e-82b2-74f988f3dd4b}</Project>
+      <Name>EvoMp.Core.Parameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMP.Core.StartupProject\EvoMp.Core.StartupProject.csproj">
+      <Project>{a8239500-8905-42f2-a91c-07c779181a7f}</Project>
+      <Name>EvoMp.Core.StartupProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
+      <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
+      <Name>EvoMp.Module.CommandHandler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
