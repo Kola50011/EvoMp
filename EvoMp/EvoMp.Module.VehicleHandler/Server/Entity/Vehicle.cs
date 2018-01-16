@@ -17,41 +17,41 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [Required]
         [Column("VehicleHash")]
-        public VehicleHash VehicleHash;
+        public VehicleHash VehicleHash { get; set; }
 
-        //public Vector3 Position;
-        //public Vector3 Rotation;
-        //public string PrimaryColorID;
-        //public string SecondaryColorID;
+        //public Vector3 Position  { get; set; }
+        //public Vector3 Rotation  { get; set; }
+        //public string PrimaryColorID  { get; set; }
+        //public string SecondaryColorID  { get; set; }
 
         [Column("NumberplateValue")]
-        public string NumberplateValue;
+        public string NumberplateValue { get; set; }
 
         [Column("VehicleState")]
-        public VehicleState VehicleState;
+        public VehicleState VehicleState { get; set; }
 
         [Column("KmStand")]
-        public double KmStand;
+        public double KmStand { get; set; }
 
         [Column("Fuel")]
-        public double Fuel;
+        public double Fuel { get; set; }
 
         [Column("Dimension")]
-        public int Dimension;
+        public int Dimension { get; set; }
 
         [Column("Health")]
-        public double Health;
+        public double Health { get; set; }
 
         [Column("Locked")]
-        public bool Locked;
+        public bool Locked { get; set; }
 
         [Column("EngineState")]
-        public EngineState EngineState;
+        public EngineState EngineState { get; set; }
 
         [Column("SirenState")]
-        public SirenState SirenState;
+        public SirenState SirenState { get; set; }
 
         [Column("SpecialLightState")]
-        public SpecialLightState SpecialLightState;
+        public SpecialLightState SpecialLightState { get; set; }
     }
 }
