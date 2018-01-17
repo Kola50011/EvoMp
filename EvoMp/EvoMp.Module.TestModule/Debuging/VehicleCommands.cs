@@ -27,17 +27,17 @@ namespace EvoMp.Module.TestModule.Debuging
         private VehicleHash GetVehicleByName(string vehicleName)
         {
             // Name like
-            foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
+            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 if (vehicleName.ToLower() == $"{vehicleHash}".ToLower())
                     return (VehicleHash) vehicleHash;
 
             //Name starts with
-            foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
+            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 if ($"{vehicleHash}".ToLower().StartsWith(vehicleName.ToLower()))
                     return (VehicleHash) vehicleHash;
 
             //Name contains
-            foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
+            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 if ($"{vehicleHash}".ToLower().Contains(vehicleName.ToLower()))
                     return (VehicleHash) vehicleHash;
 
