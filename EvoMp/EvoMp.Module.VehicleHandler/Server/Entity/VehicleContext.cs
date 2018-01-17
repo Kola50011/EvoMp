@@ -14,6 +14,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         // Tables
         public DbSet<VehicleDto> Vehicles { get; set; }
 
+        public DbSet<DoorStateDto> DoorStates { get; set; }
+
         // Overwriting Convention to allow private fields
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
