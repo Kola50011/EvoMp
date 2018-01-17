@@ -4,7 +4,6 @@ const webpack = require('webpack')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const { CheckerPlugin } = require('awesome-typescript-loader')
-const TSLintPlugin = require('tslint-webpack-plugin')
 
 var files = glob.sync('./EvoMp/*/Client/*.ts')
 
@@ -45,11 +44,6 @@ module.exports = {
   plugins: [
     new HardSourceWebpackPlugin({
       cacheDirectory: '../../../../.cache'
-    }),
-    new TSLintPlugin({
-      files: files,
-      typeCheck: true,
-      project: 'tsconfig.json'
     }),
     new CheckerPlugin(),
     new UglifyJSPlugin(),
