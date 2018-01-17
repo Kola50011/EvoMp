@@ -17,7 +17,7 @@ interface CefOptionsArgument {
  * Wrapper around the Chromium Embedded Framework, for GT-MP
  * @author Sascha <sascha(at)localhost.systems>
  */
-export class Cef {
+export default class Cef {
   public readonly identifier: string
   private readonly browser: GTANetwork.GUI.Browser
   private readonly path: string
