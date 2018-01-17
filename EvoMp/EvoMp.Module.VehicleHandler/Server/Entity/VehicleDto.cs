@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EvoMp.Module.VehicleHandler.Server.Enum;
@@ -61,8 +62,11 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("Zr")]
         private double Zr { get; set; }
 
-        //public string PrimaryColorID  { get; set; }
-        //public string SecondaryColorID  { get; set; }
+        [Column("PrimaryColor")]
+        public VehicleColorDto PrimaryColor  { get; set; }
+
+        [Column("SecondaryColor")]
+        public VehicleColorDto SecondaryColor  { get; set; }
 
         [Column("NumberplateValue")]
         public string NumberplateValue { get; set; }

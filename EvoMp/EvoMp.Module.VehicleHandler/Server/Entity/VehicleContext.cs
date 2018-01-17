@@ -11,10 +11,17 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         {
         }
 
-        // Tables
+        #region Tables
         public DbSet<VehicleDto> Vehicles { get; set; }
 
         public DbSet<DoorStateDto> DoorStates { get; set; }
+
+        //public DbSet<ComponentDto> Components { get; set; }
+
+        //public DbSet<VehicleComponentDto> VehicleComponents { get; set; }
+
+        public DbSet<VehicleColorDto> VehicleColors { get; set; }
+        #endregion Tables
 
         // Overwriting Convention to allow private fields
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
