@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.TestModule.Server.TestingStateExtras;
+using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -14,10 +15,12 @@ namespace EvoMp.Module.TestModule.Debuging
     public class VehicleCommands
     {
         private readonly API _api;
+        private readonly IVehicleHandler _vehicleHandler;
 
-        public VehicleCommands(API api)
+        public VehicleCommands(API api, IVehicleHandler vehicleHandler)
         {
             _api = api;
+            _vehicleHandler = vehicleHandler;
         }
 
         [PlayerCommand("/v")]
@@ -54,7 +57,7 @@ namespace EvoMp.Module.TestModule.Debuging
             // No vehicle found -> message & return
             if (possibleVehicleHash == (VehicleHashTestingStage)(-1))
             {
-                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like~o~{vehicleName}~w~ .");
+                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
                 return;
             }
 
@@ -65,6 +68,14 @@ namespace EvoMp.Module.TestModule.Debuging
 
             _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
             sender.setIntoVehicle(newVehicle, -1);
+        }
+
+        
+
+        [PlayerCommand("/saveVehicle", new[] {"/sv"})]
+        public void SaveVehicle(Client sender)
+        {
+
         }
     }
 }

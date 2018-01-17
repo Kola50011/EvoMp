@@ -1,5 +1,3 @@
-using GrandTheftMultiplayer.Shared.Math;
-
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
     public class Mapping

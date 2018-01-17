@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Server\ModuleProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\NonPublicColumnAttributeConvention.cs" />
     <Compile Include="Server\Shared.cs" />
   </ItemGroup>
   <ItemGroup>

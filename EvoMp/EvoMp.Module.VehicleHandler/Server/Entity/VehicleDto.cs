@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EvoMp.Module.VehicleHandler.Server.Enum;
@@ -21,8 +19,48 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleHash")]
         public VehicleHash VehicleHash { get; set; }
 
-        //public Vector3 Position  { get; set; }
-        //public Vector3 Rotation  { get; set; }
+        [NotMapped]
+        public Vector3 Position
+        {
+            get => new Vector3(X, Y, Z);
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+                Z = value.Z;
+            }
+        }
+
+        [NotMapped]
+        public Vector3 Rotation
+        {
+            get => new Vector3(Xr, Yr, Zr);
+            set
+            {
+                Xr = value.X;
+                Yr = value.Y;
+                Zr = value.Z;
+            }
+        }
+
+        [Column("X")]
+        private double X { get; set; }
+
+        [Column("Y")]
+        private double Y { get; set; }
+
+        [Column("Z")]
+        private double Z { get; set; }
+
+        [Column("Xr")]
+        private double Xr { get; set; }
+
+        [Column("Yr")]
+        private double Yr { get; set; }
+
+        [Column("Zr")]
+        private double Zr { get; set; }
+
         //public string PrimaryColorID  { get; set; }
         //public string SecondaryColorID  { get; set; }
 

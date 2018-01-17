@@ -1,10 +1,6 @@
-using System;
 using EvoMp.Module.CommandHandler;
-using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.VehicleHandler.Server
 {
