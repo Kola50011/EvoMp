@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -92,6 +92,12 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             // Parse linebreaks for clear output
             string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            string messageStartColorCode = "";
+
+            // Search for message starting color code. Used to add same color code to splitted lines
+            List<string> messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
+            if (messageColorCodes.Any())
+                messageStartColorCode = "~" + messageColorCodes[0] + "~";
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -102,7 +108,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 {
                     bool firstMessageOfSet = i == 0 && b == 0;
                     bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
-                    InternalWrite(consoleType, _prefix + wrappedMessages[b] + "\n", false, "", firstMessageOfSet,
+                    InternalWrite(consoleType, messageStartColorCode + _prefix + wrappedMessages[b] + "\n", false, "",
+                        firstMessageOfSet,
                         lastMessageOfSet);
                 }
             }

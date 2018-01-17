@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Reflection;
+using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
@@ -15,14 +16,15 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         }
 
-
         // Tables
-        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<VehicleMap> Vehicles { get; set; }
 
         public void Init()
         {
             Database.SetInitializer<VehicleContext>(null);
             Database.Connection.Open();
+
+            //Vehicles.First()
         }
 
         public void FirstInit()

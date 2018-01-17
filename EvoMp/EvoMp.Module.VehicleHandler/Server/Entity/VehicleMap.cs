@@ -1,33 +1,46 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EvoMp.Core.Module.Server.Entity;
 using EvoMp.Module.VehicleHandler.Server.Enum;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
-    public class Vehicle
+    public class VehicleMap : BaseEntityMap
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        [Required]
-        [Column("VehicleId")]
-        public int VehicleId { get; set; }
-
         [Required]
         [Column("VehicleHash")]
         public VehicleHash VehicleHash { get; set; }
 
-        //[Column("Position")]
-        //public Vector3 Position { get; set; }
+        // Position
+        [Required]
+        [Column("PositionX")]
+        public double X { get; set; }
 
-        //[Column("Rotation")]
-        //public Vector3 Rotation { get; set; }
+        [Required]
+        [Column("PositionY")]
+        public double Y { get; set; }
 
-        //public string PrimaryColorID  { get; set; }
-        //public string SecondaryColorID  { get; set; }
+        [Required]
+        [Column("PositionZ")]
+        public double Z { get; set; }
 
+        // Rotation
+        [Required]
+        [Column("RotationX")]
+        public double Xr { get; set; }
+
+        [Required]
+        [Column("RotationY")]
+        public double Yr { get; set; }
+
+        [Required]
+        [Column("RotationZ")]
+        public double Zr { get; set; }
+
+        // Other properties
         [Column("NumberplateValue")]
         public string NumberplateValue { get; set; }
 

@@ -40,9 +40,9 @@ namespace EvoMp.Module.TestModule.Server
 
 
                     // Create new Database vehicle entry
-                    ExtendedVehicle newTestVehicle = new ExtendedVehicle(vehicleHash, sender.position, sender.rotation);
+                    //ExtendedVehicle newTestVehicle = new ExtendedVehicle(vehicleHash, sender.position, sender.rotation);
                     // save enw Database vehcile entry
-                    newTestVehicle.Save();
+                    //newTestVehicle.Save();
                 }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace EvoMp.Module.DiscordHandler.Server.Entity
+namespace EvoMp.Module.DiscordHandler.Server.Entity
 {
     public class DiscordRepository
     {

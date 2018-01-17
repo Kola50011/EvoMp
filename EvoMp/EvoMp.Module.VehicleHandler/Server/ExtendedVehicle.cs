@@ -11,12 +11,12 @@ namespace EvoMp.Module.VehicleHandler.Server
 {
     public class ExtendedVehicle
     {
-        public readonly Vehicle Properties;
-        private Vehicle _vehicle;
+        public readonly VehicleMap Properties;
+        private VehicleMap _vehicle;
 
         public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation)
         {
-            Properties = new Vehicle()
+            Properties = new VehicleMap()
             {
                 VehicleHash = vehicleHash
             };
@@ -24,11 +24,27 @@ namespace EvoMp.Module.VehicleHandler.Server
 
         public void Save()
         {
-            //_vehicle = Properties;
-            using (VehicleContext context = VehicleRepository.GetVehicleContext())
+            _vehicle = Properties;
+
+            // Start new transaction for possibillity rollback
+            using (var contextTransaction = VehicleRepository.GetVehicleContext().Database.BeginTransaction())
             {
-                //context.Vehicles.Attach(_vehicle);
-                context.SaveChanges();
+                // Get wanted repository context
+                using (VehicleContext context = VehicleRepository.GetVehicleContext())
+                {
+                    // Try to update values & commit values to transaction
+                    try
+                    {
+                        context.Vehicles.Attach(_vehicle);
+                        context.SaveChanges();
+                        contextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        // Rollback changes on failure
+                        contextTransaction.Rollback();
+                    }
+                }
             }
         }
     }

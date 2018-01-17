@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -302,7 +302,7 @@ namespace EvoMp.Core.ColorHandler.Server
         /// </summary>
         /// <param name="message">The message wich should be parsed</param>
         /// <returns>List of text codes, orderd by position in message</returns>
-        public static List<string> ParseColorCodesSimple(string message)
+        public static List<string>ParseColorCodesSimple(string message)
         {
             List<string> ret = new List<string>();
 

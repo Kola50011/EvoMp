@@ -11,12 +11,13 @@ namespace EvoMp.Module.VehicleHandler.Server
     public class VehicleHandler : IVehicleHandler
     {
         private readonly API _api;
+
         private readonly VehicleRepository _vehicleRepository;
 
         public VehicleHandler(API api, ICommandHandler commandHandler)
         {
             _api = api;
-            _vehicleRepository = new VehicleRepository(api);
+            _vehicleRepository = VehicleRepository.GetInstance(api);
 
         }
     }
