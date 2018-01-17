@@ -11,12 +11,12 @@ namespace EvoMp.Module.VehicleHandler.Server
 {
     public class ExtendedVehicle
     {
-        public readonly VehicleMap Properties;
-        private VehicleMap _vehicle;
+        public readonly VehicleDto Properties;
+        private VehicleDto _vehicle;
 
         public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation)
         {
-            Properties = new VehicleMap()
+            Properties = new VehicleDto()
             {
                 VehicleHash = vehicleHash
             };

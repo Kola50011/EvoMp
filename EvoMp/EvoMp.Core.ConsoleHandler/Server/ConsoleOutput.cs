@@ -95,9 +95,12 @@ namespace EvoMp.Core.ConsoleHandler.Server
             string messageStartColorCode = "";
 
             // Search for message starting color code. Used to add same color code to splitted lines
-            List<string> messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
-            if (messageColorCodes.Any())
-                messageStartColorCode = "~" + messageColorCodes[0] + "~";
+            if (messages.Any())
+            {
+                List<string> messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
+                if (messageColorCodes.Any())
+                    messageStartColorCode = "~" + messageColorCodes[0] + "~";
+            }
 
             // Cut messages to fit in the console
             for (int i = 0; i < messages.Length; i++)
@@ -331,9 +334,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Append message to complete message
             writeMessage += message;
 
-            string fillUpString =
-                "".PadRight(ConsoleHandler.WindowWidth -
-                            ColorUtils.CleanUp(writeMessage + suffix).Replace("\n", "").Length);
+            int fillUpLength = ConsoleHandler.WindowWidth -
+                               ColorUtils.CleanUp(writeMessage + suffix).Replace("\n", "").Length;
+            string fillUpString = "".PadRight(fillUpLength > 0 ? fillUpLength : 0);
 
             // Add suffixs and possible linebreak
             writeMessage += "~;~" + fillUpString + suffix;

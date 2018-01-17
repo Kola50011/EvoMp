@@ -17,7 +17,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         }
 
         // Tables
-        public DbSet<VehicleMap> Vehicles { get; set; }
+        public DbSet<VehicleDto> Vehicles { get; set; }
 
         public void Init()
         {

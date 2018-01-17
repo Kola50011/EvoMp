@@ -1,9 +1,10 @@
-﻿using EvoMp.Module.CommandHandler.Server.Attributes;
+using EvoMp.Core.Module.Server;
+using EvoMp.Module.CommandHandler.Server.Attributes;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.TestModule.Server
 {
-    public class TestInitialized
+    public class CommandTests
     {
         [PlayerCommand("/testDoubleCommandName")]
         public void TestDoubleCommandName(Client sender)
@@ -23,6 +24,12 @@ namespace EvoMp.Module.TestModule.Server
         [PlayerCommand("/testDoubleCommandAlias2", new[] {"/alias1a", "/alias2", "/alias3b"})]
         public void TestDoubleCommandAlias2(Client sender)
         {
+        }
+
+        [PlayerCommand("/staticTest")]
+        public static void StaticTestFunction(Client sender)
+        {
+            Shared.Api.sendChatMessageToPlayer(sender, "Static command entered!");
         }
     }
 }

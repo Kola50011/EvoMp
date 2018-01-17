@@ -76,8 +76,7 @@
     <Compile Include="Server\ITestModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\TestModule.cs" />
-    <Compile Include="Server\TestInitialized.cs" />
-    <Compile Include="Server\TestNotInitializedClass.cs" />
+    <Compile Include="Server\CommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">

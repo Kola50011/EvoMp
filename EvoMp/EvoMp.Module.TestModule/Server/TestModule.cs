@@ -12,7 +12,7 @@ namespace EvoMp.Module.TestModule.Server
     {
         private readonly API _api;
         private readonly IVehicleHandler _vehicleHandler;
-        public TestInitialized TestInitialized = new TestInitialized();
+        public CommandTests TestInitialized = new CommandTests();
 
         public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler)
         {
@@ -24,26 +24,56 @@ namespace EvoMp.Module.TestModule.Server
         public void TestCommand(Client sender)
         {
             _api.sendChatMessageToPlayer(sender, "Test command runned.");
+            _api.setEntityInvincible(sender, false);
+            _api.freezePlayer(sender, false);
+            _api.setEntityTransparency(sender, 255);
+            _api.setEntityCollisionless(sender, false);
         }
 
 
         [PlayerCommand("/v")]
         public void TestVehicleCommand(Client sender, string vehicleName)
         {
+            VehicleHash possibleVehicleHash = (VehicleHash) (-1);
+
+            // Name like
             foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 if (vehicleName.ToLower() == $"{vehicleHash}".ToLower())
                 {
-                    NetHandle newVehicle = _api.createVehicle(vehicleHash, sender.position, sender.rotation, 0, 0,
-                        sender.dimension);
-                    _api.setPlayerIntoVehicle(sender, newVehicle, -1);
-                    _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{vehicleHash}~w~ created.");
-
-
-                    // Create new Database vehicle entry
-                    //ExtendedVehicle newTestVehicle = new ExtendedVehicle(vehicleHash, sender.position, sender.rotation);
-                    // save enw Database vehcile entry
-                    //newTestVehicle.Save();
+                    possibleVehicleHash = vehicleHash;
+                    break;
                 }
+
+            //Name starts with
+            if (possibleVehicleHash == (VehicleHash) (-1))
+                foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
+                    if ($"{vehicleHash}".ToLower().StartsWith(vehicleName.ToLower()))
+                    {
+                        possibleVehicleHash = vehicleHash;
+                        break;
+                    }
+
+            //Name contains
+            if (possibleVehicleHash == (VehicleHash) (-1))
+                foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
+                    if ($"{vehicleHash}".ToLower().Contains(vehicleName.ToLower()))
+                    {
+                        possibleVehicleHash = vehicleHash;
+                        break;
+                    }
+
+            // No vehicle found -> message & return
+            if (possibleVehicleHash == (VehicleHash) (-1))
+            {
+                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like~o~{vehicleName}~w~ .");
+                return;
+            }
+
+            // Create new vehicle
+            NetHandle newVehicle = _api.createVehicle(possibleVehicleHash, sender.position, sender.rotation, 0, 0,
+                sender.dimension);
+            _api.setPlayerIntoVehicle(sender, newVehicle, -1);
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
         }
     }
 }
