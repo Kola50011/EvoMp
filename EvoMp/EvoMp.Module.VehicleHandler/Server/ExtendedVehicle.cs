@@ -1,4 +1,7 @@
 using System;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
@@ -36,11 +39,15 @@ namespace EvoMp.Module.VehicleHandler.Server
                     try
                     {
                         context.Vehicles.Attach(_vehicle);
+                        context.Vehicles.AddOrUpdate(Properties);
                         context.SaveChanges();
                         contextTransaction.Commit();
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        ConsoleOutput.WriteLine(ConsoleType.Database, "Error on Saving ExtendedVehicle!");
+                        ConsoleOutput.WriteException(e.Message + e.StackTrace);
+
                         // Rollback changes on failure
                         contextTransaction.Rollback();
                     }
@@ -50,7 +57,8 @@ namespace EvoMp.Module.VehicleHandler.Server
 
         public NetHandle Create()
         {
-            return API.shared.createVehicle(Properties.VehicleHash, Properties.Position, Properties.Rotation, 1, 1, Properties.Dimension);
+            return API.shared.createVehicle(Properties.VehicleHash, Properties.Position, Properties.Rotation, 1, 1,
+                Properties.Dimension);
         }
     }
 }

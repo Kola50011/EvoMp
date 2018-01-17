@@ -24,6 +24,8 @@ namespace EvoMp.Core.Module.Server
         /// </summary>
         public static event ModuleLoaded OnModuleLoaded;
 
+        public static bool StartUpCompleted = false;
+
         public static API Api;
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace EvoMp.Core.Module.Server
         /// </summary>
         public static void OnOnCoreStartupCompleted()
         {
+            StartUpCompleted = true;
             OnCoreStartupCompleted?.Invoke();
         }
 
