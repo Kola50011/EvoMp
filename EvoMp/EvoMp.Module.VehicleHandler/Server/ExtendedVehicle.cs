@@ -1,5 +1,6 @@
 using System;
 using EvoMp.Module.VehicleHandler.Server.Entity;
+using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
 
@@ -10,11 +11,14 @@ namespace EvoMp.Module.VehicleHandler.Server
         public readonly VehicleDto Properties;
         private VehicleDto _vehicle;
 
-        public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation)
+        public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
             Properties = new VehicleDto()
             {
-                VehicleHash = vehicleHash
+                VehicleHash = vehicleHash,
+                Position = position,
+                Rotation = rotation,
+                Dimension = dimension
             };
         }
 
@@ -42,6 +46,11 @@ namespace EvoMp.Module.VehicleHandler.Server
                     }
                 }
             }
+        }
+
+        public NetHandle Create()
+        {
+            return API.shared.createVehicle(Properties.VehicleHash, Properties.Position, Properties.Rotation, 1, 1, Properties.Dimension);
         }
     }
 }

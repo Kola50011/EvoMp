@@ -23,46 +23,41 @@ namespace EvoMp.Module.TestModule.Debuging
             _vehicleHandler = vehicleHandler;
         }
 
-        [PlayerCommand("/v")]
-        public void TestVehicleCommand(Client sender, string vehicleName)
-        {
-            VehicleHashTestingStage possibleVehicleHash = (VehicleHashTestingStage)(-1);
 
+        private VehicleHash GetVehicleByName(string vehicleName)
+        {
             // Name like
             foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
                 if (vehicleName.ToLower() == $"{vehicleHash}".ToLower())
-                {
-                    possibleVehicleHash = vehicleHash;
-                    break;
-                }
+                    return (VehicleHash) vehicleHash;
 
             //Name starts with
-            if (possibleVehicleHash == (VehicleHashTestingStage)(-1))
-                foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
-                    if ($"{vehicleHash}".ToLower().StartsWith(vehicleName.ToLower()))
-                    {
-                        possibleVehicleHash = vehicleHash;
-                        break;
-                    }
+            foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
+                if ($"{vehicleHash}".ToLower().StartsWith(vehicleName.ToLower()))
+                    return (VehicleHash) vehicleHash;
 
             //Name contains
-            if (possibleVehicleHash == (VehicleHashTestingStage)(-1))
-                foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
-                    if ($"{vehicleHash}".ToLower().Contains(vehicleName.ToLower()))
-                    {
-                        possibleVehicleHash = vehicleHash;
-                        break;
-                    }
+            foreach (VehicleHashTestingStage vehicleHash in Enum.GetValues(typeof(VehicleHashTestingStage)))
+                if ($"{vehicleHash}".ToLower().Contains(vehicleName.ToLower()))
+                    return (VehicleHash) vehicleHash;
+
+            return (VehicleHash) (-1);
+        }
+
+        [PlayerCommand("/v")]
+        public void TestVehicleCommand(Client sender, string vehicleName)
+        {
+            VehicleHash possibleVehicleHash = GetVehicleByName(vehicleName);
 
             // No vehicle found -> message & return
-            if (possibleVehicleHash == (VehicleHashTestingStage)(-1))
+            if (possibleVehicleHash == (VehicleHash) (-1))
             {
                 _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
                 return;
             }
 
             // Create new vehicle
-            NetHandle newVehicle = _api.createVehicle((VehicleHash)possibleVehicleHash, sender.position,
+            NetHandle newVehicle = _api.createVehicle(possibleVehicleHash, sender.position,
                 sender.rotation, 1, 1,
                 sender.dimension);
 
@@ -70,11 +65,28 @@ namespace EvoMp.Module.TestModule.Debuging
             sender.setIntoVehicle(newVehicle, -1);
         }
 
-        
 
         [PlayerCommand("/saveVehicle", new[] {"/sv"})]
-        public void SaveVehicle(Client sender)
+        public void SaveVehicle(Client sender, string vehicleName)
         {
+            VehicleHash possibleVehicleHash = GetVehicleByName(vehicleName);
+
+            // No vehicle found -> message & return
+            if (possibleVehicleHash == (VehicleHash)(-1))
+            {
+                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
+                return;
+            }
+
+            // Create new vehicle
+            ExtendedVehicle newExtendedVehicle = new ExtendedVehicle(possibleVehicleHash, sender.position, sender.rotation, sender.dimension);
+            NetHandle newVehicle = newExtendedVehicle.Create();
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
+            sender.setIntoVehicle(newVehicle, -1);
+
+            //TODO: Testing
+            newExtendedVehicle.Save();
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ saved.");
 
         }
     }
