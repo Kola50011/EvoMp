@@ -114,8 +114,5 @@
   <ItemGroup>
     <Folder Include="Server\Utils\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
