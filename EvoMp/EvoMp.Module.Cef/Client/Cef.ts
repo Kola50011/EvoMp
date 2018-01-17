@@ -32,7 +32,7 @@ export default class Cef {
     this.options = {
       external: options.external ? options.external : false,
       headless: options.headless ? options.headless : false,
-      fps: options.fps ? options.fps : 30,
+      fps: options.fps ? options.fps : 30
     }
 
     const res = API.getScreenResolution()
@@ -52,7 +52,7 @@ export default class Cef {
   async load(): Promise<void> {
     API.loadPageCefBrowser(this.browser, this.path)
 
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       this.loadingResolve = resolve
     })
   }
