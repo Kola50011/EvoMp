@@ -62,9 +62,8 @@ namespace EvoMp.Module.TestModule.Debuging
             NetHandle newVehicle = _api.createVehicle((VehicleHash)possibleVehicleHash, sender.position,
                 sender.rotation, 1, 1,
                 sender.dimension);
-            //_api.vehicle
+
             _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
-            sender.setIntoVehicle(newVehicle, 0);
             sender.setIntoVehicle(newVehicle, -1);
         }
     }
