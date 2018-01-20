@@ -8,17 +8,17 @@ async function initialiseIcons () {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  EventHandler.setName('Login')
+  EventHandler.setName('Register')
   EventHandler.doneLoading()
   initialiseIcons()
 
-  const loginForm = document.getElementById('login-form')
-  loginForm.addEventListener('submit', event => {
+  const registerForm = document.getElementById('register-form')
+  registerForm.addEventListener('submit', event => {
     event.preventDefault()
 
     const username = event.target.elements.username.value
     const password = event.target.elements.password.value
 
-    EventHandler.trigger('LoginAttempt', { username, password })
+    EventHandler.trigger('register', { username, password })
   })
 })

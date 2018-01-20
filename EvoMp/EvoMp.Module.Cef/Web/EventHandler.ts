@@ -8,11 +8,11 @@ export default class EventHandler {
     this.identifier = identifier
   }
 
-  public static doneLoading (): void {
+  public static doneLoading(): void {
     this.trigger('doneLoading')
   }
 
-  public static trigger (eventName: string, ...args: any[]) {
+  public static trigger(eventName: string, ...args: any[]) {
     if (this.supportsResourceCall === null) {
       this.supportsResourceCall = this.getResourceCallSupport()
     }
@@ -24,7 +24,7 @@ export default class EventHandler {
     console.debug('[Event dispatched]: ' + eventName, args)
   }
 
-  private static getResourceCallSupport (): boolean {
+  private static getResourceCallSupport(): boolean {
     try {
       return resourceCall === null
     } catch {

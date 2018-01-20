@@ -17,12 +17,11 @@ interface CefOptionsArgument {
  * Wrapper around the Chromium Embedded Framework, for GT-MP
  * @author Sascha <sascha(at)localhost.systems>
  */
-export class Cef {
+export default class Cef {
   public readonly identifier: string
   private readonly browser: GTANetwork.GUI.Browser
   private readonly path: string
   private readonly options: CefOptions
-  private open: boolean
   private events: {[name: string]: (args: any[]) => void} = {}
   private loadingResolve: () => void
 
@@ -32,7 +31,7 @@ export class Cef {
     this.options = {
       external: options.external ? options.external : false,
       headless: options.headless ? options.headless : false,
-      fps: options.fps ? options.fps : 30,
+      fps: options.fps ? options.fps : 30
     }
 
     const res = API.getScreenResolution()
@@ -52,7 +51,7 @@ export class Cef {
   async load(): Promise<void> {
     API.loadPageCefBrowser(this.browser, this.path)
 
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       this.loadingResolve = resolve
     })
   }

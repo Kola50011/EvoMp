@@ -61,14 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\Entity\ComponentDto.cs" />
-    <Compile Include="Server\Entity\VehicleColorDto.cs" />
-    <Compile Include="Server\Entity\VehicleComponentDto.cs" />
-    <Compile Include="Server\Entity\DoorStateDto.cs" />
+    <Compile Include="Server\Entity\Mapping.cs" />
     <Compile Include="Server\Entity\VehicleDto.cs" />
     <Compile Include="Server\Entity\VehicleContext.cs" />
     <Compile Include="Server\Entity\VehicleRepository.cs" />
-    <Compile Include="Server\Enum\VehicleDoor.cs" />
     <Compile Include="Server\Enum\SpecialLightState.cs" />
     <Compile Include="Server\Enum\SirenState.cs" />
     <Compile Include="Server\Enum\EngineState.cs" />

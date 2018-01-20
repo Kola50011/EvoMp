@@ -20,14 +20,13 @@
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
     "tslint-config-standard": "^7.0.0",
-    "tslint-webpack-plugin": "^1.0.0",
     "typescript": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.5",
     "webpack": "^3.10.0",
     "xmlbuilder": "^9.0.4"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node Build/web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta",
+    "build": "cross-env NODE_ENV=production node Build/web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js && node Build/createMeta && cross-env NODE_ENV=production tslint -c tslint.json --project tsconfig.json './EvoMp/*/Client/*.ts' -t stylish",
     "dev": "start cross-env NODE_ENV=development node Build/Web.js && start cross-env NODE_ENV=development webpack --config Build/webpack.config.js --watch && start cross-env NODE_ENV=development node Build/createMeta",
     "format": "prettier-standard \"EvoMp/**/*.js\" && prettier \"EvoMp/**/*.+(ts|scss|css|vue|less|md|json)\" --write",
     "webpackDebug": "cross-env NODE_ENV=production webpack --config Build/webpack.config.js",
