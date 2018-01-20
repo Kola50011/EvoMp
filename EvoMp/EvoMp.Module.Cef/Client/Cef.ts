@@ -22,7 +22,6 @@ export default class Cef {
   private readonly browser: GTANetwork.GUI.Browser
   private readonly path: string
   private readonly options: CefOptions
-  private open: boolean
   private events: {[name: string]: (args: any[]) => void} = {}
   private loadingResolve: () => void
 
