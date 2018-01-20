@@ -19,6 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = event.target.elements.username.value
     const password = event.target.elements.password.value
 
-    EventHandler.trigger('login', { username, password })
+    EventHandler.trigger('LoginAttempt', { username, password })
   })
 })

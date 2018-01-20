@@ -22,27 +22,38 @@ interface AuthResponse {
   error: Array<string>
 }
 
+function sendAuthRequest (request: AuthRequest): void {
+  API.triggerServerEvent('AuthRequest', JSON.stringify(request))
+}
+
 async function onOpenLogin(username: string): Promise<void> {
   let loginWindow = new Cef('Login', 'dist/Login.html', {})
-
   await loginWindow.load()
 
   loginWindow.addEventListener('LoginAttempt', (args: any[]) => {
-    API.sendChatMessage('Login')
-    API.sendChatMessage(JSON.stringify(args))
+    sendAuthRequest({
+      type: 'Login',
+      username: args[0].username,
+      password: args[0].password
+    })
   })
 
-  let onAuthResponseListener = EventHandler.subscribe('AuthRequest', (args: any) => {
-    const arg = args as AuthResponse
+  let onAuthResponseListener = EventHandler.subscribe('AuthResponse', (args: string) => {
+    const response: AuthResponse = JSON.parse(args)
 
-    if (arg.success) {
+    if (response.success) {
       loginWindow.destroy()
       onAuthResponseListener.unsubscribe()
+    } else {
+      API.sendChatMessage('Login invalid!')
+      loginWindow.eval('loginInvalid("ERROR")')
     }
   })
 }
 
 async function onOpenRegister(): Promise<void> {
+  // TODO
+
   return
 }
 
