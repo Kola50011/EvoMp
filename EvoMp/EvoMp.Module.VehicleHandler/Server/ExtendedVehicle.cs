@@ -1,6 +1,5 @@
 using System;
 using System.Data.Entity.Migrations;
-using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
@@ -16,7 +15,7 @@ namespace EvoMp.Module.VehicleHandler.Server
 
         public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
-            Properties = new VehicleDto()
+            Properties = new VehicleDto
             {
                 VehicleHash = vehicleHash,
                 Position = position,

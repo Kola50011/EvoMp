@@ -1,8 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.VehicleHandler.Server.Enum;
-using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
@@ -10,16 +7,20 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     public class VehicleColorDto
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key, Column(Order = 0)]
+        [Key]
+        [Column(Order = 0)]
         public int VehicleColorId { get; set; }
 
-        [Key, Column("Red", Order = 1)]
+        [Key]
+        [Column("Red", Order = 1)]
         public int Red { get; set; }
 
-        [Key, Column("Green", Order = 2)]
+        [Key]
+        [Column("Green", Order = 2)]
         public int Green { get; set; }
 
-        [Key, Column("Blue", Order = 3)]
+        [Key]
+        [Column("Blue", Order = 3)]
         public int Blue { get; set; }
     }
 }

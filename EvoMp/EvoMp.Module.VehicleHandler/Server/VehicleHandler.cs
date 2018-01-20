@@ -14,7 +14,6 @@ namespace EvoMp.Module.VehicleHandler.Server
         {
             _api = api;
             _vehicleRepository = VehicleRepository.GetInstance(api);
-
         }
     }
 }

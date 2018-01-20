@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EvoMp.Module.VehicleHandler.Server.Enum;
@@ -23,50 +22,50 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [NotMapped]
         public Vector3 Position
         {
-            get => new Vector3(X, Y, Z);
+            get => new Vector3(PosX, PosY, PosZ);
             set
             {
-                X = value.X;
-                Y = value.Y;
-                Z = value.Z;
+                PosX = value.X;
+                PosY = value.Y;
+                PosZ = value.Z;
             }
         }
 
         [NotMapped]
         public Vector3 Rotation
         {
-            get => new Vector3(Xr, Yr, Zr);
+            get => new Vector3(RotX, RotY, RotZ);
             set
             {
-                Xr = value.X;
-                Yr = value.Y;
-                Zr = value.Z;
+                RotX = value.X;
+                RotY = value.Y;
+                RotZ = value.Z;
             }
         }
 
-        [Column("X")]
-        private double X { get; set; }
+        [Column("PosX")]
+        private double PosX { get; set; }
 
-        [Column("Y")]
-        private double Y { get; set; }
+        [Column("PosY")]
+        private double PosY { get; set; }
 
-        [Column("Z")]
-        private double Z { get; set; }
+        [Column("PosZ")]
+        private double PosZ { get; set; }
 
-        [Column("Xr")]
-        private double Xr { get; set; }
+        [Column("RotX")]
+        private double RotX { get; set; }
 
-        [Column("Yr")]
-        private double Yr { get; set; }
+        [Column("RotY")]
+        private double RotY { get; set; }
 
-        [Column("Zr")]
-        private double Zr { get; set; }
+        [Column("RotZ")]
+        private double RotZ { get; set; }
 
         [Column("PrimaryColor")]
-        public VehicleColorDto PrimaryColor  { get; set; }
+        public VehicleColorDto PrimaryColor { get; set; }
 
         [Column("SecondaryColor")]
-        public VehicleColorDto SecondaryColor  { get; set; }
+        public VehicleColorDto SecondaryColor { get; set; }
 
         [Column("NumberplateValue")]
         public string NumberplateValue { get; set; }
