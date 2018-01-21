@@ -117,6 +117,10 @@ namespace EvoMp.Core.Core.Server
 
                 #endregion Logo, Copyright, Server informations
 
+                // Only copy and then stop. Used for docker
+
+                ParameterHandler.SetDefault("onlyCopy", "false");
+
                 // Write information about Core startup
                 ConsoleOutput.WriteLine(ConsoleType.Core, "Initializing EvoMp Core...");
 
@@ -130,9 +134,6 @@ namespace EvoMp.Core.Core.Server
                 // Write complete & loading modules message
                 ConsoleOutput.WriteLine(ConsoleType.Core, "Initializing EvoMp Core completed.");
 
-                // Only copy and then stop. Used for docker
-
-                ParameterHandler.SetDefault("onlyCopy", "false");
                 if (!ParameterHandler.IsDefault("onlyCopy"))
                 {
                     // Finish sequence
