@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1742-4032-B885-2DDCFE385E22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.Core", "EvoMp.Core.Core\EvoMp.Core.Core.csproj", "{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.StartupProject", "EvoMP.Core.StartupProject\EvoMp.Core.StartupProject.csproj", "{A8239500-8905-42F2-A91C-07C779181A7F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}"
 EndProject
@@ -73,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.Login", "EvoMp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.VehicleHandler", "EvoMp.Module.VehicleHandler\EvoMp.Module.VehicleHandler.csproj", "{340F8F6E-0B27-4EA5-90E9-ECB208808F32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.StartupProject", "EvoMp.Core.StartupProject\EvoMp.Core.StartupProject.csproj", "{C3088118-4A6B-4A1D-972D-9B0A83E026B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,14 +89,6 @@ Global
 		{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}.Roleplay - Debug|Any CPU.ActiveCfg = Roleplay - Debug|Any CPU
 		{8EEFB99A-D966-4332-9FCE-BC7FEE18F464}.Roleplay - Debug|Any CPU.Build.0 = Roleplay - Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Freeroam - Debug|Any CPU.ActiveCfg = Freeroam - Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Freeroam - Debug|Any CPU.Build.0 = Freeroam - Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Roleplay - Debug|Any CPU.ActiveCfg = Roleplay - Debug|Any CPU
-		{A8239500-8905-42F2-A91C-07C779181A7F}.Roleplay - Debug|Any CPU.Build.0 = Roleplay - Debug|Any CPU
 		{FC2DA305-BD70-468E-BCC5-7BCF4F161471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC2DA305-BD70-468E-BCC5-7BCF4F161471}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC2DA305-BD70-468E-BCC5-7BCF4F161471}.Freeroam - Debug|Any CPU.ActiveCfg = Freeroam - Debug|Any CPU
@@ -209,13 +201,20 @@ Global
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32}.Roleplay - Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32}.Roleplay - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Freeroam - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Freeroam - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Roleplay - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Roleplay - Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8EEFB99A-D966-4332-9FCE-BC7FEE18F464} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
-		{A8239500-8905-42F2-A91C-07C779181A7F} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 		{FC2DA305-BD70-468E-BCC5-7BCF4F161471} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{2338FE0F-7527-48C1-BC1A-92F801BB7BAD} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
@@ -232,6 +231,7 @@ Global
 		{29845475-AB8D-4D36-BFF2-7F7153167842} = {D51D2071-6765-4DCC-9627-A3949D8C1DFD}
 		{1540F9A6-A25C-46B5-8A25-B3D9F3DA3358} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
+		{C3088118-4A6B-4A1D-972D-9B0A83E026B3} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DA49ECC-9D08-42FC-B5AB-6318780C1619}

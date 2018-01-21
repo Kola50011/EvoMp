@@ -97,10 +97,6 @@
       <Project>{ee63f684-46db-466e-82b2-74f988f3dd4b}</Project>
       <Name>EvoMp.Core.Parameter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMP.Core.StartupProject\EvoMp.Core.StartupProject.csproj">
-      <Project>{a8239500-8905-42f2-a91c-07c779181a7f}</Project>
-      <Name>EvoMp.Core.StartupProject</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
       <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
       <Name>EvoMp.Module.CommandHandler</Name>
