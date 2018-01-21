@@ -15,7 +15,7 @@ namespace EvoMp.Core.Core.Server
 		///     Module deleted -> deleting
 		///     Hint: Runs only if "DEBUG" constant is given
 		/// </summary>
-		public void RefreshResourceModules()
+		public void CopyModulesToServer()
 		{
 #if !DEBUG
             Console.WriteLine("Release state. Copying modules skipped.");

@@ -9,8 +9,8 @@ namespace EvoMp.Core.Parameter.Server
     /// </summary>
     public class ParameterHandler
     {
-        private const string leftArgsColor = "~#90A4AE~";
-        private const string rightArgsColor = "~#ECEFF1~";
+        private const string LeftArgsColor = "~#90A4AE~";
+        private const string RightArgsColor = "~#ECEFF1~";
         private static Dictionary<string, string> _commandLineArgs = new Dictionary<string, string>();
         private static Dictionary<string, string> _defaults = new Dictionary<string, string>();
 
@@ -78,7 +78,7 @@ namespace EvoMp.Core.Parameter.Server
             string text = "";
             foreach (string key in _commandLineArgs.Keys)
                 text +=
-                    $"{leftArgsColor}{key}{string.Empty.PadRight(5)}{rightArgsColor}{$"{GetValue(key)}".PadLeft(40)}\n";
+                    $"{LeftArgsColor}{key}{string.Empty.PadRight(5)}{RightArgsColor}{$"{GetValue(key)}".PadLeft(40)}\n";
             ConsoleOutput.WriteCentredText(ConsoleType.Info, text);
         }
     }

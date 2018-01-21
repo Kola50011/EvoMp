@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
@@ -123,21 +124,37 @@ namespace EvoMp.Core.Core.Server
                 ModuleStructurer moduleStructurer = new ModuleStructurer();
 
                 // Copy modules & NuGet files to Server
-                moduleStructurer.RefreshResourceModules();
+                moduleStructurer.CopyModulesToServer();
                 moduleStructurer.CopyNuGetPackagesToServer();
 
                 // Write complete & loading modules message
                 ConsoleOutput.WriteLine(ConsoleType.Core, "Initializing EvoMp Core completed.");
 
-                Shared.OnOnModuleLoadingStart(API);
+                // Only copy and then stop. Used for docker
 
-                // Load Modules
-                new ModuleLoader(API).Load();
+                ParameterHandler.SetDefault("onlyCopy", "false");
+                if (!ParameterHandler.IsDefault("onlyCopy"))
+                {
+                    // Finish sequence
+                    Shared.OnOnCoreStartupCompleted();
+                    ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
+                    ConsoleOutput.PrintLine("-");
 
-                // Finish sequence
-                Shared.OnOnCoreStartupCompleted();
-                ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
-                ConsoleOutput.PrintLine("-");
+                    ConsoleOutput.WriteLine(ConsoleType.Core, "OnlyCopy parameter has been detected! Stopping Server!");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Shared.OnOnModuleLoadingStart(API);
+
+                    // Load Modules
+                    new ModuleLoader(API).Load();
+
+                    // Finish sequence
+                    Shared.OnOnCoreStartupCompleted();
+                    ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
+                    ConsoleOutput.PrintLine("-");
+                }
             }
             catch (Exception e)
             {
