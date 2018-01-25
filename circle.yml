@@ -1,7 +1,4 @@
 version: 2
-dependencies:
-  pre:
-    - sudo apt-get update; sudo apt-get install mono-xbuild
 jobs:
   build:
     working_directory: /temp
@@ -12,6 +9,7 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
     steps:
       - checkout
+      - run: sudo apt-get update; sudo apt-get install mono-xbuild
       - run:
           path: /temp/EvoMp
           command: dotnet restore EvoMp.sln --configfile /EvoMp/NuGet.Config
