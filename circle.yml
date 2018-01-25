@@ -11,4 +11,4 @@ jobs:
       - checkout
       - run:
           path: /temp/EvoMp
-          command: dotnet restore
+          command: dotnet restore --configfile /EvoMp/NuGet.Config
