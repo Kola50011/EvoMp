@@ -6,7 +6,7 @@ jobs:
         - sudo apt-get update; sudo apt-get install mono-xbuild
     working_directory: /temp
     docker:
-      - image: microsoft/dotnet-framework:4.7.1
+      - image: microsoft/dotnet:2-sdk
     environment:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
