@@ -17,4 +17,4 @@ jobs:
           command: dotnet restore EvoMp.sln --configfile /EvoMp/NuGet.Config
       - run:
           path: /temp/EvoMp
-          command: xbuild
+          command: xbuild EvoMp.sln
