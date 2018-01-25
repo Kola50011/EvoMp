@@ -11,5 +11,4 @@ jobs:
       - checkout
       - run:
           path: /temp/EvoMp
-          command: dotnet restore
-      - run: dotnet build
+          command: nuget restore
