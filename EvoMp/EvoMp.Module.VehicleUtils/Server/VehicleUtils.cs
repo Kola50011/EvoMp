@@ -36,15 +36,16 @@ namespace EvoMp.Module.VehicleUtils.Server
 
             // Name like
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>()
-                .Where(vehicleHash => searchVehicleName == $"{vehicleHash}".ToLower()));
+                .Where(vehicleHash =>
+                    searchVehicleName == $"{vehicleHash}".ToLower() && !vehicleHashes.Contains(vehicleHash)));
 
             //Name starts with
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().Where(vehicleHash =>
-                $"{vehicleHash}".ToLower().StartsWith(searchVehicleName)));
+                $"{vehicleHash}".ToLower().StartsWith(searchVehicleName) && !vehicleHashes.Contains(vehicleHash)));
 
             //Name contains
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().Where(vehicleHash =>
-                $"{vehicleHash}".ToLower().Contains(searchVehicleName)));
+                $"{vehicleHash}".ToLower().Contains(searchVehicleName) && !vehicleHashes.Contains(vehicleHash)));
 
             return vehicleHashes;
         }
@@ -63,15 +64,18 @@ namespace EvoMp.Module.VehicleUtils.Server
             // Name like
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>()
                 .Where(vehicleHash =>
-                    searchIngameVehicleName == API.shared.getVehicleDisplayName(vehicleHash).ToLower()));
+                    searchIngameVehicleName == API.shared.getVehicleDisplayName(vehicleHash).ToLower() &&
+                    !vehicleHashes.Contains(vehicleHash)));
 
             //Name starts with
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().Where(vehicleHash =>
-                API.shared.getVehicleDisplayName(vehicleHash).ToLower().StartsWith(searchIngameVehicleName)));
+                API.shared.getVehicleDisplayName(vehicleHash).ToLower().StartsWith(searchIngameVehicleName) &&
+                !vehicleHashes.Contains(vehicleHash)));
 
             //Name contains
             vehicleHashes.AddRange(Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().Where(vehicleHash =>
-                API.shared.getVehicleDisplayName(vehicleHash).ToLower().Contains(searchIngameVehicleName)));
+                API.shared.getVehicleDisplayName(vehicleHash).ToLower().Contains(searchIngameVehicleName) &&
+                !vehicleHashes.Contains(vehicleHash)));
 
             return vehicleHashes;
         }
