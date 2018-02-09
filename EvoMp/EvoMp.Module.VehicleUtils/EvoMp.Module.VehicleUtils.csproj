@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{340F8F6E-0B27-4EA5-90E9-ECB208808F32}</ProjectGuid>
+    <ProjectGuid>{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EvoMp.Module.VehicleHandler</RootNamespace>
-    <AssemblyName>EvoMp.Module.VehicleHandler</AssemblyName>
+    <RootNamespace>EvoMp.Module.VehicleUtils</RootNamespace>
+    <AssemblyName>EvoMp.Module.VehicleUtils</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,12 +33,6 @@
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.732.659, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\grandtheftmultiplayer.api.0.1.732.659\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
@@ -49,9 +43,7 @@
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,56 +52,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server\Enums\EngineState.cs" />
+    <Compile Include="Server\Enums\SirenState.cs" />
+    <Compile Include="Server\Enums\SpecialLightState.cs" />
+    <Compile Include="Server\Enums\VehicleCategory.cs" />
+    <Compile Include="Server\Enums\VehicleState.cs" />
+    <Compile Include="Server\IVehicleUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\Entity\ComponentDto.cs" />
-    <Compile Include="Server\Entity\DoorStateDto.cs" />
-    <Compile Include="Server\Entity\VehicleColorDto.cs" />
-    <Compile Include="Server\Entity\VehicleComponentDto.cs" />
-    <Compile Include="Server\Entity\VehicleDto.cs" />
-    <Compile Include="Server\Entity\VehicleContext.cs" />
-    <Compile Include="Server\Entity\VehicleRepository.cs" />
-    <Compile Include="Server\ExtendedVehicle.cs" />
-    <Compile Include="Server\IVehicleHandler.cs" />
-    <Compile Include="Server\VehicleHandler.cs" />
+    <Compile Include="Server\VehicleUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EvoMp.Core.ColorHandler\EvoMp.Core.ColorHandler.csproj">
-      <Project>{c0437dc2-2bb7-4af0-89a9-22ce4b6e7c25}</Project>
-      <Name>EvoMp.Core.ColorHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
-      <Project>{c78e7d97-2d34-4c47-a48e-df1a3e960d61}</Project>
-      <Name>EvoMp.Core.ConsoleHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.Core\EvoMp.Core.Core.csproj">
-      <Project>{8eefb99a-d966-4332-9fce-bc7fee18f464}</Project>
-      <Name>EvoMp.Core.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
-      <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
+      <Project>{F4B5EDA5-1BFB-46FD-920F-FEBC1CE90EA1}</Project>
       <Name>EvoMp.Core.Module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Core.Parameter\EvoMp.Core.Parameter.csproj">
-      <Project>{ee63f684-46db-466e-82b2-74f988f3dd4b}</Project>
-      <Name>EvoMp.Core.Parameter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
-      <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
-      <Name>EvoMp.Module.CommandHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.DiscordHandler\EvoMp.Module.DiscordHandler.csproj">
-      <Project>{2338FE0F-7527-48C1-BC1A-92F801BB7BAD}</Project>
-      <Name>EvoMp.Module.DiscordHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.VehicleUtils\EvoMp.Module.VehicleUtils.csproj">
-      <Project>{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}</Project>
-      <Name>EvoMp.Module.VehicleUtils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

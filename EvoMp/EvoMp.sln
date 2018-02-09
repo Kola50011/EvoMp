@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1742-4032-B885-2DDCFE385E22}"
 EndProject
@@ -72,6 +72,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.VehicleHandler", "EvoMp.Module.VehicleHandler\EvoMp.Module.VehicleHandler.csproj", "{340F8F6E-0B27-4EA5-90E9-ECB208808F32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.StartupProject", "EvoMp.Core.StartupProject\EvoMp.Core.StartupProject.csproj", "{C3088118-4A6B-4A1D-972D-9B0A83E026B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.VehicleUtils", "EvoMp.Module.VehicleUtils\EvoMp.Module.VehicleUtils.csproj", "{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -209,6 +211,14 @@ Global
 		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Roleplay - Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3088118-4A6B-4A1D-972D-9B0A83E026B3}.Roleplay - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Freeroam - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Freeroam - Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Roleplay - Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}.Roleplay - Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +242,7 @@ Global
 		{1540F9A6-A25C-46B5-8A25-B3D9F3DA3358} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{C3088118-4A6B-4A1D-972D-9B0A83E026B3} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
+		{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DA49ECC-9D08-42FC-B5AB-6318780C1619}

@@ -9,6 +9,8 @@ using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
+using EvoMp.Module.VehicleUtils.Server;
+using static EvoMp.Module.VehicleUtils.Server.VehicleUtils;
 
 namespace EvoMp.Module.TestModule.Debuging
 {
@@ -23,45 +25,25 @@ namespace EvoMp.Module.TestModule.Debuging
             _vehicleHandler = vehicleHandler;
         }
 
-
-        private VehicleHash GetVehicleByName(string vehicleName)
-        {
-            // Name like
-            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
-                if (vehicleName.ToLower() == $"{vehicleHash}".ToLower())
-                    return (VehicleHash) vehicleHash;
-
-            //Name starts with
-            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
-                if ($"{vehicleHash}".ToLower().StartsWith(vehicleName.ToLower()))
-                    return (VehicleHash) vehicleHash;
-
-            //Name contains
-            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
-                if ($"{vehicleHash}".ToLower().Contains(vehicleName.ToLower()))
-                    return (VehicleHash) vehicleHash;
-
-            return (VehicleHash) (-1);
-        }
-
         [PlayerCommand("/v")]
         public void TestVehicleCommand(Client sender, string vehicleName)
         {
-            VehicleHash possibleVehicleHash = GetVehicleByName(vehicleName);
+            List<VehicleHash> possibleVehicles = GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
-            if (possibleVehicleHash == (VehicleHash) (-1))
+            if (!possibleVehicles.Any())
             {
                 _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
                 return;
             }
 
             // Create new vehicle
-            NetHandle newVehicle = _api.createVehicle(possibleVehicleHash, sender.position,
+            NetHandle newVehicle = _api.createVehicle(possibleVehicles.First(), sender.position,
                 sender.rotation, 1, 1,
                 sender.dimension);
 
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ created.");
+            _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
             sender.setIntoVehicle(newVehicle, -1);
         }
 
@@ -69,25 +51,27 @@ namespace EvoMp.Module.TestModule.Debuging
         [PlayerCommand("/saveVehicle", new[] {"/sv"})]
         public void SaveVehicle(Client sender, string vehicleName)
         {
-            VehicleHash possibleVehicleHash = GetVehicleByName(vehicleName);
+            List<VehicleHash> possibleVehicles = GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
-            if (possibleVehicleHash == (VehicleHash)(-1))
+            if (!possibleVehicles.Any())
             {
                 _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
                 return;
             }
 
             // Create new vehicle
-            ExtendedVehicle newExtendedVehicle = new ExtendedVehicle(possibleVehicleHash, sender.position, sender.rotation, sender.dimension);
+            ExtendedVehicle newExtendedVehicle =
+                new ExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
             NetHandle newVehicle = newExtendedVehicle.Create();
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ created.");
+
+
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ created.");
             sender.setIntoVehicle(newVehicle, -1);
 
             //TODO: Testing
             newExtendedVehicle.Save();
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicleHash}~w~ saved.");
-
+            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ saved.");
         }
     }
 }
