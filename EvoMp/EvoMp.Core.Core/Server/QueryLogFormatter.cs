@@ -18,13 +18,10 @@ namespace EvoMp.Core.Core.Server
             DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
             // Write logging async
-            Task.Run(() =>
-            {
-                ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
-                ConsoleOutput.PrintLine("=", "", ConsoleType.Sql);
-                ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.CommandText}");
-                ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.Parameters}");
-            });
+            ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
+            ConsoleOutput.PrintLine("=", "", ConsoleType.Sql);
+            ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.CommandText}");
+            ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.Parameters}");
         }
     }
 }
