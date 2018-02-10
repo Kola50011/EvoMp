@@ -29,7 +29,7 @@ namespace EvoMp.Core.Core.Server
             // Print Text as invalid console use.
             if (!gtMpMessage)
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    "Use ConsoleOutput.* for writing to console!");
+                    $"Use ConsoleOutput.* for writing to console! -> {message}");
 
             // Remove GtMp console tags
             if (gtMpMessage)

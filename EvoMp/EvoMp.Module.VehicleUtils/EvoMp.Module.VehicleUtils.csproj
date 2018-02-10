@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\Enums\EngineState.cs" />
+    <Compile Include="Server\Enums\DoorState.cs" />
     <Compile Include="Server\Enums\SirenState.cs" />
     <Compile Include="Server\Enums\SpecialLightState.cs" />
     <Compile Include="Server\Enums\VehicleCategory.cs" />

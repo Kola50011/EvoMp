@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Debuging\CommandHelp.cs" />
     <Compile Include="Debuging\LoginFucker.cs" />
+    <Compile Include="Debuging\ExtendedVehicleTest.cs" />
     <Compile Include="Debuging\VehicleCommands.cs" />
     <Compile Include="Server\ITestModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

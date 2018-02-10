@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EvoMp.Module.VehicleUtils.Server.Enums;
@@ -96,5 +97,11 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [Column("SpecialLightState")]
         public SpecialLightState SpecialLightState { get; set; }
+
+        /// <summary>
+        /// The door states of the vehicle
+        /// </summary>
+        public ICollection<DoorStateDto> DoorStates { get; set; } = new List<DoorStateDto>();
+
     }
 }

@@ -12,6 +12,7 @@ namespace EvoMp.Module.TestModule.Server
         public LoginFucker LoginFucker;
         public VehicleCommands VehicleCommands;
         public CommandHelp CommandHelp;
+        public ExtendedVehicleTest ExtendedVehicleTest;
 
         public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler)
         {
@@ -19,7 +20,8 @@ namespace EvoMp.Module.TestModule.Server
             _vehicleHandler = vehicleHandler;
             LoginFucker = new LoginFucker(api);
             CommandHelp = new CommandHelp(api, commandHandler);
-           
+            ExtendedVehicleTest = new ExtendedVehicleTest(api, vehicleHandler);
+
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
         }
     }
