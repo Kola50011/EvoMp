@@ -2,6 +2,7 @@ using System;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Threading.Tasks;
 using EvoMp.Core.ConsoleHandler.Server;
 
 namespace EvoMp.Core.Core.Server
@@ -16,9 +17,14 @@ namespace EvoMp.Core.Core.Server
         public override void LogCommand<TResult>(
             DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
-            ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
-            ConsoleOutput.PrintLine("=", "", ConsoleType.Sql);
-            ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.CommandText}");
+            // Write logging async
+            Task.Run(() =>
+            {
+                ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
+                ConsoleOutput.PrintLine("=", "", ConsoleType.Sql);
+                ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.CommandText}");
+                ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a39b00~{command.Parameters}");
+            });
         }
     }
 }
