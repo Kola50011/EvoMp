@@ -1,15 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EvoMp.Module.CommandHandler.Server.Attributes;
-using EvoMp.Module.TestModule.Server.TestingStateExtras;
 using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
-using EvoMp.Module.VehicleUtils.Server;
 using static EvoMp.Module.VehicleUtils.Server.VehicleUtils;
 
 namespace EvoMp.Module.TestModule.Debuging
@@ -42,9 +37,11 @@ namespace EvoMp.Module.TestModule.Debuging
                 sender.rotation, 1, 1,
                 sender.dimension);
 
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ created.");
-            _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
             sender.setIntoVehicle(newVehicle, -1);
+
+            _api.sendChatMessageToPlayer(sender,
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{GetVehicleCategory(possibleVehicles.First())}~c~) ~w~created.");
+            _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
         }
 
 
@@ -66,7 +63,8 @@ namespace EvoMp.Module.TestModule.Debuging
             NetHandle newVehicle = newExtendedVehicle.Create();
 
 
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ created.");
+            _api.sendChatMessageToPlayer(sender,
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{GetVehicleCategory(possibleVehicles.First())}~c~)~w~ created.");
             sender.setIntoVehicle(newVehicle, -1);
 
             //TODO: Testing
