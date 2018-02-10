@@ -82,6 +82,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\CustomTextWriter.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Server\ModuleStructurer.cs" />
     <Compile Include="Server\ModuleTypeHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\QueryLogFormatter.cs" />
+    <Compile Include="Server\QueryLogDbConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

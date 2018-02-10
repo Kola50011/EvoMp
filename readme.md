@@ -35,6 +35,22 @@
 - Don't use Database Entitys from other modules as Type.
   (Ask Ruffo if interested why..)
 
+### Debug tips
+#### Entity Framework query debug
+Add the following line in the context constructor to enable the logging:
+```CSharp
+Database.Log = s => { };
+```
+
+Full Example:
+```CSharp
+public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
+{
+    // Database logging
+    Database.Log = s => { };
+}
+```
+
 ## Suggested IDE Addons / Plugins
 
 ### Visual Studio Code

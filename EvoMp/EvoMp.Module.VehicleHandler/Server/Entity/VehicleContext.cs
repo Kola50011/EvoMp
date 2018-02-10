@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Linq;
+using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
@@ -9,6 +12,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     {
         public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
+            // Database logging
+            Database.Log = s => { };
         }
 
         // Overwriting Convention to allow private fields
@@ -30,8 +35,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             DbMigrator dbMigrator = new DbMigrator(migratorConfig);
 
             dbMigrator.Update();
-
             Database.Connection.Open();
+
         }
 
         #region Tables

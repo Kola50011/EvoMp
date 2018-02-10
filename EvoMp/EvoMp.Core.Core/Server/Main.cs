@@ -1,4 +1,5 @@
 using System;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -23,6 +24,7 @@ namespace EvoMp.Core.Core.Server
 
         public Main()
         {
+            DbConfiguration.SetConfiguration(new QueryLogDbConfiguration());
             try
             {
                 #region Core preparing / initialization

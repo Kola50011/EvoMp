@@ -1,4 +1,4 @@
-﻿namespace EvoMp.Core.ConsoleHandler.Server
+namespace EvoMp.Core.ConsoleHandler.Server
 {
     public enum ConsoleType
     {
@@ -19,6 +19,7 @@
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "COUT")] ConsoleOutput,
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "CIN")] ConsoleInput,
         [ConsoleTypeProperties("~#80b8db~", "Help", "~#80b8db~")] Help,
+        [ConsoleTypeProperties("~#f9ed00~", "SQL", "~#a39b00~")] Sql,
 
         /// <summary>
         ///     This type gives only the message to the console output.
