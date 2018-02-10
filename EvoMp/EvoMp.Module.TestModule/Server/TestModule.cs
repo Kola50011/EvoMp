@@ -22,7 +22,7 @@ namespace EvoMp.Module.TestModule.Server
         {
             _api = api;
             _vehicleHandler = vehicleHandler;
-            LoginFucker = new LoginFucker(api);
+            LoginFucker = new LoginFucker(api, commandHandler);
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
         }
 

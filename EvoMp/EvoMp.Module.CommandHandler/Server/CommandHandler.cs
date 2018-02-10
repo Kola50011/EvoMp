@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -162,6 +162,22 @@ namespace EvoMp.Module.CommandHandler.Server
             }
 
             return false;
+        }
+
+        public ICommand GetCommand(string commandString)
+        {
+            List<string> commandStringParts = commandString.Split(' ').ToList();
+
+            foreach (ICommand command in CommandParser.Commands)
+            {
+                // command string not command -> continue;
+                if (command.Command.ToLower() == commandStringParts[0].ToLower()
+                    || command.CommandAliases.Select(ca => ca.ToLower())
+                        .Contains(commandStringParts[0].ToLower()))
+                    return command;
+            }
+
+            return null;
         }
     }
 }
