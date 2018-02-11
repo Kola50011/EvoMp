@@ -25,18 +25,17 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public void FirstInit()
         {
             Database.SetInitializer<VehicleContext>(null);
+//           Database.SetInitializer<VehicleContext>(new DropCreateDatabaseAlways<VehicleContext>());
 
             DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<VehicleContext>
             {
                 AutomaticMigrationsEnabled = true,
-                AutomaticMigrationDataLossAllowed = true
+                AutomaticMigrationDataLossAllowed = true,
             };
 
             DbMigrator dbMigrator = new DbMigrator(migratorConfig);
-
             dbMigrator.Update();
             Database.Connection.Open();
-
         }
 
         #region Tables

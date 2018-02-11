@@ -447,7 +447,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 });
             }
 
-            Thread.Sleep(10); // Debug
+           // Thread.Sleep(10); // Debug
         }
 
 

@@ -125,11 +125,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     catch (Exception e)
                     {
                         ConsoleOutput.WriteLine(ConsoleType.Database, "Error on Saving ExtendedVehicle!");
-                        ConsoleOutput.WriteException(e.Message + e.StackTrace);
-
-                        if (e.InnerException != null)
-                            ConsoleOutput.WriteException(e.InnerException.Message + e.InnerException.StackTrace);
-
+                        ConsoleOutput.WriteException($"{e}");
                         // Rollback changes on failure
                         contextTransaction.Rollback();
                     }

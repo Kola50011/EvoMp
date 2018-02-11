@@ -227,8 +227,8 @@ namespace EvoMp.Core.ColorHandler.Server
                         case "...": // FillLineWithSpaces
                             ansiString = "";
                             // full suffix added later
-                            suffix += string.Empty.PadRight(
-                                Console.WindowWidth - CleanUp(orignalMessage.Replace("\n", "")).Length);
+                            int suffixLength = Console.WindowWidth - CleanUp(orignalMessage.Replace("\n", "")).Length;
+                            suffix += string.Empty.PadRight(Math.Max(suffixLength, 0));
                             break;
                         case "!00!": // Turn Code Parsing off
                             codeParsingDisabled = true;

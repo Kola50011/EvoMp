@@ -26,12 +26,18 @@ namespace EvoMp.Core.Parameter.Server
             try
             {
                 for (int i = 1; i < args.Length; i += 2)
-                    _commandLineArgs[args[i].Replace("-", "").ToLower()] = args[i + 1];
+                {
+                    if(i + 1 > args.Length)
+                        _commandLineArgs[args[i].Replace("-", "").ToLower()] = args[i + 1];
+                    else
+                        _commandLineArgs[args[i].Replace("-", "").ToLower()] = "";
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ConsoleOutput.WriteLine(ConsoleType.Error, $"Error in Command Line arguments! Len: {args.Length}" +
                                                            $" Current args are: {string.Join(" ", args)}");
+                ConsoleOutput.WriteException($"{e}");
             }
         }
 

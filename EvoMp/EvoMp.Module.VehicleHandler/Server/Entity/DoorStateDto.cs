@@ -7,13 +7,16 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     [Table("VehicleDoorStates")]
     public class DoorStateDto
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Column(Order = 0)]
         public int VehicleId { get; set; }
 
         [ForeignKey("VehicleId")]
-        [Column(Order = 0)]
         public VehicleDto Vehicle { get; set; }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("Door", Order = 1)]
         public DoorState Door { get; set; }
 
