@@ -38,7 +38,8 @@ namespace EvoMp.Module.MessageHandler.Server
 
             MessageTypeAttribute typeAttribute = GetMessageTypeAttribute(messageType);
             //TODO: Translate TagDisplayName
-            return $"{typeAttribute.TagColorCode}{typeAttribute.TagDisplayName.PadRight(10)}~w~";
+            //TODO: Replace later with: │ (Cef based chat)
+            return $"~w~| {typeAttribute.TagColorCode}{typeAttribute.TagDisplayName.PadRight(10)}~w~| "; 
         }
 
         private static MessageTypeAttribute GetMessageTypeAttribute(MessageType messageType)
