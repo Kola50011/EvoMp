@@ -106,7 +106,6 @@ namespace EvoMp.Module.VehicleHandler.Server
                         context.Vehicles.Attach(_vehicle);
                         context.Vehicles.AddOrUpdate(Properties);
                         context.SaveChanges();
-                        contextTransaction.Commit();
 
                         // Doorstates
                         if (Properties.DoorStates != null)
@@ -115,8 +114,9 @@ namespace EvoMp.Module.VehicleHandler.Server
                                 context.DoorStates.Attach(doorState);
                                 context.DoorStates.AddOrUpdate(doorState);
                                 context.SaveChanges();
-                                contextTransaction.Commit();
                             }
+
+                        contextTransaction.Commit();
 
                         // Save VehicleId to the Vehicle
                         if (!VehicleHandle.IsNull)
