@@ -17,14 +17,6 @@ namespace EvoMp.Core.Core.Server
         public override void LogCommand<TResult>(
             DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
-        }
-
-        public override void LogResult<TResult>(DbCommand command,
-            DbCommandInterceptionContext<TResult> interceptionContext)
-        {
-            if (interceptionContext.Exception == null)
-                return;
-
             ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
             ConsoleOutput.PrintLine("=", "", ConsoleType.Sql);
             ConsoleOutput.WriteLine(ConsoleType.Sql, $"{command.CommandText}");
@@ -34,6 +26,13 @@ namespace EvoMp.Core.Core.Server
                     $"~c~{command.Parameters[i].DbType}\t\t~#a3a075~{command.Parameters[i].ParameterName} ~c~->~#a3a075~ {command.Parameters[i].Value}\n";
 
             ConsoleOutput.WriteLine(ConsoleType.Sql, $"~#a3a075~{parameterString}");
+        }
+
+        public override void LogResult<TResult>(DbCommand command,
+            DbCommandInterceptionContext<TResult> interceptionContext)
+        {
+            if (interceptionContext.Exception == null)
+                return;
 
             // Exception
             ConsoleOutput.PrintLine("=", "", ConsoleType.Warn);

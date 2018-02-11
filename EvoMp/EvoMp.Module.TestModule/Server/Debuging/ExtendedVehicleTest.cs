@@ -2,34 +2,38 @@ using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
+using EvoMp.Module.MessageHandler.Server;
+using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
-using static EvoMp.Module.VehicleUtils.Server.VehicleUtils;
 
-namespace EvoMp.Module.TestModule.Debuging
+namespace EvoMp.Module.TestModule.Server.Debuging
 {
     public class ExtendedVehicleTest
     {
         private readonly API _api;
         private readonly IVehicleHandler _vehicleHandler;
+        private readonly IMessageHandler _messageHandler;
 
-        public ExtendedVehicleTest(API api, IVehicleHandler vehicleHandler)
+        public ExtendedVehicleTest(API api, IVehicleHandler vehicleHandler, IMessageHandler messageHandler)
         {
             _api = api;
             _vehicleHandler = vehicleHandler;
+            _messageHandler = messageHandler;
         }
 
         [PlayerCommand("/dbvehicle", new[] {"/dbv"})]
         public void SaveVehicle(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
             {
-                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
+                _messageHandler.PlayerMessage(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .",
+                    MessageType.Warn);
                 return;
             }
 
@@ -39,12 +43,11 @@ namespace EvoMp.Module.TestModule.Debuging
             newExtendedVehicle.Create();
 
 
-            _api.sendChatMessageToPlayer(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{GetVehicleCategory(possibleVehicles.First())}~c~)~w~ created.");
+            _messageHandler.PlayerMessage(sender,
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{VehicleUtils.Server.VehicleUtils.GetVehicleCategory(possibleVehicles.First())}~c~)~w~ created.");
             sender.setIntoVehicle(newExtendedVehicle.VehicleHandle, -1);
 
             newExtendedVehicle.Save();
-            _api.sendChatMessageToPlayer(sender, $"Vehicle ~o~{possibleVehicles.First()}~w~ saved.");
         }
 
 
@@ -53,8 +56,6 @@ namespace EvoMp.Module.TestModule.Debuging
         {
             ExtendedVehicle extendedVehicle = new ExtendedVehicle(sender.vehicle);
             extendedVehicle.Save();
-
-            _api.sendChatMessageToPlayer(sender, $"VehicleID: {extendedVehicle.Properties.VehicleId}");
         }
 
 

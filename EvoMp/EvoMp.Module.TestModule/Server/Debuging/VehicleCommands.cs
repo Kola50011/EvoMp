@@ -5,9 +5,8 @@ using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
-using static EvoMp.Module.VehicleUtils.Server.VehicleUtils;
 
-namespace EvoMp.Module.TestModule.Debuging
+namespace EvoMp.Module.TestModule.Server.Debuging
 {
     public class VehicleCommands
     {
@@ -23,7 +22,7 @@ namespace EvoMp.Module.TestModule.Debuging
         [PlayerCommand("/v")]
         public void TestVehicleCommand(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
@@ -40,7 +39,7 @@ namespace EvoMp.Module.TestModule.Debuging
             sender.setIntoVehicle(newVehicle, -1);
 
             _api.sendChatMessageToPlayer(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{GetVehicleCategory(possibleVehicles.First())}~c~) ~w~created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{VehicleUtils.Server.VehicleUtils.GetVehicleCategory(possibleVehicles.First())}~c~) ~w~created.");
             _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
         }
     }

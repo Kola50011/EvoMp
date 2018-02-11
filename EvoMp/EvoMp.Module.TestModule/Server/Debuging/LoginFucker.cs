@@ -2,13 +2,13 @@ using EvoMp.Module.CommandHandler.Server.Attributes;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
-namespace EvoMp.Module.TestModule.Debuging
+namespace EvoMp.Module.TestModule.Server.Debuging
 {
     public class LoginFucker
     {
         private readonly API _api;
 
-        public LoginFucker(API api)
+        public LoginFucker(API api, MessageHandler.Server.IMessageHandler messageHandler)
         {
             _api = api;
             api.onPlayerConnected += OnPlayerConnected;

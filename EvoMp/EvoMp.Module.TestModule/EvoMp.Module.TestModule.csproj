@@ -73,10 +73,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Debuging\CommandHelp.cs" />
-    <Compile Include="Debuging\LoginFucker.cs" />
-    <Compile Include="Debuging\ExtendedVehicleTest.cs" />
-    <Compile Include="Debuging\VehicleCommands.cs" />
+    <Compile Include="Server\Debuging\CommandHelp.cs" />
+    <Compile Include="Server\Debuging\LoginFucker.cs" />
+    <Compile Include="Server\Debuging\ExtendedVehicleTest.cs" />
+    <Compile Include="Server\Debuging\VehicleCommands.cs" />
     <Compile Include="Server\ITestModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\TestModule.cs" />
@@ -89,6 +89,10 @@
     <ProjectReference Include="..\EvoMp.Module.CommandHandler\EvoMp.Module.CommandHandler.csproj">
       <Project>{234B271E-7F73-42AA-97CF-C7D9630D841A}</Project>
       <Name>EvoMp.Module.CommandHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj">
+      <Project>{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}</Project>
+      <Name>EvoMp.Module.MessageHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.VehicleHandler\EvoMp.Module.VehicleHandler.csproj">
       <Project>{340F8F6E-0B27-4EA5-90E9-ECB208808F32}</Project>

@@ -101,6 +101,10 @@
       <Project>{2338FE0F-7527-48C1-BC1A-92F801BB7BAD}</Project>
       <Name>EvoMp.Module.DiscordHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj">
+      <Project>{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}</Project>
+      <Name>EvoMp.Module.MessageHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.VehicleUtils\EvoMp.Module.VehicleUtils.csproj">
       <Project>{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}</Project>
       <Name>EvoMp.Module.VehicleUtils</Name>

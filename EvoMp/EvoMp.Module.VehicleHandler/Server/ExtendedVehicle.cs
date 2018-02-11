@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
@@ -13,11 +15,44 @@ namespace EvoMp.Module.VehicleHandler.Server
 {
     public class ExtendedVehicle
     {
-        public readonly VehicleDto Properties;
+        public VehicleDto Properties;
         private VehicleDto _vehicle;
         public NetHandle VehicleHandle;
 
         public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
+        {
+            InitNew(vehicleHash, position, rotation, dimension);
+        }
+
+        public ExtendedVehicle(int vehicleId)
+        {
+            InitFromDatabase(vehicleId);
+        }
+
+        /// <summary>
+        /// Initalize the Extenden Vehicle from the database
+        /// </summary>
+        /// <param name="vehicleId">The vehicleId of the wanted Extended Vehicle</param>
+        private void InitFromDatabase(int vehicleId)
+        {
+            using (VehicleContext context = VehicleRepository.GetVehicleContext())
+            {
+                Properties = context.Vehicles.First(vdto => vdto.VehicleId == vehicleId);
+                Properties.DoorStates =
+                    context.DoorStates.Where(doorState => doorState.VehicleId == vehicleId).ToList();
+            }
+
+            Debug("Init - Loaded from database.");
+        }
+
+        /// <summary>
+        /// Initalize the extended Vehicle from a few informations
+        /// </summary>
+        /// <param name="vehicleHash">The VehicleHash</param>
+        /// <param name="position">The Vehicle position</param>
+        /// <param name="rotation">The Vehicle rotation</param>
+        /// <param name="dimension">The vehicle dimension</param>
+        private void InitNew(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
             Properties = new VehicleDto
             {
@@ -26,16 +61,14 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Rotation = rotation,
                 Dimension = dimension
             };
+            Debug("Init - By vehicleHash, position, rotation, dimension.");
         }
 
-        public ExtendedVehicle(int vehicleId)
-        {
-            using (VehicleContext context = VehicleRepository.GetVehicleContext())
-            {
-                Properties = context.Vehicles.First(vdto => vdto.VehicleId == vehicleId);
-            }
-        }
-
+        /// <summary>
+        /// Creates an Extendend Vehicle from an NetHandle
+        /// <remarks>The NetHandle must have the Entity Data VehicleHash!</remarks>
+        /// </summary>
+        /// <param name="vehicle"></param>
         public ExtendedVehicle(NetHandle vehicle)
         {
             VehicleHandle = vehicle;
@@ -50,17 +83,13 @@ namespace EvoMp.Module.VehicleHandler.Server
             if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                 {
-                    int vehicleId = (int) API.shared.getEntityData(vehicle, "VehicleId");
-                    Properties = context.Vehicles.First(vdto => vdto.VehicleId == vehicleId);
+                    InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
                 }
             else // Create new extendedVehcile
-                Properties = new VehicleDto
-                {
-                    VehicleHash = (VehicleHash) API.shared.getEntityData(vehicle, "VehicleHash"),
-                    Position = API.shared.getEntityPosition(vehicle),
-                    Rotation = API.shared.getEntityRotation(vehicle),
-                    Dimension = API.shared.getEntityDimension(vehicle)
-                };
+                InitNew((VehicleHash) API.shared.getEntityData(vehicle, "VehicleHash"),
+                    API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
+                    API.shared.getEntityDimension(vehicle));
+
 
             FullUpdate(false); // Update current vehicle state
         }
@@ -68,7 +97,9 @@ namespace EvoMp.Module.VehicleHandler.Server
         public void FullUpdate(bool saveAlso = false)
         {
             UpdateDoorStates();
+            UpdatePositionRotation();
 
+            Debug("Update - Full Update done.");
             if (saveAlso)
                 Save();
         }
@@ -88,6 +119,20 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
                     API.shared.getVehicleDoorState(VehicleHandle, (int) doorState);
             }
+
+            Debug("Update - Door States updated.");
+        }
+
+        public void UpdatePositionRotation()
+        {
+            if (VehicleHandle.IsNull)
+                return;
+
+            Properties.Position = API.shared.getEntityPosition(VehicleHandle);
+            Properties.Rotation = API.shared.getEntityRotation(VehicleHandle);
+
+            Debug("Update - Position and rotation updated.");
+
         }
 
         public void Save()
@@ -103,7 +148,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     // Try to update values & commit values to transaction
                     try
                     {
-                        context.Vehicles.Attach(_vehicle);
+                        //context.Vehicles.Attach(_vehicle);
                         context.Vehicles.AddOrUpdate(Properties);
                         context.SaveChanges();
 
@@ -111,7 +156,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                         if (Properties.DoorStates != null)
                             foreach (DoorStateDto doorState in Properties.DoorStates)
                             {
-                                context.DoorStates.Attach(doorState);
+                                // context.DoorStates.Attach(doorState);
                                 context.DoorStates.AddOrUpdate(doorState);
                                 context.SaveChanges();
                             }
@@ -130,7 +175,9 @@ namespace EvoMp.Module.VehicleHandler.Server
                         contextTransaction.Rollback();
                     }
                 }
+                Debug("Save - Extended Vehicle saved to database.");
             }
+
         }
 
         public void Create()
@@ -138,12 +185,16 @@ namespace EvoMp.Module.VehicleHandler.Server
             VehicleHandle = API.shared.createVehicle(Properties.VehicleHash,
                 Properties.Position, Properties.Rotation, 1, 1,
                 Properties.Dimension);
+
             API.shared.setEntityData(VehicleHandle, "VehicleHash", Properties.VehicleHash);
+            API.shared.setEntityData(VehicleHandle, "VehicleId", Properties.VehicleId);
 
             // Set door states
             if (Properties.DoorStates != null)
                 foreach (DoorStateDto doorState in Properties.DoorStates)
                     API.shared.setVehicleDoorState(VehicleHandle, (int) doorState.Door, doorState.State);
+
+            Debug("Create - Extended Vehicle created.");
         }
 
         public void Destroy(bool saveBefore)
@@ -152,6 +203,18 @@ namespace EvoMp.Module.VehicleHandler.Server
                 FullUpdate(true);
 
             API.shared.deleteEntity(VehicleHandle);
+            Debug("Destroy - Extended Vehicle destroyed.");
+        }
+
+        /// <summary>
+        /// Debug function for the VehicleHandler
+        /// </summary>
+        /// <param name="message"></param>
+        private void Debug(string message)
+        {
+            message = $"~c~[~w~{Properties.VehicleId}~c~] ~w~{message}";
+            ConsoleOutput.WriteLine(ConsoleType.Debug, message);
+            MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
     }
 }

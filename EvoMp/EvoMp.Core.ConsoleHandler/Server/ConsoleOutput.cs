@@ -443,6 +443,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                     // Cursor inside input
                     Console.CursorTop = cursorInputTop;
+                    if (Console.CursorTop == Console.BufferHeight)
+                        Console.CursorTop -= 1;
                     Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
                 });
             }

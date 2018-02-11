@@ -6,6 +6,7 @@ using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
+using EvoMp.Module.MessageHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
@@ -65,103 +66,103 @@ namespace EvoMp.Module.CommandHandler.Server
         {
             List<string> commandStringParts = commandString.Split(' ').ToList();
 
-            foreach (ICommand command in CommandParser.Commands)
+            ICommand command = GetCommand(commandString);
+
+            // No command found -> return false;
+            if (command == null)
+                return false;
+
+            // Failed PlayerCommand specifys -> return true;
+            if (command is PlayerCommand playerCommand)
+                if (!CheckPlayerCommand(sender, playerCommand))
+                    return true;
+
+            // Remove command
+            string enteredCommand = commandStringParts[0];
+            commandStringParts.Remove(enteredCommand);
+
+            // Check for parameters
+            List<object> parameterValues = new List<object>();
+            ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
+
+            string currentParameterString = string.Empty;
+            parameterValues.Add(sender);
+            for (int i = 1; i < commandParameters.Length; i++)
             {
-                // command string not command -> continue;
-                if (command.Command.ToLower() != commandStringParts[0].ToLower()
-                    && !command.CommandAliases.Select(ca => ca.ToLower())
-                        .Contains(commandStringParts[0].ToLower()))
-                    continue;
+                // No more string parameters -> break;
+                if (commandStringParts.FirstOrDefault() == null)
+                    break;
 
-                // Remove command
-                string enteredCommand = commandStringParts[0];
-                commandStringParts.Remove(enteredCommand);
+                // append or set string parameters
+                currentParameterString += commandStringParts.FirstOrDefault();
+                commandStringParts.Remove(currentParameterString);
 
-                // Check for parameters
-                List<object> parameterValues = new List<object>();
-                ParameterInfo[] commandParameters = command.MethodInfo.GetParameters();
-
-                string currentParameterString = string.Empty;
-                parameterValues.Add(sender);
-                for (int i = 1; i < commandParameters.Length; i++)
+                // String argument with quote -> wait for end quote.
+                if (currentParameterString.StartsWith("\""))
                 {
-                    // No more string parameters -> break;
-                    if (commandStringParts.FirstOrDefault() == null)
+                    if (!currentParameterString.EndsWith("\""))
+                    {
+                        i--;
+                        continue;
+                    }
+
+                    // Remove quotes
+                    currentParameterString = currentParameterString
+                        .Remove(currentParameterString.Length - 1, 1)
+                        .Remove(0, 1);
+                }
+
+                // Try parse & reset string
+                try
+                {
+                    // Barse boolean parameter for Convert functions
+                    if (commandParameters[i].ParameterType == typeof(bool))
+                        if (currentParameterString == "1")
+                            currentParameterString = "true";
+                        else if (currentParameterString == "0")
+                            currentParameterString = "false";
+
+
+                    object parameterValue =
+                        Convert.ChangeType(currentParameterString, commandParameters[i].ParameterType);
+                    currentParameterString = string.Empty;
+
+                    if (parameterValue == null)
                         break;
 
-                    // append or set string parameters
-                    currentParameterString += commandStringParts.FirstOrDefault();
-                    commandStringParts.Remove(currentParameterString);
-
-                    // String argument with quote -> wait for end quote.
-                    if (currentParameterString.StartsWith("\""))
-                    {
-                        if (!currentParameterString.EndsWith("\""))
-                        {
-                            i--;
-                            continue;
-                        }
-
-                        // Remove quotes
-                        currentParameterString = currentParameterString
-                            .Remove(currentParameterString.Length - 1, 1)
-                            .Remove(0, 1);
-                    }
-
-                    // Try parse & reset string
-                    try
-                    {
-                        // Barse boolean parameter for Convert functions
-                        if (commandParameters[i].ParameterType == typeof(bool))
-                            if (currentParameterString == "1")
-                                currentParameterString = "true";
-                            else if (currentParameterString == "0")
-                                currentParameterString = "false";
-
-
-                        object parameterValue =
-                            Convert.ChangeType(currentParameterString, commandParameters[i].ParameterType);
-                        currentParameterString = string.Empty;
-
-                        if (parameterValue == null)
-                            break;
-
-                        parameterValues.Add(parameterValue);
-                    }
-                    catch (InvalidCastException)
-                    {
-                        MessageHandler.PlayerMessage(sender,
-                            $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
-                        return true;
-                    }
-                    catch
-                    {
-                        MessageHandler.PlayerMessage(sender,
-                            $"Invalid type given for parameter {commandParameters[i].Name}.");
-                        return true;
-                    }
+                    parameterValues.Add(parameterValue);
                 }
-
-                // Not enough parameter values -> message & next;
-                if (commandParameters.Count(info => !info.IsOptional) > parameterValues.Count)
+                catch (InvalidCastException)
                 {
                     MessageHandler.PlayerMessage(sender,
-                        $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +
-                        $"Type ~b~\"/help {enteredCommand}\"~;~ for more information.");
+                        $"The type ~w~{commandParameters[i].ParameterType}~;~ can't be used as command parameter!");
                     return true;
                 }
+                catch
+                {
+                    MessageHandler.PlayerMessage(sender,
+                        $"Invalid type given for parameter {commandParameters[i].Name}.");
+                    return true;
+                }
+            }
 
-                //TODO: check for optional parameters needed
-
-                // Invoke command
-                command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());
-
-                ConsoleOutput.WriteLine(ConsoleType.Command,
-                    $"~b~{sender.name} ~;~-> ~o~{command.Command}~;~. ~c~(~w~{commandString}~c~)");
+            // Not enough parameter values -> message & next;
+            if (commandParameters.Count(info => !info.IsOptional) > parameterValues.Count)
+            {
+                MessageHandler.PlayerMessage(sender,
+                    $"Incorrect parameter values for the command ~o~{enteredCommand}~;~. " +
+                    $"Type ~b~\"/help {enteredCommand}\"~;~ for more information.");
                 return true;
             }
 
-            return false;
+            //TODO: check for optional parameters needed
+
+            // Invoke command
+            command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());
+
+            ConsoleOutput.WriteLine(ConsoleType.Command,
+                $"~b~{sender.name} ~;~-> ~o~{command.Command}~;~. ~c~(~w~{commandString}~c~)");
+            return true;
         }
 
         public ICommand GetCommand(string commandString)
@@ -178,6 +179,47 @@ namespace EvoMp.Module.CommandHandler.Server
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Checks command properties for a player command attribute
+        /// </summary>
+        /// <param name="sender">The Player to check</param>
+        /// <param name="playerCommand">The player command wich should be checked.</param>
+        /// <returns>bool</returns>
+        public bool CheckPlayerCommand(Client sender, PlayerCommand playerCommand)
+        {
+            switch (playerCommand.PlayerOnlyState)
+            {
+                case PlayerOnlyState.Any:
+                {
+                    break;
+                }
+                case PlayerOnlyState.OnlyOnFoot:
+                {
+                    if (!sender.isInVehicle && !sender.isParachuting)
+                        break;
+
+                    MessageHandler.PlayerMessage(sender, "You're not going on foot!", MessageType.Error);
+                    return false;
+                }
+                case PlayerOnlyState.OnlyInVehicle:
+                {
+                    if (sender.isInVehicle)
+                        break;
+                    MessageHandler.PlayerMessage(sender, "You're not in any vehicle!", MessageType.Error);
+                    return false;
+                }
+                case PlayerOnlyState.OnlyAsDriver:
+                {
+                    if (sender.isInVehicle && sender.vehicleSeat == -1)
+                        break;
+
+                    MessageHandler.PlayerMessage(sender, "You're not the vehicle driver!", MessageType.Error);
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

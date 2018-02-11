@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace EvoMp.Module.CommandHandler.Server.Attributes

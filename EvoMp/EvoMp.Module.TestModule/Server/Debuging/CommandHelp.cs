@@ -1,17 +1,18 @@
 using System.Linq;
 using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Server.Attributes;
+using EvoMp.Module.MessageHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
-namespace EvoMp.Module.TestModule.Debuging
+namespace EvoMp.Module.TestModule.Server.Debuging
 {
     public class CommandHelp
     {
         private readonly API _api;
         private readonly ICommandHandler _commandHandler;
 
-        public CommandHelp(API api, ICommandHandler commandHandler)
+        public CommandHelp(API api, ICommandHandler commandHandler, IMessageHandler messageHandler)
         {
             _api = api;
             _commandHandler = commandHandler;

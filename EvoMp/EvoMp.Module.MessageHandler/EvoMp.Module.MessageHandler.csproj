@@ -55,6 +55,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server\Attributes\MessageTypeAttribute.cs" />
+    <Compile Include="Server\Enums\MessageType.cs" />
     <Compile Include="Server\MessageHandler.cs" />
     <Compile Include="Server\IMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

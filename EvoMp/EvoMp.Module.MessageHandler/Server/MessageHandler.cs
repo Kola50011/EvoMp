@@ -1,4 +1,6 @@
-﻿using EvoMp.Core.ColorHandler.Server;
+using System.Reflection;
+using EvoMp.Module.MessageHandler.Server.Attributes;
+using EvoMp.Module.MessageHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
@@ -8,15 +10,44 @@ namespace EvoMp.Module.MessageHandler.Server
     {
         private readonly API _api;
 
-        //TODO: Rewrite functions. Core.MessageHandler.
         public MessageHandler(API api)
         {
             _api = api;
         }
 
-        public void PlayerMessage(Client sender, string message)
+        public void PlayerMessage(Client sender, string message, MessageType messageType = MessageType.Note)
         {
-            _api.sendChatMessageToPlayer(sender, ColorUtils.CleanUp(message));
+            _api.sendChatMessageToPlayer(sender, $"{BuildMessageTag(messageType)}{message}");
+        }
+
+        void IMessageHandler.BroadcastMessage(string message, MessageType messageType)
+        {
+            BroadcastMessage(message, messageType);
+        }
+
+        public static void BroadcastMessage(string message, MessageType messageType = MessageType.Note)
+        {
+            API.shared.sendChatMessageToAll($"{BuildMessageTag(messageType)}{message}");
+        }
+
+        private static string BuildMessageTag(MessageType messageType)
+        {
+            // No Tag -> return empty string
+            if (messageType == MessageType.None)
+                return "";
+
+            MessageTypeAttribute typeAttribute = GetMessageTypeAttribute(messageType);
+            //TODO: Translate TagDisplayName
+            return $"{typeAttribute.TagColorCode}{typeAttribute.TagDisplayName.PadRight(10)}~w~";
+        }
+
+        private static MessageTypeAttribute GetMessageTypeAttribute(MessageType messageType)
+        {
+            MemberInfo[] memberInfo = messageType.GetType().GetMember(messageType.ToString());
+            MessageTypeAttribute attributes =
+                (MessageTypeAttribute) memberInfo[0].GetCustomAttribute(typeof(MessageTypeAttribute), false);
+
+            return attributes;
         }
     }
 }
