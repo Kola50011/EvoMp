@@ -244,25 +244,18 @@ namespace EvoMp.Module.VehicleHandler.Server
                     try
                     {
                         context.Vehicles.AddOrUpdate(Properties);
-                        context.SaveChanges();
 
                         // Doorstates
-                        //TODO: Try to move the .saveChanges out of loops for better perfomance
                         if (Properties.DoorStates != null)
                             foreach (DoorStateDto doorState in Properties.DoorStates)
-                            {
                                 context.DoorStates.AddOrUpdate(doorState);
-                                context.SaveChanges();
-                            }
 
                         // Modifications
                         if (Properties.Modifications != null)
                             foreach (VehicleModificationDto modification in Properties.Modifications)
-                            {
                                 context.VehicleModifications.AddOrUpdate(modification);
-                                context.SaveChanges();
-                            }
 
+                        context.SaveChanges();
                         contextTransaction.Commit();
 
                         // Save VehicleId to the Vehicle
@@ -309,10 +302,10 @@ namespace EvoMp.Module.VehicleHandler.Server
             // Set vehicle color
             if (Properties.PrimaryColor != null)
                 API.shared.setVehicleCustomPrimaryColor(VehicleHandle, Properties.PrimaryColor.Red,
-                    Properties.PrimaryColor.Blue, Properties.PrimaryColor.Blue);
+                    Properties.PrimaryColor.Green, Properties.PrimaryColor.Blue);
             if (Properties.SecondaryColor != null)
                 API.shared.setVehicleCustomSecondaryColor(VehicleHandle, Properties.SecondaryColor.Red,
-                    Properties.SecondaryColor.Blue, Properties.SecondaryColor.Blue);
+                    Properties.SecondaryColor.Green, Properties.SecondaryColor.Blue);
 
             Debug("Create - Extended Vehicle created.");
         }
