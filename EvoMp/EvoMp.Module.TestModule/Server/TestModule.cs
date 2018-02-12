@@ -1,4 +1,5 @@
 using EvoMp.Module.CommandHandler;
+using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.TestModule.Server.Debuging;
 using EvoMp.Module.VehicleHandler.Server;

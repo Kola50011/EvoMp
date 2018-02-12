@@ -7,6 +7,7 @@ using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
 using EvoMp.Module.CommandHandler;
+using EvoMp.Module.CommandHandler.Server;
 
 namespace EvoMp.Module.DbAccess.Server
 {
