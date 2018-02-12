@@ -15,7 +15,7 @@ jobs:
       - run: nuget setapikey acaa0928-8a4a-4d36-82a3-14b3ab8452fc -source https://www.myget.org/F/gt5mp/api/v3/index.json && nuget sources add -Name grandtheftmultiplayer.api -source https://www.myget.org/F/gt5mp/api/v3/index.json -User Ruffo -pass nussknacker63
       - run:
           path: /temp/EvoMp
-          command: find . && nuget restore EvoMp.sln
+          command: find . && nuget restore EvoMp.sln -NoCache
       - run:
           path: /temp/EvoMp
           command: msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
