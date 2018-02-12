@@ -10,8 +10,9 @@ jobs:
     steps:
       - checkout
       - run: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list; apt-get update;
-      - run: apt-get update; apt-get install mono-complete -y
+      - run: apt-get update; apt-get install mono-devel -y #mono-complete -y
       - run: apt-get update; apt-get install nuget -y
+      - run: nuget sources add -Name grandtheftmultiplayer.api -source https://www.myget.org/F/gt5mp/api/v3/index.json -User Ruffo -pass nussknacker63
       - run:
           path: /temp/EvoMp
           command: nuget restore
