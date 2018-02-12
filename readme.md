@@ -74,7 +74,7 @@ sudo -s
 MyGetUserName=USERNAME; # For MyGet acess
 MyGetPassword=PASSWORD; # For MyGet acess
 MyGetApiKey=MYGETAPIKEY; # For MyGet acess (Muste be generated on the MyGet site)
-RepositoryRoot="/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore/"; # Your RepositoryRoot path
+RepositoryRoot='/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore'; # Your RepositoryRoot path
 
 cd $RepositoryRoot;
 ## Server Side
