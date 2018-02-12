@@ -9,7 +9,7 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
     steps:
       - checkout
-      - run: apt-get update; apt-get install mono-xbuild -y
+      - run: apt-get update; apt-get install mono-complete -y
       - run:
           path: /temp/EvoMp
           command: dotnet restore EvoMp.sln --configfile /EvoMp/NuGet.Config
