@@ -84,11 +84,11 @@ apt-get update; apt-get install mono-devel -y
 
 # NuGet setup
 apt-get update; apt-get install nuget -y;
-nuget setapikey $MyGetApiKey -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User $MyGetUserName -pass $MyGetPassword -ConfigFile ./.config/NuGet/NuGet.Config;  
+nuget setapikey $MyGetApiKey -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User $MyGetUserName -pass $MyGetPassword -ConfigFile ~/.config/NuGet/NuGet.Config;  
 
 # NuGet restore & Server build
 cd EvoMp;
-nuget restore EvoMp.sln -NoCache -ConfigFile ./.config/NuGet/NuGet.Config;             
+nuget restore EvoMp.sln -NoCache -ConfigFile ~/.config/NuGet/NuGet.Config;             
 msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2;
 
 
