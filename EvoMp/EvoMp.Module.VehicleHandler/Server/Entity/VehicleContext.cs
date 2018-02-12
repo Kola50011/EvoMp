@@ -25,7 +25,6 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public void FirstInit()
         {
             Database.SetInitializer<VehicleContext>(null);
-//           Database.SetInitializer<VehicleContext>(new DropCreateDatabaseAlways<VehicleContext>());
 
             DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<VehicleContext>
             {
@@ -41,13 +40,9 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         #region Tables
 
         public DbSet<VehicleDto> Vehicles { get; set; }
-
         public DbSet<DoorStateDto> DoorStates { get; set; }
-
-        //public DbSet<ComponentDto> Components { get; set; }
-
-        //public DbSet<VehicleComponentDto> VehicleComponents { get; set; }
-
+        public DbSet<ComponentDto> Components { get; set; }
+        public DbSet<VehicleComponentDto> VehicleComponents { get; set; }
         public DbSet<VehicleColorDto> VehicleColors { get; set; }
 
         #endregion Tables

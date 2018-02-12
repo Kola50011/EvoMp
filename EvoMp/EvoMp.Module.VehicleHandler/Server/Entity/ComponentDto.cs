@@ -6,17 +6,17 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     [Table("VehicleComponents")]
     public class ComponentDto
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         [Column(Order = 0)]
-        public VehicleDto ComponentId { get; set; }
+        public int ComponentId { get; set; }
 
-        [Key]
-        [Column("Slot", Order = 1)]
+        [Index("IX_SlotAndValue", 1, IsUnique = true)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Slot { get; set; }
 
-        [Key]
-        [Column("Value", Order = 2)]
+        [Index("IX_SlotAndValue", 2, IsUnique = true)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Value { get; set; }
     }
 }

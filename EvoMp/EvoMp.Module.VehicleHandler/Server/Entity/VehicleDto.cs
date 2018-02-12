@@ -103,5 +103,10 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         /// </summary>
         public ICollection<DoorStateDto> DoorStates { get; set; }
 
+        /// <summary>
+        /// The door states of the vehicle
+        /// </summary>
+        public ICollection<VehicleComponentDto> VehicleComponents { get; set; }
+
     }
 }

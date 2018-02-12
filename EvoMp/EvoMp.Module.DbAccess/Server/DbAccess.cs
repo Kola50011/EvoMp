@@ -18,14 +18,16 @@ namespace EvoMp.Module.DbAccess.Server
             // Get Database name from Parameter
             ParameterHandler.SetDefault("DatabaseName", "EvoMpGtMpServer");
             string dataBaseName = ParameterHandler.GetValue("DatabaseName");
+            // Write console output
+            ConsoleOutput.WriteLine(ConsoleType.Database, $"Database: ~#8effa3~{dataBaseName}");
 
             SetConnectionString();
 
-            void SetConnectionString()
+            void SetConnectionString(bool force = false)
             {
                 string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
-                if (dbConnectionString == null)
+                if (dbConnectionString == null || force)
                     Environment.SetEnvironmentVariable("NameOrConnectionString",
                         "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=" + dataBaseName +
                         ";Integrated Security=True;" +
@@ -39,9 +41,11 @@ namespace EvoMp.Module.DbAccess.Server
             // Init reset procedure if database reset wanted.
             if (ParameterHandler.GetValue("ResetDatabase") != null)
             {
+                // Write console output
+                ConsoleOutput.WriteLine(ConsoleType.Database, $"Database reset!");
                 string sqlCommandText = $"DROP DATABASE {dataBaseName}";
                 dataBaseName = "Reset";
-                SetConnectionString();
+                SetConnectionString(true);
                 string nameOrConnectionString = Environment.GetEnvironmentVariable("NameOrConnectionString");
                 if (nameOrConnectionString != null)
                 {
@@ -52,10 +56,6 @@ namespace EvoMp.Module.DbAccess.Server
                     connection.Close();
                 }
             }
-
-            // Write console output
-            ConsoleOutput.WriteLine(ConsoleType.Database,
-                $"Database: ~#8effa3~{dataBaseName}");
 
             // If Database reset -> restart
             Shared.OnCoreStartupCompleted += () =>
