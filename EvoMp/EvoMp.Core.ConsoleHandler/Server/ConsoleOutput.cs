@@ -397,6 +397,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     // Remember cursor pos
                     _lastConsoleTop = Console.CursorTop;
 
+                    if (_lastConsoleTop == Console.BufferHeight - 1)
+                        _lastConsoleTop = Console.BufferHeight - 2;
+
                     // Make buffer free for input box
                     if (Console.CursorTop + 3 > Console.BufferHeight)
                         Console.BufferHeight++;
@@ -443,8 +446,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                     // Cursor inside input
                     Console.CursorTop = cursorInputTop;
-                    if (Console.CursorTop == Console.BufferHeight)
-                        Console.CursorTop -= 1;
+                    if (Console.CursorTop == Console.BufferHeight-1)
+                        Console.CursorTop = Console.BufferHeight - 2;
                     Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
                 });
             }

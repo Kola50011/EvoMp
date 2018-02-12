@@ -195,11 +195,10 @@ namespace EvoMp.Core.ColorHandler.Server
 
                     // Hint if background and foreground is similar
                     if (currentBackground != Color.Empty)
-                        //if(Math.Abs(foregroundColor.GetHue() - currentBackground.GetHue()) <= 5)
-                        // if (foregroundColor.CompareColorsRgb(foregroundColor, currentBackground) < 110)
+                        
                         if (CompareColorsContrast(foregroundColor, currentBackground) < 10)
                             Console.Error.WriteLine($"Please correct next message. " +
-                                                    $"Sure you can read the text ~_~fine~|~ on this background?\n");
+                                                    $"Sure you can read the text fine on this background?\n");
 
                     // Rebuild message
                     message = $"{message.Substring(0, currentCode.Key + completeColorCodesLength)}" +

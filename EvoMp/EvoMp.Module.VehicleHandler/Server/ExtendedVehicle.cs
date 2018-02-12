@@ -212,7 +212,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="message"></param>
         private void Debug(string message)
         {
-            message = $"~c~[~w~{Properties.VehicleId}~c~] ~w~{message}";
+            message = $"[ID: {Properties.VehicleId}] {message}";
             ConsoleOutput.WriteLine(ConsoleType.Debug, message);
             MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
