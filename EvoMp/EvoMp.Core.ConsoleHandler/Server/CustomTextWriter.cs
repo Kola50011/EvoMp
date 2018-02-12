@@ -7,6 +7,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 {
     public class CustomTextWriter : StringWriter
     {
+        private bool _lastWasInvalid = false;
+
         public override void WriteLine(string message)
         {
             WriteHandler(message);
@@ -27,8 +29,11 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             // Print Text as invalid console use.
             if (!gtMpMessage)
-                ConsoleOutput.WriteLine(ConsoleType.Warn,
-                    "Use ConsoleOutput.* for writing to console!");
+            {
+                if(!_lastWasInvalid)
+                ConsoleOutput.WriteLine(ConsoleType.Warn, $"Use ConsoleOutput.* for writing to console!");
+                _lastWasInvalid = true;
+            }
 
             // Remove GtMp console tags
             if (gtMpMessage)

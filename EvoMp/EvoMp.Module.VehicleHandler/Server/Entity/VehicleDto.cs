@@ -62,10 +62,16 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("RotZ")]
         private double RotZ { get; set; }
 
-        [Column("PrimaryColor")]
+        [Column("PrimaryColorId")]
+        public int? PrimaryColorId { get; set; }
+
+        [ForeignKey("PrimaryColorId")]
         public VehicleColorDto PrimaryColor { get; set; }
 
-        [Column("SecondaryColor")]
+        [Column("SecondaryColorId")]
+        public int? SecondaryColorId { get; set; }
+
+        [ForeignKey("SecondaryColorId")]
         public VehicleColorDto SecondaryColor { get; set; }
 
         [Column("NumberplateValue")]

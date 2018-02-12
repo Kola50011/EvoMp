@@ -24,7 +24,7 @@ namespace EvoMp.Core.Module.Server
         /// </summary>
         public static event ModuleLoaded OnModuleLoaded;
 
-        public static bool StartUpCompleted = false;
+        public static bool StartUpCompleted;
 
         public static API Api;
 

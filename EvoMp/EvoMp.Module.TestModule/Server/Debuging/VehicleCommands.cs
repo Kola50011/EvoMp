@@ -73,5 +73,13 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             foreach (VehicleModification modification in Enum.GetValues(typeof(VehicleModification)))
                 API.shared.setVehicleMod(sender.vehicle, (int) modification, random.Next(0, 5));
         }
+
+        [PlayerCommand("/rvcolor", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetRandomVehicleColors(Client sender)
+        {
+            Random random = new Random();
+            API.shared.setVehicleCustomPrimaryColor(sender.vehicle, random.Next(0,255), random.Next(0, 255), random.Next(0, 255));
+            API.shared.setVehicleCustomSecondaryColor(sender.vehicle, random.Next(0,255), random.Next(0, 255), random.Next(0, 255));
+        }
     }
 }
