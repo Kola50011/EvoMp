@@ -64,3 +64,47 @@ public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnect
 - __Any custom type begins with the prefix "Extended"__
   -> VehicleHandler ~ ExtendedVehicle
   -> ...
+
+
+# Run on Ubuntu
+Run the following commands
+```bash
+su root
+# Set variables for setup
+MyGetUserName=Ruffo;
+MyGetPassword=nussknacker63;
+MyGetApiKey=acaa0928-8a4a-4d36-82a3-14b3ab8452fc;
+RepositoryRoot="/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore/";
+
+cd $RepositoryRoot;
+## Server Side
+# Mono
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list; apt-get update;
+apt-get update; apt-get install mono-devel -y
+
+# NuGet setup
+apt-get update; apt-get install nuget -y;
+nuget setapikey $MyGetApiKey -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User $MyGetUserName -pass $MyGetPassword -ConfigFile ./.config/NuGet/NuGet.Config;  
+
+# NuGet restore & Server build
+cd EvoMp;
+nuget restore EvoMp.sln -NoCache -ConfigFile ./.config/NuGet/NuGet.Config;             
+msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2;
+
+
+## Client Side
+# NodeJs
+curl -sL https://deb.nodesource.com/setup_8.x | bash - ; apt-get install -y nodejs;
+
+# Yarn
+apt-get install apt-transport-https -y; curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -""; echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; apt-get update && apt-get install yarn;
+
+# Client side compile
+cd $RepositoryRoot;       
+yarn install;      
+yarn build;
+
+## Start Server
+cd GTMP_Server;
+mono GrandTheftMultiplayer.Server.exe;
+```
