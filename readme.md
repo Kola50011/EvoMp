@@ -69,12 +69,12 @@ public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnect
 # Run on Ubuntu
 Run the following commands
 ```bash
-su root
+sudo -s
 # Set variables for setup
-MyGetUserName=Ruffo;
-MyGetPassword=nussknacker63;
-MyGetApiKey=acaa0928-8a4a-4d36-82a3-14b3ab8452fc;
-RepositoryRoot="/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore/";
+MyGetUserName=USERNAME; # For MyGet acess
+MyGetPassword=PASSWORD; # For MyGet acess
+MyGetApiKey=MYGETAPIKEY; # For MyGet acess (Muste be generated on the MyGet site)
+RepositoryRoot="/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore/"; # Your RepositoryRoot path
 
 cd $RepositoryRoot;
 ## Server Side
