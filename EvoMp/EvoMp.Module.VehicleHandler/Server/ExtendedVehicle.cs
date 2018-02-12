@@ -89,9 +89,6 @@ namespace EvoMp.Module.VehicleHandler.Server
                 InitNew((VehicleHash) API.shared.getEntityData(vehicle, "VehicleHash"),
                     API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
                     API.shared.getEntityDimension(vehicle));
-
-
-            FullUpdate(false); // Update current vehicle state
         }
 
         public void FullUpdate(bool saveAlso = false)

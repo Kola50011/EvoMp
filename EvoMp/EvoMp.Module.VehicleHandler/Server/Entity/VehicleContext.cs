@@ -13,7 +13,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
             // Database logging
-            Database.Log = s => { };
+            //Database.Log = s => { };
         }
 
         // Overwriting Convention to allow private fields
