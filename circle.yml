@@ -13,7 +13,7 @@ jobs:
       - run: apt-get update; apt-get install mono-complete -y
       - run:
           path: /temp/EvoMp
-          command: dotnet restore EvoMp.sln --configfile /EvoMp/NuGet.Config
+          command: dotnet restore EvoMp.sln
       - run:
           path: /temp/EvoMp
           command: msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
