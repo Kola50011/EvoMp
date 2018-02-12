@@ -45,6 +45,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
             _messageHandler.PlayerMessage(sender,
                 $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{VehicleUtils.Server.VehicleUtils.GetVehicleCategory(possibleVehicles.First())}~c~)~w~ created.");
+
             sender.setIntoVehicle(newExtendedVehicle.VehicleHandle, -1);
 
             newExtendedVehicle.Save();

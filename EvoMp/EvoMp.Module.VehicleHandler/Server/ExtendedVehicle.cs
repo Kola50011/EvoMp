@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
 
@@ -72,19 +75,14 @@ namespace EvoMp.Module.VehicleHandler.Server
         public ExtendedVehicle(NetHandle vehicle)
         {
             VehicleHandle = vehicle;
-
-            if (!API.shared.hasEntityData(vehicle, "VehicleHash"))
-            {
-                ConsoleOutput.WriteLine(ConsoleType.Error, "Can't create extended Vehicle from anonymus Vehicle!");
-                return;
-            }
+            VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
 
             // Get Database entry if given
             if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                     InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
             else // Create new extendedVehcile
-                InitNew((VehicleHash) API.shared.getEntityData(vehicle, "VehicleHash"),
+                InitNew(vehicleHash,
                     API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
                     API.shared.getEntityDimension(vehicle));
         }
@@ -127,7 +125,6 @@ namespace EvoMp.Module.VehicleHandler.Server
             Properties.Rotation = API.shared.getEntityRotation(VehicleHandle);
 
             Debug("Update - Position and rotation updated.");
-
         }
 
         public void Save()
@@ -172,18 +169,22 @@ namespace EvoMp.Module.VehicleHandler.Server
                 }
                 Debug("Save - Extended Vehicle saved to database.");
             }
-
         }
 
+        /// <summary>
+        /// Spawns the extended Vehicle on the server
+        /// </summary>
         public void Create()
         {
-            VehicleHandle = API.shared.createVehicle(Properties.VehicleHash,
+            Vehicle newVehicle = API.shared.createVehicle(Properties.VehicleHash,
                 Properties.Position, Properties.Rotation, 1, 1,
                 Properties.Dimension);
+            newVehicle.waitForSynchronization(200);
 
-            API.shared.setEntityData(VehicleHandle, "VehicleHash", Properties.VehicleHash);
+            // Set Global VehicleHandle
+            VehicleHandle = newVehicle;
             API.shared.setEntityData(VehicleHandle, "VehicleId", Properties.VehicleId);
-
+            
             // Set door states
             if (Properties.DoorStates != null)
                 foreach (DoorStateDto doorState in Properties.DoorStates)
@@ -192,6 +193,10 @@ namespace EvoMp.Module.VehicleHandler.Server
             Debug("Create - Extended Vehicle created.");
         }
 
+        /// <summary>
+        /// Destroys the extended Vehicle on the server
+        /// </summary>
+        /// <param name="saveBefore">Should the vehicle saved before?</param>
         public void Destroy(bool saveBefore)
         {
             if (saveBefore)

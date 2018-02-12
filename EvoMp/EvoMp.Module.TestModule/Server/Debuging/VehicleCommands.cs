@@ -1,9 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleHandler.Server.Entity;
+using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.TestModule.Server.Debuging
@@ -36,11 +42,22 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 sender.rotation, 1, 1,
                 sender.dimension);
 
+            foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
+                API.shared.setVehicleDoorState(newVehicle, (int)doorState, true);
+
             sender.setIntoVehicle(newVehicle, -1);
 
             _api.sendChatMessageToPlayer(sender,
                 $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{VehicleUtils.Server.VehicleUtils.GetVehicleCategory(possibleVehicles.First())}~c~) ~w~created.");
             _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
+        }
+
+        [PlayerCommand("/togglealldoors", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetAllVehicleDoors(Client sender, bool state)
+        {
+            // Change door state
+            foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
+                API.shared.setVehicleDoorState(sender.vehicle, (int) doorState, state);
         }
     }
 }
