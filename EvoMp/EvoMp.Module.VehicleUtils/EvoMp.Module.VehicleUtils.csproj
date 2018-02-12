@@ -56,6 +56,7 @@
     <Compile Include="Server\Enums\DoorState.cs" />
     <Compile Include="Server\Enums\SirenState.cs" />
     <Compile Include="Server\Enums\SpecialLightState.cs" />
+    <Compile Include="Server\Enums\VehicleModification.cs" />
     <Compile Include="Server\Enums\VehicleCategory.cs" />
     <Compile Include="Server\Enums\VehicleState.cs" />
     <Compile Include="Server\IVehicleUtils.cs" />

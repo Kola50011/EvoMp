@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
-    [Table("VehicleComponentMappings")]
-    public class VehicleComponentDto
+    [Table("VehicleModificationMappings")]
+    public class VehicleModificationDto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -17,9 +17,9 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(Order = 1)]
-        public int ComponentId { get; set; }
+        public int ModificationId { get; set; }
         
-        [ForeignKey("ComponentId")]
-        public ComponentDto Component { get; set; }
+        [ForeignKey("ModificationId")]
+        public ModificationDto Modification { get; set; }
     }
 }

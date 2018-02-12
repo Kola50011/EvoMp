@@ -1,19 +1,20 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EvoMp.Module.VehicleUtils.Server.Enums;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
-    [Table("VehicleComponents")]
-    public class ComponentDto
+    [Table("VehicleModifications")]
+    public class ModificationDto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order = 0)]
-        public int ComponentId { get; set; }
+        public int ModificationId { get; set; }
 
         [Index("IX_SlotAndValue", 1, IsUnique = true)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Slot { get; set; }
+        public VehicleModification Slot { get; set; }
 
         [Index("IX_SlotAndValue", 2, IsUnique = true)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

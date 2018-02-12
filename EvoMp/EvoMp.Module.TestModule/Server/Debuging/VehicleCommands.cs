@@ -59,5 +59,19 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
                 API.shared.setVehicleDoorState(sender.vehicle, (int) doorState, state);
         }
+
+        [PlayerCommand("/setvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetVehicleMod(Client sender, VehicleModification slot, int value)
+        {
+            API.shared.setVehicleMod(sender.vehicle, (int)slot, value);
+        }
+
+        [PlayerCommand("/rvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetRandomVehicleMod(Client sender)
+        {
+            Random random = new Random();
+            foreach (VehicleModification modification in Enum.GetValues(typeof(VehicleModification)))
+                API.shared.setVehicleMod(sender.vehicle, (int) modification, random.Next(0, 5));
+        }
     }
 }
