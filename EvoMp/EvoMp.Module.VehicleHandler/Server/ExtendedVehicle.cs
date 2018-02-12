@@ -82,9 +82,7 @@ namespace EvoMp.Module.VehicleHandler.Server
             // Get Database entry if given
             if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
-                {
                     InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
-                }
             else // Create new extendedVehcile
                 InitNew((VehicleHash) API.shared.getEntityData(vehicle, "VehicleHash"),
                     API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
