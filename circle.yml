@@ -15,4 +15,5 @@ jobs:
           command: dotnet restore EvoMp.sln --configfile /EvoMp/NuGet.Config
       - run:
           path: /temp/EvoMp
-          command: xbuild EvoMp.sln 
+          command: xbuild EvoMp.sln /p:TargetFrameworkVersion=v"${FRAMEWORK}"
+
