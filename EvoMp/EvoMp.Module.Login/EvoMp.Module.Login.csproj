@@ -91,7 +91,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Docs\Messages.md" />
     <None Include="packages.config" />
+    <None Include="Web\Login.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\AuthHandler.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\Login.html" />
+    <Content Include="Web\Login.js" />
+    <Content Include="Web\Register.html" />
+    <Content Include="Web\Register.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

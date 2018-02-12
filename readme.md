@@ -3,7 +3,7 @@
 ## Required Software
 - Visual Studio > 2017
 - NodeJs > 8.X
-- 
+- Yarn
 
 ## Required settings
 - Open "EvoMp/EvoMp.sln".
@@ -105,6 +105,6 @@ yarn install;
 yarn build;
 
 ## Start Server
-cd GTMP_Server;
-mono GrandTheftMultiplayer.Server.exe;
+#cd GTMP_Server;
+#mono GrandTheftMultiplayer.Server.exe;
 ```
