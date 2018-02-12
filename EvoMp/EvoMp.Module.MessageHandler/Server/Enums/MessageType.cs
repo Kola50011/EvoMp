@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EvoMp.Module.MessageHandler.Server.Attributes;
 
 namespace EvoMp.Module.MessageHandler.Server.Enums
@@ -15,6 +10,6 @@ namespace EvoMp.Module.MessageHandler.Server.Enums
         [MessageType("~r~~h~", "Error")] Error,
         [MessageType("~b~~h~", "Debug")] Debug,
         [MessageType("~b~", "Help")] Help,
-        [MessageType("~c~", "Note")] Note,
+        [MessageType("~c~", "Note")] Note
     }
 }

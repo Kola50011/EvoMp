@@ -10,7 +10,7 @@ namespace EvoMp.Module.MessageHandler.Server
         void PlayerMessage(Client sender, string message, MessageType messageType = MessageType.Note);
 
         /// <summary>
-        /// Message to all players.
+        ///     Message to all players.
         /// </summary>
         void BroadcastMessage(string message, MessageType messageType = MessageType.Note);
     }

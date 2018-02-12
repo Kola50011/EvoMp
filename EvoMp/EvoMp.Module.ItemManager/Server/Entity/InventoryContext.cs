@@ -25,7 +25,7 @@ namespace EvoMp.Module.ItemManager.Entity
 
             Database.Connection.Open();
 
-           /**/
+            /**/
         }
     }
 }

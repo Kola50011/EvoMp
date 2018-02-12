@@ -197,11 +197,11 @@ namespace EvoMp.Module.VehicleHandler.Server
                 // Create color if not exist
                 if (primaryColorDto == null)
                 {
-                    primaryColorDto = context.VehicleColors.Add(new VehicleColorDto()
+                    primaryColorDto = context.VehicleColors.Add(new VehicleColorDto
                     {
                         Green = primaryColor.green,
                         Blue = primaryColor.blue,
-                        Red = primaryColor.red,
+                        Red = primaryColor.red
                     });
                     context.SaveChanges();
                 }
@@ -212,11 +212,11 @@ namespace EvoMp.Module.VehicleHandler.Server
 
                 if (secondaryColorDto == null)
                 {
-                    secondaryColorDto = context.VehicleColors.Add(new VehicleColorDto()
+                    secondaryColorDto = context.VehicleColors.Add(new VehicleColorDto
                     {
                         Green = secondaryColor.green,
                         Blue = secondaryColor.blue,
-                        Red = secondaryColor.red,
+                        Red = secondaryColor.red
                     });
                     context.SaveChanges();
                 }

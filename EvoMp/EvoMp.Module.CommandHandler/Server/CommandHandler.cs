@@ -27,6 +27,20 @@ namespace EvoMp.Module.CommandHandler.Server
             api.onChatCommand += ApiOnOnChatCommand;
         }
 
+        public ICommand GetCommand(string commandString)
+        {
+            List<string> commandStringParts = commandString.Split(' ').ToList();
+
+            foreach (ICommand command in CommandParser.Commands)
+                // command string not command -> continue;
+                if (command.Command.ToLower() == commandStringParts[0].ToLower()
+                    || command.CommandAliases.Select(ca => ca.ToLower())
+                        .Contains(commandStringParts[0].ToLower()))
+                    return command;
+
+            return null;
+        }
+
         /// <summary>
         ///     Called on module loaded
         /// </summary>
@@ -165,24 +179,8 @@ namespace EvoMp.Module.CommandHandler.Server
             return true;
         }
 
-        public ICommand GetCommand(string commandString)
-        {
-            List<string> commandStringParts = commandString.Split(' ').ToList();
-
-            foreach (ICommand command in CommandParser.Commands)
-            {
-                // command string not command -> continue;
-                if (command.Command.ToLower() == commandStringParts[0].ToLower()
-                    || command.CommandAliases.Select(ca => ca.ToLower())
-                        .Contains(commandStringParts[0].ToLower()))
-                    return command;
-            }
-
-            return null;
-        }
-
         /// <summary>
-        /// Checks command properties for a player command attribute
+        ///     Checks command properties for a player command attribute
         /// </summary>
         /// <param name="sender">The Player to check</param>
         /// <param name="playerCommand">The player command wich should be checked.</param>

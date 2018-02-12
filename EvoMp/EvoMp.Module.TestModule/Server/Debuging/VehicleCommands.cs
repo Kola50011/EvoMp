@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
-using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.TestModule.Server.Debuging
@@ -43,7 +40,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 sender.dimension);
 
             foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
-                API.shared.setVehicleDoorState(newVehicle, (int)doorState, true);
+                API.shared.setVehicleDoorState(newVehicle, (int) doorState, true);
 
             sender.setIntoVehicle(newVehicle, -1);
 
@@ -63,7 +60,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/setvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleMod(Client sender, VehicleModification slot, int value)
         {
-            API.shared.setVehicleMod(sender.vehicle, (int)slot, value);
+            API.shared.setVehicleMod(sender.vehicle, (int) slot, value);
         }
 
         [PlayerCommand("/rvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
@@ -78,8 +75,10 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         public void SetRandomVehicleColors(Client sender)
         {
             Random random = new Random();
-            API.shared.setVehicleCustomPrimaryColor(sender.vehicle, random.Next(0,255), random.Next(0, 255), random.Next(0, 255));
-            API.shared.setVehicleCustomSecondaryColor(sender.vehicle, random.Next(0,255), random.Next(0, 255), random.Next(0, 255));
+            API.shared.setVehicleCustomPrimaryColor(sender.vehicle, random.Next(0, 255), random.Next(0, 255),
+                random.Next(0, 255));
+            API.shared.setVehicleCustomSecondaryColor(sender.vehicle, random.Next(0, 255), random.Next(0, 255),
+                random.Next(0, 255));
         }
     }
 }

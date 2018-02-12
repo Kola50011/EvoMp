@@ -2,7 +2,6 @@ using System;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Interception;
-using System.Threading.Tasks;
 using EvoMp.Core.ConsoleHandler.Server;
 
 namespace EvoMp.Core.Core.Server
@@ -39,7 +38,6 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.WriteLine(ConsoleType.Sql, $"{Context.GetType().Name}:");
             ConsoleOutput.WriteLine(ConsoleType.Sql, $"{interceptionContext.Exception}");
             ConsoleOutput.PrintLine("=", "", ConsoleType.Warn);
-
         }
     }
 }

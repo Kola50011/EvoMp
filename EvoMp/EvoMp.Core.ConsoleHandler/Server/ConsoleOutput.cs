@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using EvoMp.Core.ColorHandler.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -446,13 +445,13 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                     // Cursor inside input
                     Console.CursorTop = cursorInputTop;
-                    if (Console.CursorTop == Console.BufferHeight-1)
+                    if (Console.CursorTop == Console.BufferHeight - 1)
                         Console.CursorTop = Console.BufferHeight - 2;
                     Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
                 });
             }
 
-           // Thread.Sleep(10); // Debug
+            // Thread.Sleep(10); // Debug
         }
 
 

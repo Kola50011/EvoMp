@@ -34,7 +34,8 @@
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.769.549, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GTMP_Server\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>

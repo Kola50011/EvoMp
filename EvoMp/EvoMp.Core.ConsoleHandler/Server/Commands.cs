@@ -98,13 +98,13 @@ namespace EvoMp.Core.ConsoleHandler.Server
             ConsoleOutput.WriteLine(ConsoleType.Config, "Console propertys reseted to default.");
         }
 
-	    [ConsoleCommand("/exit", new[] { "-e", "exit" },
-		    "Closes the Console" , true)]
-	    public static void CloseConsole()
-	    {
-		    ConsoleOutput.WriteLine(ConsoleType.Core, "Shutting down!");
-			Thread.Sleep(1000);
-		    Environment.Exit(0);
-	    }
-	}
+        [ConsoleCommand("/exit", new[] {"-e", "exit"},
+            "Closes the Console", true)]
+        public static void CloseConsole()
+        {
+            ConsoleOutput.WriteLine(ConsoleType.Core, "Shutting down!");
+            Thread.Sleep(1000);
+            Environment.Exit(0);
+        }
+    }
 }
