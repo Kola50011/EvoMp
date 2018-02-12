@@ -9,11 +9,10 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
     steps:
       - checkout
-      - run: ifconfig
       - run: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list; apt-get update;
       - run: apt-get update; apt-get install mono-devel -y #mono-complete -y
       - run: apt-get update; apt-get install nuget -y
-      - run: nuget setapikey acaa0928-8a4a-4d36-82a3-14b3ab8452fc -source https://www.myget.org/F/gt5mp/api/v3/index.json; nuget sources add -Name grandtheftmultiplayer.api -source https://www.myget.org/F/gt5mp/api/v3/index.json -User Ruffo -pass nussknacker63 -ConfigFile /root/.config/NuGet/NuGet.Config;  
+      - run: nuget setapikey acaa0928-8a4a-4d36-82a3-14b3ab8452fc -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User Ruffo -pass nussknacker63 -ConfigFile /root/.config/NuGet/NuGet.Config;  
       - run:
           path: /temp/EvoMp
           command: nuget restore EvoMp.sln -NoCache -ConfigFile /root/.config/NuGet/NuGet.Config
@@ -21,4 +20,5 @@ jobs:
           path: /temp/EvoMp
           command: msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
 
-#dotnet restore EvoMp.sln
+
+
