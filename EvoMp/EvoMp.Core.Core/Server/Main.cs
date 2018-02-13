@@ -23,6 +23,7 @@ namespace EvoMp.Core.Core.Server
 
         public Main()
         {
+
             DbConfiguration.SetConfiguration(new QueryLogDbConfiguration());
             try
             {

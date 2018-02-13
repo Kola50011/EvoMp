@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EvoMp.Module.UserHandler.Server.Entity
+namespace EvoMp.Module.ClientHandler.Server.Entity
 {
     public class ClientDto
     {

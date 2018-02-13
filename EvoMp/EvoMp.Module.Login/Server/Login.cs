@@ -1,5 +1,5 @@
+using EvoMp.Module.ClientHandler.Server;
 using EvoMp.Module.EventHandler.Server;
-using EvoMp.Module.UserHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.Login.Server

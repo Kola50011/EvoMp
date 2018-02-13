@@ -1,5 +1,7 @@
 using System;
+#if !__MonoCS__
 using System.Drawing;
+#endif
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -81,11 +83,16 @@ namespace EvoMp.Core.ConsoleHandler.Server
             "~b~Fullscreen mode ignores saved positions.", true)]
         public static void SaveConsolePos()
         {
+            //TODO: Linux support
+#if __MonoCS__
+            ConsoleOutput.WriteLine(ConsoleType.Debug, "Currently only supported on Windows. See #23");
+#else
             Rectangle rect = new Rectangle();
             ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
             Settings.Default.ConsolePosition = new Point(rect.X, rect.Y);
             Settings.Default.Save();
             ConsoleOutput.WriteLine(ConsoleType.Config, "Saved the current console positon.");
+#endif
         }
 
         [ConsoleCommand("/resetconsole", new[] {"-rc"},

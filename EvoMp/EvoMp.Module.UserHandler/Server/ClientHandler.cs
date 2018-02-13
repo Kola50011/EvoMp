@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.EventHandler.Server;
-using EvoMp.Module.UserHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 
-namespace EvoMp.Module.UserHandler.Server
+namespace EvoMp.Module.ClientHandler.Server
 {
     /*
      * Handles Users and Spawning of them

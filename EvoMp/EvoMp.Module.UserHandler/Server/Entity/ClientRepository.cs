@@ -1,6 +1,6 @@
 using GrandTheftMultiplayer.Server.API;
 
-namespace EvoMp.Module.UserHandler.Server.Entity
+namespace EvoMp.Module.ClientHandler.Server.Entity
 {
     public class ClientRepository
     {
