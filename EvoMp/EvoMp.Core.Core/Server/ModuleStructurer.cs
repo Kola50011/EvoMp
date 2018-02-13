@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+
 #if !DEBUG
 using EvoMp.Core.Parameter.Server;
 
@@ -29,8 +30,9 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.WriteLine(ConsoleType.Core,
                 $"Refreshing server resource modules...");
             // Define constants for the folder top copy from and to copy to
-            const string gtMpServerModulesFolder = @".\resources\EvoMp\dist";
-            const string projectSolutionCompiledModulesFolder = @".\..\EvoMp";
+            const string gtMpServerModulesFolder = @"./resources/EvoMp/dist";
+            const string projectSolutionCompiledModulesFolder = @"./../EvoMp/";
+
 
             // Create the Modules folder in the resource if it doesnt exist
             if (!Directory.Exists(gtMpServerModulesFolder))
@@ -49,25 +51,30 @@ namespace EvoMp.Core.Core.Server
                 ConsoleOutput.AppendPrefix("\t");
                 // Search for modules.
                 List<string> newModules = Directory.EnumerateFiles(projectSolutionCompiledModulesFolder,
-                        "EvoMp.Module.*.*",
-                        SearchOption.AllDirectories)
-#if DEBUG
-                    .Where(path => path.Contains(@"bin\") && path.Contains(@"Debug"))
-#else
-                    .Where(path => path.Contains(@"bin\") && path.Contains(@"Release"))
+                    "EvoMp.Module.*.*",
+                    SearchOption.AllDirectories).ToList();
+                newModules = newModules.Select(file => file.Replace(@"\", "/")).ToList();
+#if __MonoCS__
+                newModules = newModules.Where(path => path.Contains("bin/") && path.Contains("Linux"))
+#elif DEBUG
+                newModules = newModules.Where((path) => path.Contains("bin/") && path.Contains("Debug"))
+#else //TODO: Linux support (release)
+                newModules = newModules.Where(path => path.Contains("bin\\") && path.Contains(@"Release"))
 #endif
                     .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb"))
                     .ToList();
+
+                const string slash = "/";
 
                 // Clean old modules wich existing as dll's in other modules
                 foreach (string module in newModules.ToArray())
                 {
                     // modulePath contains no "\" -> next
-                    if (!module.Contains("\\"))
+                    if (!module.Contains(slash))
                         continue;
 
-                    string moduleFile = module.Substring(module.LastIndexOf("\\", StringComparison.Ordinal));
-                    string modulePath = module.Substring(0, module.LastIndexOf("\\", StringComparison.Ordinal));
+                    string moduleFile = module.Substring(module.LastIndexOf(slash, StringComparison.Ordinal)+1);
+                    string modulePath = module.Substring(0, module.LastIndexOf(slash, StringComparison.Ordinal));
 
                     // ModuleFile contains no "." -> next
                     if (!moduleFile.Contains("."))
@@ -83,7 +90,7 @@ namespace EvoMp.Core.Core.Server
                 // Copy new modules
                 foreach (string newModule in newModules)
                 {
-                    string destFile = gtMpServerModulesFolder + @"\" + Path.GetFileName(newModule);
+                    string destFile = gtMpServerModulesFolder + slash + Path.GetFileName(newModule);
 
                     // Destfile exist & destfile is same to new file -> skip
                     if (File.Exists(destFile))
@@ -132,7 +139,7 @@ namespace EvoMp.Core.Core.Server
 #endif
             const string serverRootFolder = ".";
 
-            const string projectSolutionNuGetPackagesFolder = @"..\EvoMp\packages";
+            const string projectSolutionNuGetPackagesFolder = @"../EvoMp/packages";
 
             try
             {
@@ -158,10 +165,11 @@ namespace EvoMp.Core.Core.Server
                 foreach (string packageFile in packageFiles)
                 {
                     if (packageFile.EndsWith(".dll"))
-                        ConsoleOutput.WriteLine(ConsoleType.Core, $"~#83cfff~\"{Path.GetFileName(packageFile)}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core,
+                            $"~#83cfff~\"{Path.GetFileName(packageFile).Replace("\\", "/")}\".");
 
                     // Get target filename
-                    string destinationFile = serverRootFolder + @"\" + Path.GetFileName(packageFile);
+                    string destinationFile = serverRootFolder + @"/" + Path.GetFileName(packageFile).Replace("\\", "/");
 
                     // File exist -> Check creation date and delete if older
                     if (File.Exists(destinationFile))

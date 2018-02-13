@@ -41,7 +41,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 ConsoleOutput.ResetPrefix();
             };
 
-
+#if !__MonoCS__ // Debug
             // Catch CTRL + C
             Console.CancelKeyPress += (sender, args) =>
             {
@@ -49,6 +49,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 ConsoleOutput.WriteLine(ConsoleType.Info,
                     $"Please shutdown with ~b~exit~;~ console command.");
             };
+#endif
         }
 
         /// <summary>
