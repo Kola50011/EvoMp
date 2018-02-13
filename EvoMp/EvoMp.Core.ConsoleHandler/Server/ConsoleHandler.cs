@@ -2,8 +2,8 @@ using System;
 #if !__MonoCS__
 using System.Linq;
 using System.Windows.Forms;
-#endif
 using EvoMp.Core.ConsoleHandler.Properties;
+#endif
 using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -19,8 +19,11 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
         public static void PrepareConsole()
         {
+#if __MonoCS__
+            WindowWidth = Console.WindowWidth;
+            WindowHeight = Console.WindowHeight;
+#else
             // Modify Console for color codes ( Windows only)
-#if !__MonoCS__ 
             ConsoleUtils.GetConsoleMode(ConsoleHandle, out int currentMode);
             ConsoleUtils.SetConsoleMode(ConsoleHandle, currentMode | 0x0004);
 #endif
@@ -53,14 +56,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// </summary>
         private static void ModifyConsoleWindow()
         {
+                //TODO: Linux support
+#if !__MonoCS__ // Setting screen or primary screen
             int height;
             int width;
 
             // Fullscreen
             if (Settings.Default.ConsoleFullscreenMode)
             {
-                //TODO: Linux support
-#if !__MonoCS__ // Setting screen or primary screen
                 Screen screen = Screen.AllScreens.ElementAt(Settings.Default.ConsoleFullscreenDisplay) ??
                                 Screen.PrimaryScreen;
                 IntPtr ptr = ConsoleUtils.GetConsoleWindow();
@@ -68,7 +71,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 // Move to wanted display
                 ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top,
                     Console.LargestWindowWidth, Console.LargestWindowHeight, true);
-#endif
 
                 ConsoleUtils.ToggleConsoleFullscreenMode();
                 height = Console.WindowHeight;
@@ -78,13 +80,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 height = Math.Min(Console.LargestWindowHeight, 50);
                 width = Math.Min(Console.LargestWindowWidth, 150);
-                //TODO: Linux support
-#if !__MonoCS__ // set console window position if setten
                 if (Settings.Default.ConsolePosition.X != -1 && Settings.Default.ConsolePosition.Y != -1)
                     ConsoleUtils.MoveWindow(ConsoleUtils.GetConsoleWindow(),
                         Settings.Default.ConsolePosition.X, Settings.Default.ConsolePosition.Y,
                         width, height + 3, true);
-#endif
 
                 ConsoleUtils.SetConsoleFixedSize(height, width);
             }
@@ -92,6 +91,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             WindowWidth = width;
             WindowHeight = height;
             Console.SetBufferSize(WindowWidth, WindowHeight + 3); // later resetting on the fly
+#endif
 
             // Prepare submodules
             ConsoleOutput.PrepareConsoleOutput();

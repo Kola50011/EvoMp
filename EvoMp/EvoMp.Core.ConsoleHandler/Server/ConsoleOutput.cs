@@ -398,10 +398,11 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
-
+#if  !__MonoCS__              
                     // Make buffer free for input box
                     if (Console.CursorTop + 3 > Console.BufferHeight)
                         Console.BufferHeight++;
+#endif
                 });
             }
 
