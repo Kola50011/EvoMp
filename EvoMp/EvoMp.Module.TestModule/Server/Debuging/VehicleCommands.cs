@@ -35,12 +35,11 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             }
 
             // Create new vehicle
-            NetHandle newVehicle = _api.createVehicle(possibleVehicles.First(), sender.position,
+            Vehicle newVehicle = _api.createVehicle(possibleVehicles.First(), sender.position,
                 sender.rotation, 1, 1,
                 sender.dimension);
 
-            foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
-                API.shared.setVehicleDoorState(newVehicle, (int) doorState, true);
+            newVehicle.waitForSynchronization(200);
 
             sender.setIntoVehicle(newVehicle, -1);
 

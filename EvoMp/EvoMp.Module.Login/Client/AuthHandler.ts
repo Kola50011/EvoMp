@@ -43,6 +43,7 @@ async function onOpenLogin(username: string): Promise<void> {
 
     if (response.success) {
       loginWindow.destroy()
+      API.showCursor(false);
       onAuthResponseListener.unsubscribe()
     } else {
       API.sendChatMessage('Login invalid!')
@@ -78,5 +79,6 @@ async function initAuthentication() {
 
   const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
   await cefWindow.load()
+  API.showCursor(true);
   API.triggerServerEvent('ready')
 }
