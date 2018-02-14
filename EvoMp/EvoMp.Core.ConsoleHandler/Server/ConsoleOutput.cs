@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using EvoMp.Core.ColorHandler.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -12,7 +13,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static string LastTimestamp = string.Empty;
         internal static int CountSameTimestamp = -1;
         internal static int LastHeaderLength;
-        private static int _lastConsoleTop;
+        private static int _lastConsoleTop = 0;
         private static string _prefix = string.Empty;
         internal static int PrefixLength;
 
@@ -370,7 +371,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             WriteMessage();
 
-            WriteInput();
+//            WriteInput();
 
             void WriteMessage()
             {
@@ -383,23 +384,24 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     }
 
                     // Cleanup & write
-                    if (Console.BufferHeight - ConsoleHandler.WindowHeight > 0)
-                    {
-                        // Last pos, clear line, write message & save top
-                        Console.SetCursorPosition(0, _lastConsoleTop);
-                        Console.Write("".PadRight(ConsoleHandler.WindowWidth));
-                    }
+                    //if (Console.BufferHeight - ConsoleHandler.WindowHeight > 0)
+                    //{
+                    //    // Last pos, clear line, write message & save top
+                    //    Console.SetCursorPosition(0, _lastConsoleTop);
+                    //    Console.Write("".PadRight(ConsoleHandler.WindowWidth));
+                    //}
+                    Thread.Sleep(500); // Debug
+
                     Console.SetCursorPosition(0, _lastConsoleTop);
 
                     Console.Write(ColorUtils.ColorizeAscii(message));
 
+                    Thread.Sleep(500); // Debug
                     // Remember cursor pos
                     _lastConsoleTop = Console.CursorTop;
 
 #if __MonoCS__
-                    if (_lastConsoleTop == Console.BufferHeight - 1)
-                        _lastConsoleTop -= 1;
-                    else
+                    if (_lastConsoleTop != Console.BufferHeight - 1)
                         _lastConsoleTop -= 2;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
@@ -443,23 +445,26 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 {
                     // Set cursor left.
                     Console.CursorLeft = 0;
-
+#if !__MonoCS__
                     // Write lines
                     Console.Write(ColorUtils.ColorizeAscii($"{topLine}\n"));
-                    int cursorInputTop = Console.CursorTop-1;
+#endif
+                    Thread.Sleep(50); // Debug
+                    int cursorInputTop = Console.CursorTop;
                     Console.Write(ColorUtils.ColorizeAscii($"{inputLine}\n"));
+#if !__MonoCS__
                     Console.Write(ColorUtils.ColorizeAscii($"{footerLine}"));
-
+#endif
+                    Thread.Sleep(50); // Debug
                     Console.CursorTop = cursorInputTop;
-                    /*// Cursor inside input
-                    Console.CursorTop = cursorInputTop;
-                    if (Console.CursorTop == Console.BufferHeight - 1)
-                        Console.CursorTop = Console.BufferHeight - 3;*/
+                    // Cursor inside input
+                    /*if (Console.CursorTop == Console.BufferHeight - 1)
+                        Console.CursorTop = Console.BufferHeight - 2;*/
                     Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
                 });
             }
 
-            // Thread.Sleep(10); // Debug
+             //Thread.Sleep(50); // Debug
         }
 
 
