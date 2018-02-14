@@ -43,12 +43,11 @@
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
-    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.769.549, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GTMP_Server\GrandTheftMultiplayer.Server.exe</HintPath>
+    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.775.525, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>

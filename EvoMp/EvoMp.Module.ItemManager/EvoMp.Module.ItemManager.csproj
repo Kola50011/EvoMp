@@ -67,11 +67,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.769.549, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
+    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.775.525, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
