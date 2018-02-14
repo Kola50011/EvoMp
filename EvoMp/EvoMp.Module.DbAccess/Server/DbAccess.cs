@@ -27,12 +27,14 @@ namespace EvoMp.Module.DbAccess.Server
                 string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
 #if __MonoCS__
-                string connectionString = "Server=(localdb)\\MSSQLLocalDB;" +
-                                          "Initial Catalog=" + dataBaseName +
-                                          ";Integrated Security=True;" +
-                                          $"Connect Timeout=30;" +
-                                          $"Encrypt=False;" +
-                                          "MultipleActiveResultSets = True;";
+                string connectionString = "Data Source=localhost\\SQLEXPRESS;" +
+                                          "Initial Catalog=" + dataBaseName + ";" +
+                                          "User ID=EvoMp; " +
+                                          "Password=evomp;" +
+                                          "Integrated Security=True;" +
+                                          "Connect Timeout=30;" +
+                                          "Encrypt=False;" +
+                                          "MultipleActiveResultSets=True;";
 #else
                 string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;" +
                             "Initial Catalog=" + dataBaseName +
