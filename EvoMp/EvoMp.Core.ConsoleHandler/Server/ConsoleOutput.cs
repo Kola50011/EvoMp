@@ -64,9 +64,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             while (message.Length > maxMessageWidth)
             {
-                int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length),
+                int space = message.LastIndexOf(" ", Math.Max(Math.Min(maxMessageWidth, message.Length),0),
                     StringComparison.Ordinal);
-                space = Math.Max(space, 0);
                 if (space == -1)
                 {
                     returnList.Add(message.Substring(0, Math.Max(Math.Min(maxMessageWidth, message.Length),0)));
@@ -392,7 +391,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop -= 2;
+                        _lastConsoleTop -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
