@@ -2,75 +2,36 @@
 
 import Cef from '../../EvoMp.Module.Cef/Client/Cef'
 import EventHandler from '../../EvoMp.Module.EventHandler/Client/EventHandler'
+import openLogin from './Login'
+import openRegister from './Register'
+import AuthOpen from './AuthOpen'
 
-let resourceStartHandler = API.onResourceStart.connect(initAuthentication)
-
-interface AuthOpen {
-  type: 'Login' | 'Register'
-  username?: string
-}
-
-interface AuthRequest {
-  type: 'Login' | 'Register'
-  username: string
-  password: string
-  email?: string
-}
-
-interface AuthResponse {
-  success: boolean
-  error: Array<string>
-}
-
-function sendAuthRequest (request: AuthRequest): void {
-  API.triggerServerEvent('AuthRequest', JSON.stringify(request))
-}
-
-async function onOpenLogin(username: string): Promise<void> {
-  let loginWindow = new Cef('Login', 'dist/Login.html', {})
-  await loginWindow.load()
-
-  loginWindow.addEventListener('LoginAttempt', (args: any[]) => {
-    sendAuthRequest({
-      type: 'Login',
-      username: args[0].username,
-      password: args[0].password
-    })
-  })
-
-  let onAuthResponseListener = EventHandler.subscribe('AuthResponse', (args: string) => {
-    const response: AuthResponse = JSON.parse(args)
-
-    if (response.success) {
-      loginWindow.destroy()
-      onAuthResponseListener.unsubscribe()
-    } else {
-      API.sendChatMessage('Login invalid!')
-      loginWindow.eval('loginInvalid("ERROR")')
-    }
-  })
-}
-
-async function onOpenRegister(): Promise<void> {
-  // TODO
-
-  return
-}
+const resourceStartHandler = API.onResourceStart.connect(initAuthentication)
 
 async function initAuthentication() {
   resourceStartHandler.disconnect()
 
-  let onOpenListener = EventHandler.subscribe('AuthOpen', (args: any) => {
+  const onOpenListener = EventHandler.subscribe('AuthOpen', (args: any) => {
     const arg = args as AuthOpen
 
-    if (arg.type === 'Register') {
-      onOpenRegister().catch(() => {
-        API.sendChatMessage('Error on Register')
-      })
-    } else {
-      onOpenLogin(arg.username || 'ERROR').catch(() => {
-        API.sendChatMessage('Error on Register')
-      })
+    switch (arg.type) {
+      case 'Register':
+        openRegister().catch(() => {
+          API.sendChatMessage('Exception: onOpenRegister')
+        })
+
+        break
+      case 'Login':
+        openLogin(arg.username || 'ERROR').catch(() => {
+          API.sendChatMessage('Exception: onOpenLogin')
+        })
+
+        break
+      default:
+        // TODO: Add better error handling.
+        API.sendChatMessage('Wrong packet received in Auth!')
+
+        break
     }
 
     onOpenListener.unsubscribe()
