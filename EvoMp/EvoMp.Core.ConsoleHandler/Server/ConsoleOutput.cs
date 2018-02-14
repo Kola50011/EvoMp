@@ -66,10 +66,11 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length),
                     StringComparison.Ordinal);
+                space = Math.Max(space, 0);
                 if (space == -1)
                 {
-                    returnList.Add(message.Substring(0, Math.Min(maxMessageWidth, message.Length)));
-                    message = message.Substring(Math.Min(maxMessageWidth, message.Length)).Trim();
+                    returnList.Add(message.Substring(0, Math.Max(Math.Min(maxMessageWidth, message.Length),0)));
+                    message = message.Substring(Math.Max(Math.Min(maxMessageWidth, message.Length),0)).Trim();
                 }
                 else
                 {
