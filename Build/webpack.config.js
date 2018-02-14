@@ -1,7 +1,6 @@
 const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
@@ -46,7 +45,6 @@ module.exports = {
       cacheDirectory: '../../../../.cache'
     }),
     new CheckerPlugin(),
-    new UglifyJSPlugin(),
     new webpack.BannerPlugin(require('fs').readFileSync('LICENSE', 'utf8'))
   ]
 }
