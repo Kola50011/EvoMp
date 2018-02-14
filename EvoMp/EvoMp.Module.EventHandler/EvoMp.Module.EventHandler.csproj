@@ -104,5 +104,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\EventHandler.ts" />
+    <TypeScriptCompile Include="Client\EventListener.ts" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
