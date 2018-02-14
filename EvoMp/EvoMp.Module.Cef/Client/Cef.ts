@@ -40,6 +40,11 @@ export default class Cef {
     API.setCefBrowserPosition(this.browser, 0, 0)
 
     CefEventCollector.register(this)
+    // This is a default value / initialiser, otherwise the compiler screams.
+    this.loadingResolve = () => {
+      // TODO: Add proper error handling!
+      API.sendChatMessage('Loaded before assignment, CEF!')
+    }
     this.addEventListener('doneLoading', this.loadingResolve)
   }
 
