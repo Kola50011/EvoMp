@@ -2,7 +2,7 @@ using System;
 using System.Data.Entity.Validation;
 using System.Net.Mail;
 
-namespace EvoMp.Module.UserHandler.Server.Entity
+namespace EvoMp.Module.ClientHandler.Server.Entity
 {
     public class ExtendetClient
     {

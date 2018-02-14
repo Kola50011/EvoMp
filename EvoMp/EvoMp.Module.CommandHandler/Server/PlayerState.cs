@@ -5,6 +5,6 @@
         Any,
         OnlyOnFoot,
         OnlyInVehicle,
-        OnlyAsDriver,
+        OnlyAsDriver
     }
 }

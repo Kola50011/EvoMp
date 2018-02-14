@@ -5,12 +5,12 @@ namespace EvoMp.Core.Module.Server
     [AttributeUsage(AttributeTargets.Interface)]
     public class ModuleProperties : Attribute
     {
-        public readonly string ModuleType;
         public readonly string ModuleAuthors;
         public readonly string ModuleDescription;
+        public readonly string ModuleType;
 
         /// <summary>
-        /// Defines module properties
+        ///     Defines module properties
         /// </summary>
         /// <param name="moduleType">The type of the module (shared, roleplay, freeroam, {custom}...)</param>
         /// <param name="moduleAuthors">The authors of the module</param>

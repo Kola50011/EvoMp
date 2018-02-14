@@ -1,4 +1,3 @@
-using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.TestModule.Server.Debuging;
@@ -10,14 +9,15 @@ namespace EvoMp.Module.TestModule.Server
     public class TestModule : ITestModule
     {
         private readonly API _api;
-        private readonly IVehicleHandler _vehicleHandler;
         private readonly IMessageHandler _messageHandler;
-        public LoginFucker LoginFucker;
-        public VehicleCommands VehicleCommands;
+        private readonly IVehicleHandler _vehicleHandler;
         public CommandHelp CommandHelp;
         public ExtendedVehicleTest ExtendedVehicleTest;
+        public LoginFucker LoginFucker;
+        public VehicleCommands VehicleCommands;
 
-        public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler, IMessageHandler messageHandler)
+        public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
+            IMessageHandler messageHandler)
         {
             _api = api;
             _vehicleHandler = vehicleHandler;

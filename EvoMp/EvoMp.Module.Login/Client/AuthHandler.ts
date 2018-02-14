@@ -39,5 +39,6 @@ async function initAuthentication() {
 
   const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
   await cefWindow.load()
+  API.showCursor(true);
   API.triggerServerEvent('ready')
 }

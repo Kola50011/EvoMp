@@ -2,7 +2,6 @@ using System;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
@@ -24,6 +23,7 @@ namespace EvoMp.Core.Core.Server
 
         public Main()
         {
+
             DbConfiguration.SetConfiguration(new QueryLogDbConfiguration());
             try
             {

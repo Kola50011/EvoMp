@@ -7,6 +7,11 @@ namespace EvoMp.Module.ItemManager.Entity
 {
     public class Inventory
     {
+        public Inventory()
+        {
+            Items = new List<IBaseItem>();
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column("inventory_id")]
@@ -14,10 +19,5 @@ namespace EvoMp.Module.ItemManager.Entity
 
         [Column("items")]
         public List<IBaseItem> Items { get; set; }
-
-        public Inventory()
-        {
-            Items = new List<IBaseItem>();
-        }
     }
 }

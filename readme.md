@@ -3,7 +3,7 @@
 ## Required Software
 - Visual Studio > 2017
 - NodeJs > 8.X
-- 
+- Yarn
 
 ## Required settings
 - Open "EvoMp/EvoMp.sln".
@@ -68,6 +68,7 @@ public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnect
 
 # Run on Ubuntu
 Run the following commands
+## Step 1 - Set variables
 ```bash
 sudo -s
 # Set variables for setup
@@ -75,36 +76,62 @@ MyGetUserName=USERNAME; # For MyGet acess
 MyGetPassword=PASSWORD; # For MyGet acess
 MyGetApiKey=MYGETAPIKEY; # For MyGet acess (Muste be generated on the MyGet site)
 RepositoryRoot='/mnt/c/!_Files/1_Programming/3_GitHub/EvoMpCore'; # Your RepositoryRoot path
-
-cd $RepositoryRoot;
+```
+## Step 2 - Install mono
+```bash
+cd "$RepositoryRoot";
 ## Server Side
 # Mono
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list; apt-get update;
-apt-get update; apt-get install mono-devel -y
-
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list
+apt-get install mono-devel -y
+```
+## Step 3 - Install NuGet
+```bash
 # NuGet setup
-apt-get update; apt-get install nuget -y;
-nuget setapikey $MyGetApiKey -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User $MyGetUserName -pass $MyGetPassword -ConfigFile ~/.config/NuGet/NuGet.Config;  
-
+apt-get update
+apt-get install nuget -y
+```
+## Step 4 - Set MyGet source
+```bash
+nuget setapikey $MyGetApiKey -source "https://www.myget.org/F/gt5mp/api/v2"
+nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User $MyGetUserName -pass $MyGetPassword -ConfigFile ~/.config/NuGet/NuGet.Config
+```
+## Step 5 - Restore NuGet and build Server
+```bash
 # NuGet restore & Server build
-cd EvoMp;
-nuget restore EvoMp.sln -NoCache -ConfigFile ~/.config/NuGet/NuGet.Config;             
-msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2;
-
-
+cd EvoMp
+nuget restore EvoMp.sln -NoCache -ConfigFile ~/.config/NuGet/NuGet.Config
+msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
+```
+## Step 6 - Install nodeJs
+```bash
 ## Client Side
 # NodeJs
-curl -sL https://deb.nodesource.com/setup_8.x | bash - ; apt-get install -y nodejs;
+curl -sL https://deb.nodesource.com/setup_8.x | bash -
+apt-get install -y nodejs
+```
 
+## Step 7 - Install Yarn
+```bash
 # Yarn
-apt-get install apt-transport-https -y; curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -""; echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; apt-get update && apt-get install yarn;
+apt-get install apt-transport-https -y
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -""
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+apt-get update && apt-get install yarn
+```
 
+## Step 8 - Compile client side
+```bash
 # Client side compile
-cd $RepositoryRoot;       
-yarn install;      
-yarn build;
+cd "$RepositoryRoot"
+yarn install
+yarn build
+```
 
+## Step 9 - Start Server (Currently in progress) 
+```bash
 ## Start Server
-cd GTMP_Server;
-mono GrandTheftMultiplayer.Server.exe;
+#cd GTMP_Server;
+#mono GrandTheftMultiplayer.Server.exe;
 ```

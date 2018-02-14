@@ -6,7 +6,6 @@ using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
-using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Server;
 
 namespace EvoMp.Module.DbAccess.Server
@@ -27,12 +26,29 @@ namespace EvoMp.Module.DbAccess.Server
             {
                 string dbConnectionString = Environment.GetEnvironmentVariable("EvoMp_dbConnectionString");
 
+#if __MonoCS__
+                string connectionString = "Data Source=localhost\\SQLEXPRESS;" +
+                                          "Initial Catalog=" + dataBaseName + ";" +
+                                          "User ID=EvoMp; " +
+                                          "Password=evomp;" +
+                                          "Integrated Security=True;" +
+                                          "Connect Timeout=30;" +
+                                          "Encrypt=False;" +
+                                          "MultipleActiveResultSets=True;";
+#else
+                string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;" +
+                            "Initial Catalog=" + dataBaseName +
+                            ";Integrated Security=True;" +
+                            $"Connect Timeout=30;" +
+                            $"Encrypt=False;" +
+                            $"TrustServerCertificate=True;" +
+                            $"ApplicationIntent=ReadWrite;" +
+                            "MultiSubnetFailover=False;" +
+                            "MultipleActiveResultSets = True;";
+#endif
+
                 if (dbConnectionString == null || force)
-                    Environment.SetEnvironmentVariable("NameOrConnectionString",
-                        "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=" + dataBaseName +
-                        ";Integrated Security=True;" +
-                        "Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;" +
-                        "MultiSubnetFailover=False;MultipleActiveResultSets = True;");
+                    Environment.SetEnvironmentVariable("NameOrConnectionString", connectionString);
                 else
                     Environment.SetEnvironmentVariable("NameOrConnectionString",
                         Environment.GetEnvironmentVariable("EvoMp_dbConnectionString"));

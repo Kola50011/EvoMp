@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
@@ -29,7 +26,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             DbMigrationsConfiguration migratorConfig = new DbMigrationsConfiguration<VehicleContext>
             {
                 AutomaticMigrationsEnabled = true,
-                AutomaticMigrationDataLossAllowed = true,
+                AutomaticMigrationDataLossAllowed = true
             };
 
             DbMigrator dbMigrator = new DbMigrator(migratorConfig);

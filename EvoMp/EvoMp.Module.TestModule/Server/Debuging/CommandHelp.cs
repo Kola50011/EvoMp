@@ -1,5 +1,4 @@
 using System.Linq;
-using EvoMp.Module.CommandHandler;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;

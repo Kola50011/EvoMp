@@ -18,7 +18,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(Order = 1)]
         public int ModificationId { get; set; }
-        
+
         [ForeignKey("ModificationId")]
         public ModificationDto Modification { get; set; }
     }

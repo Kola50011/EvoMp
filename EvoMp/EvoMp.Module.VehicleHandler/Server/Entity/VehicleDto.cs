@@ -105,14 +105,13 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public SpecialLightState SpecialLightState { get; set; }
 
         /// <summary>
-        /// The door states of the vehicle
+        ///     The door states of the vehicle
         /// </summary>
         public ICollection<DoorStateDto> DoorStates { get; set; }
 
         /// <summary>
-        /// Vehicle Modifications
+        ///     Vehicle Modifications
         /// </summary>
         public ICollection<VehicleModificationDto> Modifications { get; set; }
-
     }
 }

@@ -24,8 +24,7 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.PrintLine("-");
             ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules now.");
 
-            // Collect module paths
-            List<string> modulePaths = Directory.GetFiles(@".\resources\EvoMp\dist", "EvoMp.Module.*.dll",
+            List<string> modulePaths = Directory.GetFiles("./resources/EvoMp/dist", "EvoMp.Module.*.dll",
                 SearchOption.AllDirectories).ToList();
 
             // Bind modules

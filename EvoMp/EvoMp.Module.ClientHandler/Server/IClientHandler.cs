@@ -1,10 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
 using EvoMp.Core.Module.Server;
-using EvoMp.Module.UserHandler.Server.Entity;
+using EvoMp.Module.ClientHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.Elements;
 
-namespace EvoMp.Module.UserHandler.Server
+namespace EvoMp.Module.ClientHandler.Server
 {
     [ModuleProperties("shared", "Koka, Lukas", "Everything that has to do with a user")]
     public interface IClientHandler

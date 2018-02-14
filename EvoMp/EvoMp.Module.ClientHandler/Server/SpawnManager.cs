@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Module.UserHandler.Server.Entity;
+using EvoMp.Module.ClientHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared.Math;
 
-namespace EvoMp.Module.UserHandler.Server
+namespace EvoMp.Module.ClientHandler.Server
 {
     public class SpawnManager
     {

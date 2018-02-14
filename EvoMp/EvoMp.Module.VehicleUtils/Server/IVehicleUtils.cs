@@ -1,8 +1,7 @@
-using EvoMp.Core.Module.Server;
 using System.Collections.Generic;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.VehicleUtils.Server
 {

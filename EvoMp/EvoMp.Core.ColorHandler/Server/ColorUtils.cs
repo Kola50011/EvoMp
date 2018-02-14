@@ -195,7 +195,7 @@ namespace EvoMp.Core.ColorHandler.Server
 
                     // Hint if background and foreground is similar
                     if (currentBackground != Color.Empty)
-                        
+
                         if (CompareColorsContrast(foregroundColor, currentBackground) < 10)
                             Console.Error.WriteLine($"Please correct next message. " +
                                                     $"Sure you can read the text fine on this background?\n");
@@ -301,7 +301,7 @@ namespace EvoMp.Core.ColorHandler.Server
         /// </summary>
         /// <param name="message">The message wich should be parsed</param>
         /// <returns>List of text codes, orderd by position in message</returns>
-        public static List<string>ParseColorCodesSimple(string message)
+        public static List<string> ParseColorCodesSimple(string message)
         {
             List<string> ret = new List<string>();
 

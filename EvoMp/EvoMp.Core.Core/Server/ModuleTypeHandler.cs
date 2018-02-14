@@ -17,15 +17,15 @@ namespace EvoMp.Core.Core.Server
         /// <returns>Array[string] with server gamemodes</returns>
         public static string[] GetServerGamemodes()
         {
-	        // Set defaults
-	        ParameterHandler.SetDefault("Gamemode", "any");
+            // Set defaults
+            ParameterHandler.SetDefault("Gamemode", "any");
 
-			// ServerType already setten -> return;
-			if (_serverTypes != null)
+            // ServerType already setten -> return;
+            if (_serverTypes != null)
                 return _serverTypes;
 
-	        List<string> serverGamemodes = ParameterHandler.GetValue("Gamemode").Split(',').ToList();
-			serverGamemodes.ForEach(x => x = x.Trim());
+            List<string> serverGamemodes = ParameterHandler.GetValue("Gamemode").Split(',').ToList();
+            serverGamemodes.ForEach(x => x = x.Trim());
 
             // Only default parameter gamemode value loaded -> warning
             if (ParameterHandler.IsDefault("Gamemode"))

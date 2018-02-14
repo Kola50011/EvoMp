@@ -1,9 +1,11 @@
-﻿using System;
-using System.Drawing;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+#if !__MonoCS__
+using System.Drawing;
 using System.Runtime.InteropServices;
+#endif
 using EvoMp.Core.ColorHandler.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -210,17 +212,19 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// <param name="width"></param>
         public static void SetConsoleFixedSize(int heigth, int width)
         {
+            Console.WindowHeight = heigth;
+            Console.WindowWidth = width;
+
+#if !__MonoCS__
             const int mfBycommand = 0x00000000;
             const int scMinimize = 0xF020;
             const int scMaximize = 0xF030;
             const int scSize = 0xF000;
 
-            Console.WindowHeight = heigth;
-            Console.WindowWidth = width;
-
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scMinimize, mfBycommand);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scMaximize, mfBycommand);
             DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), scSize, mfBycommand);
+#endif
         }
 
         /// <summary>
@@ -229,11 +233,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// </summary>
         public static void ToggleConsoleFullscreenMode()
         {
-            // ::SendMessage(::GetConsoleWindow(), , , 0x20000000);
+            //TODO: Add Linux support
+#if !__MonoCS__ // ::SendMessage(::GetConsoleWindow(), , , 0x20000000);
             SendMessage((int) GetConsoleWindow(), 0x0104, 0x0D, 0x20000000);
+#endif
         }
 
-        #region Dll console imports
+#if !__MonoCS__
+#region Dll console imports
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, int mode);
@@ -253,9 +260,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
         [DllImport("kernel32.dll", ExactSpelling = true)]
         internal static extern IntPtr GetConsoleWindow();
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern string SendMessage(int hWnd, int msg, string wParam, IntPtr lParam);
-
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         public static extern int SendMessage(int hWnd, int Msg, int wParam, int lParam);
 
@@ -265,6 +269,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
         [DllImport("user32.dll")]
         public static extern long GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
 
-        #endregion //Dll console imports
+#endregion //Dll console imports
+
+#endif
     }
 }

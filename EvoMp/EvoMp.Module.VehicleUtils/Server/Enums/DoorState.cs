@@ -7,6 +7,6 @@ namespace EvoMp.Module.VehicleUtils.Server.Enums
         DriverRearDoor = 2,
         PassengerRearDoor = 3,
         VehicleHood = 4,
-        VehicleTrunk = 5,
+        VehicleTrunk = 5
     }
 }

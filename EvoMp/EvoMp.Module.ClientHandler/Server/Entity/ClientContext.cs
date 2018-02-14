@@ -6,7 +6,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Reflection;
 
-namespace EvoMp.Module.UserHandler.Server.Entity
+namespace EvoMp.Module.ClientHandler.Server.Entity
 {
     public class ClientContext : DbContext
     {

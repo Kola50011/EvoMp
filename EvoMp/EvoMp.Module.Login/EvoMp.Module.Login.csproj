@@ -29,6 +29,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Linux|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
@@ -39,11 +49,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.769.549, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
+    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.775.525, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
     </Reference>
     <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.769.549\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.775.525\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -80,18 +90,29 @@
       <Project>{F4B5EDA5-1BFB-46FD-920F-FEBC1CE90EA1}</Project>
       <Name>EvoMp.Core.Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.ClientHandler\EvoMp.Module.ClientHandler.csproj">
+      <Project>{5d3d1b81-db2f-4503-a6c9-df5d6468e355}</Project>
+      <Name>EvoMp.Module.ClientHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
       <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.UserHandler\EvoMp.Module.ClientHandler.csproj">
-      <Project>{5D3D1B81-DB2F-4503-A6C9-DF5D6468E355}</Project>
-      <Name>EvoMp.Module.ClientHandler</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Docs\Messages.md" />
     <None Include="packages.config" />
+    <None Include="Web\Login.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\AuthHandler.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\Login.html" />
+    <Content Include="Web\Login.js" />
+    <Content Include="Web\Register.html" />
+    <Content Include="Web\Register.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
