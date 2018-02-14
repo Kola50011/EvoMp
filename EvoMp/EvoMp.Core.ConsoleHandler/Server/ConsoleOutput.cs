@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using EvoMp.Core.ColorHandler.Server;
+using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -367,11 +368,11 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// <param name="simpeWriteLine">MEssage should only be printed with a simple Console.WriteLine?</param>
         public static void FinalConsoleWrite(string message, bool simpeWriteLine = false)
         {
-            const char horizontalBar = '─';
-
             WriteMessage();
 
-//            WriteInput();
+            // Write input line only after startup
+            if(Shared.StartUpCompleted)
+                WriteInput();
 
             void WriteMessage()
             {
@@ -383,31 +384,18 @@ namespace EvoMp.Core.ConsoleHandler.Server
                         return;
                     }
 
-                    // Cleanup & write
-                    //if (Console.BufferHeight - ConsoleHandler.WindowHeight > 0)
-                    //{
-                    //    // Last pos, clear line, write message & save top
-                    //    Console.SetCursorPosition(0, _lastConsoleTop);
-                    //    Console.Write("".PadRight(ConsoleHandler.WindowWidth));
-                    //}
-                    Thread.Sleep(500); // Debug
-
                     Console.SetCursorPosition(0, _lastConsoleTop);
-
                     Console.Write(ColorUtils.ColorizeAscii(message));
 
-                    Thread.Sleep(500); // Debug
                     // Remember cursor pos
                     _lastConsoleTop = Console.CursorTop;
-
 #if __MonoCS__
-                    if (_lastConsoleTop != Console.BufferHeight - 1)
+                    if (_lastConsoleTop < Console.BufferHeight - 1)
                         _lastConsoleTop -= 2;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
-                    {
                         _lastConsoleTop = Console.BufferHeight - 2;
-                    }
+
                     // Make buffer free for input box
                     if (Console.CursorTop + 3 > Console.BufferHeight)
                         Console.BufferHeight++;
@@ -422,13 +410,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 multipler = multipler < 0.9 ? multipler : (float) 0.9;
 
                 string timestampStr = ColorUtils.DarkUpHexColors(LastTimestamp, multipler);
-                string lineHead =
-                    $"~w~ │{string.Empty.PadRight(ConsoleUtils.LongestTypeLength + 2, horizontalBar)}~;~~w~│ ";
-                int lineWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
-
-                // Top Line
-                string topLine = $"{timestampStr}{lineHead}{"".PadRight(lineWidth, horizontalBar)}";
-
+               
                 // Middle (input) line
                 string inputLine =
                     $"{timestampStr}~w~ │{cInProps.TypeText(' ', " ")} ~;~~w~│ > {ConsoleInput.CurrentConsoleInput}";
@@ -438,28 +420,20 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     ColorUtils.CleanUp(inputLine).Length - ConsoleInput.CurrentConsoleInput.Length;
                 inputLine = inputLine + "".PadRight(ConsoleHandler.WindowWidth -
                                                     ColorUtils.CleanUp(inputLine).Length);
-
-                // Footer line
-                string footerLine = $"{timestampStr}{lineHead}{"".PadRight(lineWidth, horizontalBar)}";
                 ConsoleUtils.SafeSystemConsoleUse(() =>
                 {
                     // Set cursor left.
                     Console.CursorLeft = 0;
-#if !__MonoCS__
-                    // Write lines
-                    Console.Write(ColorUtils.ColorizeAscii($"{topLine}\n"));
-#endif
-                    Thread.Sleep(50); // Debug
                     int cursorInputTop = Console.CursorTop;
                     Console.Write(ColorUtils.ColorizeAscii($"{inputLine}\n"));
-#if !__MonoCS__
-                    Console.Write(ColorUtils.ColorizeAscii($"{footerLine}"));
+#if __MonoCS__
+                    cursorInputTop -= 1;
+                    _lastConsoleTop -= 1;
 #endif
-                    Thread.Sleep(50); // Debug
                     Console.CursorTop = cursorInputTop;
                     // Cursor inside input
-                    /*if (Console.CursorTop == Console.BufferHeight - 1)
-                        Console.CursorTop = Console.BufferHeight - 2;*/
+                    if (Console.CursorTop == Console.BufferHeight - 1)
+                        Console.CursorTop = Console.BufferHeight - 2;
                     Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + ConsoleInput.CurrentConsoleInput.Length;
                 });
             }
