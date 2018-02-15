@@ -102,7 +102,8 @@ nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.o
 # NuGet restore & Server build
 cd EvoMp
 nuget restore EvoMp.sln -NoCache -ConfigFile ~/.config/NuGet/NuGet.Config
-msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
+
+msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2 /p:Configuration=Linux EvoMp.sln
 ```
 ## Step 6 - Install nodeJs
 ```bash

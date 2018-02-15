@@ -32,7 +32,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Bind original Console.Out
             NewTextWriter = new CustomTextWriter();
             OriginalTextWriter = Console.Out;
-            //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
         }
@@ -64,12 +63,12 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             while (message.Length > maxMessageWidth)
             {
-                int space = message.LastIndexOf(" ", Math.Min(maxMessageWidth, message.Length),
+                int space = message.LastIndexOf(" ", Math.Max(Math.Min(maxMessageWidth, message.Length),0),
                     StringComparison.Ordinal);
                 if (space == -1)
                 {
-                    returnList.Add(message.Substring(0, Math.Min(maxMessageWidth, message.Length)));
-                    message = message.Substring(Math.Min(maxMessageWidth, message.Length)).Trim();
+                    returnList.Add(message.Substring(0, Math.Max(Math.Min(maxMessageWidth, message.Length),0)));
+                    message = message.Substring(Math.Max(Math.Min(maxMessageWidth, message.Length),0)).Trim();
                 }
                 else
                 {
@@ -391,7 +390,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop -= 2;
+                        _lastConsoleTop -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
