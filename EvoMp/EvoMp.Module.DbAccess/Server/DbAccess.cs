@@ -37,14 +37,14 @@ namespace EvoMp.Module.DbAccess.Server
                                           "MultipleActiveResultSets=True;";
 #else
                 string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;" +
-                            "Initial Catalog=" + dataBaseName +
-                            ";Integrated Security=True;" +
-                            $"Connect Timeout=30;" +
-                            $"Encrypt=False;" +
-                            $"TrustServerCertificate=True;" +
-                            $"ApplicationIntent=ReadWrite;" +
-                            "MultiSubnetFailover=False;" +
-                            "MultipleActiveResultSets = True;";
+                                          "Initial Catalog=" + dataBaseName +
+                                          ";Integrated Security=True;" +
+                                          $"Connect Timeout=30;" +
+                                          $"Encrypt=False;" +
+                                          $"TrustServerCertificate=True;" +
+                                          $"ApplicationIntent=ReadWrite;" +
+                                          "MultiSubnetFailover=False;" +
+                                          "MultipleActiveResultSets = True;";
 #endif
 
                 if (dbConnectionString == null || force)
@@ -53,39 +53,6 @@ namespace EvoMp.Module.DbAccess.Server
                     Environment.SetEnvironmentVariable("NameOrConnectionString",
                         Environment.GetEnvironmentVariable("EvoMp_dbConnectionString"));
             }
-
-            // Init reset procedure if database reset wanted.
-            if (ParameterHandler.GetValue("ResetDatabase") != null)
-            {
-                // Write console output
-                ConsoleOutput.WriteLine(ConsoleType.Database, $"Database reset!");
-                string sqlCommandText = $"DROP DATABASE {dataBaseName}";
-                dataBaseName = "Reset";
-                SetConnectionString(true);
-                string nameOrConnectionString = Environment.GetEnvironmentVariable("NameOrConnectionString");
-                if (nameOrConnectionString != null)
-                {
-                    SqlConnection connection = new SqlConnection(nameOrConnectionString);
-                    connection.Open();
-                    SqlCommand sqlCommand = new SqlCommand(sqlCommandText, connection);
-                    sqlCommand.ExecuteNonQuery();
-                    connection.Close();
-                }
-            }
-
-            // If Database reset -> restart
-            Shared.OnCoreStartupCompleted += () =>
-            {
-                if (ParameterHandler.GetValue("ResetDatabase") == null)
-                    return;
-
-                List<string> startArguments = Environment.GetCommandLineArgs().ToList();
-                startArguments.RemoveAt(0);
-
-                Process.Start(Environment.GetCommandLineArgs()[0],
-                    $"{string.Join(" ", startArguments).Replace("-ResetDatabase", "")}");
-                Process.GetCurrentProcess().Kill();
-            };
         }
 
 
@@ -94,11 +61,16 @@ namespace EvoMp.Module.DbAccess.Server
             "Wipes the complete Database. (Server restarts 2 Times to fool the Entity Framework Migrations.)")]
         public void ResetDatabaseConsoleCommand()
         {
+            //TODO: Linux support
+#if __MonoCS__
+            ConsoleOutput.WriteLine(ConsoleType.Error, "Currently not supported on Linux. See #23");
+#else
             List<string> startArguments = Environment.GetCommandLineArgs().ToList();
             startArguments.RemoveAt(0);
 
             Process.Start(Environment.GetCommandLineArgs()[0], $"{string.Join(" ", startArguments)} -ResetDatabase");
             Process.GetCurrentProcess().Kill();
+#endif
         }
     }
 }

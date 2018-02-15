@@ -67,9 +67,6 @@ namespace EvoMp.Module.VehicleHandler.Server
                     .Include(vDto => vDto.VehicleProperties)
                     .First(vdto => vdto.VehicleId == vehicleId);
 
-                // Check Vehicle Properties
-                CheckVehicleProperties();
-
                 Properties.DoorStates =
                     context.DoorStates.Where(doorState => doorState.VehicleId == vehicleId).ToList();
 
@@ -97,9 +94,6 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Rotation = rotation,
                 Dimension = dimension
             };
-
-            // Check Vehicle Properties
-            CheckVehicleProperties();
 
             Debug("Init - By vehicleHash, position, rotation, dimension.");
         }
@@ -177,38 +171,6 @@ namespace EvoMp.Module.VehicleHandler.Server
             }
 
             Debug("Update - Vehicle Modifications updated.");
-        }
-
-        private void CheckVehicleProperties()
-        {
-            // VehicleProperties setten -> return;
-            if (Properties.VehicleProperties != null)
-                return;
-
-            using (VehicleContext context = VehicleRepository.GetVehicleContext())
-            {
-                Properties.VehicleProperties =
-                    context.VehicleProperties.FirstOrDefault(vpDto => vpDto.VehicleHash == Properties.VehicleHash);
-
-                // VehicleProperties setten -> return;
-                if (Properties.VehicleProperties != null)
-                    return;
-
-                // Create new & save
-                Properties.VehicleProperties = context.VehicleProperties.Add(new VehiclePropertiesDto()
-                {
-                    VehicleHash = Properties.VehicleHash,
-                    BuildYear = 1996,
-                    Consumption = 5,
-                    DisplayName = API.shared.getVehicleDisplayName(Properties.VehicleHash),
-                    DoorCount = 5,
-                    FuelType = FuelType.Gasoline,
-                    MaxSpeed = 999,
-                    TankSize = 10,
-                    TrunkSize = 12,
-                });
-                context.SaveChanges();
-            }
         }
 
         public void UpdatePositionRotation()

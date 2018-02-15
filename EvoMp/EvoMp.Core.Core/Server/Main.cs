@@ -1,5 +1,6 @@
 using System;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
@@ -23,7 +24,6 @@ namespace EvoMp.Core.Core.Server
 
         public Main()
         {
-
             DbConfiguration.SetConfiguration(new QueryLogDbConfiguration());
             try
             {
@@ -41,6 +41,8 @@ namespace EvoMp.Core.Core.Server
 
                 // Load Console params
                 ParameterHandler.LoadParams();
+
+                CheckDatabaseReset();
 
                 // Load logo
                 ParameterHandler.SetDefault("LogoPath", "./ServerFiles/Default_Logo.txt");
@@ -163,6 +165,37 @@ namespace EvoMp.Core.Core.Server
             {
                 ConsoleOutput.FinalConsoleWrite(e.ToString(), true);
             }
+        }
+
+        /// <summary>
+        ///     Checks if the Database should reset.
+        /// </summary>
+        private static void CheckDatabaseReset()
+        {
+            // Init reset procedure if database reset wanted.
+            if (ParameterHandler.GetValue("ResetDatabase") == null)
+                return;
+
+            const string database = "EvoMpGtMpServer";
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;" +
+                                      //"Initial Catalog=master" +
+                                      ";Integrated Security=True;" +
+                                      $"Connect Timeout=30;" +
+                                      $"Encrypt=False;" +
+                                      $"TrustServerCertificate=True;" +
+                                      $"ApplicationIntent=ReadWrite;" +
+                                      "MultiSubnetFailover=False;" +
+                                      "MultipleActiveResultSets = True;";
+
+            // Write console output
+            ConsoleOutput.WriteLine(ConsoleType.Database, $"Deleting Database ~o~{database}~;~.");
+            string sqlCommandText = $"DROP DATABASE {database}";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            SqlCommand sqlCommand = new SqlCommand(sqlCommandText, connection);
+            sqlCommand.ExecuteNonQuery();
+            connection.Close();
+            ConsoleOutput.WriteLine(ConsoleType.Database, $"Database ~o~{database}~;~ deleted.");
         }
     }
 }

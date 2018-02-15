@@ -99,7 +99,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 List<string> messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
                 if (messageColorCodes.Any())
-                    messageStartColorCode = "~" + messageColorCodes[0] + "~";
+                    messageStartColorCode = "~" + messageColorCodes.Last() + "~";
             }
 
             // Cut messages to fit in the console
@@ -107,13 +107,20 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 // wrap messages if they are too long for the console space
                 string[] wrappedMessages = WordWrapMessage(messages[i]);
+                List<string> messageColorCodes = new List<string>();
+                string lastColorCode = "";
                 for (int b = 0; b < wrappedMessages.Length; b++)
                 {
+                    // Check for last message color code to continue new line with the same color code.
+                    if (messageColorCodes.Any())
+                        lastColorCode = "~" + messageColorCodes.Last() + "~";
+
                     bool firstMessageOfSet = i == 0 && b == 0;
                     bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
-                    InternalWrite(consoleType, messageStartColorCode + _prefix + wrappedMessages[b] + "\n", false, "",
+                    InternalWrite(consoleType, $"{messageStartColorCode}{_prefix}{lastColorCode}{wrappedMessages[b]}\n", false, "",
                         firstMessageOfSet,
                         lastMessageOfSet);
+                    messageColorCodes = ColorUtils.ParseColorCodesSimple(wrappedMessages[b]);
                 }
             }
         }
