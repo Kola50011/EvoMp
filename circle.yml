@@ -11,15 +11,14 @@ jobs:
       - checkout
       # Server side
       - run: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; echo "deb http://download.mono-project.com/repo/ubuntu xenial main" | tee /etc/apt/sources.list.d/mono-official.list; apt-get update;
-      - run: apt-get update; apt-get install mono-devel -y #mono-complete -y
-      - run: apt-get update; apt-get install nuget -y
+      - run: apt-get update; apt-get install mono-devel nuget zip -y
       - run: nuget setapikey acaa0928-8a4a-4d36-82a3-14b3ab8452fc -source https://www.myget.org/F/gt5mp/api/v2; nuget sources add -Name "grandtheftmultiplayer.api" -source "https://www.myget.org/F/gt5mp/api/v2" -User Ruffo -pass nussknacker63 -ConfigFile /root/.config/NuGet/NuGet.Config;  
       - run:
           path: /temp/EvoMp
           command: nuget restore EvoMp.sln -NoCache -ConfigFile /root/.config/NuGet/NuGet.Config   
       - run:
           path: /temp/EvoMp
-          command: msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2
+          command: msbuild EvoMp.sln /p:TargetFrameworkVersion=v4.6.2 /p:Configuration=Linux-Release
       # Client side
       - run: curl -sL https://deb.nodesource.com/setup_8.x | bash - ; apt-get install -y nodejs; #NodeJs
       - run: apt-get install apt-transport-https -y; curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -""; echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; apt-get update && apt-get install yarn; #Yarn
@@ -29,10 +28,15 @@ jobs:
       - run:
           path: /temp
           command: yarn build
-      # Start Server
-      #- run:
-      #    path: /temp/GTMP_Server
-      #    command: mono GrandTheftMultiplayer.Server.exe
-
+      # Start Server in onlyCopy
+      - run:
+          path: /temp/GTMP_Server
+          command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
+      #zip and archive
+      - run:
+          path: /temp
+          command: zip -r GTMP_Server.zip GTMP_Server
+      - store_artifacts:
+          path: /temp/GTMP_Server.zip
 
             
