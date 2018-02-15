@@ -326,3 +326,5 @@ GTMP_Server/EvoMp.*
 obj/Debug/*
 obj/Release/*
 .cache
+EvoMp/EvoMp.Module.Login/Client/AuthHandler.js.map
+EvoMp/EvoMp.Module.Login/Client/AuthHandler.js

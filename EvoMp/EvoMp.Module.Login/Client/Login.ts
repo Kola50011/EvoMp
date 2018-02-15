@@ -19,6 +19,7 @@ export default async function openLogin(username: string): Promise<void> {
   const loginWindow = new Cef('Login', 'dist/Login.html', {})
   loginWindow.addEventListener('LoginAttempt', sendAuthRequest)
   await loginWindow.load()
+  API.showCursor(true)
 
   const authResponseListener = EventHandler.subscribe('AuthResponse', (args: string) => {
     const response: AuthResponse = JSON.parse(args)

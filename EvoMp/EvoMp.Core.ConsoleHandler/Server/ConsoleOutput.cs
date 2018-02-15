@@ -32,7 +32,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Bind original Console.Out
             NewTextWriter = new CustomTextWriter();
             OriginalTextWriter = Console.Out;
-            //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
         }

@@ -1,6 +1,6 @@
 /// <reference path='../../../typings/index.d.ts' />
 
-import Cef from '../../EvoMp.Module.Cef/Client/Cef'
+// import Cef from '../../EvoMp.Module.Cef/Client/Cef'
 import EventHandler from '../../EvoMp.Module.EventHandler/Client/EventHandler'
 import openLogin from './Login'
 import openRegister from './Register'
@@ -37,8 +37,8 @@ async function initAuthentication() {
     onOpenListener.unsubscribe()
   })
 
-  const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
-  await cefWindow.load()
-  API.showCursor(true);
+  // const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
+  // await cefWindow.load()
+  // API.showCursor(true)
   API.triggerServerEvent('ready')
 }

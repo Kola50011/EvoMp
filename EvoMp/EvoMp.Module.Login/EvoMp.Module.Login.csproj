@@ -107,6 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Client\AuthHandler.ts" />
+    <TypeScriptCompile Include="Client\AuthOpen.ts" />
+    <TypeScriptCompile Include="Client\AuthRequest.ts" />
+    <TypeScriptCompile Include="Client\AuthResponse.ts" />
+    <TypeScriptCompile Include="Client\Login.ts" />
+    <TypeScriptCompile Include="Client\Register.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web\Login.html" />

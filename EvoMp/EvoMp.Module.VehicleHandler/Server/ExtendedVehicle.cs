@@ -283,7 +283,8 @@ namespace EvoMp.Module.VehicleHandler.Server
             Vehicle newVehicle = API.shared.createVehicle(Properties.VehicleHash,
                 Properties.Position, Properties.Rotation, 1, 1,
                 Properties.Dimension);
-            newVehicle.waitForSynchronization(200);
+
+            newVehicle.waitForSynchronization();
 
             // Set Global VehicleHandle
             VehicleHandle = newVehicle;
