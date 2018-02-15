@@ -54,14 +54,9 @@ namespace EvoMp.Core.Core.Server
                     "EvoMp.Module.*.*",
                     SearchOption.AllDirectories).ToList();
                 newModules = newModules.Select(file => file.Replace(@"\", "/")).ToList();
-#if __MonoCS__
-                newModules = newModules.Where(path => path.Contains("bin/") && path.Contains("Linux"))
-#elif DEBUG
-                newModules = newModules.Where((path) => path.Contains("bin/") && path.Contains("Debug"))
-#else //TODO: Linux support (release)
-                newModules = newModules.Where(path => path.Contains("bin\\") && path.Contains(@"Release"))
-#endif
-                    .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb"))
+
+                newModules = newModules.Where(path => path.Contains("bin/"))
+                    .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb") || file.ToLower().EndsWith("xml"))
                     .ToList();
 
                 const string slash = "/";
