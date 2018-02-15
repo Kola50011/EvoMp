@@ -18,3 +18,7 @@
     error: Array<string>
   }
 ```
+
+# Sending messages:
+
+Messages are sent in JSON format (args[0])
