@@ -4,6 +4,7 @@ using System.Linq;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.VehicleUtils.Server
 {
@@ -14,19 +15,14 @@ namespace EvoMp.Module.VehicleUtils.Server
             return GetVehiclesByName(searchVehicleName);
         }
 
-        List<VehicleHash> IVehicleUtils.GetVehiclesByCategory(VehicleCategory category)
+        List<VehicleHash> IVehicleUtils.GetVehiclesByClass(VehicleClass vehicleClass)
         {
-            return GetVehiclesByCategory(category);
+            return GetVehiclesByClass(vehicleClass);
         }
 
         List<VehicleHash> IVehicleUtils.GetVehiclesByIngameName(string searchIngameVehicleName)
         {
             return GetVehiclesByIngameName(searchIngameVehicleName);
-        }
-
-        VehicleCategory IVehicleUtils.GetVehicleCategory(VehicleHash vehicleHash)
-        {
-            return GetVehicleCategory(vehicleHash);
         }
 
         public static List<VehicleHash> GetVehiclesByName(string searchVehicleName)
@@ -50,10 +46,10 @@ namespace EvoMp.Module.VehicleUtils.Server
             return vehicleHashes;
         }
 
-        public static List<VehicleHash> GetVehiclesByCategory(VehicleCategory category)
+        public static List<VehicleHash> GetVehiclesByClass(VehicleClass category)
         {
             return Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>()
-                .Where(vehicleHash => GetVehicleCategory(vehicleHash) == category).ToList();
+                .Where(vehicleHash => (VehicleClass)API.shared.getVehicleClass(vehicleHash) == category).ToList();
         }
 
         public static List<VehicleHash> GetVehiclesByIngameName(string searchIngameVehicleName)
@@ -78,11 +74,6 @@ namespace EvoMp.Module.VehicleUtils.Server
                 !vehicleHashes.Contains(vehicleHash)));
 
             return vehicleHashes;
-        }
-
-        public static VehicleCategory GetVehicleCategory(VehicleHash vehicleHash)
-        {
-            return (VehicleCategory) API.shared.getVehicleClass(vehicleHash);
         }
     }
 }

@@ -20,6 +20,9 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleHash")]
         public VehicleHash VehicleHash { get; set; }
 
+        [ForeignKey("VehicleHash")]
+        public VehiclePropertiesDto VehicleProperties { get; set; }
+
         [NotMapped]
         public Vector3 Position
         {

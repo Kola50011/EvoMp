@@ -8,6 +8,7 @@ using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.TestModule.Server.Debuging
 {
@@ -44,7 +45,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
 
             _messageHandler.PlayerMessage(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{VehicleUtils.Server.VehicleUtils.GetVehicleCategory(possibleVehicles.First())}~c~)~w~ created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
 
             sender.setIntoVehicle(newExtendedVehicle.VehicleHandle, -1);
 
