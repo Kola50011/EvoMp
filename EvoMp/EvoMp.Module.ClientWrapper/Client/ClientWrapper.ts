@@ -11,7 +11,7 @@ function registerEvents() {
 
 function initGetFunctions() {
   EventHandler.subscribe('ClientWrapper.Get.getStreetName', (args: any) => {
-    API.triggerServerEvent('ClientWrapper.Get.getStreetName', API.getStreetName(args[0]));
+    API.triggerServerEvent(args[0], API.getStreetName(args[1]))
   })
 }
 
