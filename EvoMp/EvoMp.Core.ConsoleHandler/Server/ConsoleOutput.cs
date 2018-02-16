@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using EvoMp.Core.ColorHandler.Server;
 using EvoMp.Core.Module.Server;
 
@@ -14,7 +13,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static string LastTimestamp = string.Empty;
         internal static int CountSameTimestamp = -1;
         internal static int LastHeaderLength;
-        private static int _lastConsoleTop = 0;
+        private static int _lastConsoleTop;
         private static string _prefix = string.Empty;
         internal static int PrefixLength;
 
@@ -32,6 +31,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Bind original Console.Out
             NewTextWriter = new CustomTextWriter();
             OriginalTextWriter = Console.Out;
+            //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
         }
@@ -43,7 +43,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            int maxMessageWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
+            var maxMessageWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
 
             // InsertLineAbove identifier avalible -> line top as first
             if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier))
@@ -57,18 +57,18 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
-                return new[] {message};
+                return new[] { message };
 
-            List<string> returnList = new List<string>();
+            var returnList = new List<string>();
 
             while (message.Length > maxMessageWidth)
             {
-                int space = message.LastIndexOf(" ", Math.Max(Math.Min(maxMessageWidth, message.Length),0),
+                var space = message.LastIndexOf(" ", Math.Max(Math.Min(maxMessageWidth, message.Length), 0),
                     StringComparison.Ordinal);
                 if (space == -1)
                 {
-                    returnList.Add(message.Substring(0, Math.Max(Math.Min(maxMessageWidth, message.Length),0)));
-                    message = message.Substring(Math.Max(Math.Min(maxMessageWidth, message.Length),0)).Trim();
+                    returnList.Add(message.Substring(0, Math.Max(Math.Min(maxMessageWidth, message.Length), 0)));
+                    message = message.Substring(Math.Max(Math.Min(maxMessageWidth, message.Length), 0)).Trim();
                 }
                 else
                 {
@@ -76,6 +76,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     message = message.Substring(space).Trim();
                 }
             }
+
             returnList.Add(message);
 
             return returnList.ToArray();
@@ -91,36 +92,29 @@ namespace EvoMp.Core.ConsoleHandler.Server
             }
 
             // Parse linebreaks for clear output
-            string[] messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
-            string messageStartColorCode = "";
+            var messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            var messageStartColorCode = "";
 
             // Search for message starting color code. Used to add same color code to splitted lines
             if (messages.Any())
             {
-                List<string> messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
+                var messageColorCodes = ColorUtils.ParseColorCodesSimple(messages[0]);
                 if (messageColorCodes.Any())
-                    messageStartColorCode = "~" + messageColorCodes.Last() + "~";
+                    messageStartColorCode = "~" + messageColorCodes[0] + "~";
             }
 
             // Cut messages to fit in the console
-            for (int i = 0; i < messages.Length; i++)
+            for (var i = 0; i < messages.Length; i++)
             {
                 // wrap messages if they are too long for the console space
-                string[] wrappedMessages = WordWrapMessage(messages[i]);
-                List<string> messageColorCodes = new List<string>();
-                string lastColorCode = "";
-                for (int b = 0; b < wrappedMessages.Length; b++)
+                var wrappedMessages = WordWrapMessage(messages[i]);
+                for (var b = 0; b < wrappedMessages.Length; b++)
                 {
-                    // Check for last message color code to continue new line with the same color code.
-                    if (messageColorCodes.Any())
-                        lastColorCode = "~" + messageColorCodes.Last() + "~";
-
-                    bool firstMessageOfSet = i == 0 && b == 0;
-                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
-                    InternalWrite(consoleType, $"{messageStartColorCode}{_prefix}{lastColorCode}{wrappedMessages[b]}\n", false, "",
+                    var firstMessageOfSet = i == 0 && b == 0;
+                    var lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
+                    InternalWrite(consoleType, messageStartColorCode + _prefix + wrappedMessages[b] + "\n", false, "",
                         firstMessageOfSet,
                         lastMessageOfSet);
-                    messageColorCodes = ColorUtils.ParseColorCodesSimple(wrappedMessages[b]);
                 }
             }
         }
@@ -133,22 +127,22 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            string[] messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
+            var messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
 
             // No text -> return;
             if (!messages.Any())
                 return;
 
             //Make each line the same length
-            int longestTextLine = messages.OrderBy(s => s.Length).First().Length;
-            for (int i = 0; i < messages.Length; i++)
+            var longestTextLine = messages.OrderBy(s => s.Length).First().Length;
+            for (var i = 0; i < messages.Length; i++)
             {
                 // wrapp messages if they are to long for the console space
-                string[] wrappedMessages = WordWrapMessage(messages[i]);
-                for (int b = 0; b < wrappedMessages.Length; b++)
+                var wrappedMessages = WordWrapMessage(messages[i]);
+                for (var b = 0; b < wrappedMessages.Length; b++)
                 {
-                    bool firstMessageOfSet = i == 0 && b == 0;
-                    bool lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
+                    var firstMessageOfSet = i == 0 && b == 0;
+                    var lastMessageOfSet = i == messages.Length - 1 && b == wrappedMessages.Length - 1;
                     InternalWrite(consoleType,
                         _prefix + ConsoleUtils.AlignText(wrappedMessages[b], longestTextLine, true), true, "\n",
                         firstMessageOfSet, lastMessageOfSet);
@@ -216,24 +210,24 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             message = message.Replace("\r\n", "\n");
 
-            List<string> colorCodes = ColorUtils.ParseColorCodesSimple(message);
+            var colorCodes = ColorUtils.ParseColorCodesSimple(message);
 
             // Format message output
-            string writeMessage = string.Empty;
+            var writeMessage = string.Empty;
 
             // Save the color codes if the message starts with any
             // Used for mutiline control codes
-            string firstMessageColorCodes = "";
-            foreach (string colorCode in colorCodes)
+            var firstMessageColorCodes = "";
+            foreach (var colorCode in colorCodes)
                 if (message.StartsWith($"{firstMessageColorCodes}{colorCode}"))
                     firstMessageColorCodes += colorCode;
 
             //ConsoleUtils.ParseColorCodesSimple(message);
 
-            bool wasControlCodeLine = false;
-            bool messageHasLinebreak = false;
+            var wasControlCodeLine = false;
+            var messageHasLinebreak = false;
 
-            int maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
+            var maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
 
             // Prepare message.
             if (message.EndsWith("\n"))
@@ -241,16 +235,17 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 messageHasLinebreak = true;
                 message = message.Substring(0, message.Length - "\n".Length);
             }
+
             message = message.Replace("\t", "  ");
 
             // Get consoleType properties & parse message colors
-            ConsoleTypeProperties typeProperties = ConsoleUtils.GetConsoleTypeProperties(consoleType);
+            var typeProperties = ConsoleUtils.GetConsoleTypeProperties(consoleType);
 
             #region Prepare Head and lines
 
             if (consoleType != ConsoleType.Empty)
             {
-                string timestamp = $"~#FFFFFF~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
+                var timestamp = $"~#FFFFFF~{DateTime.Now.ToString(CultureInfo.CurrentUICulture)}";
 
                 // Timestamp didn't changed -> dark it up
                 if (LastTimestamp != timestamp)
@@ -258,8 +253,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                 LastTimestamp = timestamp;
                 CountSameTimestamp++;
-                float multiplier = (float) 0.011 * CountSameTimestamp;
-                timestamp = ColorUtils.DarkUpHexColors(timestamp, multiplier < 0.9 ? multiplier : (float) 0.9);
+                var multiplier = (float)0.011 * CountSameTimestamp;
+                timestamp = ColorUtils.DarkUpHexColors(timestamp, multiplier < 0.9 ? multiplier : (float)0.9);
 
 
                 // Write log type information
@@ -283,8 +278,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                     if (LastHeaderLength < message.Length)
                     {
-                        int colorCodeLength = message.Length - ColorUtils.CleanUp(message).Length;
-                        string colorCode = message.Substring(0, colorCodeLength);
+                        var colorCodeLength = message.Length - ColorUtils.CleanUp(message).Length;
+                        var colorCode = message.Substring(0, colorCodeLength);
                         message = colorCode + message.Substring(LastHeaderLength);
                     }
                 }
@@ -293,14 +288,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
             #endregion //Prepare Head and lines
 
             // Get message color from type
-            string consoleTypeTextColorCode = typeProperties.TextCode;
+            var consoleTypeTextColorCode = typeProperties.TextCode;
 
 
             // Filter all control codes from the typetextcode to use it as reset code
-            string harmlessTypeTextCode = consoleTypeTextColorCode;
+            var harmlessTypeTextCode = consoleTypeTextColorCode;
             foreach (ColorCode colorCode in Enum.GetValues(typeof(ColorCode)))
             {
-                ColorCodeProperty colorCodeProperty = ColorUtils.GetColorCodeProperty(colorCode);
+                var colorCodeProperty = ColorUtils.GetColorCodeProperty(colorCode);
                 if (colorCodeProperty.HasSpecialLogic)
                     harmlessTypeTextCode = harmlessTypeTextCode.Replace(colorCodeProperty.Identifier, "");
             }
@@ -326,7 +321,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
 
             // React to some special control codes
-            bool printLineBottom = false;
+            var printLineBottom = false;
 
             // Line Above
             if (firstMessageOfSet)
@@ -341,9 +336,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Append message to complete message
             writeMessage += message;
 
-            int fillUpLength = ConsoleHandler.WindowWidth -
+            var fillUpLength = ConsoleHandler.WindowWidth -
                                ColorUtils.CleanUp(writeMessage + suffix).Replace("\n", "").Length;
-            string fillUpString = "".PadRight(fillUpLength > 0 ? fillUpLength : 0);
+            var fillUpString = "".PadRight(fillUpLength > 0 ? fillUpLength : 0);
 
             // Add suffixs and possible linebreak
             writeMessage += "~;~" + fillUpString + suffix;
@@ -352,7 +347,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 writeMessage += "\n";
 
             // Replace reset controlcode with message defaultColor + resetControl
-            string resetIdentifer = ColorUtils.GetColorCodeProperty(ColorCode.ResetColor).Identifier;
+            var resetIdentifer = ColorUtils.GetColorCodeProperty(ColorCode.ResetColor).Identifier;
             if (writeMessage.Contains(resetIdentifer))
                 writeMessage = writeMessage.Replace(resetIdentifer,
                     $"{resetIdentifer}{harmlessTypeTextCode}");
@@ -377,7 +372,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             WriteMessage();
 
             // Write input line only after startup
-            if(Shared.StartUpCompleted)
+            if (Shared.StartUpCompleted)
                 WriteInput();
 
             void WriteMessage()
@@ -390,18 +385,29 @@ namespace EvoMp.Core.ConsoleHandler.Server
                         return;
                     }
 
-                    Console.SetCursorPosition(0, _lastConsoleTop);
+                    // left and top must be positive and below the buffer width.
+                    var setLeft = 0;
+                    var setTop = _lastConsoleTop;
+                    if (setLeft >= 0 && setTop >= 0 && setLeft < Console.BufferWidth && setTop < Console.BufferHeight)
+                        Console.SetCursorPosition(setLeft, setTop);
+
                     Console.Write(ColorUtils.ColorizeAscii(message));
 
                     // Remember cursor pos
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop -= 1;
+                        _lastConsoleTop
+ -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
 
+                    // Make positive to avoid errors
+                    if (_lastConsoleTop < 0)
+                    {
+                        _lastConsoleTop = 0;
+                    }
                     // Make buffer free for input box
                     if (Console.CursorTop + 3 > Console.BufferHeight)
                         Console.BufferHeight++;
@@ -411,14 +417,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             void WriteInput()
             {
-                ConsoleTypeProperties cInProps = ConsoleUtils.GetConsoleTypeProperties(ConsoleType.ConsoleInput);
-                float multipler = (float) 0.011 * CountSameTimestamp;
-                multipler = multipler < 0.9 ? multipler : (float) 0.9;
+                var cInProps = ConsoleUtils.GetConsoleTypeProperties(ConsoleType.ConsoleInput);
+                var multipler = (float)0.011 * CountSameTimestamp;
+                multipler = multipler < 0.9 ? multipler : (float)0.9;
 
-                string timestampStr = ColorUtils.DarkUpHexColors(LastTimestamp, multipler);
-               
+                var timestampStr = ColorUtils.DarkUpHexColors(LastTimestamp, multipler);
+
                 // Middle (input) line
-                string inputLine =
+                var inputLine =
                     $"{timestampStr}~w~ │{cInProps.TypeText(' ', " ")} ~;~~w~│ > {ConsoleInput.CurrentConsoleInput}";
 
                 // Input cursor position & fill up input
@@ -430,11 +436,12 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 {
                     // Set cursor left.
                     Console.CursorLeft = 0;
-                    int cursorInputTop = Console.CursorTop;
+                    var cursorInputTop = Console.CursorTop;
                     Console.Write(ColorUtils.ColorizeAscii($"{inputLine}\n"));
 #if __MonoCS__
                     cursorInputTop -= 1;
-                    _lastConsoleTop -= 1;
+                    _lastConsoleTop
+ -= 1;
 #endif
                     Console.CursorTop = cursorInputTop;
                     // Cursor inside input
@@ -444,13 +451,13 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 });
             }
 
-             //Thread.Sleep(50); // Debug
+            //Thread.Sleep(50); // Debug
         }
 
 
         public static void WriteException(string message)
         {
-            Exception exception = new Exception(message);
+            var exception = new Exception(message);
             message = $"Exception: ~o~{exception.Message}~;~\n" +
                       $"at: ~o~{exception.Source}~;~\n" +
                       $"{" ".PadRight(60, '-')}\n" +
@@ -467,7 +474,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void PrintLine(string linePattern, string colorCode = "",
             ConsoleType consoleType = ConsoleType.Line)
         {
-            string returnString = colorCode;
+            var returnString = colorCode;
 
             // Generate line
             for (var i = 0;
