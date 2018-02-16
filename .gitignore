@@ -328,3 +328,10 @@ obj/Release/*
 .cache
 EvoMp/EvoMp.Module.Login/Client/AuthHandler.js.map
 EvoMp/EvoMp.Module.Login/Client/AuthHandler.js
+EvoMp/EvoMp.Module.EventHandler/Client/EventListener.js
+EvoMp/EvoMp.Module.EventHandler/Client/EventHandler.js.map
+EvoMp/EvoMp.Module.EventHandler/Client/EventHandler.js
+EvoMp/EvoMp.Module.ClientWrapper/Client/ClientWrapper.js.map
+EvoMp/EvoMp.Module.EventHandler/Client/EventListener.js.map
+EvoMp/EvoMp.Module.ClientWrapper/Client/ClientWrapper.js
+EvoMp/EvoMp.Module.ClientWrapper/Client/SetFunctions.js.map
