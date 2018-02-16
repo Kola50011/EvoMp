@@ -280,7 +280,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        ///     Spawns the extended Vehicle on the server
+        ///     Spawns the extended Vehicle on the server.
         /// </summary>
         public void Create()
         {
