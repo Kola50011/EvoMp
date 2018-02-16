@@ -388,8 +388,15 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     // left and top must be positive and below the buffer width.
                     var setLeft = 0;
                     var setTop = _lastConsoleTop;
-                    if (setLeft >= 0 && setTop >= 0 && setLeft < Console.BufferWidth && setTop < Console.BufferHeight)
-                        Console.SetCursorPosition(setLeft, setTop);
+
+                    if (setLeft >= 0 && setLeft < Console.BufferWidth)
+                    {
+                        Console.CursorLeft = setLeft;
+                    }
+                    if (setTop >= 0 && setTop < Console.BufferHeight)
+                    {
+                        Console.CursorTop = setTop;
+                    }
 
                     Console.Write(ColorUtils.ColorizeAscii(message));
 
@@ -397,8 +404,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop
- -= 1;
+                        _lastConsoleTop -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
