@@ -33,10 +33,10 @@ jobs:
           path: /temp/GTMP_Server
           command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
       #zip and archive
-      - run:
-          path: /temp
-          command: zip -r GTMP_Server.zip GTMP_Server
-      - store_artifacts:
-          path: /temp/GTMP_Server.zip
-      - store_artifacts:
-          path: /temp/GTMP_Server
+      # - run:
+      #     path: /temp
+      #     command: zip -r GTMP_Server.zip GTMP_Server
+      # - store_artifacts:
+      #     path: /temp/GTMP_Server.zip
+      # - store_artifacts:
+      #     path: /temp/GTMP_Server
