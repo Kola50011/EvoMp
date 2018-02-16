@@ -23,7 +23,7 @@ namespace EvoMp.Module.TestModule.Server
             ExtendedVehicleTest = new ExtendedVehicleTest(api, vehicleHandler, messageHandler);
 
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
-            ClientWrapperTest = new ClientWrapperTest(clientWrapper);
+            ClientWrapperTest = new ClientWrapperTest(api, clientWrapper, messageHandler);
         }
     }
 }

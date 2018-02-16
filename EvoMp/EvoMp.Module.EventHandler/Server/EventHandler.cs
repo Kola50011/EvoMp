@@ -26,14 +26,15 @@ namespace EvoMp.Module.EventHandler.Server
         public void InvokeClientEvent(Client client, string eventName, params object[] args)
         {
             ConsoleOutput.WriteLine(ConsoleType.Event,
-                eventName + " for " + client.name + " with " + JsonConvert.SerializeObject(args));
+                $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
             _api.triggerClientEvent(client, eventName, args);
         }
 
         public void InvokeClientEvent(string eventName, params object[] args)
         {
             ConsoleOutput.WriteLine(ConsoleType.Event,
-                eventName + "for everyone with " + JsonConvert.SerializeObject(args));
+                $"~#85a7dd~{eventName}~;~ ~w~>> ~w~everyone ~c~{JsonConvert.SerializeObject(args)}");
+
             _api.triggerClientEventForAll(eventName, args);
         }
 
@@ -55,14 +56,14 @@ namespace EvoMp.Module.EventHandler.Server
             _subscriberList.Set(eventName, list);
         }
 
-        public void InvokeServerEvent(Client client, string eventName, object[] args)
+        private void InvokeServerEvent(Client client, string eventName, object[] args)
         {
             // Create emtpy object if null.
             if(args == null)
                 args = new object[]{};
 
-            ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
-                                                       JsonConvert.SerializeObject(args));
+            ConsoleOutput.WriteLine(ConsoleType.Event,
+                $"~w~{client.name} ~w~>> ~#85a7dd~{eventName}~;~ ~c~{JsonConvert.SerializeObject(args)}");
 
             if (!_subscriberList.ContainsKey(eventName))
                 return;

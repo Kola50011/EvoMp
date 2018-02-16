@@ -30,10 +30,6 @@ namespace EvoMp.Module.ClientWrapper.Server
         {
             _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setCanOpenChat", show);
         }
-        public void SetDisplayWastedShard(Client sender, bool show)
-        {
-            _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setDisplayWastedShard", show);
-        }
         public void SetUiColor(Client sender, int red, int green, int blue)
         {
             _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setUiColor", red, green, blue);
@@ -70,9 +66,9 @@ namespace EvoMp.Module.ClientWrapper.Server
         {
             _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setVehicleSpecialLightStatus", vehicle, status);
         }
-        public void SetEntityCollissionless(Client sender, NetHandle entity, bool status)
+        public void SetEntityCollisionless(Client sender, NetHandle entity, bool status)
         {
-            _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setEntityCollissionless", entity, status);
+            _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setEntityCollisionless", entity, status);
         }
         public void SetVehicleMod(Client sender, NetHandle vehicle, int slot, int modType)
         {
@@ -318,6 +314,25 @@ namespace EvoMp.Module.ClientWrapper.Server
         {
             _eventHandler.InvokeClientEvent(sender, "ClientWrapper.Set.setTime", hours, minutes);
         }
-        
+
+
+        //TODO: implement
+        //setCameraShake(cam: GTANetwork.Javascript.GlobalCamera, shakeType: string, amplitute: number): void;
+        //setCameraPosition(cam: GTANetwork.Javascript.GlobalCamera, pos: Vector3): void;
+        //setCameraRotation(cam: GTANetwork.Javascript.GlobalCamera, rotation: Vector3): void;
+        //setCameraFov(cam: GTANetwork.Javascript.GlobalCamera, fov: number): void;
+        //setActiveCamera(camera: GTANetwork.Javascript.GlobalCamera): void;
+        //public boolean setEntitySyncedData(entity: GTANetwork.Util.LocalHandle, key: string, data: any): ;
+        //public boolean setWorldSyncedData(key: string, data: any): ;
+
+        //setCefBrowserSize(browser: GTANetwork.GUI.Browser, width: number, height: number): void;
+        //setCefBrowserHeadless(browser: GTANetwork.GUI.Browser, headless: boolean): void;
+        //setCefBrowserPosition(browser: GTANetwork.GUI.Browser, xPos: number, yPos: number): void;
+
+        //public void setMenuBannerSprite(menu: NativeUI.UIMenu, string spritedict, string spritename);
+        //public void setMenuBannerTexture(menu: NativeUI.UIMenu, string path);
+        //public void setMenuBannerRectangle(menu: NativeUI.UIMenu, alpha: number, red: number, green: number, blue: number);
+        //public void setMenuTitle(menu: NativeUI.UIMenu, string title);
+        //public void setMenuSubtitle(menu: NativeUI.UIMenu, string text);
     }
 }

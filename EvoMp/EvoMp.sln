@@ -44,20 +44,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{D51D20
 		..\yarn.lock = ..\yarn.lock
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "typings", "typings", "{4032BEA5-165C-4976-AD86-EB495F177042}"
-	ProjectSection(SolutionItems) = preProject
-		typings\Declarations.d.ts = typings\Declarations.d.ts
-		typings\Enums.ts = typings\Enums.ts
-		typings\GTANetwork.dll.d.ts = typings\GTANetwork.dll.d.ts
-		typings\GTANetworkShared.dll.d.ts = typings\GTANetworkShared.dll.d.ts
-		typings\index.d.ts = typings\index.d.ts
-		typings\NativeUI.dll.d.ts = typings\NativeUI.dll.d.ts
-		typings\ScriptHookVDotNet.dll.d.ts = typings\ScriptHookVDotNet.dll.d.ts
-		typings\System.d.ts = typings\System.d.ts
-		typings\System.Drawing.dll.d.ts = typings\System.Drawing.dll.d.ts
-		typings\Xilium.CefGlue.dll.d.ts = typings\Xilium.CefGlue.dll.d.ts
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{29845475-AB8D-4D36-BFF2-7F7153167842}"
 	ProjectSection(SolutionItems) = preProject
 		..\Build\CreateMeta.js = ..\Build\CreateMeta.js
@@ -252,7 +238,6 @@ Global
 		{EE63F684-46DB-466E-82B2-74F988F3DD4B} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 		{CF764600-E3A0-46BF-8CC9-7AA352D07B4E} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{C0437DC2-2BB7-4AF0-89A9-22CE4B6E7C25} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
-		{4032BEA5-165C-4976-AD86-EB495F177042} = {D51D2071-6765-4DCC-9627-A3949D8C1DFD}
 		{29845475-AB8D-4D36-BFF2-7F7153167842} = {D51D2071-6765-4DCC-9627-A3949D8C1DFD}
 		{1540F9A6-A25C-46B5-8A25-B3D9F3DA3358} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{340F8F6E-0B27-4EA5-90E9-ECB208808F32} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}

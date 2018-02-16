@@ -11,10 +11,12 @@ namespace EvoMp.Module.ClientWrapper.Server
     public class ClientWrapper : IClientWrapper
     {
         public ISetFunctions Setter { get; }
+        public IGetFunctions Getter { get; }
 
-        public ClientWrapper(IEventHandler eventHandler)
+        public ClientWrapper(API api, IEventHandler eventHandler)
         {
             Setter = new SetFunctions(eventHandler);
+            Getter = new GetFunctions(api, eventHandler);
             eventHandler.SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
         }
 

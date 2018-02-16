@@ -20,8 +20,7 @@ namespace EvoMp.Module.ClientWrapper.Server
         void SetBlipTransparency(Client sender, NetHandle blip, int alpha);
         void SetCanOpenChat(Client sender, bool show);
         void SetChatVisible(Client sender, bool display);
-        void SetDisplayWastedShard(Client sender, bool show);
-        void SetEntityCollissionless(Client sender, NetHandle entity, bool status);
+        void SetEntityCollisionless(Client sender, NetHandle entity, bool status);
         void SetEntityDimension(Client sender, NetHandle entity, int dimension);
         void SetEntityInvincible(Client sender, NetHandle entity, bool invincible);
         void SetEntityPosition(Client sender, NetHandle entity, Vector3 position);

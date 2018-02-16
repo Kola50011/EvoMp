@@ -43,6 +43,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             newVehicle.waitForSynchronization();
 
             sender.setIntoVehicle(newVehicle, -1);
+            
 
             _api.sendChatMessageToPlayer(sender,
                 $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");

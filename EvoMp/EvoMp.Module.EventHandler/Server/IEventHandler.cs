@@ -10,6 +10,5 @@ namespace EvoMp.Module.EventHandler.Server
         void InvokeClientEvent(string eventName, params object[] args);
 
         void SubscribeToServerEvent(string eventName, ServerEventHandle serverEventHandle);
-        void InvokeServerEvent(Client player, string eventName, object[] args);
     }
 }

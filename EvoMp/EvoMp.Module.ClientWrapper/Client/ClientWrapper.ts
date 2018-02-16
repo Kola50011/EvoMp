@@ -4,17 +4,23 @@ const resourceStartHandler = API.onResourceStart.connect(registerEvents)
 
 function registerEvents() {
   initSetFunctions()
+  initGetFunctions()
   API.sendChatMessage('Testing')
   resourceStartHandler.disconnect()
 };
+
+function initGetFunctions() {
+  EventHandler.subscribe('ClientWrapper.Get.getStreetName', (args: any) => {
+    API.triggerServerEvent('ClientWrapper.Get.getStreetName', API.getStreetName(args[0]));
+  })
+}
 
 function initSetFunctions() {
   EventHandler.subscribe('ClientWrapper.Set.setSetting', (args: any) => { API.setSetting(args[0], args[1]) })
   EventHandler.subscribe('ClientWrapper.Set.setGameplayCameraActive',
     (args: any) => { API.setGameplayCameraActive() })
   EventHandler.subscribe('ClientWrapper.Set.setCanOpenChat', (args: any) => { API.setCanOpenChat(args[0]) })
-  EventHandler.subscribe('ClientWrapper.Set.setDisplayWastedShard',
-    (args: any) => { API.setDisplayWastedShard(args[0]) })
+ 
   EventHandler.subscribe('ClientWrapper.Set.setUiColor', (args: any) => { API.setUiColor(args[0], args[1], args[2]) })
   EventHandler.subscribe('ClientWrapper.Set.setEntityInvincible',
     (args: any) => { API.setEntityInvincible(args[0], args[1]) })
@@ -32,8 +38,8 @@ function initSetFunctions() {
     (args: any) => { API.setVehicleEngineStatus(args[0], args[1]) })
   EventHandler.subscribe('ClientWrapper.Set.setVehicleSpecialLightStatus',
     (args: any) => { API.setVehicleSpecialLightStatus(args[0], args[1]) })
-  EventHandler.subscribe('ClientWrapper.Set.setEntityCollissionless',
-    (args: any) => { API.setEntityCollissionless(args[0], args[1]) })
+  EventHandler.subscribe('ClientWrapper.Set.setEntityCollisionless',
+    (args: any) => { API.setEntityCollisionless(args[0], args[1]) })
   EventHandler.subscribe('ClientWrapper.Set.setVehicleMod',
     (args: any) => { API.setVehicleMod(args[0], args[1], args[2]) })
   EventHandler.subscribe('ClientWrapper.Set.setVehicleBulletproofTyres',

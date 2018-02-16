@@ -1,4 +1,4 @@
-/// <reference path="GrandTheftMultiplayer.Client.Contracts.d.ts" />
+﻿/// <reference path="GrandTheftMultiplayer.Client.Contracts.d.ts" />
 /// <reference path="GrandTheftMultiplayer.Client.GUI.CEF.d.ts" />
 /// <reference path="GrandTheftMultiplayer.Client.Javascript.d.ts" />
 /// <reference path="GrandTheftMultiplayer.Client.Javascript.ScriptContext.d.ts" />
