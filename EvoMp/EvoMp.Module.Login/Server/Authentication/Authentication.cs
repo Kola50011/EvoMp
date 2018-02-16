@@ -25,7 +25,8 @@ namespace EvoMp.Module.Login.Server.Authentication
             _eventHandler = eventHandler;
             _clientHandler = clientHandler;
 
-            _eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
+            //TODO: ExtendedClient - Build like ExtendedVehicle? #27
+            //_eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
             _eventHandler.SubscribeToServerEvent("AuthRequest", new ServerEventHandle(AuthRequest));
         }
 
@@ -36,7 +37,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             ExtendetClient extendetClient =
                 _clientHandler.GetExtendetClient(c => c.SocialClubName == client.socialClubName);
 
-            if (extendetClient.Properties.Name == null)
+            if (extendetClient == null || extendetClient.Properties.Name == null)
             {
                 AuthOpen authOpen = new AuthOpen
                 {

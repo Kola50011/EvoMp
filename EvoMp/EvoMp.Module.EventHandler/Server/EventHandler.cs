@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using EvoMp.Core.ConsoleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -36,10 +37,14 @@ namespace EvoMp.Module.EventHandler.Server
             _api.triggerClientEventForAll(eventName, args);
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void SubscribeToServerEvent(string eventName, ServerEventHandle serverEventHandle)
         {
             ConsoleOutput.WriteLine(ConsoleType.Event,
-                "SubscribeToServerEvent " + eventName + " with " + serverEventHandle.Cab.Method.Name);
+                "Listen event ~#85a7dd~" + eventName + "~;~ in ~#85a7dd~" +
+                (serverEventHandle.Cab.Method.DeclaringType != null
+                    ? serverEventHandle.Cab.Method.DeclaringType.FullName
+                    : "?." + serverEventHandle.Cab.Method.Name));
 
             List<ServerEventHandle> list = new List<ServerEventHandle>();
 
@@ -52,26 +57,18 @@ namespace EvoMp.Module.EventHandler.Server
 
         public void InvokeServerEvent(Client client, string eventName, object[] args)
         {
-            if (args.Length > 0)
-            {
-                Dictionary<string, string> argsDir =
-                    JsonConvert.DeserializeObject<Dictionary<string, string>>(args[0].ToString());
+            // Create emtpy object if null.
+            if(args == null)
+                args = new object[]{};
 
-                if (argsDir.ContainsKey("password"))
-                    argsDir["password"] = "*****";
+            ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
+                                                       JsonConvert.SerializeObject(args));
 
-                ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
-                                                           JsonConvert.SerializeObject(argsDir));
-            }
-            else
-            {
-                ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
-                                                           JsonConvert.SerializeObject(args));
-            }
+            if (!_subscriberList.ContainsKey(eventName))
+                return;
 
-            if (_subscriberList.ContainsKey(eventName))
-                foreach (ServerEventHandle serverEventHandle in _subscriberList.Get(eventName))
-                    serverEventHandle.Cab.Invoke(client, eventName, args);
+            foreach (ServerEventHandle serverEventHandle in _subscriberList.Get(eventName))
+                serverEventHandle.Cab.Invoke(client, eventName, args);
         }
     }
 
