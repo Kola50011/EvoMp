@@ -29,9 +29,9 @@ jobs:
           path: /temp
           command: yarn build
       # Start Server in onlyCopy
-      - run:
-          path: /temp/GTMP_Server
-          command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
+      #- run:
+      #    path: /temp/GTMP_Server
+      #    command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
       #zip and archive
       # - run:
       #     path: /temp
