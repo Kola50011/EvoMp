@@ -109,7 +109,7 @@ namespace EvoMp.Core.Core.Server
         /// <returns>IKernel</returns>
         private void StartModules(List<string> modulePaths, IKernel kernel)
         {
-            var possibleAfterEffects = false;
+            bool possibleAfterEffects = false;
 
             // Process each module
             foreach (string modulePath in modulePaths)

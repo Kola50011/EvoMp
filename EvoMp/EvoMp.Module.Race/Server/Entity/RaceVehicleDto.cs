@@ -19,6 +19,7 @@ namespace EvoMp.Module.Race.Server.Entity
         /// <summary>
         ///     Foreign key to the race the Vehicle belongs to
         /// </summary>
+        [ForeignKey("RaceId")]
         public RaceDto RaceDto { get; set; }
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace EvoMp.Module.Race.Server.Entity
         /// </summary>
         [Key]
         [Column(Order = 2)]
+        [ForeignKey("VehicleId")]
         public VehicleDto VehicleDto { get; set; }
     }
 }

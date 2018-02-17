@@ -20,6 +20,7 @@ namespace EvoMp.Module.Race.Server.Entity
         /// <summary>
         /// Foreign key to the race the checkpoint belongs to
         /// </summary>
+        [ForeignKey("RaceId")]
         public RaceDto RaceDto { get; set; }
 
 
