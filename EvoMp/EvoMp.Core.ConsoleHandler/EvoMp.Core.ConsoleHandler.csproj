@@ -94,7 +94,7 @@
       <Name>EvoMp.Core.ColorHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Core.Shared\EvoMp.Core.Shared.csproj">
-      <Project>{7DFDE116-E468-415D-AC25-7BDC6FC91C0C}</Project>
+      <Project>{7dfde116-e468-415d-ac25-7bdc6fc91c0c}</Project>
       <Name>EvoMp.Core.Shared</Name>
     </ProjectReference>
   </ItemGroup>

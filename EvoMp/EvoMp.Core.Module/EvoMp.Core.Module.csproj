@@ -86,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
-      <Project>{C78E7D97-2D34-4C47-A48E-DF1A3E960D61}</Project>
+      <Project>{c78e7d97-2d34-4c47-a48e-df1a3e960d61}</Project>
       <Name>EvoMp.Core.ConsoleHandler</Name>
     </ProjectReference>
   </ItemGroup>
