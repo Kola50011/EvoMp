@@ -56,6 +56,17 @@ namespace EvoMp.Module.EventHandler.Server
             _subscriberList.Set(eventName, list);
         }
 
+        public bool EventSubscribed(string eventName)
+        {
+            return _subscriberList.ContainsKey(eventName);
+        }
+
+        public void UnsubscribeToServerEvent(string eventName)
+        {
+            if(_subscriberList.Remove(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event, "Stop listen event ~#85a7dd~" + eventName + "~;~.");
+        }
+
         private void InvokeServerEvent(Client client, string eventName, object[] args)
         {
             // Create emtpy object if null.

@@ -1,3 +1,4 @@
+using System;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
@@ -45,9 +46,15 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/streetName")]
         public async void TestStreetNameGetter(Client sender)
         {
-            string streetname = await _clientWrapper.Getter.GetStreetName(sender, sender.position);
-            _messageHandler.PlayerMessage(sender, $"Streetname: ~o~{streetname}", MessageType.Debug);
-            _messageHandler.PlayerMessage(sender, $"TestStreetName", MessageType.Debug);
+            try
+            {
+                string streetname = await _clientWrapper.Getter.GetStreetName(sender, sender.position);
+                _messageHandler.PlayerMessage(sender, $"Streetname: ~o~{streetname}", MessageType.Debug);
+            }
+            catch (Exception)
+            {
+                _messageHandler.PlayerMessage(sender, $"Aborted in cause of Timeout", MessageType.Error);
+            }
         }
     }
 }

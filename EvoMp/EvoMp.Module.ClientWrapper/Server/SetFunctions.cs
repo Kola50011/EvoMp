@@ -1,4 +1,4 @@
-using EvoMp.Module.ClientWrapper.Enums;
+using EvoMp.Module.ClientWrapper.Server.Enums;
 using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.Constant;

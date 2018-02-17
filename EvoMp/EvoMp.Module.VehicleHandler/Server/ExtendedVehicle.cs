@@ -11,6 +11,8 @@ using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta;
+using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.VehicleHandler.Server
@@ -125,8 +127,8 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
                     API.shared.getVehicleDoorState(VehicleHandle, (int) doorState);
             }
-
             Debug("Update - Door States updated.");
+            
         }
 
         public void UpdateVehicleModifications()
@@ -136,7 +138,7 @@ namespace EvoMp.Module.VehicleHandler.Server
 
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
-                foreach (VehicleModification modification in Enum.GetValues(typeof(VehicleModification)))
+                foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 {
                     // Search for existing Modification
                     int value = API.shared.getVehicleMod(VehicleHandle, (int) modification);

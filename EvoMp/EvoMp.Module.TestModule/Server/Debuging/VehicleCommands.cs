@@ -59,7 +59,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         }
 
         [PlayerCommand("/setvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
-        public void SetVehicleMod(Client sender, VehicleModification slot, int value)
+        public void SetVehicleMod(Client sender, VehicleModType slot, int value)
         {
             API.shared.setVehicleMod(sender.vehicle, (int) slot, value);
         }
@@ -68,7 +68,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         public void SetRandomVehicleMod(Client sender)
         {
             Random random = new Random();
-            foreach (VehicleModification modification in Enum.GetValues(typeof(VehicleModification)))
+            foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 API.shared.setVehicleMod(sender.vehicle, (int) modification, random.Next(0, 5));
         }
 
