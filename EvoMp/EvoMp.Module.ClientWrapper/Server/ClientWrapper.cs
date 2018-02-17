@@ -16,7 +16,7 @@ namespace EvoMp.Module.ClientWrapper.Server
         public ClientWrapper(API api, IEventHandler eventHandler)
         {
             Setter = new SetFunctions(eventHandler);
-            Getter = new GetFunctions(api, eventHandler);
+            Getter = new GetFunctions(eventHandler);
             eventHandler.SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
         }
 
