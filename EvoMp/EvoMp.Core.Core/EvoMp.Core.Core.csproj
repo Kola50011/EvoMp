@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -13,7 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\GTMP_Server\resources\EvoMp\dist\</OutputPath>
@@ -51,7 +50,6 @@
     <DefineConstants>__MonoCS__</DefineConstants>
     <DocumentationFile>bin\EvoMp.Core.Core.xml</DocumentationFile>
   </PropertyGroup>
-  
   <ItemGroup>
     <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
@@ -109,6 +107,10 @@
     <ProjectReference Include="..\EvoMp.Core.Parameter\EvoMp.Core.Parameter.csproj">
       <Project>{ee63f684-46db-466e-82b2-74f988f3dd4b}</Project>
       <Name>EvoMp.Core.Parameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Shared\EvoMp.Core.Shared.csproj">
+      <Project>{7DFDE116-E468-415D-AC25-7BDC6FC91C0C}</Project>
+      <Name>EvoMp.Core.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

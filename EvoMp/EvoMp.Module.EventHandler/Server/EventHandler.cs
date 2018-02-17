@@ -59,8 +59,8 @@ namespace EvoMp.Module.EventHandler.Server
         private void InvokeServerEvent(Client client, string eventName, object[] args)
         {
             // Create emtpy object if null.
-            if(args == null)
-                args = new object[]{};
+            if (args == null)
+                args = new object[] { };
 
             ConsoleOutput.WriteLine(ConsoleType.Event,
                 $"~w~{client.name} ~w~>> ~#85a7dd~{eventName}~;~ ~c~{JsonConvert.SerializeObject(args)}");

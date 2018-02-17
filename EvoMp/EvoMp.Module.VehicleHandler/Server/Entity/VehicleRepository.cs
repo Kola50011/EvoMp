@@ -5,11 +5,9 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     public class VehicleRepository
     {
         private static VehicleRepository _vehicleRepository;
-        private readonly API _api;
 
-        private VehicleRepository(API api)
+        private VehicleRepository()
         {
-            _api = api;
             new VehicleContext().FirstInit();
         }
 
@@ -21,7 +19,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         public static VehicleRepository GetInstance(API api)
         {
-            return _vehicleRepository ?? (_vehicleRepository = new VehicleRepository(api));
+            return _vehicleRepository ?? (_vehicleRepository = new VehicleRepository());
         }
     }
 }

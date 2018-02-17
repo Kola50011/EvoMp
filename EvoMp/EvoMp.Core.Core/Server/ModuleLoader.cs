@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 using GrandTheftMultiplayer.Server.API;
 using Ninject;
 
@@ -147,7 +148,7 @@ namespace EvoMp.Core.Core.Server
 
                                 // Start module
                                 object instance = kernel.Get(moduleClass);
-                                Shared.OnOnModuleLoaded(instance);
+                                SharedEvents.OnOnModuleLoaded(instance);
                             }
                             finally
                             {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ColorHandler.Server;
-using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -372,7 +372,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             WriteMessage();
 
             // Write input line only after startup
-            if (Shared.StartUpCompleted)
+            if (SharedEvents.StartUpCompleted)
                 WriteInput();
 
             void WriteMessage()

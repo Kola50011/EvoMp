@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.Core.Server
 {
@@ -21,7 +22,7 @@ namespace EvoMp.Core.Core.Server
         private void WriteHandler(string message)
         {
             // Startup not completed -> return;
-            if (!Shared.StartUpCompleted)
+            if (!SharedEvents.StartUpCompleted)
                 return;
 
             bool gtMpMessage = ConsoleUtils.IsGtmpConsoleMessage(message);

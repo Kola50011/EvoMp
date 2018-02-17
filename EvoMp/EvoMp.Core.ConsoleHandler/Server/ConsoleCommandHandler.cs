@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -17,7 +17,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// </summary>
         public static void PrepareConsoleCommands()
         {
-            Shared.OnModuleLoaded += InspectModule;
+            SharedEvents.OnModuleLoaded += InspectModule;
             ConsoleInput.OnConsoleString += ParseConsoleString;
         }
 

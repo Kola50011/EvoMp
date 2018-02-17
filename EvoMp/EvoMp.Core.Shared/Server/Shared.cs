@@ -1,8 +1,8 @@
 using GrandTheftMultiplayer.Server.API;
 
-namespace EvoMp.Core.Module.Server
+namespace EvoMp.Core.Shared.Server
 {
-    public static class Shared
+    public static class SharedEvents
     {
         public delegate void CoreStartupCompleted();
 

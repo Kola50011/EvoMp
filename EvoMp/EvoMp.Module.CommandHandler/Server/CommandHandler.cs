@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
@@ -20,7 +21,7 @@ namespace EvoMp.Module.CommandHandler.Server
         {
             MessageHandler = messageHandler;
             // Inspect each module for commands on load
-            Shared.OnModuleLoaded += SharedOnModuleLoaded;
+            SharedEvents.OnModuleLoaded += SharedOnModuleLoaded;
 
             // api events for ingame command execute
             api.onChatMessage += ApiOnOnChatMessage;

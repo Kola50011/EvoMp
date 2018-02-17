@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
-using EvoMp.Core.Module.Server;
+using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -24,7 +24,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             bool gtMpMessage = ConsoleUtils.IsGtmpConsoleMessage(message);
 
             // Startup not completed -> return;
-            if (!Shared.StartUpCompleted)
+            if (!SharedEvents.StartUpCompleted)
                 return;
 
             // Print Text as invalid console use.

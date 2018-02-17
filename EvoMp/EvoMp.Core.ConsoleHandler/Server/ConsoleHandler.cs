@@ -1,10 +1,10 @@
 using System;
+using EvoMp.Core.Shared.Server;
 #if !__MonoCS__
 using System.Linq;
 using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
 #endif
-using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -30,7 +30,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             ModifyConsoleWindow();
 
-            Shared.OnCoreStartupCompleted += () =>
+            SharedEvents.OnCoreStartupCompleted += () =>
             {
                 ConsoleInput.PrepareConsoleInput();
 
