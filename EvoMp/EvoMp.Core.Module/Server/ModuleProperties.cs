@@ -25,8 +25,6 @@ namespace EvoMp.Core.Module.Server
             ModuleType = moduleType;
             ModuleAuthors = moduleAuthors;
             ModuleDescription = moduleDescription;
-
-            ConsoleOutput.WriteLine(ConsoleType.Core, propName ?? "test");
         }
     }
 }
