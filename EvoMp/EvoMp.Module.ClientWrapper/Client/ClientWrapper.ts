@@ -5,6 +5,7 @@ const resourceStartHandler = API.onResourceStart.connect(registerEvents)
 // Regex for replace params from typing with args[X]
 // (?!\([^(]+)(([\w :.\?]|\[\])+)(?=\)}|,)
 
+
 function registerEvents() {
   initSetFunctions()
   initGetFunctions()

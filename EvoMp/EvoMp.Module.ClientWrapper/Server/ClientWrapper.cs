@@ -8,6 +8,10 @@ using NLog.Targets;
 
 namespace EvoMp.Module.ClientWrapper.Server
 {
+    /// <summary>
+    /// 
+    /// <code>",[^,]+(,[^,)]+){13} (Regex. Use for parameter type remove)</code>
+    /// </summary>
     public class ClientWrapper : IClientWrapper
     {
         public ISetFunctions Setter { get; }

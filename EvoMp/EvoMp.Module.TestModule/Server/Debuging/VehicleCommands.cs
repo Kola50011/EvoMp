@@ -81,5 +81,20 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             API.shared.setVehicleCustomSecondaryColor(sender.vehicle, random.Next(0, 255), random.Next(0, 255),
                 random.Next(0, 255));
         }
+
+        [PlayerCommand("/vsethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetVehicleHealth(Client sender, double health)
+        {
+            sender.vehicle.health = (float)health;
+
+            _api.sendChatMessageToPlayer(sender, $"New vehicle health: ~o~{sender.vehicle.health}");
+
+        }
+
+        [PlayerCommand("/vgethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void GetVehicleHealth(Client sender)
+        {
+            _api.sendChatMessageToPlayer(sender, $"Vehicle health: ~o~{sender.vehicle.health}");
+        }
     }
 }
