@@ -56,7 +56,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             // Message shorter then max -> return;
             if (message.Length < maxMessageWidth)
-                return new[] { message };
+                return new[] {message};
 
             var returnList = new List<string>();
 
@@ -91,7 +91,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             }
 
             // Parse linebreaks for clear output
-            var messages = message.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            var messages = message.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
             var messageStartColorCode = "";
 
             // Search for message starting color code. Used to add same color code to splitted lines
@@ -126,7 +126,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void WriteCentredText(ConsoleType consoleType, string text)
         {
             // Parse linebreaks for clear output
-            var messages = text.Split(new[] { "\n", "~n~" }, StringSplitOptions.RemoveEmptyEntries);
+            var messages = text.Split(new[] {"\n", "~n~"}, StringSplitOptions.RemoveEmptyEntries);
 
             // No text -> return;
             if (!messages.Any())
@@ -252,8 +252,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                 LastTimestamp = timestamp;
                 CountSameTimestamp++;
-                var multiplier = (float)0.011 * CountSameTimestamp;
-                timestamp = ColorUtils.DarkUpHexColors(timestamp, multiplier < 0.9 ? multiplier : (float)0.9);
+                var multiplier = (float) 0.011 * CountSameTimestamp;
+                timestamp = ColorUtils.DarkUpHexColors(timestamp, multiplier < 0.9 ? multiplier : (float) 0.9);
 
 
                 // Write log type information
@@ -385,14 +385,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     var setLeft = 0;
                     var setTop = _lastConsoleTop;
 
-                    if (setLeft >= 0 && setLeft < Console.BufferWidth)
-                    {
-                        Console.CursorLeft = setLeft;
-                    }
-                    if (setTop >= 0 && setTop < Console.BufferHeight)
-                    {
-                        Console.CursorTop = setTop;
-                    }
+                    if (setLeft >= 0 && setLeft < Console.BufferWidth) Console.CursorLeft = setLeft;
+                    if (setTop >= 0 && setTop < Console.BufferHeight) Console.CursorTop = setTop;
 
                     Console.Write(ColorUtils.ColorizeAscii(message));
 
@@ -400,16 +394,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop -= 1;
+                        _lastConsoleTop
+ -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;
 
                     // Make positive to avoid errors
-                    if (_lastConsoleTop < 0)
-                    {
-                        _lastConsoleTop = 0;
-                    }
+                    if (_lastConsoleTop < 0) _lastConsoleTop = 0;
                     // Make buffer free for input box
                     if (Console.CursorTop + 3 > Console.BufferHeight)
                         Console.BufferHeight++;
@@ -420,8 +412,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
             void WriteInput()
             {
                 var cInProps = ConsoleUtils.GetConsoleTypeProperties(ConsoleType.ConsoleInput);
-                var multipler = (float)0.011 * CountSameTimestamp;
-                multipler = multipler < 0.9 ? multipler : (float)0.9;
+                var multipler = (float) 0.011 * CountSameTimestamp;
+                multipler = multipler < 0.9 ? multipler : (float) 0.9;
 
                 var timestampStr = ColorUtils.DarkUpHexColors(LastTimestamp, multipler);
 

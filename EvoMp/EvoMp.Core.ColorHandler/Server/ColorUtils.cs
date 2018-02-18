@@ -254,7 +254,8 @@ namespace EvoMp.Core.ColorHandler.Server
                 // Color code is Control code -> Build Control String
                 if (ColorCodeProperties.Any(cc =>
                     cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~" && cc.ControlCodeAnsi != null
-                    && (!codeParsingDisabled || cc.IgnoresParsingDisabled)))
+                                                                          && (!codeParsingDisabled ||
+                                                                              cc.IgnoresParsingDisabled)))
                     BuildControlString();
                 else if (!codeParsingDisabled)
                     BuildColorString();
@@ -293,6 +294,7 @@ namespace EvoMp.Core.ColorHandler.Server
                 ret += message.Substring(startPos, pos - startPos);
                 startPos = pos + tildeCode.Length;
             }
+
             return ret + message.Substring(startPos);
         }
 
@@ -328,6 +330,7 @@ namespace EvoMp.Core.ColorHandler.Server
                     ret.Add(matchValue);
                 }
             }
+
             return ret;
         }
 
@@ -362,6 +365,7 @@ namespace EvoMp.Core.ColorHandler.Server
                 string newColorCode = ColorTranslator.ToHtml(htmlColor);
                 message = new Regex(Regex.Escape(colorCode.Replace("_", ""))).Replace(message, newColorCode, 1);
             }
+
             return message;
         }
     }

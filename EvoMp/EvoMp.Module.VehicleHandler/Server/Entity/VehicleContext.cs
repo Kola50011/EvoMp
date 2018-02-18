@@ -15,7 +15,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         /// <inheritdoc />
         /// <summary>
-        ///  Overwriting Convention to allow private fields
+        ///     Overwriting Convention to allow private fields
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

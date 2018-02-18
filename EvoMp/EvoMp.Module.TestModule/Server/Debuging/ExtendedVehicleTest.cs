@@ -45,7 +45,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
 
             _messageHandler.PlayerMessage(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
 
             sender.setIntoVehicle(newExtendedVehicle.VehicleHandle, -1);
 

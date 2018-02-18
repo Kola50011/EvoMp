@@ -11,6 +11,11 @@ namespace EvoMp.Module.ColShapeHandler.Server
     [ModuleProperties("shared", "Koka", "Wrapper for GT-MP ColShapes")]
     public interface IColShapeHandler
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="name">Unique name of the ColShape</param>
+        void RemoveColShape(string name);
+
         #region CreateShapes
 
         /// <summary>
@@ -85,13 +90,8 @@ namespace EvoMp.Module.ColShapeHandler.Server
         /// <param name="name">Unique name of the ColShape</param>
         /// <param name="colShapeEvent">Event which gets called later</param>
         void UnSubscribeFromEntityExitColShape(string name, ColShapeEvent colShapeEvent);
-        #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name">Unique name of the ColShape</param>
-        void RemoveColShape(string name);
+        #endregion
     }
 
     /// <summary>

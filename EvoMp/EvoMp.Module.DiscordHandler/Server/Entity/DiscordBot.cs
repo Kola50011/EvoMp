@@ -10,10 +10,8 @@ namespace EvoMp.Module.DiscordHandler.Server.Entity
         [Column("ID")]
         public int Id { get; set; }
 
-        [Column("DiscordID")]
-        public ulong DiscordId { get; set; }
+        [Column("DiscordID")] public ulong DiscordId { get; set; }
 
-        [Column("Token")]
-        public string Token { get; set; }
+        [Column("Token")] public string Token { get; set; }
     }
 }

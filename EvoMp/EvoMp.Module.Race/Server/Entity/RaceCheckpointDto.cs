@@ -5,8 +5,8 @@ using GrandTheftMultiplayer.Shared.Math;
 namespace EvoMp.Module.Race.Server.Entity
 {
     /// <summary>
-    /// A checkpoint for one race.
-    /// All checkpoints together form a course
+    ///     A checkpoint for one race.
+    ///     All checkpoints together form a course
     /// </summary>
     [Table("RaceCheckpoints")]
     public class RaceCheckpointDto
@@ -15,35 +15,36 @@ namespace EvoMp.Module.Race.Server.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("RaceCheckpointId", Order = 0)]
         public int RaceCheckpointId { get; set; }
+
         /// <summary>
-        /// Foreign key to the race the checkpoint belongs to 
+        ///     Foreign key to the race the checkpoint belongs to
         /// </summary>
         [Index("IX_RaceCheckpointNumber", 1, IsUnique = true)]
         [Column("RaceId")]
         public int RaceId { get; set; }
 
         /// <summary>
-        /// Foreign key to the race the checkpoint belongs to
+        ///     Foreign key to the race the checkpoint belongs to
         /// </summary>
         [ForeignKey("RaceId")]
         public RaceDto RaceDto { get; set; }
 
 
         /// <summary>
-        /// The number of the checkpoint.
-        /// Used to order the checkpoints in the correct order.
+        ///     The number of the checkpoint.
+        ///     Used to order the checkpoints in the correct order.
         /// </summary>
         [Index("IX_RaceCheckpointNumber", 2, IsUnique = true)]
         [Column("CheckpointNumber")]
         public int CheckpointNumber { get; set; }
 
         /// <summary>
-        /// Size of the checkpoint
+        ///     Size of the checkpoint
         /// </summary>
         public int Size { get; set; }
 
         /// <summary>
-        /// Position of the checkpoint
+        ///     Position of the checkpoint
         /// </summary>
         [NotMapped]
         public Vector3 Position
@@ -58,7 +59,7 @@ namespace EvoMp.Module.Race.Server.Entity
         }
 
         /// <summary>
-        /// Rotation of the checkpoint
+        ///     Rotation of the checkpoint
         /// </summary>
         [NotMapped]
         public Vector3 Rotation
@@ -72,23 +73,16 @@ namespace EvoMp.Module.Race.Server.Entity
             }
         }
 
-        [Column("PosX")]
-        private double PosX { get; set; }
+        [Column("PosX")] private double PosX { get; set; }
 
-        [Column("PosY")]
-        private double PosY { get; set; }
+        [Column("PosY")] private double PosY { get; set; }
 
-        [Column("PosZ")]
-        private double PosZ { get; set; }
+        [Column("PosZ")] private double PosZ { get; set; }
 
-        [Column("RotX")]
-        private double RotX { get; set; }
+        [Column("RotX")] private double RotX { get; set; }
 
-        [Column("RotY")]
-        private double RotY { get; set; }
+        [Column("RotY")] private double RotY { get; set; }
 
-        [Column("RotZ")]
-        private double RotZ { get; set; }
-
+        [Column("RotZ")] private double RotZ { get; set; }
     }
 }

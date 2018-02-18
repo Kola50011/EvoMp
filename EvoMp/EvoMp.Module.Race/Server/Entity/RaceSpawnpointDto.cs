@@ -5,7 +5,7 @@ using GrandTheftMultiplayer.Shared.Math;
 namespace EvoMp.Module.Race.Server.Entity
 {
     /// <summary>
-    /// Spawnpoints avalible for a race
+    ///     Spawnpoints avalible for a race
     /// </summary>
     [Table("RaceSpawnpoints")]
     public class RaceSpawnpointDto
@@ -66,22 +66,16 @@ namespace EvoMp.Module.Race.Server.Entity
             }
         }
 
-        [Column("PosX")]
-        private double PosX { get; set; }
+        [Column("PosX")] private double PosX { get; set; }
 
-        [Column("PosY")]
-        private double PosY { get; set; }
+        [Column("PosY")] private double PosY { get; set; }
 
-        [Column("PosZ")]
-        private double PosZ { get; set; }
+        [Column("PosZ")] private double PosZ { get; set; }
 
-        [Column("RotX")]
-        private double RotX { get; set; }
+        [Column("RotX")] private double RotX { get; set; }
 
-        [Column("RotY")]
-        private double RotY { get; set; }
+        [Column("RotY")] private double RotY { get; set; }
 
-        [Column("RotZ")]
-        private double RotZ { get; set; }
+        [Column("RotZ")] private double RotZ { get; set; }
     }
 }

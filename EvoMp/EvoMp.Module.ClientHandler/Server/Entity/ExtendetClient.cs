@@ -39,6 +39,7 @@ namespace EvoMp.Module.ClientHandler.Server.Entity
                     context.Clients.Attach(_clientDto);
                     _clientDto = Properties;
                 }
+
                 context.SaveChanges();
             }
         }

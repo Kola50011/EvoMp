@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
@@ -25,7 +20,6 @@ namespace EvoMp.Module.BotHandler.Server
         [PlayerCommand("/RecordBot", new[] {"/rbot"}, PlayerOnlyState.OnlyAsDriver)]
         public void RecordNewBot(Client sender, string botName)
         {
-
         }
     }
 }

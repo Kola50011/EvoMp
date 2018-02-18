@@ -5,7 +5,7 @@ using EvoMp.Module.VehicleHandler.Server;
 namespace EvoMp.Module.Race.Server
 {
     /// <summary>
-    /// Race minigame
+    ///     Race minigame
     /// </summary>
     public class Race : BaseModule, IRace
     {
@@ -13,7 +13,6 @@ namespace EvoMp.Module.Race.Server
 
         public Race(IVehicleHandler vehcileHandler)
         {
-            
         }
     }
 }

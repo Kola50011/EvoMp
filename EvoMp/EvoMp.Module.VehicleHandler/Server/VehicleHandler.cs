@@ -41,7 +41,8 @@ namespace EvoMp.Module.VehicleHandler.Server
                     // Write notice for long waiting time.
                     if (!noticeWritten)
                     {
-                        ConsoleOutput.WriteLine(ConsoleType.Database, $"Setting default vehicle properties. This may take a moment.");
+                        ConsoleOutput.WriteLine(ConsoleType.Database,
+                            $"Setting default vehicle properties. This may take a moment.");
                         noticeWritten = true;
                     }
 

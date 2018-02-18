@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using EvoMp.Core.ColorHandler.Server;
 #if !__MonoCS__
 using System.Drawing;
 using System.Runtime.InteropServices;
 #endif
-using EvoMp.Core.ColorHandler.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -240,7 +240,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
         }
 
 #if !__MonoCS__
-#region Dll console imports
+
+        #region Dll console imports
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, int mode);
@@ -269,7 +270,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         [DllImport("user32.dll")]
         public static extern long GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
 
-#endregion //Dll console imports
+        #endregion //Dll console imports
 
 #endif
     }

@@ -40,7 +40,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="createCopy">Create only a copy of the current vehicle</param>
         public ExtendedVehicle(NetHandle vehicle, bool createCopy = false)
         {
-            if(!createCopy)
+            if (!createCopy)
                 VehicleHandle = vehicle;
 
             VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);

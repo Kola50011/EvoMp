@@ -1,8 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.VehicleUtils.Server.Enums;
-using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.BotHandler.Server.Entity
@@ -21,8 +18,7 @@ namespace EvoMp.Module.BotHandler.Server.Entity
         [Column("BotId")]
         public int BotId { get; set; }
 
-        [ForeignKey("BotId")]
-        public BotDto Bot { get; set; }
+        [ForeignKey("BotId")] public BotDto Bot { get; set; }
 
 
         /// <summary>
@@ -59,9 +55,11 @@ namespace EvoMp.Module.BotHandler.Server.Entity
         ///     Velocity of the waypoint
         /// </summary>
         [NotMapped]
-        public Vector3 Velocity {
+        public Vector3 Velocity
+        {
             get => new Vector3(VelX, VelY, VelZ);
-            set {
+            set
+            {
                 VelX = value.X;
                 VelY = value.Y;
                 VelZ = value.Z;

@@ -56,6 +56,7 @@ namespace EvoMp.Module.DiscordHandler.Server
                     discordContext.SaveChanges();
                 }
             }
+
             return returnChannel;
         }
     }

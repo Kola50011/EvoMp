@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
@@ -98,7 +96,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             _api.sendChatMessageToPlayer(sender, $"Vehicle health: ~o~{sender.vehicle.health}");
         }
 
-        [PlayerCommand("/vtyresmokecolor", new []{"/vtsc"}, playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        [PlayerCommand("/vtyresmokecolor", new[] {"/vtsc"}, PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleTyreSmokeColor(Client sender, int red, int green, int blue)
         {
             //sender.vehicle.tyreSmokeColor = new Color(red, green, blue);

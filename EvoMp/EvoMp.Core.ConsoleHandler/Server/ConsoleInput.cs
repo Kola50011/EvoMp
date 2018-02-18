@@ -98,6 +98,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                                 Settings.Default.ConsoleInputHistory.Add(s);
                             Settings.Default.Save();
                         }
+
                         TriggerConsoleString(newConsoleInput);
                         break;
                     }
@@ -210,6 +211,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                         break;
                     }
                 }
+
                 TriggerConsoleKeyPress(key);
             }
         }
@@ -263,6 +265,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                             Console.Write(CurrentConsoleInput.Substring(_cursorPos));
                         break;
                 }
+
                 // Set correct console cursor position
                 Console.CursorLeft = ConsoleUtils.InputCursorLeftStart + _cursorPos;
             });

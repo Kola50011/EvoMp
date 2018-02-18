@@ -2,7 +2,6 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using EvoMp.Core.Module.Server;
-using EvoMp.Module.VehicleHandler.Server.Entity;
 
 namespace EvoMp.Module.BotHandler.Server.Entity
 {
@@ -16,7 +15,7 @@ namespace EvoMp.Module.BotHandler.Server.Entity
 
         /// <inheritdoc />
         /// <summary>
-        ///  Overwriting Convention to allow private fields
+        ///     Overwriting Convention to allow private fields
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -43,6 +42,7 @@ namespace EvoMp.Module.BotHandler.Server.Entity
 
         public DbSet<BotDto> Bots { get; set; }
         public DbSet<BotWaypointDto> BotWaypoints { get; set; }
+
         #endregion Tables
     }
 }

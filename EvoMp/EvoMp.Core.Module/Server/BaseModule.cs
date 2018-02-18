@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.Module.Server
 {
@@ -9,7 +8,6 @@ namespace EvoMp.Core.Module.Server
     {
         protected BaseModule()
         {
-
             Assembly moduleAssembly = Assembly.GetCallingAssembly();
             foreach (Type moduleClass in moduleAssembly.GetTypes())
             foreach (Type moduleInterface in moduleClass.GetInterfaces())
@@ -26,7 +24,7 @@ namespace EvoMp.Core.Module.Server
                         $"[~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
                         $"~#3e8e64~\"{moduleProperties.ModuleDescription}\"");
                     ConsoleOutput.SetPrefix("\t\t ~w~> ~;~");
-                    }
+                }
         }
     }
 }

@@ -9,8 +9,8 @@ namespace EvoMp.Module.BotHandler.Server
     {
         private const string EntityDataStringRecording = "BotHandler.Recording";
         private readonly Client owner;
+        public bool IsRecording;
         public BotDto Properties;
-        public bool IsRecording = false;
 
         public ExtendedBot(Client sender)
         {
@@ -20,11 +20,10 @@ namespace EvoMp.Module.BotHandler.Server
         }
 
 
-
         public void StartRecording()
         {
             // Is already recording
-            if(!IsRecording)
+            if (!IsRecording)
                 throw new Exception();
 
             IsRecording = true;

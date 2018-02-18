@@ -11,9 +11,9 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 {
     public class ClientWrapperTest
     {
+        private readonly API _api;
         private readonly IClientWrapper _clientWrapper;
         private readonly IMessageHandler _messageHandler;
-        private readonly API _api;
 
         public ClientWrapperTest(API api, IClientWrapper clientWrapper, IMessageHandler messageHandler)
         {

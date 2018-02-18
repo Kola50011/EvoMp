@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Text;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Core.Module.Server;
 using EvoMp.Core.Shared.Server;
 
 namespace EvoMp.Core.Core.Server

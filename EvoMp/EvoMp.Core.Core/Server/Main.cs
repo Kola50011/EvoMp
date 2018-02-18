@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
 using EvoMp.Core.Shared.Server;
 using GrandTheftMultiplayer.Server.API;

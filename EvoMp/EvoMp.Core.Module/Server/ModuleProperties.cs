@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using EvoMp.Core.ConsoleHandler.Server;
 
 namespace EvoMp.Core.Module.Server
 {

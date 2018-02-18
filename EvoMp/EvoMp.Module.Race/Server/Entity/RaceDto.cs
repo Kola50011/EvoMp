@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EvoMp.Module.Race.Server.Entity
 {
     /// <summary>
-    /// The main race DTO
+    ///     The main race DTO
     /// </summary>
     [Table("Races")]
     public class RaceDto
     {
         /// <summary>
-        /// Primary key for race.
-        /// Auto Incrementing
+        ///     Primary key for race.
+        ///     Auto Incrementing
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -21,8 +21,8 @@ namespace EvoMp.Module.Race.Server.Entity
         public int RaceId { get; set; }
 
         /// <summary>
-        /// The Name of a race.
-        /// Unique
+        ///     The Name of a race.
+        ///     Unique
         /// </summary>
         [Index("IX_RaceName", IsUnique = true)]
         [Required]
@@ -31,19 +31,18 @@ namespace EvoMp.Module.Race.Server.Entity
         public string RaceName { get; set; }
 
         /// <summary>
-        /// The checkpoints for the race
+        ///     The checkpoints for the race
         /// </summary>
         public ICollection<RaceCheckpointDto> Checkpoints { get; set; }
 
         /// <summary>
-        /// The spawnpoints for the race
+        ///     The spawnpoints for the race
         /// </summary>
         public ICollection<RaceSpawnpointDto> Spawnpoints { get; set; }
 
         /// <summary>
-        /// The vehicles for the race
+        ///     The vehicles for the race
         /// </summary>
         public ICollection<RaceVehicleDto> Vehicles { get; set; }
-
     }
 }

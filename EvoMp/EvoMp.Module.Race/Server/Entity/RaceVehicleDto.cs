@@ -5,13 +5,13 @@ using EvoMp.Module.VehicleHandler.Server.Entity;
 namespace EvoMp.Module.Race.Server.Entity
 {
     /// <summary>
-    /// Vehicles avalible to a race
+    ///     Vehicles avalible to a race
     /// </summary>
     [Table("RaceVehicles")]
     public class RaceVehicleDto
     {
         /// <summary>
-        /// The id column
+        ///     The id column
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -39,12 +39,11 @@ namespace EvoMp.Module.Race.Server.Entity
         public int VehicleId { get; set; }
 
         /// <summary>
-        ///    Vehicle avalible for a race
-        /// //TODO: Koka fragen, warum man fahrzeuge für ein race speichern muss.
-        /// //TODO: werden die nicht immer frisch erstellt und dann gelöscht?
+        ///     Vehicle avalible for a race
+        ///     //TODO: Koka fragen, warum man fahrzeuge für ein race speichern muss.
+        ///     //TODO: werden die nicht immer frisch erstellt und dann gelöscht?
         /// </summary>
         [ForeignKey("VehicleId")]
-        [NotMapped]
-        public VehicleDto VehicleDto { get; set; }
+        [NotMapped] public VehicleDto VehicleDto { get; set; }
     }
 }

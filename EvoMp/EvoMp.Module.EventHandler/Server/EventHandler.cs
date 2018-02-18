@@ -64,7 +64,7 @@ namespace EvoMp.Module.EventHandler.Server
 
         public void UnsubscribeToServerEvent(string eventName)
         {
-            if(_subscriberList.Remove(eventName))
+            if (_subscriberList.Remove(eventName))
                 ConsoleOutput.WriteLine(ConsoleType.Event, "Stop listen event ~#85a7dd~" + eventName + "~;~.");
         }
 

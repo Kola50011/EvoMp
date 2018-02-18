@@ -1,11 +1,11 @@
 using System;
-#if !__MonoCS__
-using System.Drawing;
-#endif
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
+#if !__MonoCS__
+using System.Drawing;
+#endif
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -53,6 +53,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     "Disabled fullscreen mode. ~b~Changes take effect on next Start.");
                 return;
             }
+
             // invalid display given -> Warning & return;
             if (display < 0 || Screen.AllScreens.Length - 1 < display)
             {

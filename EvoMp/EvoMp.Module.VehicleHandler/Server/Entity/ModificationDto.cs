@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
