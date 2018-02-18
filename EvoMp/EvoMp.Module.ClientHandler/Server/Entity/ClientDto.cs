@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvoMp.Module.ClientHandler.Server.Entity
 {
+    [Table("Clients")]
     public class ClientDto
     {
         internal ClientDto()

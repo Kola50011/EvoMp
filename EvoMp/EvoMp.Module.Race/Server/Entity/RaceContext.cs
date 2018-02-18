@@ -1,6 +1,7 @@
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.Race.Server.Entity
 {
@@ -14,6 +15,16 @@ namespace EvoMp.Module.Race.Server.Entity
         {
             // Database logging
             //Database.Log = s => { };
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        ///  Overwriting Convention to allow private fields
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Add(new NonPublicColumnAttributeConvention());
         }
 
         /// <summary>

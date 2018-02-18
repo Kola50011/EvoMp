@@ -13,7 +13,11 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             //Database.Log = s => { };
         }
 
-        // Overwriting Convention to allow private fields
+        /// <inheritdoc />
+        /// <summary>
+        ///  Overwriting Convention to allow private fields
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Add(new NonPublicColumnAttributeConvention());

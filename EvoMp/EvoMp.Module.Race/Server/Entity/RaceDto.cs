@@ -7,6 +7,7 @@ namespace EvoMp.Module.Race.Server.Entity
     /// <summary>
     /// The main race DTO
     /// </summary>
+    [Table("Races")]
     public class RaceDto
     {
         /// <summary>
@@ -23,8 +24,10 @@ namespace EvoMp.Module.Race.Server.Entity
         /// The Name of a race.
         /// Unique
         /// </summary>
+        [Index("IX_RaceName", IsUnique = true)]
         [Required]
-        [Index(IsUnique = true)]
+        [StringLength(60)]
+        [Column("RaceName", Order = 1, TypeName = "NVARCHAR")]
         public string RaceName { get; set; }
 
         /// <summary>

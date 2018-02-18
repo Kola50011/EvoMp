@@ -7,13 +7,19 @@ namespace EvoMp.Module.Race.Server.Entity
     /// <summary>
     /// Spawnpoints avalible for a race
     /// </summary>
+    [Table("RaceSpawnpoints")]
     public class RaceSpawnpointDto
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [Column("RaceSpawnpointId")]
+        public int RaceSpawnpointId { get; set; }
+
         /// <summary>
         ///     Foreign key to the race the Spawnpoint belongs to
         /// </summary>
-        [Key]
-        [Column(Order = 1)]
+        [Index("IX_RaceSpawnpointNumber", 1, IsUnique = true)]
+        [Column(Order = 0)]
         public int RaceId { get; set; }
 
         /// <summary>
@@ -26,8 +32,8 @@ namespace EvoMp.Module.Race.Server.Entity
         ///     The number of the checkpoint.
         ///     Used to order the checkpoints in the correct order.
         /// </summary>
-        [Key]
-        [Column(Order = 2)]
+        [Index("IX_RaceSpawnpointNumber", 2, IsUnique = true)]
+        [Column("SpawnpointNumber")]
         public int SpawnpointNumber { get; set; }
 
         /// <summary>

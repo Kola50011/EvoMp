@@ -8,13 +8,18 @@ namespace EvoMp.Module.Race.Server.Entity
     /// A checkpoint for one race.
     /// All checkpoints together form a course
     /// </summary>
+    [Table("RaceCheckpoints")]
     public class RaceCheckpointDto
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("RaceCheckpointId", Order = 0)]
+        public int RaceCheckpointId { get; set; }
         /// <summary>
         /// Foreign key to the race the checkpoint belongs to 
         /// </summary>
-        [Key]
-        [Column(Order = 1)]
+        [Index("IX_RaceCheckpointNumber", 1, IsUnique = true)]
+        [Column("RaceId")]
         public int RaceId { get; set; }
 
         /// <summary>
@@ -28,8 +33,8 @@ namespace EvoMp.Module.Race.Server.Entity
         /// The number of the checkpoint.
         /// Used to order the checkpoints in the correct order.
         /// </summary>
-        [Key]
-        [Column(Order = 2)]
+        [Index("IX_RaceCheckpointNumber", 2, IsUnique = true)]
+        [Column("CheckpointNumber")]
         public int CheckpointNumber { get; set; }
 
         /// <summary>

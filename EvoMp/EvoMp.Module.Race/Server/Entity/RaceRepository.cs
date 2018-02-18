@@ -5,7 +5,7 @@ namespace EvoMp.Module.Race.Server.Entity
     /// </summary>
     public class RaceRepository
     {
-        private static RaceRepository _vehicleRepository;
+        private static RaceRepository _raceRepository;
 
         private RaceRepository()
         {
@@ -28,7 +28,7 @@ namespace EvoMp.Module.Race.Server.Entity
         /// <returns></returns>
         public static RaceRepository GetInstance()
         {
-            return _vehicleRepository ?? (_vehicleRepository = new RaceRepository());
+            return _raceRepository ?? (_raceRepository = new RaceRepository());
         }
     }
 }
