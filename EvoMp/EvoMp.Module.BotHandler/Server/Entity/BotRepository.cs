@@ -11,7 +11,7 @@ namespace EvoMp.Module.BotHandler.Server.Entity
             new BotContext().FirstInit();
         }
 
-        public static BotContext GetVehicleContext()
+        public static BotContext GetBotContext()
         {
             BotContext context = new BotContext();
             return context;

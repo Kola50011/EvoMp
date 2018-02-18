@@ -25,11 +25,6 @@ namespace EvoMp.Module.ClientHandler.Server
             _spawnManager = new SpawnManager(api);
         }
 
-        public ExtendetClient GetExtendetClient(Func<ClientDto, bool> predicate)
-        {
-            return new ExtendetClient(_clientRepository.GetContext().Clients.FirstOrDefault(predicate));
-        }
-
         public bool SpawnExtendetClient(ExtendetClient extendetClient)
         {
             return _spawnManager.SpawnExtendetClient(extendetClient);

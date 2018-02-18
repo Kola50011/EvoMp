@@ -7,10 +7,6 @@ namespace EvoMp.Module.ClientHandler.Server.Entity
     [Table("Clients")]
     public class ClientDto
     {
-        internal ClientDto()
-        {
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Required]

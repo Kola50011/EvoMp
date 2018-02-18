@@ -20,7 +20,7 @@ namespace EvoMp.Module.VehicleHandler.Server
     {
         private VehicleDto _vehicle;
         public VehicleDto Properties;
-        public NetHandle VehicleHandle;
+        public NetHandle Vehicle;
 
         public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
@@ -40,8 +40,9 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="createCopy">Create only a copy of the current vehicle</param>
         public ExtendedVehicle(NetHandle vehicle, bool createCopy = false)
         {
+            //TODO: Dont write VehicleId if copy
             if (!createCopy)
-                VehicleHandle = vehicle;
+                Vehicle = vehicle;
 
             VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
 
@@ -55,6 +56,10 @@ namespace EvoMp.Module.VehicleHandler.Server
                 InitNew(vehicleHash,
                     API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
                     API.shared.getEntityDimension(vehicle));
+
+            // Save new if copy
+            if(createCopy)
+                Save();
         }
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace EvoMp.Module.VehicleHandler.Server
 
                 // Change door state
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
-                    API.shared.getVehicleDoorState(VehicleHandle, (int) doorState);
+                    API.shared.getVehicleDoorState(Vehicle, (int) doorState);
             }
 
             Debug("Update - Door States updated.");
@@ -144,7 +149,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                 foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 {
                     // Search for existing Modification
-                    int value = API.shared.getVehicleMod(VehicleHandle, (int) modification);
+                    int value = API.shared.getVehicleMod(Vehicle, (int) modification);
 
                     ModificationDto modificationDto = context.Modifications
                         .FirstOrDefault(modDto => modDto.Slot == modification && modDto.Value == value);
@@ -180,23 +185,23 @@ namespace EvoMp.Module.VehicleHandler.Server
 
         public void UpdatePositionRotation()
         {
-            if (VehicleHandle.IsNull)
+            if (Vehicle.IsNull)
                 return;
 
-            Properties.Position = API.shared.getEntityPosition(VehicleHandle);
-            Properties.Rotation = API.shared.getEntityRotation(VehicleHandle);
+            Properties.Position = API.shared.getEntityPosition(Vehicle);
+            Properties.Rotation = API.shared.getEntityRotation(Vehicle);
 
             Debug("Update - Position and rotation updated.");
         }
 
         public void UpdateColor()
         {
-            if (VehicleHandle.IsNull)
+            if (Vehicle.IsNull)
                 return;
 
-            Color primaryColor = API.shared.getVehicleCustomPrimaryColor(VehicleHandle);
-            Color secondaryColor = API.shared.getVehicleCustomSecondaryColor(VehicleHandle);
-            Color tyreColor = API.shared.getVehicleTyreSmokeColor(VehicleHandle);
+            Color primaryColor = API.shared.getVehicleCustomPrimaryColor(Vehicle);
+            Color secondaryColor = API.shared.getVehicleCustomSecondaryColor(Vehicle);
+            Color tyreColor = API.shared.getVehicleTyreSmokeColor(Vehicle);
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
                 // Search for existing color combination
@@ -287,8 +292,8 @@ namespace EvoMp.Module.VehicleHandler.Server
                         contextTransaction.Commit();
 
                         // Save VehicleId to the Vehicle
-                        if (!VehicleHandle.IsNull)
-                            API.shared.setEntityData(VehicleHandle, "VehicleId", Properties.VehicleId);
+                        if (!Vehicle.IsNull)
+                            API.shared.setEntityData(Vehicle, "VehicleId", Properties.VehicleId);
                     }
                     catch (Exception e)
                     {
@@ -315,29 +320,29 @@ namespace EvoMp.Module.VehicleHandler.Server
             newVehicle.waitForSynchronization();
 
             // Set Global VehicleHandle
-            VehicleHandle = newVehicle;
-            API.shared.setEntityData(VehicleHandle, "VehicleId", Properties.VehicleId);
+            Vehicle = newVehicle;
+            API.shared.setEntityData(Vehicle, "VehicleId", Properties.VehicleId);
 
             // Set door states
             if (Properties.DoorStates != null)
                 foreach (DoorStateDto doorState in Properties.DoorStates)
-                    API.shared.setVehicleDoorState(VehicleHandle, (int) doorState.Door, doorState.State);
+                    API.shared.setVehicleDoorState(Vehicle, (int) doorState.Door, doorState.State);
 
             // Set vehicle modifications
             if (Properties.Modifications != null)
                 foreach (VehicleModificationDto modification in Properties.Modifications)
-                    API.shared.setVehicleMod(VehicleHandle, (int) modification.Modification.Slot,
+                    API.shared.setVehicleMod(Vehicle, (int) modification.Modification.Slot,
                         modification.Modification.Value);
 
             // Set vehicle color
             if (Properties.PrimaryColor != null)
-                API.shared.setVehicleCustomPrimaryColor(VehicleHandle, Properties.PrimaryColor.Red,
+                API.shared.setVehicleCustomPrimaryColor(Vehicle, Properties.PrimaryColor.Red,
                     Properties.PrimaryColor.Green, Properties.PrimaryColor.Blue);
             if (Properties.SecondaryColor != null)
-                API.shared.setVehicleCustomSecondaryColor(VehicleHandle, Properties.SecondaryColor.Red,
+                API.shared.setVehicleCustomSecondaryColor(Vehicle, Properties.SecondaryColor.Red,
                     Properties.SecondaryColor.Green, Properties.SecondaryColor.Blue);
             if (Properties.TyreSmokingColor != null)
-                API.shared.setVehicleTyreSmokeColor(VehicleHandle, Properties.TyreSmokingColor.Red,
+                API.shared.setVehicleTyreSmokeColor(Vehicle, Properties.TyreSmokingColor.Red,
                     Properties.TyreSmokingColor.Green, Properties.TyreSmokingColor.Blue);
 
             Debug("Create - Extended Vehicle created.");
@@ -352,7 +357,7 @@ namespace EvoMp.Module.VehicleHandler.Server
             if (saveBefore)
                 FullUpdate(true);
 
-            API.shared.deleteEntity(VehicleHandle);
+            API.shared.deleteEntity(Vehicle);
             Debug("Destroy - Extended Vehicle destroyed.");
         }
 
@@ -362,7 +367,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="message"></param>
         private void Debug(string message)
         {
-            message = $"[ID: {Properties.VehicleId}] {message}";
+            message = $"(ExtendedVehicle) [ID: {Properties.VehicleId}] {message}";
             ConsoleOutput.WriteLine(ConsoleType.Debug, message);
             MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }

@@ -9,7 +9,6 @@ namespace EvoMp.Module.ClientHandler.Server
     [ModuleProperties("shared", "Koka, Lukas", "Everything that has to do with a user")]
     public interface IClientHandler
     {
-        ExtendetClient GetExtendetClient(Func<ClientDto, bool> predicate);
         bool SpawnExtendetClient(ExtendetClient extendetClient);
         bool Restrict([Optional] Client client, [Optional] ExtendetClient extendetClient);
         bool UnRestrict([Optional] Client client, [Optional] ExtendetClient extendetClient);
