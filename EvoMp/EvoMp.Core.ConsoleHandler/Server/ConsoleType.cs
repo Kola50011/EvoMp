@@ -20,6 +20,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         [ConsoleTypeProperties("~#FFF~~_#2f5776~", "CIN")] ConsoleInput,
         [ConsoleTypeProperties("~#80b8db~", "Help", "~#80b8db~")] Help,
         [ConsoleTypeProperties("~#f9ed00~", "SQL", "~#a39b00~")] Sql,
+        [ConsoleTypeProperties("~b~", "USE", "~#a39b00~")] Use,
 
         /// <summary>
         ///     This type gives only the message to the console output.

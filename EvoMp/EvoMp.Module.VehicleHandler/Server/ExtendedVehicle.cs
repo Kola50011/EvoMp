@@ -37,13 +37,16 @@ namespace EvoMp.Module.VehicleHandler.Server
         ///     <remarks>The NetHandle must have the Entity Data VehicleHash!</remarks>
         /// </summary>
         /// <param name="vehicle"></param>
-        public ExtendedVehicle(NetHandle vehicle)
+        /// <param name="createCopy">Create only a copy of the current vehicle</param>
+        public ExtendedVehicle(NetHandle vehicle, bool createCopy = false)
         {
-            VehicleHandle = vehicle;
+            if(!createCopy)
+                VehicleHandle = vehicle;
+
             VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
 
             // Get Database entry if given
-            if (API.shared.hasEntityData(vehicle, "VehicleId"))
+            if (!createCopy && API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                 {
                     InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
