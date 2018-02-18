@@ -13,9 +13,13 @@ namespace EvoMp.Core.Core.Server
 {
     public class ModuleLoader
     {
+        private readonly IKernel _kernel;
+        private readonly List<Assembly> _moduleAssemblies;
         public ModuleLoader(API api)
         {
             Api = api;
+            _kernel = new StandardKernel();
+            _moduleAssemblies = new List<Assembly>();
         }
 
         private API Api { get; }
@@ -29,13 +33,13 @@ namespace EvoMp.Core.Core.Server
                 SearchOption.AllDirectories).ToList();
 
             // Bind modules
-            IKernel kernel = BindModules(modulePaths);
+            BindModules(modulePaths);
             ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules completed.");
             ConsoleOutput.PrintLine("-");
 
             // Start modules
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules now.");
-            StartModules(modulePaths, kernel);
+            StartModules();
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules completed.");
             ConsoleOutput.PrintLine("-");
         }
@@ -46,11 +50,8 @@ namespace EvoMp.Core.Core.Server
         /// </summary>
         /// <param name="modulePaths">Path to the modules, wich should binded</param>
         /// <returns>IKernel</returns>
-        private IKernel BindModules(List<string> modulePaths)
+        private void BindModules(List<string> modulePaths)
         {
-            //TODO: Write "getInstance" for standardKernel instance. Neccesarry for "onFly" module loding
-            IKernel kernel = new StandardKernel();
-
             ConsoleOutput.AppendPrefix("\t");
             // Progressing each module
             foreach (string modulePath in modulePaths)
@@ -83,8 +84,9 @@ namespace EvoMp.Core.Core.Server
                         ConsoleOutput.WriteLine(ConsoleType.Core,
                             $"~#51ff76~{moduleInterface.Name}~;~ -> ~#83ff9d~{moduleClass.FullName}~;~.");
 
-                        // Bind module
-                        kernel.Bind(moduleInterface, moduleClass).To(moduleClass).InSingletonScope()
+                        // Add to list & bind module
+                        _moduleAssemblies.Add(moduleAssembly);
+                        _kernel.Bind(moduleInterface, moduleClass).To(moduleClass).InSingletonScope()
                             .WithConstructorArgument("api", context => Api);
                     }
 
@@ -96,7 +98,6 @@ namespace EvoMp.Core.Core.Server
             }
             ConsoleOutput.ResetPrefix();
             // return created kernel
-            return kernel;
         }
 
 
@@ -104,29 +105,20 @@ namespace EvoMp.Core.Core.Server
         ///     Trys to start the given modules.
         ///     Print's hint if a module was created the wrong way
         /// </summary>
-        /// <param name="modulePaths">Path to the modules, wich should started</param>
-        /// <param name="kernel">The kernel</param>
-        /// <returns>IKernel</returns>
-        private void StartModules(List<string> modulePaths, IKernel kernel)
+        private void StartModules()
         {
             bool possibleAfterEffects = false;
 
             // Process each module
-            foreach (string modulePath in modulePaths)
+            foreach (Assembly moduleAssembly in _moduleAssemblies)
                 try
                 {
-                    // Load assembly
-                    Assembly moduleAssembly = Assembly.LoadFrom(modulePath);
-                    bool moduleIsCorrectImplemented = false;
-
                     // Search for "ModulePropert" interface class in assembly
                     // and, if given, start the module4
                     foreach (Type moduleClass in moduleAssembly.GetTypes())
                     foreach (Type moduleInterface in moduleClass.GetInterfaces())
                         if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
                         {
-                            moduleIsCorrectImplemented = true;
-
                             // Load module properties from interface
                             ModuleProperties moduleProperties = (ModuleProperties)
                                 Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
@@ -147,7 +139,7 @@ namespace EvoMp.Core.Core.Server
                                 ConsoleOutput.AppendPrefix("\t ~w~> ~;~");
 
                                 // Start module
-                                object instance = kernel.Get(moduleClass);
+                                object instance = _kernel.Get(moduleClass);
                                 SharedEvents.OnOnModuleLoaded(instance);
                             }
                             finally
@@ -155,17 +147,11 @@ namespace EvoMp.Core.Core.Server
                                 ConsoleOutput.ResetPrefix();
                             }
                         }
-
-                    // No implemention of "IModule" -> message
-                    if (moduleIsCorrectImplemented == false)
-                        ConsoleOutput.WriteLine(ConsoleType.Error,
-                            $"Module ~o~\"{Path.GetFileNameWithoutExtension(modulePath)}\"~;~ is incorrect. " +
-                            $"Implement the ~g~\"ModuleProperties\"~;~ attribute in the given module interface.");
                 }
                 catch (ActivationException e)
                 {
                     ConsoleOutput.WriteLine(ConsoleType.Error,
-                        $"The module ~o~{modulePath}~;~ could not start, because one or more dependecies are missing!.");
+                        $"The module ~o~{moduleAssembly.FullName}~;~ could not start, because one or more dependecies are missing!.");
 
                     if (possibleAfterEffects)
                         ConsoleOutput.WriteLine(ConsoleType.Note,
@@ -179,7 +165,7 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.PrintLine("=", "~#FFF~", ConsoleType.Error);
 
                     ConsoleOutput.WriteLine(ConsoleType.Error,
-                        $"The module ~o~{modulePath}~;~ could not start. ");
+                        $"The module ~o~{moduleAssembly.FullName}~;~ could not start. ");
 
                     if (possibleAfterEffects)
                         ConsoleOutput.WriteLine(ConsoleType.Note,
