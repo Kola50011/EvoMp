@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Core.Module.Server;
 using EvoMp.Core.Shared.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
@@ -61,7 +60,9 @@ namespace EvoMp.Module.CommandHandler.Server
         private void ApiOnOnChatCommand(Client sender, string command, CancelEventArgs cancel)
         {
             cancel.Cancel = true;
-            EvalCommand(sender, command);
+            if (!EvalCommand(sender, command))
+                MessageHandler.PlayerMessage(sender, $"Comand ~o~{command.Split(' ')[0]}~;~ not found.",
+                    MessageType.Error);
         }
 
         /// <summary>
@@ -83,9 +84,13 @@ namespace EvoMp.Module.CommandHandler.Server
 
             ICommand command = GetCommand(commandString);
 
-            // No command found -> return false;
+            // No command found -> console output & return false;
             if (command == null)
+            {
+                ConsoleOutput.WriteLine(ConsoleType.Command,
+                    $"~r~Unknown command~w~ - ~b~{sender.name} ~;~-> ~o~{commandString}~c~");
                 return false;
+            }
 
             // Failed PlayerCommand specifys -> return true;
             if (command is PlayerCommand playerCommand)
@@ -218,6 +223,7 @@ namespace EvoMp.Module.CommandHandler.Server
                     return false;
                 }
             }
+
             return true;
         }
     }

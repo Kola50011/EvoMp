@@ -57,6 +57,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         public void UpdateVehicleFull(Client sender)
         {
             ExtendedVehicle extendedVehicle = new ExtendedVehicle(sender.vehicle);
+            extendedVehicle.FullUpdate();
             extendedVehicle.Save();
         }
 
