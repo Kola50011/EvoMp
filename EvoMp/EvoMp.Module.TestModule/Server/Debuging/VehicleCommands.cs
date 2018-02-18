@@ -6,6 +6,7 @@ using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
@@ -43,10 +44,10 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             newVehicle.waitForSynchronization();
 
             sender.setIntoVehicle(newVehicle, -1);
-            
+
 
             _api.sendChatMessageToPlayer(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
             _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
         }
 
@@ -85,16 +86,24 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/vsethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleHealth(Client sender, double health)
         {
-            sender.vehicle.health = (float)health;
+            sender.vehicle.health = (float) health;
 
             _api.sendChatMessageToPlayer(sender, $"New vehicle health: ~o~{sender.vehicle.health}");
-
         }
 
         [PlayerCommand("/vgethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void GetVehicleHealth(Client sender)
         {
             _api.sendChatMessageToPlayer(sender, $"Vehicle health: ~o~{sender.vehicle.health}");
+        }
+
+        [PlayerCommand("/vtyresmokecolor", new []{"/vtsc"}, playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetVehicleTyreSmokeColor(Client sender, int red, int green, int blue)
+        {
+            //sender.vehicle.tyreSmokeColor = new Color(red, green, blue);
+            API.shared.setVehicleTyreSmokeColor(sender.vehicle, red, green, blue);
+            _api.sendChatMessageToPlayer(sender,
+                $"Changed vehicle tyre smoke color to ~r~{red} ~g~{green} ~b~{blue}");
         }
     }
 }

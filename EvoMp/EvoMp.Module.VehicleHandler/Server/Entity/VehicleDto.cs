@@ -65,6 +65,12 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("RotZ")]
         private double RotZ { get; set; }
 
+        [Column("TyreSmokingColorId")]
+        public int? TyreSmokingColorId { get; set; }
+
+        [ForeignKey("TyreSmokingColorId")]
+        public VehicleColorDto TyreSmokingColor { get; set; }
+
         [Column("PrimaryColorId")]
         public int? PrimaryColorId { get; set; }
 

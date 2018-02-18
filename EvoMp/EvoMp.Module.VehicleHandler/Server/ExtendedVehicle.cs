@@ -11,7 +11,6 @@ using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Gta;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 using GrandTheftMultiplayer.Shared.Math;
 
@@ -67,6 +66,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     .Include(vDto => vDto.SecondaryColor)
                     .Include(vDto => vDto.PrimaryColor)
                     .Include(vDto => vDto.VehicleProperties)
+                    .Include(vdto => vdto.TyreSmokingColor)
                     .First(vdto => vdto.VehicleId == vehicleId);
 
                 Properties.DoorStates =
@@ -127,8 +127,8 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
                     API.shared.getVehicleDoorState(VehicleHandle, (int) doorState);
             }
+
             Debug("Update - Door States updated.");
-            
         }
 
         public void UpdateVehicleModifications()
@@ -193,6 +193,7 @@ namespace EvoMp.Module.VehicleHandler.Server
 
             Color primaryColor = API.shared.getVehicleCustomPrimaryColor(VehicleHandle);
             Color secondaryColor = API.shared.getVehicleCustomSecondaryColor(VehicleHandle);
+            Color tyreColor = API.shared.getVehicleTyreSmokeColor(VehicleHandle);
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
                 // Search for existing color combination
@@ -227,11 +228,28 @@ namespace EvoMp.Module.VehicleHandler.Server
                     context.SaveChanges();
                 }
 
+                VehicleColorDto tyreColorDto = context.VehicleColors.FirstOrDefault(vcDto =>
+                    vcDto.Blue == tyreColor.blue && vcDto.Green == tyreColor.green &&
+                    vcDto.Red == tyreColor.red);
+
+                if (tyreColorDto == null)
+                {
+                    tyreColorDto = context.VehicleColors.Add(new VehicleColorDto
+                    {
+                        Green = tyreColor.green,
+                        Blue = tyreColor.blue,
+                        Red = tyreColor.red
+                    });
+                    context.SaveChanges();
+                }
+
                 // Save color to vehicle
                 Properties.PrimaryColor = primaryColorDto;
                 Properties.SecondaryColor = secondaryColorDto;
+                Properties.TyreSmokingColor = tyreColorDto;
                 Properties.PrimaryColorId = primaryColorDto.VehicleColorId;
                 Properties.SecondaryColorId = secondaryColorDto.VehicleColorId;
+                Properties.TyreSmokingColorId = tyreColorDto.VehicleColorId;
             }
 
             Debug("Update - Vehicle color updated.");
@@ -277,6 +295,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                         contextTransaction.Rollback();
                     }
                 }
+
                 Debug("Save - Extended Vehicle saved to database.");
             }
         }
@@ -314,6 +333,9 @@ namespace EvoMp.Module.VehicleHandler.Server
             if (Properties.SecondaryColor != null)
                 API.shared.setVehicleCustomSecondaryColor(VehicleHandle, Properties.SecondaryColor.Red,
                     Properties.SecondaryColor.Green, Properties.SecondaryColor.Blue);
+            if (Properties.TyreSmokingColor != null)
+                API.shared.setVehicleTyreSmokeColor(VehicleHandle, Properties.TyreSmokingColor.Red,
+                    Properties.TyreSmokingColor.Green, Properties.TyreSmokingColor.Blue);
 
             Debug("Create - Extended Vehicle created.");
         }
