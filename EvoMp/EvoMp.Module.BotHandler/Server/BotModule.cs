@@ -1,3 +1,4 @@
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.VehicleHandler.Server;
@@ -5,7 +6,7 @@ using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.BotHandler.Server
 {
-    public class BotModule : IBotModule
+    public class BotModule : BaseModule, IBotModule
     {
         private readonly API _api;
         private readonly IMessageHandler _messageHandler;

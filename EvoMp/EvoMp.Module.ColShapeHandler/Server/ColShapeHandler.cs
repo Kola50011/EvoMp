@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Managers;
 using GrandTheftMultiplayer.Shared;
@@ -9,7 +10,7 @@ using GrandTheftMultiplayer.Shared.Math;
 namespace EvoMp.Module.ColShapeHandler.Server
 {
     /// <inheritdoc />
-    public class ColShapeHandler : IColShapeHandler
+    public class ColShapeHandler : BaseModule, IColShapeHandler
     {
         private readonly API _api;
 

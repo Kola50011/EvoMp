@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace EvoMp.Module.ClientWrapper.Server
+namespace EvoMp.Module.ClientWrapper.Server.Exceptions
 {
     public class GetTimeoutException : Exception
     {

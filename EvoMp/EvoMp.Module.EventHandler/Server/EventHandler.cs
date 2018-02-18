@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -8,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace EvoMp.Module.EventHandler.Server
 {
-    public class EventHandler : IEventHandler
+    public class EventHandler : BaseModule, IEventHandler
     {
         private readonly API _api;
 

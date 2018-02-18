@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
@@ -8,7 +9,7 @@ using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.VehicleUtils.Server
 {
-    public class VehicleUtils : IVehicleUtils
+    public class VehicleUtils : BaseModule, IVehicleUtils
     {
         List<VehicleHash> IVehicleUtils.GetVehiclesByName(string searchVehicleName)
         {

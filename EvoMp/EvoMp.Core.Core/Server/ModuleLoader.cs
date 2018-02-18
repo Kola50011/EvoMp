@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Core.Server.Exceptions;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Shared.Server;
 using GrandTheftMultiplayer.Server.API;
 using Ninject;
+using Ninject.Infrastructure.Language;
 
 namespace EvoMp.Core.Core.Server
 {
@@ -15,6 +17,7 @@ namespace EvoMp.Core.Core.Server
     {
         private readonly IKernel _kernel;
         private readonly List<Assembly> _moduleAssemblies;
+
         public ModuleLoader(API api)
         {
             Api = api;
@@ -37,12 +40,21 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules completed.");
             ConsoleOutput.PrintLine("-");
 
+            //SortModules();
             // Start modules
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules now.");
             StartModules();
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules completed.");
             ConsoleOutput.PrintLine("-");
         }
+
+        //private void SortModules()
+        //{
+        //    foreach (Assembly moduleAssembly in _moduleAssemblies)
+        //    {
+        //        moduleAssembly.GetReferencedAssemblies()
+        //    }
+        //}
 
         /// <summary>
         ///     Trys to bind the given modules.
@@ -67,6 +79,12 @@ namespace EvoMp.Core.Core.Server
                     if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
                     {
                         hasNeededInterface = true;
+                        //  Main module class didn't based on BaseModule -> Exception
+                        if (!moduleClass.GetAllBaseTypes().Contains(typeof(BaseModule)))
+                            throw new NotValidModuleException(
+                                $"The module {modulePath} didn't base on the \"BaseModule\" abstract class." +
+                                Environment.NewLine +
+                                "Inherit from the BaseModule class.");
 
                         // Load module interface Attribute, to get module informations
                         ModuleProperties moduleProperties = (ModuleProperties)
@@ -87,15 +105,17 @@ namespace EvoMp.Core.Core.Server
                         // Add to list & bind module
                         _moduleAssemblies.Add(moduleAssembly);
                         _kernel.Bind(moduleInterface, moduleClass).To(moduleClass).InSingletonScope()
-                            .WithConstructorArgument("api", context => Api);
+                            .WithConstructorArgument("api", context => Api).OnActivation(SharedEvents.OnOnModuleLoaded);
                     }
 
                 // No implemention of "ModuleProperties" -> exception
                 if (!hasNeededInterface)
-                    throw new Exception($"The module {modulePath} didn't implement the \"ModuleAttribute\" " +
-                                        $"in the main Interface. " + Environment.NewLine +
-                                        "Please add the needed interface");
+                    throw new NotValidModuleException(
+                        $"The module {modulePath} didn't implement the \"ModuleAttribute\" " +
+                        $"in the main Interface. " + Environment.NewLine +
+                        "Please add the needed interface");
             }
+
             ConsoleOutput.ResetPrefix();
             // return created kernel
         }
@@ -130,17 +150,8 @@ namespace EvoMp.Core.Core.Server
                             try
                             {
                                 ConsoleOutput.AppendPrefix("\t");
-                                // Write console output
-                                ConsoleOutput.WriteLine(ConsoleType.Core,
-                                    $"~#51ff76~{moduleInterface.Name}~;~ " +
-                                    $"[~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
-                                    $"~c~{moduleProperties.ModuleDescription}");
-
-                                ConsoleOutput.AppendPrefix("\t ~w~> ~;~");
-
                                 // Start module
                                 object instance = _kernel.Get(moduleClass);
-                                SharedEvents.OnOnModuleLoaded(instance);
                             }
                             finally
                             {

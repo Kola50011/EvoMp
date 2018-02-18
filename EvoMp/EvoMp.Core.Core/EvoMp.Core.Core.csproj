@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\CustomTextWriter.cs" />
+    <Compile Include="Server\Exceptions\NotValidModuleException.cs" />
     <Compile Include="Server\Main.cs" />
     <Compile Include="Server\ModuleLoader.cs" />
     <Compile Include="Server\ModuleStructurer.cs" />

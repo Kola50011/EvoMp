@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.EventHandler.Server;
@@ -13,7 +14,7 @@ namespace EvoMp.Module.ClientHandler.Server
      * Handles Users and Spawning of them
      */
 
-    public class ClientHandler : IClientHandler
+    public class ClientHandler : BaseModule, IClientHandler
     {
         private readonly ClientRepository _clientRepository;
         private readonly SpawnManager _spawnManager;

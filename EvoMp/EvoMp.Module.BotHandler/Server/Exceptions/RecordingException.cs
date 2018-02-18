@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EvoMp.Module.BotHandler.Server
+namespace EvoMp.Module.BotHandler.Server.Exceptions
 {
     public class RecordingException : Exception
     {

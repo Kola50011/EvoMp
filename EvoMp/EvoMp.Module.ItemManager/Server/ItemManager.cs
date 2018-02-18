@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Linq;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.ItemManager.Entity;
 using EvoMp.Module.ItemManager.Items;
 
 namespace EvoMp.Module.ItemManager.Server
 {
-    public class ItemManager : IItemManager
+    public class ItemManager : BaseModule, IItemManager
     {
         public InventoryRepository InventoryRepository;
 

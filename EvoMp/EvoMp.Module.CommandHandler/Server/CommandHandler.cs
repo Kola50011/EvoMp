@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Core.Shared.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
@@ -12,7 +13,7 @@ using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.CommandHandler.Server
 {
-    public class CommandHandler : ICommandHandler
+    public class CommandHandler : BaseModule, ICommandHandler
     {
         internal readonly IMessageHandler MessageHandler;
 

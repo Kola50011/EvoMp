@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
@@ -9,7 +10,7 @@ using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.VehicleHandler.Server
 {
-    public class VehicleHandler : IVehicleHandler
+    public class VehicleHandler : BaseModule, IVehicleHandler
     {
         private readonly API _api;
 

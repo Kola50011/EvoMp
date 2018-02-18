@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.EventHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -12,7 +13,7 @@ namespace EvoMp.Module.ClientWrapper.Server
     /// 
     /// <code>",[^,]+(,[^,)]+){13} (Regex. Use for parameter type remove)</code>
     /// </summary>
-    public class ClientWrapper : IClientWrapper
+    public class ClientWrapper : BaseModule, IClientWrapper
     {
         public ISetFunctions Setter { get; }
         public IGetFunctions Getter { get; }

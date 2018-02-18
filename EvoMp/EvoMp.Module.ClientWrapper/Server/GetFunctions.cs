@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using EvoMp.Module.ClientWrapper.Server.Exceptions;
 using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.Constant;

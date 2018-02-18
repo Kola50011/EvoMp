@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
-using EvoMp.Module.CommandHandler.Server;
 
 namespace EvoMp.Module.DbAccess.Server
 {
-    public class DbAccess : IDbAccess
+    public class DbAccess : BaseModule, IDbAccess
     {
-        public DbAccess(ICommandHandler commandHandler)
+        public DbAccess()
         {
             // Get Database name from Parameter
             ParameterHandler.SetDefault("DatabaseName", "EvoMpGtMpServer");
