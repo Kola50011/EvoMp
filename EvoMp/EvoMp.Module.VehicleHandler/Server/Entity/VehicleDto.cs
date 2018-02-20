@@ -16,9 +16,11 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleId")]
         public int VehicleId { get; set; }
 
-        [Required] [Column("VehicleHash")] public VehicleHash VehicleHash { get; set; }
+        [Required] [Column("VehicleHash")]
+        public VehicleHash VehicleHash { get; set; }
 
-        [ForeignKey("VehicleHash")] public VehiclePropertiesDto VehicleProperties { get; set; }
+        [ForeignKey("VehicleHash")]
+        public VehiclePropertiesDto VehicleProperties { get; set; }
 
         [NotMapped]
         public Vector3 Position

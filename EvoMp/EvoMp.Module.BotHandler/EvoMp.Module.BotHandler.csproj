@@ -120,6 +120,10 @@
       <Project>{fc2da305-bd70-468e-bcc5-7bcf4f161471}</Project>
       <Name>EvoMp.Module.DbAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.EventHandler\EvoMp.Module.EventHandler.csproj">
+      <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
+      <Name>EvoMp.Module.EventHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj">
       <Project>{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}</Project>
       <Name>EvoMp.Module.MessageHandler</Name>

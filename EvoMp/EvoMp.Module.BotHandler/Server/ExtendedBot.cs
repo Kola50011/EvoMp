@@ -7,8 +7,10 @@ using EvoMp.Module.BotHandler.Server.Exceptions;
 using EvoMp.Module.ClientHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
+using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.BotHandler.Server
 {
@@ -30,17 +32,33 @@ namespace EvoMp.Module.BotHandler.Server
             // Get Properties
             using (BotContext context = BotRepository.GetBotContext())
             {
-                Properties = context.Bots.FirstOrDefault(dto => dto.BotName.ToLower() == botName.ToLower() && dto.OwnerId == Owner.Properties.Id);
-
-                    if (Properties == null)
-                        InitNew(botName);
-                    else
-                        Vehicle = new ExtendedVehicle(Properties.VehicleId);
-
-                Properties.Waypoints = context.BotWaypoints.Where(dto => dto.BotId == Properties.BotId).ToList();
-                Properties.Vehicle = Vehicle.Properties;
-                Properties.Owner = Owner.Properties;
+                Properties = context.Bots.FirstOrDefault(dto =>
+                    dto.BotName.ToLower() == botName.ToLower() && dto.OwnerId == Owner.Properties.Id);
             }
+
+            if (Properties == null)
+                InitNew(botName);
+            else
+                Vehicle = new ExtendedVehicle(Properties.VehicleId);
+
+            if (IsRecording)
+            {
+                ExtendedBot cBot = BotModule.RecordingBots
+                    .First(bot => bot.Properties.BotId == Properties.BotId);
+                Properties.Waypoints = cBot.Properties.Waypoints;
+                Properties.Vehicle = cBot.Vehicle.Properties;
+            }
+            else
+            {
+                using (BotContext context = BotRepository.GetBotContext())
+                {
+                    Properties.Waypoints =
+                        context.BotWaypoints.Where(dto => dto.BotId == Properties.BotId).ToList();
+                    Properties.Vehicle = Vehicle.Properties;
+                    Properties.Owner = Owner.Properties;
+                }
+            }
+
 
             Debug("ExtendedBot inited");
         }
@@ -62,7 +80,7 @@ namespace EvoMp.Module.BotHandler.Server
         private void InitNew(string botName)
         {
             // Create new ExtendedVehicle by copy
-            Vehicle = new ExtendedVehicle(Owner.Client, true);
+            Vehicle = new ExtendedVehicle(Owner.Client.vehicle).Copy();
             Vehicle.Save();
             Debug("Extended Vehicle created and saved");
 
@@ -88,7 +106,7 @@ namespace EvoMp.Module.BotHandler.Server
         public void StartRecording()
         {
             // Is already recording -> Exception
-            if (!IsRecording)
+            if (IsRecording)
                 throw new RecordingException($"Player {Owner.Client.name} is already recording");
 
             IsRecording = true;
@@ -139,20 +157,20 @@ namespace EvoMp.Module.BotHandler.Server
             Debug("Stop playback");
         }
 
-        public void AddWaypoint()
+        public void AddWaypoint(NetHandle recordVehicle)
         {
             Properties.Waypoints.Add(new BotWaypointDto
             {
                 BotId = Properties.BotId,
-                Position = API.shared.getEntityPosition(Vehicle.Vehicle),
-                Rotation = API.shared.getEntityRotation(Vehicle.Vehicle),
-                Velocity = API.shared.getEntityVelocity(Vehicle.Vehicle)
+                Position = API.shared.getEntityPosition(recordVehicle),
+                Rotation = API.shared.getEntityRotation(recordVehicle),
+                Velocity = API.shared.getEntityVelocity(recordVehicle)
             });
         }
 
         public BotWaypointDto GetNextWaypoint()
         {
-            if (_currentWaypoint > Properties.Waypoints.Count)
+            if (_currentWaypoint > Properties.Waypoints.Count-1)
                 return null;
 
             _currentWaypoint++;

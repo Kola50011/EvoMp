@@ -3,6 +3,7 @@ using EvoMp.Core.Module.Server;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.DbAccess.Server;
+using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
@@ -18,10 +19,10 @@ namespace EvoMp.Module.BotHandler.Server
         internal static List<ExtendedBot> PlaybackBots = new List<ExtendedBot>();
 
         public BotModule(API api, IDbAccess access, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
-            IMessageHandler messageHandler, IClientWrapper clientWrapper)
+            IMessageHandler messageHandler, IClientWrapper clientWrapper, IEventHandler eventHandler)
         {
             Commands = new Commands(messageHandler, vehicleHandler);
-            Tracking = new Tracking(api, clientWrapper);
+            Tracking = new Tracking(api, clientWrapper, eventHandler);
         }
     }
 }

@@ -37,17 +37,14 @@ namespace EvoMp.Module.VehicleHandler.Server
         ///     <remarks>The NetHandle must have the Entity Data VehicleHash!</remarks>
         /// </summary>
         /// <param name="vehicle"></param>
-        /// <param name="createCopy">Create only a copy of the current vehicle</param>
-        public ExtendedVehicle(NetHandle vehicle, bool createCopy = false)
+        public ExtendedVehicle(NetHandle vehicle)
         {
-            //TODO: Dont write VehicleId if copy
-            if (!createCopy)
-                Vehicle = vehicle;
+            Vehicle = vehicle;
 
             VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
 
             // Get Database entry if given
-            if (!createCopy && API.shared.hasEntityData(vehicle, "VehicleId"))
+            if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                 {
                     InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
@@ -56,10 +53,19 @@ namespace EvoMp.Module.VehicleHandler.Server
                 InitNew(vehicleHash,
                     API.shared.getEntityPosition(vehicle), API.shared.getEntityRotation(vehicle),
                     API.shared.getEntityDimension(vehicle));
+        }
 
-            // Save new if copy
-            if(createCopy)
-                Save();
+        public ExtendedVehicle Copy()
+        {
+            ExtendedVehicle copyVehicle = new ExtendedVehicle(Properties.VehicleHash,
+                API.shared.getEntityPosition(Vehicle), API.shared.getEntityRotation(Vehicle),
+                API.shared.getEntityDimension(Vehicle));
+            copyVehicle.Save();
+            copyVehicle.Vehicle = Vehicle;
+            copyVehicle.FullUpdate(false);
+            copyVehicle.Vehicle = new NetHandle();
+            copyVehicle.Save();
+            return copyVehicle;
         }
 
         /// <summary>
@@ -97,14 +103,23 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="dimension">The vehicle dimension</param>
         private void InitNew(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
-            Properties = new VehicleDto
+            //Get Vehicle properties
+            using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
-                VehicleHash = vehicleHash,
-                Position = position,
-                Rotation = rotation,
-                Dimension = dimension
-            };
+                Properties = context.Vehicles.Add(new VehicleDto
+                {
+                    VehicleHash = vehicleHash,
+                    VehicleProperties = context.VehicleProperties.First(dto => dto.VehicleHash == vehicleHash),
+                    Position = position,
+                    Rotation = rotation,
+                    Dimension = dimension
+                });
+                context.SaveChanges();
 
+                // Save VehicleId to the Vehicle
+                if (!Vehicle.IsNull)
+                    API.shared.setEntityData(Vehicle, "VehicleId", Properties.VehicleId);
+            }
             Debug("Init - By vehicleHash, position, rotation, dimension.");
         }
 

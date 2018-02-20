@@ -11,5 +11,6 @@ namespace EvoMp.Module.EventHandler.Server
         void SubscribeToServerEvent(string eventName, ServerEventHandle serverEventHandle);
         bool EventSubscribed(string eventName);
         void UnsubscribeToServerEvent(string eventName);
+        void SetLogging(string eventName, bool logging);
     }
 }

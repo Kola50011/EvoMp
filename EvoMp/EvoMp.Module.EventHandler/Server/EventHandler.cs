@@ -17,24 +17,51 @@ namespace EvoMp.Module.EventHandler.Server
         private readonly Dictionary<string, List<ServerEventHandle>> _subscriberList =
             new Dictionary<string, List<ServerEventHandle>>();
 
+        private readonly List<string> _notLoggingEvents = new List<string>();
+
         public EventHandler(API api)
         {
             _api = api;
             _api.onClientEventTrigger += InvokeServerEvent;
         }
 
+        public void SetLogging(string eventName, bool logging)
+        {
+            // Logging enabled -> remove from list & return
+            if (logging)
+            {
+                _notLoggingEvents.Remove(eventName);
+                return;
+            }
+
+            // Add to ignore list
+            if (!_notLoggingEvents.Contains(eventName))
+                _notLoggingEvents.Add(eventName);
+            
+        }
+
         // ClientEvents
         public void InvokeClientEvent(Client client, string eventName, params object[] args)
         {
-            ConsoleOutput.WriteLine(ConsoleType.Event,
-                $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
+            _api.triggerClientEvent(client, eventName, args);
+        }
+
+        public void InvokeClientEvent(Client client, bool logging, string eventName, params object[] args)
+        {
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
             _api.triggerClientEvent(client, eventName, args);
         }
 
         public void InvokeClientEvent(string eventName, params object[] args)
         {
-            ConsoleOutput.WriteLine(ConsoleType.Event,
-                $"~#85a7dd~{eventName}~;~ ~w~>> ~w~everyone ~c~{JsonConvert.SerializeObject(args)}");
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $"~#85a7dd~{eventName}~;~ ~w~>> ~w~everyone ~c~{JsonConvert.SerializeObject(args)}");
 
             _api.triggerClientEventForAll(eventName, args);
         }
@@ -74,8 +101,9 @@ namespace EvoMp.Module.EventHandler.Server
             if (args == null)
                 args = new object[] { };
 
-            ConsoleOutput.WriteLine(ConsoleType.Event,
-                $"~w~{client.name} ~w~>> ~#85a7dd~{eventName}~;~ ~c~{JsonConvert.SerializeObject(args)}");
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $"~w~{client.name} ~w~>> ~#85a7dd~{eventName}~;~ ~c~{JsonConvert.SerializeObject(args)}");
 
             if (!_subscriberList.ContainsKey(eventName))
                 return;

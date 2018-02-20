@@ -19,7 +19,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         public VehicleHandler(API api, IVehicleUtils vehicleUtils)
         {
             _api = api;
-            _vehicleRepository = VehicleRepository.GetInstance(api);
+            _vehicleRepository = VehicleRepository.GetInstance();
             CheckVehicleProperties();
         }
 

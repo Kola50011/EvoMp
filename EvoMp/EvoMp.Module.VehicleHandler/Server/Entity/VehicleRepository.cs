@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using EvoMp.Core.ConsoleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
@@ -11,13 +14,18 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             new VehicleContext().FirstInit();
         }
 
-        public static VehicleContext GetVehicleContext()
+        private VehicleContext CreateContext()
         {
             VehicleContext context = new VehicleContext();
             return context;
         }
 
-        public static VehicleRepository GetInstance(API api)
+        public static VehicleContext GetVehicleContext()
+        {
+            return GetInstance().CreateContext();
+        }
+
+        public static VehicleRepository GetInstance()
         {
             return _vehicleRepository ?? (_vehicleRepository = new VehicleRepository());
         }

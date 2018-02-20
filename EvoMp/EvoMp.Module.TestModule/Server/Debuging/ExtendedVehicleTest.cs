@@ -25,32 +25,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             _messageHandler = messageHandler;
         }
 
-        [PlayerCommand("/dbvehicle", new[] {"/dbv"})]
-        public void SaveVehicle(Client sender, string vehicleName)
-        {
-            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
-
-            // No vehicle found -> message & return
-            if (!possibleVehicles.Any())
-            {
-                _messageHandler.PlayerMessage(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .",
-                    MessageType.Warn);
-                return;
-            }
-
-            // Create new vehicle
-            ExtendedVehicle newExtendedVehicle =
-                new ExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
-            newExtendedVehicle.Create();
-
-
-            _messageHandler.PlayerMessage(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
-
-            sender.setIntoVehicle(newExtendedVehicle.Vehicle, -1);
-
-            newExtendedVehicle.Save();
-        }
+       
 
 
         [PlayerCommand("/dbvUFull", playerOnlyState: PlayerOnlyState.OnlyInVehicle)]

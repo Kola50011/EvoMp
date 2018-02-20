@@ -1,11 +1,15 @@
+using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
+using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Server.Util;
+using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.BotHandler.Server
 {
@@ -63,6 +67,33 @@ namespace EvoMp.Module.BotHandler.Server
             ExtendedBot playBot = new ExtendedBot(sender, botName);
             playBot.StartPlayBack();
             _messageHandler.PlayerMessage(sender, $"Playback of bot {botName} started.", MessageType.Info);
+        }
+
+        [PlayerCommand("/dbvehicle", new[] { "/dbv" })]
+        public void SaveVehicle(Client sender, string vehicleName)
+        {
+            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
+
+            // No vehicle found -> message & return
+            if (!possibleVehicles.Any())
+            {
+                _messageHandler.PlayerMessage(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .",
+                    MessageType.Warn);
+                return;
+            }
+
+            // Create new vehicle
+            ExtendedVehicle newExtendedVehicle =
+                new ExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
+            newExtendedVehicle.Create();
+
+
+            _messageHandler.PlayerMessage(sender,
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
+
+            sender.setIntoVehicle(newExtendedVehicle.Vehicle, -1);
+
+            newExtendedVehicle.Save();
         }
     }
 }
