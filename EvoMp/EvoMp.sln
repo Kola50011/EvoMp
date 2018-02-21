@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{20EAFC3F-1742-4032-B885-2DDCFE385E22}"
 EndProject
@@ -72,8 +72,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Core.Shared", "EvoMp.Core.Shared\EvoMp.Core.Shared.csproj", "{7DFDE116-E468-415D-AC25-7BDC6FC91C0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.BotHandler", "EvoMp.Module.BotHandler\EvoMp.Module.BotHandler.csproj", "{E701752A-8EDF-4A1F-9B54-D028A4A104AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.WeaponHandler", "EvoMp.Module.WeaponHandler\EvoMp.Module.WeaponHandler.csproj", "{06AE5D6C-777B-488B-B1E3-E8704D10CE82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.WeaponUtils", "EvoMp.Module.WeaponUtils\EvoMp.Module.WeaponUtils.csproj", "{427E4E85-EF34-425B-BEBD-A2B5846C26E9}"
 EndProject
@@ -359,18 +357,6 @@ Global
 		{E701752A-8EDF-4A1F-9B54-D028A4A104AD}.Windows-Debug|Any CPU.Build.0 = Windows-Debug|Any CPU
 		{E701752A-8EDF-4A1F-9B54-D028A4A104AD}.Windows-Release|Any CPU.ActiveCfg = Windows-Release|Any CPU
 		{E701752A-8EDF-4A1F-9B54-D028A4A104AD}.Windows-Release|Any CPU.Build.0 = Windows-Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Linux-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Linux-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Linux-Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Linux-Release|Any CPU.Build.0 = Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Windows-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Windows-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Windows-Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82}.Windows-Release|Any CPU.Build.0 = Release|Any CPU
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Linux-Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -412,7 +398,6 @@ Global
 		{3D009C13-256A-4F29-84AB-465DE07265CF} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{7DFDE116-E468-415D-AC25-7BDC6FC91C0C} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 		{E701752A-8EDF-4A1F-9B54-D028A4A104AD} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
-		{06AE5D6C-777B-488B-B1E3-E8704D10CE82} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
