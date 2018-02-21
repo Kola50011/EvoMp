@@ -4,18 +4,15 @@ using System.Reflection;
 namespace EvoMp.Module.CommandHandler.Server.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class PlayerCommand : Attribute, ICommand
+    public class AdminCommand : Attribute, ICommand
     {
-        public PlayerCommand(string command, string[] commandAliases = null,
-            PlayerOnlyState playerOnlyState = PlayerOnlyState.Any, int minHealth = 0)
+        public AdminCommand(string command, string[] commandAliases = null,
+            PlayerOnlyState playerOnlyState = PlayerOnlyState.Any)
         {
             Command = command;
-            PlayerOnlyState = playerOnlyState;
-            MinHealth = minHealth;
+            PlayerOnlyState = playerOnlyState;           
             CommandAliases = commandAliases ?? new string[] { };
         }
-
-        public int MinHealth { get; }
 
         public string Command { get; set; }
 
