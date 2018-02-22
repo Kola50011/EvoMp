@@ -21,6 +21,9 @@ namespace EvoMp.Core.Module.Server
                     // Write console output
                     ConsoleOutput.WriteLine(ConsoleType.Core,
                         $"~#51ff76~{moduleInterface.Name}~;~ " +
+                        (moduleProperties.Priority < int.MaxValue
+                            ? $"~;~[~c~{moduleProperties.Priority}~;~] "
+                            : "") +
                         $"[~#83ff9d~{moduleProperties.ModuleAuthors}~;~]: " +
                         $"~#3e8e64~\"{moduleProperties.ModuleDescription}\"");
                     ConsoleOutput.SetPrefix("\t\t ~w~> ~;~");

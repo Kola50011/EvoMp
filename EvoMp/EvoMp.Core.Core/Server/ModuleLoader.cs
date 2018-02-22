@@ -13,11 +13,19 @@ using Ninject.Infrastructure.Language;
 
 namespace EvoMp.Core.Core.Server
 {
+    /// <summary>
+    ///     The ModuleLoader class.
+    ///     Relevant for module loading and starting.
+    /// </summary>
     public class ModuleLoader
     {
         private readonly IKernel _kernel;
         private readonly List<Assembly> _moduleAssemblies;
 
+        /// <summary>
+        ///     Creates instance of the module loader
+        /// </summary>
+        /// <param name="api">The GTMP api instance. Used for Ninject.</param>
         public ModuleLoader(API api)
         {
             Api = api;
@@ -27,6 +35,9 @@ namespace EvoMp.Core.Core.Server
 
         private API Api { get; }
 
+        /// <summary>
+        ///     The full module loading and startup
+        /// </summary>
         public void Load()
         {
             ConsoleOutput.PrintLine("-");
@@ -40,7 +51,6 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.WriteLine(ConsoleType.Core, "Loading modules completed.");
             ConsoleOutput.PrintLine("-");
 
-            //SortModules();
             // Start modules
             ConsoleOutput.WriteLine(ConsoleType.Core, "Starting modules now.");
             StartModules();
@@ -48,21 +58,13 @@ namespace EvoMp.Core.Core.Server
             ConsoleOutput.PrintLine("-");
         }
 
-        //private void SortModules()
-        //{
-        //    foreach (Assembly moduleAssembly in _moduleAssemblies)
-        //    {
-        //        moduleAssembly.GetReferencedAssemblies()
-        //    }
-        //}
-
         /// <summary>
         ///     Trys to bind the given modules.
         ///     Print's hint if a module was created the wrong way
         /// </summary>
         /// <param name="modulePaths">Path to the modules, wich should binded</param>
         /// <returns>IKernel</returns>
-        private void BindModules(List<string> modulePaths)
+        private void BindModules(IEnumerable<string> modulePaths)
         {
             ConsoleOutput.AppendPrefix("\t");
             // Progressing each module
@@ -112,9 +114,38 @@ namespace EvoMp.Core.Core.Server
                 if (!hasNeededInterface)
                     throw new NotValidModuleException(
                         $"The module {modulePath} didn't implement the \"ModuleAttribute\" " +
-                        $"in the main Interface. " + Environment.NewLine +
+                        "in the main Interface. " + Environment.NewLine +
                         "Please add the needed interface");
             }
+
+            // Sort modules by priority
+            _moduleAssemblies.Sort((assembly1, assembly2) =>
+            {
+                int GetAssemblyPrio(Assembly ass)
+                {
+                    foreach (Type moduleClass in ass.GetTypes())
+                    foreach (Type moduleInterface in moduleClass.GetInterfaces())
+                        if (Attribute.IsDefined(moduleInterface, typeof(ModuleProperties)))
+                        {
+                            // Load module properties from interface
+                            ModuleProperties moduleProperties = (ModuleProperties)
+                                Attribute.GetCustomAttribute(moduleInterface, typeof(ModuleProperties));
+
+                            // Moduletype is not given as startup parameter -> next module;
+                            if (!ModuleTypeHandler.IsModuleTypeValid
+                                (moduleProperties.ModuleType))
+                                continue;
+
+                            return moduleProperties.Priority;
+                        }
+
+                    return int.MaxValue;
+                }
+
+                return GetAssemblyPrio(assembly1).CompareTo(GetAssemblyPrio(assembly2));
+            });
+            ConsoleOutput.WriteLine(ConsoleType.Core, "Sort modules done.");
+
 
             ConsoleOutput.ResetPrefix();
             // return created kernel
@@ -151,7 +182,7 @@ namespace EvoMp.Core.Core.Server
                             {
                                 ConsoleOutput.AppendPrefix("\t");
                                 // Start module
-                                object instance = _kernel.Get(moduleClass);
+                                _kernel.Get(moduleClass);
                             }
                             finally
                             {

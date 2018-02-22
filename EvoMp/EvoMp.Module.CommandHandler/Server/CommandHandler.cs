@@ -28,6 +28,12 @@ namespace EvoMp.Module.CommandHandler.Server
             api.onChatCommand += ApiOnOnChatCommand;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        ///     Returns the ICommand for the given command string
+        /// </summary>
+        /// <param name="commandString">The complete command string</param>
+        /// <returns>ICommand or Null</returns>
         public ICommand GetCommand(string commandString)
         {
             List<string> commandStringParts = commandString.Split(' ').ToList();
@@ -43,42 +49,15 @@ namespace EvoMp.Module.CommandHandler.Server
         }
 
         /// <summary>
-        ///     Called on module loaded
+        ///     Runs the command from the command string for the sender
+        ///     <para>
+        ///         Sends automatic fail message to the player if parameters missing
+        ///         or other conditions not correct.
+        ///     </para>
         /// </summary>
-        /// <param name="moduleInstance">The module instance</param>
-        private void SharedOnModuleLoaded(object moduleInstance)
-        {
-            CommandParser.InspectModule(moduleInstance);
-        }
-
-        /// <summary>
-        ///     Called on API.OnChatCommand.
-        ///     Setting cancel.Cancel on true. To catch all other events.
-        /// </summary>
-        /// <param name="sender">The player</param>
-        /// <param name="command">The chat message</param>
-        /// <param name="cancel">The cancel event</param>
-        private void ApiOnOnChatCommand(Client sender, string command, CancelEventArgs cancel)
-        {
-            cancel.Cancel = true;
-            if (!EvalCommand(sender, command))
-                MessageHandler.PlayerMessage(sender, $"Comand ~o~{command.Split(' ')[0]}~;~ not found.",
-                    MessageType.Error);
-        }
-
-        /// <summary>
-        ///     Called on API.OnChatMessage.
-        ///     Would be cancel.Cancel = true, if message is a given command.
-        /// </summary>
-        /// <param name="sender">The player</param>
-        /// <param name="message">The chat message</param>
-        /// <param name="cancel">The cancel event</param>
-        private void ApiOnOnChatMessage(Client sender, string message, CancelEventArgs cancel)
-        {
-            // Message is a command -> Set cancel
-            cancel.Cancel = EvalCommand(sender, message);
-        }
-
+        /// <param name="sender">The player who run the command</param>
+        /// <param name="commandString">The full command string</param>
+        /// <returns>False if command not found. Else true.</returns>
         public bool EvalCommand(Client sender, string commandString)
         {
             List<string> commandStringParts = commandString.Split(' ').ToList();
@@ -187,12 +166,49 @@ namespace EvoMp.Module.CommandHandler.Server
         }
 
         /// <summary>
+        ///     Called on module loaded
+        /// </summary>
+        /// <param name="moduleInstance">The module instance</param>
+        private static void SharedOnModuleLoaded(object moduleInstance)
+        {
+            CommandParser.InspectModule(moduleInstance);
+        }
+
+        /// <summary>
+        ///     Called on API.OnChatCommand.
+        ///     Setting cancel.Cancel on true. To catch all other events.
+        /// </summary>
+        /// <param name="sender">The player</param>
+        /// <param name="command">The chat message</param>
+        /// <param name="cancel">The cancel event</param>
+        private void ApiOnOnChatCommand(Client sender, string command, CancelEventArgs cancel)
+        {
+            cancel.Cancel = true;
+            if (!EvalCommand(sender, command))
+                MessageHandler.PlayerMessage(sender, $"Comand ~o~{command.Split(' ')[0]}~;~ not found.",
+                    MessageType.Error);
+        }
+
+        /// <summary>
+        ///     Called on API.OnChatMessage.
+        ///     Would be cancel.Cancel = true, if message is a given command.
+        /// </summary>
+        /// <param name="sender">The player</param>
+        /// <param name="message">The chat message</param>
+        /// <param name="cancel">The cancel event</param>
+        private void ApiOnOnChatMessage(Client sender, string message, CancelEventArgs cancel)
+        {
+            // Message is a command -> Set cancel
+            cancel.Cancel = EvalCommand(sender, message);
+        }
+
+        /// <summary>
         ///     Checks command properties for a player command attribute
         /// </summary>
         /// <param name="sender">The Player to check</param>
         /// <param name="playerCommand">The player command wich should be checked.</param>
         /// <returns>bool</returns>
-        public bool CheckPlayerCommand(Client sender, PlayerCommand playerCommand)
+        private bool CheckPlayerCommand(Client sender, ICommand playerCommand)
         {
             switch (playerCommand.PlayerOnlyState)
             {
@@ -223,6 +239,8 @@ namespace EvoMp.Module.CommandHandler.Server
                     MessageHandler.PlayerMessage(sender, "You're not the vehicle driver!", MessageType.Error);
                     return false;
                 }
+                default:
+                    return true;
             }
 
             return true;
