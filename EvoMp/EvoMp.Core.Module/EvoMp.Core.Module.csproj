@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -76,14 +76,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server\BaseModule.cs" />
     <Compile Include="Server\ModuleProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\NonPublicColumnAttributeConvention.cs" />
-    <Compile Include="Server\Shared.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
+      <Project>{c78e7d97-2d34-4c47-a48e-df1a3e960d61}</Project>
+      <Name>EvoMp.Core.ConsoleHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Core.Shared\EvoMp.Core.Shared.csproj">
+      <Project>{7DFDE116-E468-415D-AC25-7BDC6FC91C0C}</Project>
+      <Name>EvoMp.Core.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,11 +1,12 @@
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.DiscordHandler.Server.Entity;
 using EvoMp.Module.EventHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.DiscordHandler.Server
 {
-    public class DiscordHandler : IDiscordHandler
+    public class DiscordHandler : BaseModule, IDiscordHandler
     {
         public BotManagment.BotManagment BotManagment;
         public DiscordRepository DiscordRepository;

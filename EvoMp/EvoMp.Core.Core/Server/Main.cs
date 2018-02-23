@@ -4,8 +4,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Core.Module.Server;
 using EvoMp.Core.Parameter.Server;
+using EvoMp.Core.Shared.Server;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Core.Core.Server
@@ -141,7 +141,7 @@ namespace EvoMp.Core.Core.Server
                 if (!ParameterHandler.IsDefault("onlyCopy"))
                 {
                     // Finish sequence
-                    Shared.OnOnCoreStartupCompleted();
+                    SharedEvents.OnOnCoreStartupCompleted();
                     ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
                     ConsoleOutput.PrintLine("-");
 
@@ -150,13 +150,13 @@ namespace EvoMp.Core.Core.Server
                 }
                 else
                 {
-                    Shared.OnOnModuleLoadingStart(API);
+                    SharedEvents.OnOnModuleLoadingStart(API);
 
                     // Load Modules
                     new ModuleLoader(API).Load();
 
                     // Finish sequence
-                    Shared.OnOnCoreStartupCompleted();
+                    SharedEvents.OnOnCoreStartupCompleted();
                     ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
                     ConsoleOutput.PrintLine("-");
                 }

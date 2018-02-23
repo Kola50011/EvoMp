@@ -28,6 +28,7 @@ namespace EvoMp.Module.ClientHandler.Server
                     $"Unable to get Client from User! Username: {extendetClient.Properties.Name} | SCName: {extendetClient.Properties.SocialClubName}");
                 return null;
             }
+
             return client;
         }
 
@@ -39,6 +40,7 @@ namespace EvoMp.Module.ClientHandler.Server
                 client.position = new Vector3(0, 0, 0);
                 return true;
             }
+
             return false;
         }
 

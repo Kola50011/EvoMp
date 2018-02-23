@@ -19,7 +19,7 @@ interface CefOptionsArgument {
  */
 export default class Cef {
   public readonly identifier: string
-  private readonly browser: GTANetwork.GUI.Browser
+  private readonly browser: GrandTheftMultiplayer.Client.GUI.CEF.Browser
   private readonly path: string
   private readonly options: CefOptions
   private events: {[name: string]: (args: any[]) => void} = {}

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.VehicleUtils.Server.Enums;
+using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
@@ -14,7 +14,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [Index("IX_SlotAndValue", 1, IsUnique = true)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public VehicleModification Slot { get; set; }
+        public VehicleModType Slot { get; set; }
 
         [Index("IX_SlotAndValue", 2, IsUnique = true)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

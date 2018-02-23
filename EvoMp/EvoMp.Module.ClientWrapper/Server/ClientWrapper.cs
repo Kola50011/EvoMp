@@ -1,22 +1,26 @@
-using System;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.EventHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
-using NLog.Targets;
 
 namespace EvoMp.Module.ClientWrapper.Server
 {
-    public class ClientWrapper : IClientWrapper
+    /// <summary>
+    ///     <code>",[^,]+(,[^,)]+){13} (Regex. Use for parameter type remove)</code>
+    /// </summary>
+    public class ClientWrapper : BaseModule, IClientWrapper
     {
-        public ISetFunctions Setter { get; }
-
-        public ClientWrapper(IEventHandler eventHandler)
+        public ClientWrapper(API api, IEventHandler eventHandler)
         {
             Setter = new SetFunctions(eventHandler);
+            Getter = new GetFunctions(eventHandler);
             eventHandler.SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
         }
+
+        public ISetFunctions Setter { get; }
+        public IGetFunctions Getter { get; }
 
         private static void OnClientDebugEvent(Client user, string eventName, params object[] args)
         {

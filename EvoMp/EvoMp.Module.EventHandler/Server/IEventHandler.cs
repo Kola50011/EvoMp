@@ -8,8 +8,9 @@ namespace EvoMp.Module.EventHandler.Server
     {
         void InvokeClientEvent(Client client, string eventName, params object[] args);
         void InvokeClientEvent(string eventName, params object[] args);
-
         void SubscribeToServerEvent(string eventName, ServerEventHandle serverEventHandle);
-        void InvokeServerEvent(Client player, string eventName, object[] args);
+        bool EventSubscribed(string eventName);
+        void UnsubscribeToServerEvent(string eventName);
+        void SetLogging(string eventName, bool logging);
     }
 }

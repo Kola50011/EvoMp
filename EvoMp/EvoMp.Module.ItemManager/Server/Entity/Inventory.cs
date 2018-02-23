@@ -17,7 +17,6 @@ namespace EvoMp.Module.ItemManager.Entity
         [Column("inventory_id")]
         public int Id { get; set; }
 
-        [Column("items")]
-        public List<IBaseItem> Items { get; set; }
+        [Column("items")] public List<IBaseItem> Items { get; set; }
     }
 }

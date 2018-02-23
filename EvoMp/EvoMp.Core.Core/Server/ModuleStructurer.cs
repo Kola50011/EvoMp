@@ -56,7 +56,9 @@ namespace EvoMp.Core.Core.Server
                 newModules = newModules.Select(file => file.Replace(@"\", "/")).ToList();
 
                 newModules = newModules.Where(path => path.Contains("bin/"))
-                    .Where(file => file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb") || file.ToLower().EndsWith("xml"))
+                    .Where(file =>
+                        file.ToLower().EndsWith("dll") || file.ToLower().EndsWith("pdb") ||
+                        file.ToLower().EndsWith("xml"))
                     .ToList();
 
                 const string slash = "/";
@@ -68,7 +70,7 @@ namespace EvoMp.Core.Core.Server
                     if (!module.Contains(slash))
                         continue;
 
-                    string moduleFile = module.Substring(module.LastIndexOf(slash, StringComparison.Ordinal)+1);
+                    string moduleFile = module.Substring(module.LastIndexOf(slash, StringComparison.Ordinal) + 1);
                     string modulePath = module.Substring(0, module.LastIndexOf(slash, StringComparison.Ordinal));
 
                     // ModuleFile contains no "." -> next
@@ -107,6 +109,7 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.WriteLine(ConsoleType.Core,
                         $"Delete old module: ~#83cfff~\"{Path.GetFileName(deleteModule)}\".");
                 }
+
                 ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)
@@ -190,6 +193,7 @@ namespace EvoMp.Core.Core.Server
                     // Copy file & message
                     File.Copy(packageFile, destinationFile);
                 }
+
                 ConsoleOutput.ResetPrefix();
             }
             catch (Exception exception)

@@ -6,5 +6,6 @@ namespace EvoMp.Module.ClientWrapper.Server
     public interface IClientWrapper
     {
         ISetFunctions Setter { get; }
+        IGetFunctions Getter { get; }
     }
 }

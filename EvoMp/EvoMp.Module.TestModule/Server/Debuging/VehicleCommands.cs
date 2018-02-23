@@ -44,8 +44,9 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
             sender.setIntoVehicle(newVehicle, -1);
 
+
             _api.sendChatMessageToPlayer(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
             _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
         }
 
@@ -58,7 +59,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         }
 
         [PlayerCommand("/setvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
-        public void SetVehicleMod(Client sender, VehicleModification slot, int value)
+        public void SetVehicleMod(Client sender, VehicleModType slot, int value)
         {
             API.shared.setVehicleMod(sender.vehicle, (int) slot, value);
         }
@@ -67,7 +68,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         public void SetRandomVehicleMod(Client sender)
         {
             Random random = new Random();
-            foreach (VehicleModification modification in Enum.GetValues(typeof(VehicleModification)))
+            foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 API.shared.setVehicleMod(sender.vehicle, (int) modification, random.Next(0, 5));
         }
 
@@ -79,6 +80,29 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 random.Next(0, 255));
             API.shared.setVehicleCustomSecondaryColor(sender.vehicle, random.Next(0, 255), random.Next(0, 255),
                 random.Next(0, 255));
+        }
+
+        [PlayerCommand("/vsethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetVehicleHealth(Client sender, double health)
+        {
+            sender.vehicle.health = (float) health;
+
+            _api.sendChatMessageToPlayer(sender, $"New vehicle health: ~o~{sender.vehicle.health}");
+        }
+
+        [PlayerCommand("/vgethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void GetVehicleHealth(Client sender)
+        {
+            _api.sendChatMessageToPlayer(sender, $"Vehicle health: ~o~{sender.vehicle.health}");
+        }
+
+        [PlayerCommand("/vtyresmokecolor", new[] {"/vtsc"}, PlayerOnlyState.OnlyAsDriver)]
+        public void SetVehicleTyreSmokeColor(Client sender, int red, int green, int blue)
+        {
+            //sender.vehicle.tyreSmokeColor = new Color(red, green, blue);
+            API.shared.setVehicleTyreSmokeColor(sender.vehicle, red, green, blue);
+            _api.sendChatMessageToPlayer(sender,
+                $"Changed vehicle tyre smoke color to ~r~{red} ~g~{green} ~b~{blue}");
         }
     }
 }

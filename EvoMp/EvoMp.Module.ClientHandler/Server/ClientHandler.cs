@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.EventHandler.Server;
@@ -13,7 +14,7 @@ namespace EvoMp.Module.ClientHandler.Server
      * Handles Users and Spawning of them
      */
 
-    public class ClientHandler : IClientHandler
+    public class ClientHandler : BaseModule, IClientHandler
     {
         private readonly ClientRepository _clientRepository;
         private readonly SpawnManager _spawnManager;
@@ -22,11 +23,6 @@ namespace EvoMp.Module.ClientHandler.Server
         {
             _clientRepository = new ClientRepository(api);
             _spawnManager = new SpawnManager(api);
-        }
-
-        public ExtendetClient GetExtendetClient(Func<ClientDto, bool> predicate)
-        {
-            return new ExtendetClient(_clientRepository.GetContext().Clients.FirstOrDefault(predicate));
         }
 
         public bool SpawnExtendetClient(ExtendetClient extendetClient)

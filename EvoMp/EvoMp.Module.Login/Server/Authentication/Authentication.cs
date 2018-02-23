@@ -34,10 +34,9 @@ namespace EvoMp.Module.Login.Server.Authentication
         // If the users exists in the database, open the login otherwise the register
         public void OnPlayerReadyHandler(Client client, string eventName, object[] args)
         {
-            ExtendetClient extendetClient =
-                _clientHandler.GetExtendetClient(c => c.SocialClubName == client.socialClubName);
+            ExtendetClient extendetClient = new ExtendetClient(client);
 
-            if (extendetClient == null || extendetClient.Properties.Name == null)
+            if (extendetClient.Properties.Name == null)
             {
                 AuthOpen authOpen = new AuthOpen
                 {
@@ -80,18 +79,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             {
                 string salt = _api.generateBCryptSalt(12);
                 string passwordHash = _api.getPasswordHashBCrypt(password, salt);
-                ExtendetClient extendetClient = new ExtendetClient
-                {
-                    Properties =
-                    {
-                        Email = email,
-                        HwId = client.uniqueHardwareId,
-                        Name = name,
-                        PasswordHash = passwordHash,
-                        Salt = salt,
-                        SocialClubName = client.socialClubName
-                    }
-                };
+                ExtendetClient extendetClient = new ExtendetClient(client);
 
                 extendetClient.Save();
 
@@ -119,7 +107,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             if (client == null)
                 return;
 
-            ExtendetClient extendetClient = _clientHandler.GetExtendetClient(c => c.Name == name);
+            ExtendetClient extendetClient = new ExtendetClient(client);
 
             AuthResponse authResponse = new AuthResponse();
 

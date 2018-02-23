@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
@@ -9,7 +10,7 @@ using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.VehicleHandler.Server
 {
-    public class VehicleHandler : IVehicleHandler
+    public class VehicleHandler : BaseModule, IVehicleHandler
     {
         private readonly API _api;
 
@@ -18,7 +19,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         public VehicleHandler(API api, IVehicleUtils vehicleUtils)
         {
             _api = api;
-            _vehicleRepository = VehicleRepository.GetInstance(api);
+            _vehicleRepository = VehicleRepository.GetInstance();
             CheckVehicleProperties();
         }
 
@@ -40,7 +41,8 @@ namespace EvoMp.Module.VehicleHandler.Server
                     // Write notice for long waiting time.
                     if (!noticeWritten)
                     {
-                        ConsoleOutput.WriteLine(ConsoleType.Database, $"Setting default vehicle properties. This may take a moment.");
+                        ConsoleOutput.WriteLine(ConsoleType.Database,
+                            $"Setting default vehicle properties. This may take a moment.");
                         noticeWritten = true;
                     }
 

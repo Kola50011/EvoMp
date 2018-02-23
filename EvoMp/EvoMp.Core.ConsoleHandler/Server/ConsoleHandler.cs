@@ -1,10 +1,11 @@
 using System;
+using EvoMp.Core.Shared.Server;
 #if !__MonoCS__
 using System.Linq;
 using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
+
 #endif
-using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -21,7 +22,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
         {
 #if __MonoCS__
             WindowWidth = Console.WindowWidth;
-            WindowHeight = Console.WindowHeight;
+            WindowHeight
+ = Console.WindowHeight;
 #else
             // Modify Console for color codes ( Windows only)
             ConsoleUtils.GetConsoleMode(ConsoleHandle, out int currentMode);
@@ -30,7 +32,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             ModifyConsoleWindow();
 
-            Shared.OnCoreStartupCompleted += () =>
+            SharedEvents.OnCoreStartupCompleted += () =>
             {
                 ConsoleInput.PrepareConsoleInput();
 
@@ -57,7 +59,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// </summary>
         private static void ModifyConsoleWindow()
         {
-                //TODO: Linux support
+            //TODO: Linux support
 #if !__MonoCS__ // Setting screen or primary screen
             int height;
             int width;
@@ -88,6 +90,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                 ConsoleUtils.SetConsoleFixedSize(height, width);
             }
+
             // Set console size fixed
             WindowWidth = width;
             WindowHeight = height;

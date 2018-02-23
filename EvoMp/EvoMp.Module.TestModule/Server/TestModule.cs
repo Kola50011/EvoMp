@@ -1,3 +1,4 @@
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
@@ -7,7 +8,7 @@ using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.TestModule.Server
 {
-    public class TestModule : ITestModule
+    public class TestModule : BaseModule, ITestModule
     {
         public ClientWrapperTest ClientWrapperTest;
         public CommandHelp CommandHelp;
@@ -23,7 +24,7 @@ namespace EvoMp.Module.TestModule.Server
             ExtendedVehicleTest = new ExtendedVehicleTest(api, vehicleHandler, messageHandler);
 
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
-            ClientWrapperTest = new ClientWrapperTest(clientWrapper);
+            ClientWrapperTest = new ClientWrapperTest(api, clientWrapper, messageHandler);
         }
     }
 }

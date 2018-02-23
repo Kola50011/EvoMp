@@ -74,12 +74,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\MarkerType.cs" />
+    <Compile Include="Server\Enums\MarkerType.cs" />
+    <Compile Include="Server\Exceptions\GetTimeoutException.cs" />
     <Compile Include="Server\IClientWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ClientWrapper.cs" />
+    <Compile Include="Server\IGetFunctions.cs" />
+    <Compile Include="Server\GetFunctions.cs" />
     <Compile Include="Server\ISetFunctions.cs" />
     <Compile Include="Server\SetFunctions.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using EvoMp.Core.ConsoleHandler.Server;
+using EvoMp.Core.Module.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -8,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace EvoMp.Module.EventHandler.Server
 {
-    public class EventHandler : IEventHandler
+    public class EventHandler : BaseModule, IEventHandler
     {
         private readonly API _api;
 
@@ -16,24 +17,52 @@ namespace EvoMp.Module.EventHandler.Server
         private readonly Dictionary<string, List<ServerEventHandle>> _subscriberList =
             new Dictionary<string, List<ServerEventHandle>>();
 
+        private readonly List<string> _notLoggingEvents = new List<string>();
+
         public EventHandler(API api)
         {
             _api = api;
             _api.onClientEventTrigger += InvokeServerEvent;
         }
 
+        public void SetLogging(string eventName, bool logging)
+        {
+            // Logging enabled -> remove from list & return
+            if (logging)
+            {
+                _notLoggingEvents.Remove(eventName);
+                return;
+            }
+
+            // Add to ignore list
+            if (!_notLoggingEvents.Contains(eventName))
+                _notLoggingEvents.Add(eventName);
+            
+        }
+
         // ClientEvents
         public void InvokeClientEvent(Client client, string eventName, params object[] args)
         {
-            ConsoleOutput.WriteLine(ConsoleType.Event,
-                eventName + " for " + client.name + " with " + JsonConvert.SerializeObject(args));
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
+            _api.triggerClientEvent(client, eventName, args);
+        }
+
+        public void InvokeClientEvent(Client client, bool logging, string eventName, params object[] args)
+        {
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
             _api.triggerClientEvent(client, eventName, args);
         }
 
         public void InvokeClientEvent(string eventName, params object[] args)
         {
-            ConsoleOutput.WriteLine(ConsoleType.Event,
-                eventName + "for everyone with " + JsonConvert.SerializeObject(args));
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $"~#85a7dd~{eventName}~;~ ~w~>> ~w~everyone ~c~{JsonConvert.SerializeObject(args)}");
+
             _api.triggerClientEventForAll(eventName, args);
         }
 
@@ -55,14 +84,26 @@ namespace EvoMp.Module.EventHandler.Server
             _subscriberList.Set(eventName, list);
         }
 
-        public void InvokeServerEvent(Client client, string eventName, object[] args)
+        public bool EventSubscribed(string eventName)
+        {
+            return _subscriberList.ContainsKey(eventName);
+        }
+
+        public void UnsubscribeToServerEvent(string eventName)
+        {
+            if (_subscriberList.Remove(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event, "Stop listen event ~#85a7dd~" + eventName + "~;~.");
+        }
+
+        private void InvokeServerEvent(Client client, string eventName, object[] args)
         {
             // Create emtpy object if null.
-            if(args == null)
-                args = new object[]{};
+            if (args == null)
+                args = new object[] { };
 
-            ConsoleOutput.WriteLine(ConsoleType.Event, eventName + " invoked by " + client.name + " with " +
-                                                       JsonConvert.SerializeObject(args));
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $"~w~{client.name} ~w~>> ~#85a7dd~{eventName}~;~ ~c~{JsonConvert.SerializeObject(args)}");
 
             if (!_subscriberList.ContainsKey(eventName))
                 return;

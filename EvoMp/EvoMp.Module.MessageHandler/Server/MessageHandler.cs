@@ -1,4 +1,5 @@
 using System.Reflection;
+using EvoMp.Core.Module.Server;
 using EvoMp.Module.MessageHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
@@ -6,7 +7,7 @@ using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.MessageHandler.Server
 {
-    public class MessageHandler : IMessageHandler
+    public class MessageHandler : BaseModule, IMessageHandler
     {
         private readonly API _api;
 

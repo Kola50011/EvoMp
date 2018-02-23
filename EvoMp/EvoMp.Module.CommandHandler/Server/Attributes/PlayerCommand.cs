@@ -7,15 +7,16 @@ namespace EvoMp.Module.CommandHandler.Server.Attributes
     public class PlayerCommand : Attribute, ICommand
     {
         public PlayerCommand(string command, string[] commandAliases = null,
-            PlayerOnlyState playerOnlyState = PlayerOnlyState.Any, int testMinHealth = 0)
+            PlayerOnlyState playerOnlyState = PlayerOnlyState.Any, int minHealth = 0)
         {
             Command = command;
             PlayerOnlyState = playerOnlyState;
-            TestMinHealth = testMinHealth;
+            MinHealth = minHealth;
             CommandAliases = commandAliases ?? new string[] { };
         }
 
-        public int TestMinHealth { get; }
+        public int MinHealth { get; }
+
         public string Command { get; set; }
 
         public string[] CommandAliases { get; set; }
