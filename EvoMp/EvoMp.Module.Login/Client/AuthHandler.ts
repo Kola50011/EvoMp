@@ -12,9 +12,9 @@ async function initAuthentication() {
   resourceStartHandler.disconnect()
 
   const onOpenListener = EventHandler.subscribe('AuthOpen', (args: any) => {
-    const arg = args as AuthOpen
+    const arg: AuthOpen = API.fromJson(args[0])
 
-    switch (arg.type) {
+    switch (arg['Type']) {
       case 'Register':
         openRegister().catch(() => {
           API.sendChatMessage('Exception: onOpenRegister')
@@ -22,14 +22,16 @@ async function initAuthentication() {
 
         break
       case 'Login':
-        openLogin(arg.username || 'ERROR').catch(() => {
+        openLogin(arg.Username || 'ERROR').catch(() => {
           API.sendChatMessage('Exception: onOpenLogin')
         })
 
         break
       default:
+        EventHandler.debug('args' + API.toJson(args)) // Debug
+        EventHandler.debug('arg' + API.toJson(arg)) // Debug
         // TODO: Add better error handling.
-        API.sendChatMessage('Wrong packet received in Auth!')
+        API.sendChatMessage(`Wrong packet received in Auth! ${API.toJson(arg)} |||| ${arg.Type}`)
 
         break
     }

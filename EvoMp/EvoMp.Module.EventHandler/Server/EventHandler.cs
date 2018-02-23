@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
@@ -23,6 +24,16 @@ namespace EvoMp.Module.EventHandler.Server
         {
             _api = api;
             _api.onClientEventTrigger += InvokeServerEvent;
+
+            SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
+            SetLogging("Debug", false);
+
+        }
+
+        private static void OnClientDebugEvent(Client user, string eventName, params object[] args)
+        {
+            if (args.Any())
+                ConsoleOutput.WriteLine(ConsoleType.Debug, $"Client - [{user.name}] {args[0]}");
         }
 
         public void SetLogging(string eventName, bool logging)

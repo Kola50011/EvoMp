@@ -25,8 +25,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             _eventHandler = eventHandler;
             _clientHandler = clientHandler;
 
-            //TODO: ExtendedClient - Build like ExtendedVehicle? #27
-            //_eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
+            _eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
             _eventHandler.SubscribeToServerEvent("AuthRequest", new ServerEventHandle(AuthRequest));
         }
 

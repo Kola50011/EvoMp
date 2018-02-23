@@ -1,4 +1,4 @@
 export default interface AuthOpen {
-  type: 'Login' | 'Register'
-  username?: string
+  'Type': 'Login' | 'Register'
+  'Username'?: string
 }
