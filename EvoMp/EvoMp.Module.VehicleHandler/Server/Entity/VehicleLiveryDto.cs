@@ -7,7 +7,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
     public class VehicleLiveryDto
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(Order = 0)]
         public int VehicleId { get; set; }
 
@@ -16,6 +16,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Column(Order = 1)]
         public int Value { get; set; }
     }
 }
