@@ -82,6 +82,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [Column("Health")] public double Health { get; set; }
 
+        [Column("EngineHealth")] public float EngineHealth { get; set; }
+
         [Column("Locked")] public bool Locked { get; set; }
 
         [Column("EngineState")] public EngineState EngineState { get; set; }
@@ -99,5 +101,10 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         ///     Vehicle Modifications
         /// </summary>
         public ICollection<VehicleModificationDto> Modifications { get; set; }
+
+        /// <summary>
+        /// The liveries of the vehicle
+        /// </summary>
+        public ICollection<VehicleLiveryDto> Liveries { get; set; }
     }
 }
