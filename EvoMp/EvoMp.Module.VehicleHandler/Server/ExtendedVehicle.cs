@@ -41,13 +41,13 @@ namespace EvoMp.Module.VehicleHandler.Server
         {
             Vehicle = vehicle;
 
-            VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
+            VehicleHash vehicleHash = (VehicleHash)API.shared.getEntityModel(vehicle);
 
             // Get Database entry if given
             if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                 {
-                    InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
+                    InitFromDatabase((int)API.shared.getEntityData(vehicle, "VehicleId"));
                 }
             else // Create new extendedVehcile
                 InitNew(vehicleHash,
@@ -81,6 +81,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     .Include(vDto => vDto.PrimaryColor)
                     .Include(vDto => vDto.VehicleProperties)
                     .Include(vdto => vdto.TyreSmokingColor)
+                    .Include(vdto => vdto.VehicleLivery)
                     .First(vdto => vdto.VehicleId == vehicleId);
 
                 Properties.DoorStates =
@@ -129,6 +130,7 @@ namespace EvoMp.Module.VehicleHandler.Server
             UpdatePositionRotation();
             UpdateVehicleModifications();
             UpdateColor();
+            UpdateLiveries();
 
             Debug("Update - Full Update done.");
             if (saveAlso)
@@ -144,14 +146,44 @@ namespace EvoMp.Module.VehicleHandler.Server
             {
                 // Create DoorState if not existing
                 if (Properties.DoorStates.All(dstate => dstate.Door != doorState))
-                    Properties.DoorStates.Add(new DoorStateDto {VehicleId = Properties.VehicleId, Door = doorState});
+                    Properties.DoorStates.Add(new DoorStateDto { VehicleId = Properties.VehicleId, Door = doorState });
 
                 // Change door state
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
-                    API.shared.getVehicleDoorState(Vehicle, (int) doorState);
+                    API.shared.getVehicleDoorState(Vehicle, (int)doorState);
             }
 
             Debug("Update - Door States updated.");
+        }
+
+        public void UpdateLiveries()
+        {
+            if (Vehicle.IsNull)
+                return;
+
+            int liveryValue = API.shared.getVehicleLivery(Vehicle);
+            
+            using (VehicleContext context = VehicleRepository.GetVehicleContext())
+            {
+                // check if a livery with this combination already exist
+                VehicleLiveryDto livery = context.VehicleLiveries.FirstOrDefault(vlDto => vlDto.VehicleLiveryId == liveryValue &&
+                vlDto.VehicleHash == Properties.VehicleHash);
+
+                if (livery == null)
+                {
+                    livery = context.VehicleLiveries.Add(new VehicleLiveryDto()
+                    {
+                        Value = liveryValue,
+                        VehicleHash = Properties.VehicleHash,
+                    });
+                    context.SaveChanges();
+                }
+                Properties.LiveryId = livery.VehicleLiveryId;
+                Properties.VehicleLivery = livery;
+                
+            }
+
+            Debug("Update - Liveries.");
         }
 
         public void UpdateVehicleModifications()
@@ -164,7 +196,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                 foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 {
                     // Search for existing Modification
-                    int value = API.shared.getVehicleMod(Vehicle, (int) modification);
+                    int value = API.shared.getVehicleMod(Vehicle, (int)modification);
 
                     ModificationDto modificationDto = context.Modifications
                         .FirstOrDefault(modDto => modDto.Slot == modification && modDto.Value == value);
@@ -341,12 +373,12 @@ namespace EvoMp.Module.VehicleHandler.Server
             // Set door states
             if (Properties.DoorStates != null)
                 foreach (DoorStateDto doorState in Properties.DoorStates)
-                    API.shared.setVehicleDoorState(Vehicle, (int) doorState.Door, doorState.State);
+                    API.shared.setVehicleDoorState(Vehicle, (int)doorState.Door, doorState.State);
 
             // Set vehicle modifications
             if (Properties.Modifications != null)
                 foreach (VehicleModificationDto modification in Properties.Modifications)
-                    API.shared.setVehicleMod(Vehicle, (int) modification.Modification.Slot,
+                    API.shared.setVehicleMod(Vehicle, (int)modification.Modification.Slot,
                         modification.Modification.Value);
 
             // Set vehicle color
