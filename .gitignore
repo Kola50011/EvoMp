@@ -335,3 +335,5 @@ EvoMp/EvoMp.Module.ClientWrapper/Client/ClientWrapper.js.map
 EvoMp/EvoMp.Module.EventHandler/Client/EventListener.js.map
 EvoMp/EvoMp.Module.ClientWrapper/Client/ClientWrapper.js
 EvoMp/EvoMp.Module.ClientWrapper/Client/SetFunctions.js.map
+EvoMp/EvoMp.Module.Cef/Client/CefEventCollector.js.map
+EvoMp/EvoMp.Module.Cef/Client/CefEventCollector.js

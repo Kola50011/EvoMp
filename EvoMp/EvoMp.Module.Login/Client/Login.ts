@@ -16,7 +16,7 @@ function sendAuthRequest(args: any[]): void {
 }
 
 export default async function openLogin(username: string): Promise<void> {
-  const loginWindow = new Cef('Login', 'dist/Login.html', {})
+  const loginWindow = new Cef('Login', 'dist/Login.html', {headless: false}) // Debug
   loginWindow.addEventListener('LoginAttempt', sendAuthRequest)
   await loginWindow.load()
   API.showCursor(true)

@@ -21,7 +21,7 @@ namespace EvoMp.Module.TestModule.Server
         public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
             IMessageHandler messageHandler, IClientWrapper clientWrapper, IWeaponUtils weaponUtils)
         {
-            LoginFucker = new LoginFucker(api, messageHandler);
+            LoginFucker = new LoginFucker(api, messageHandler, clientWrapper);
             CommandHelp = new CommandHelp(api, commandHandler, messageHandler);
             ExtendedVehicleTest = new ExtendedVehicleTest(api, vehicleHandler, messageHandler);
 
