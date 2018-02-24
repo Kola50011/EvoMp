@@ -16,7 +16,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleId")]
         public int VehicleId { get; set; }
 
-        [Required] [Column("VehicleHash")]
+        [Required]
+        [Column("VehicleHash")]
         public VehicleHash VehicleHash { get; set; }
 
         [ForeignKey("VehicleHash")]
@@ -70,6 +71,10 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
 
         [ForeignKey("SecondaryColorId")] public VehicleColorDto SecondaryColor { get; set; }
 
+        [Column("LiveryId")] public int? LiveryId { get; set; }
+
+        [ForeignKey("LiveryId")] public VehicleLiveryDto VehicleLivery { get; set; }
+
         [Column("NumberplateValue")] public string NumberplateValue { get; set; }
 
         [Column("VehicleState")] public VehicleState VehicleState { get; set; }
@@ -81,6 +86,8 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("Dimension")] public int Dimension { get; set; }
 
         [Column("Health")] public double Health { get; set; }
+
+        [Column("EngineHealth")] public float EngineHealth { get; set; }
 
         [Column("Locked")] public bool Locked { get; set; }
 
@@ -99,5 +106,6 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         ///     Vehicle Modifications
         /// </summary>
         public ICollection<VehicleModificationDto> Modifications { get; set; }
+
     }
 }

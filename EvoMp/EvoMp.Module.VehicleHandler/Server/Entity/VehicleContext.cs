@@ -46,6 +46,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public DbSet<VehicleModificationDto> VehicleModifications { get; set; }
         public DbSet<VehicleColorDto> VehicleColors { get; set; }
         public DbSet<VehiclePropertiesDto> VehicleProperties { get; set; }
+        public DbSet<VehicleLiveryDto> VehicleLiveries { get; set; }
 
         #endregion Tables
     }
