@@ -8,6 +8,8 @@ async function main () {
     process.env.NODE_ENV = 'production'
     await new Bundler(file, {outDir: 'GTMP_Server/resources/EvoMp/dist'}).bundle()
   }
+  let date = new Date()
+  console.log(`Finished build on ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
 }
 
 main()
