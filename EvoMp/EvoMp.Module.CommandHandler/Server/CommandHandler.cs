@@ -67,8 +67,13 @@ namespace EvoMp.Module.CommandHandler.Server
             // No command found -> console output & return false;
             if (command == null)
             {
-                ConsoleOutput.WriteLine(ConsoleType.Command,
-                    $"~r~Unknown command~w~ - ~b~{sender.name} ~;~-> ~o~{commandString}~c~");
+                // CommandString starts with possible command indicator -> write console message
+                if (CommandParser.Commands.Any(command1 => command1.Command.StartsWith(commandString[0].ToString())
+                                                           || command1.CommandAliases.Any(commandAlias =>
+                                                               commandAlias.StartsWith(commandString[0].ToString()))))
+                    ConsoleOutput.WriteLine(ConsoleType.Command,
+                        $"~r~Unknown command~w~ - ~b~{sender.name} ~;~-> ~o~{commandString}~c~");
+
                 return false;
             }
 
@@ -185,7 +190,7 @@ namespace EvoMp.Module.CommandHandler.Server
         {
             cancel.Cancel = true;
             if (!EvalCommand(sender, command))
-                MessageHandler.PlayerMessage(sender, $"Comand ~o~{command.Split(' ')[0]}~;~ not found.",
+                MessageHandler.PlayerMessage(sender, $"Comand ~o~{command.Split(' ')[0]}~w~ not found.",
                     MessageType.Error);
         }
 
@@ -213,32 +218,32 @@ namespace EvoMp.Module.CommandHandler.Server
             switch (playerCommand.PlayerOnlyState)
             {
                 case PlayerOnlyState.Any:
-                {
-                    break;
-                }
+                    {
+                        break;
+                    }
                 case PlayerOnlyState.OnlyOnFoot:
-                {
-                    if (!sender.isInVehicle && !sender.isParachuting)
-                        break;
+                    {
+                        if (!sender.isInVehicle && !sender.isParachuting)
+                            break;
 
-                    MessageHandler.PlayerMessage(sender, "You're not going on foot!", MessageType.Error);
-                    return false;
-                }
+                        MessageHandler.PlayerMessage(sender, "You're not going on foot!", MessageType.Error);
+                        return false;
+                    }
                 case PlayerOnlyState.OnlyInVehicle:
-                {
-                    if (sender.isInVehicle)
-                        break;
-                    MessageHandler.PlayerMessage(sender, "You're not in any vehicle!", MessageType.Error);
-                    return false;
-                }
+                    {
+                        if (sender.isInVehicle)
+                            break;
+                        MessageHandler.PlayerMessage(sender, "You're not in any vehicle!", MessageType.Error);
+                        return false;
+                    }
                 case PlayerOnlyState.OnlyAsDriver:
-                {
-                    if (sender.isInVehicle && sender.vehicleSeat == -1)
-                        break;
+                    {
+                        if (sender.isInVehicle && sender.vehicleSeat == -1)
+                            break;
 
-                    MessageHandler.PlayerMessage(sender, "You're not the vehicle driver!", MessageType.Error);
-                    return false;
-                }
+                        MessageHandler.PlayerMessage(sender, "You're not the vehicle driver!", MessageType.Error);
+                        return false;
+                    }
                 default:
                     return true;
             }

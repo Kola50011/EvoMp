@@ -1,10 +1,10 @@
 /// <reference path='../../../typings/index.d.ts' />
 
-// import Cef from '../../EvoMp.Module.Cef/Client/Cef'
 import EventHandler from '../../EvoMp.Module.EventHandler/Client/EventHandler'
 import openLogin from './Login'
 import openRegister from './Register'
-import AuthOpen from './AuthOpen'
+
+import {AuthOpen} from './AuthOpen'
 
 const resourceStartHandler = API.onResourceStart.connect(initAuthentication)
 
@@ -12,9 +12,10 @@ async function initAuthentication() {
   resourceStartHandler.disconnect()
 
   const onOpenListener = EventHandler.subscribe('AuthOpen', (args: any) => {
-    const arg = args as AuthOpen
 
-    switch (arg.type) {
+    const arg = JSON.parse(args[0]) as AuthOpen
+    
+    switch (arg.Type) {
       case 'Register':
         openRegister().catch(() => {
           API.sendChatMessage('Exception: onOpenRegister')
@@ -22,14 +23,14 @@ async function initAuthentication() {
 
         break
       case 'Login':
-        openLogin(arg.username || 'ERROR').catch(() => {
+        openLogin(arg.Username || 'ERROR').catch(() => {
           API.sendChatMessage('Exception: onOpenLogin')
         })
 
         break
       default:
         // TODO: Add better error handling.
-        API.sendChatMessage('Wrong packet received in Auth!')
+        API.sendChatMessage(`Wrong packet received in Auth! ${JSON.stringify(arg)}`)
 
         break
     }
@@ -37,8 +38,5 @@ async function initAuthentication() {
     onOpenListener.unsubscribe()
   })
 
-  // const cefWindow: Cef = new Cef('Login', 'dist/Login.html', {})
-  // await cefWindow.load()
-  // API.showCursor(true)
   API.triggerServerEvent('ready')
 }

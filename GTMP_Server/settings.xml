@@ -23,7 +23,7 @@
   <fqdn></fqdn>
   <conntimeout>false</conntimeout>
   <loglevel>0</loglevel>
-  <allow_client_devtools>false</allow_client_devtools>
+  <allow_client_devtools>true</allow_client_devtools>
   <allow_custom_scripts>false</allow_custom_scripts>
   <player_update_timeout>10</player_update_timeout>
   <exploit_blacklist>true</exploit_blacklist>

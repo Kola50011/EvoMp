@@ -16,16 +16,9 @@ namespace EvoMp.Module.ClientWrapper.Server
         {
             Setter = new SetFunctions(eventHandler);
             Getter = new GetFunctions(eventHandler);
-            eventHandler.SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
         }
 
         public ISetFunctions Setter { get; }
         public IGetFunctions Getter { get; }
-
-        private static void OnClientDebugEvent(Client user, string eventName, params object[] args)
-        {
-            if (args.Any())
-                ConsoleOutput.WriteLine(ConsoleType.Debug, $"Client - [{user.name}] {args[0]}");
-        }
     }
 }

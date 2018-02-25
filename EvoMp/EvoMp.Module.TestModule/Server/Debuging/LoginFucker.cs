@@ -1,3 +1,4 @@
+using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
@@ -10,11 +11,13 @@ namespace EvoMp.Module.TestModule.Server.Debuging
     {
         private readonly API _api;
         private readonly IMessageHandler _messageHandler;
+        private readonly IClientWrapper _clientWrapper;
 
-        public LoginFucker(API api, IMessageHandler messageHandler)
+        public LoginFucker(API api, IMessageHandler messageHandler, IClientWrapper clientWrapper)
         {
             _api = api;
             _messageHandler = messageHandler;
+            _clientWrapper = clientWrapper;
             api.onPlayerConnected += OnPlayerConnected;
         }
 
@@ -32,6 +35,12 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             _api.setEntityTransparency(sender, 255);
             _api.setEntityCollisionless(sender, false);
             _messageHandler.PlayerMessage(sender, "~o~Ping. ~g~Pong. ~o~Wuusch!", MessageType.Debug);
+        }
+
+        [PlayerCommand("/mouse", new[] {"/sm"})]
+        public void SetPlayerMouse(Client sender, bool state)
+        {
+            _clientWrapper.Setter.ShowCursor(sender, state);
         }
     }
 }

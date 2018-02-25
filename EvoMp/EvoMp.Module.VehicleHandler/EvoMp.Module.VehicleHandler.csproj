@@ -79,6 +79,7 @@
     <Compile Include="Server\Entity\ModificationDto.cs" />
     <Compile Include="Server\Entity\DoorStateDto.cs" />
     <Compile Include="Server\Entity\VehicleColorDto.cs" />
+    <Compile Include="Server\Entity\VehicleLiveryDto.cs" />
     <Compile Include="Server\Entity\VehiclePropertiesDto.cs" />
     <Compile Include="Server\Entity\VehicleModificationDto.cs" />
     <Compile Include="Server\Entity\VehicleDto.cs" />
