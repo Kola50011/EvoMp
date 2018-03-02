@@ -160,6 +160,8 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.WriteLine(ConsoleType.Core, "Core startup completed");
                     ConsoleOutput.PrintLine("-");
                 }
+
+                SharedEvents.OnOnAfterCoreStartupCompleted();
             }
             catch (Exception e)
             {

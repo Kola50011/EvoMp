@@ -4,6 +4,8 @@ namespace EvoMp.Core.Shared.Server
 {
     public static class SharedEvents
     {
+        public delegate void AfterCoreStartupCompleted();
+
         public delegate void CoreStartupCompleted();
 
         public delegate void ModuleLoaded(object moduleInstance);
@@ -23,6 +25,11 @@ namespace EvoMp.Core.Shared.Server
         ///     Called if the Server-Startup is completed.
         /// </summary>
         public static event CoreStartupCompleted OnCoreStartupCompleted;
+
+        /// <summary>
+        ///     Called after the Server-Startup is completed & after OnCoreStartupCompleted event calling.
+        /// </summary>
+        public static event AfterCoreStartupCompleted OnAfterCoreStartupCompleted;
 
         /// <summary>
         ///     Called if the given instance of a module is created.
@@ -55,6 +62,14 @@ namespace EvoMp.Core.Shared.Server
         {
             Api = api;
             OnModuleLoadingStart?.Invoke(api);
+        }
+
+        /// <summary>
+        ///     Invokes the OnAfterCoreStartupCompleted event.
+        /// </summary>
+        public static void OnOnAfterCoreStartupCompleted()
+        {
+            OnAfterCoreStartupCompleted?.Invoke();
         }
     }
 }

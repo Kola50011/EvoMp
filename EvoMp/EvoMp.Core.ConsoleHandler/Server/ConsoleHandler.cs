@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using EvoMp.Core.Shared.Server;
 #if !__MonoCS__
 using System.Linq;
@@ -18,6 +19,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static int WindowWidth;
         internal static int WindowHeight;
 
+        /// <summary>
+        ///     Change the Windows console mode to support ANSI color strings
+        ///     Sets the console size & position
+        /// </summary>
         public static void PrepareConsole()
         {
 #if __MonoCS__
@@ -48,7 +53,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 args.Cancel = true;
                 ConsoleOutput.WriteLine(ConsoleType.Info,
-                    $"Please shutdown with ~b~exit~;~ console command.");
+                    "Please shutdown with ~b~exit~;~ console command.");
             };
 #endif
         }
@@ -66,26 +71,46 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Fullscreen
             if (Settings.Default.ConsoleFullscreenMode)
             {
-                Screen screen = Screen.AllScreens.ElementAt(Settings.Default.ConsoleFullscreenDisplay) ??
-                                Screen.PrimaryScreen;
-                IntPtr ptr = ConsoleUtils.GetConsoleWindow();
+                Screen screen = Screen.AllScreens.ElementAt(Settings.Default.ConsoleFullscreenDisplay);
 
-                // Move to wanted display
-                ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top,
-                    Console.LargestWindowWidth, Console.LargestWindowHeight, true);
+                // Fullscreen screen connected -> restore fullscreen on screen
+                if (screen != null)
+                {
+                    IntPtr ptr = ConsoleUtils.GetConsoleWindow();
 
-                ConsoleUtils.ToggleConsoleFullscreenMode();
+                    // Move to wanted display
+                    ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top,
+                        Console.LargestWindowWidth, Console.LargestWindowHeight, true);
+
+                    ConsoleUtils.ToggleConsoleFullscreenMode();
+                }
+                // else -> write message after server startup
+                else
+                    SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
+                        "Can restore fullscreen console window. Saved fullscreen screen isn't connected. Using default console settings.");
+
                 height = Console.WindowHeight;
                 width = Console.WindowWidth;
             }
+            // Normal console window
             else
             {
+                //TODO: Check why 50 & 150 @Ruffo [NOT IMPORTANT]
                 height = Math.Min(Console.LargestWindowHeight, 50);
                 width = Math.Min(Console.LargestWindowWidth, 150);
-                if (Settings.Default.ConsolePosition.X != -1 && Settings.Default.ConsolePosition.Y != -1)
-                    ConsoleUtils.MoveWindow(ConsoleUtils.GetConsoleWindow(),
-                        Settings.Default.ConsolePosition.X, Settings.Default.ConsolePosition.Y,
-                        width, height + 3, true);
+                Point savedPosition = Settings.Default.ConsolePosition;
+
+                // Console position saved -> check if valid after screen changes || set position
+                if (savedPosition.X != -1 && savedPosition.Y != -1)
+                    // Saved on not connected screen -> message after server startup
+                    if (!Screen.AllScreens.Any(screen => screen.Bounds.Contains(savedPosition)))
+                        SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
+                            "Can restore saved console position. Saved position was on disconnected screen. Usign default console position instead.");
+                    // Valid saved position -> restore
+                    else
+                        ConsoleUtils.MoveWindow(ConsoleUtils.GetConsoleWindow(),
+                            Settings.Default.ConsolePosition.X, Settings.Default.ConsolePosition.Y,
+                            width, height + 3, true);
 
                 ConsoleUtils.SetConsoleFixedSize(height, width);
             }
