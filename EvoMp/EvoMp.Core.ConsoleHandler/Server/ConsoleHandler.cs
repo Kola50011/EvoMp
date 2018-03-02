@@ -22,8 +22,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         {
 #if __MonoCS__
             WindowWidth = Console.WindowWidth;
-            WindowHeight
- = Console.WindowHeight;
+            WindowHeight = Console.WindowHeight;
 #else
             // Modify Console for color codes ( Windows only)
             ConsoleUtils.GetConsoleMode(ConsoleHandle, out int currentMode);
