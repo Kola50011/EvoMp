@@ -92,7 +92,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
             ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
             Settings.Default.ConsolePosition = new Point(rect.X, rect.Y);
             Settings.Default.Save();
-            ConsoleOutput.WriteLine(ConsoleType.Config, "Saved the current console positon.");
+            ConsoleOutput.WriteLine(ConsoleType.Config,
+                $"Saved the current console positon at {Settings.Default.ConsolePosition}");
 #endif
         }
 
