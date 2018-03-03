@@ -103,14 +103,11 @@ namespace EvoMp.Core.Core.Server
                 const string staffTitleColor = "~#B3E5FC~";
 
                 ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                    $"{diTitleColor}{"Roleplay Director".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"DevGrab".PadRight(20)}\n" +
                     $"{diTitleColor}{"Freeroam Director".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo/Christian".PadRight(20)}\n" +
                     $"{depyTitleColor}{"Roleplay Deputy".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(20)}\n" +
                     $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Lukas/Nitac".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Sopex".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Gary".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Freeroam Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(20)}\n");
+                    $"{staffTitleColor}{"Freeroam Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(20)}\n"
+                );
 
                 ConsoleOutput.PrintLine(" ");
 

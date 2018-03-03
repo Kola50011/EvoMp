@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.BotHandler", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.WeaponUtils", "EvoMp.Module.WeaponUtils\EvoMp.Module.WeaponUtils.csproj", "{427E4E85-EF34-425B-BEBD-A2B5846C26E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.Notifications", "EvoMp.Module.Notifications\EvoMp.Module.Notifications.csproj", "{1D227EB6-C472-472B-9D00-CBB1C61271B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Linux-Debug|Any CPU = Linux-Debug|Any CPU
@@ -271,6 +273,14 @@ Global
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Windows-Debug|Any CPU.Build.0 = Windows-Debug|Any CPU
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Windows-Release|Any CPU.ActiveCfg = Windows-Release|Any CPU
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9}.Windows-Release|Any CPU.Build.0 = Windows-Release|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Linux-Debug|Any CPU.ActiveCfg = Linux-Debug|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Linux-Debug|Any CPU.Build.0 = Linux-Debug|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Linux-Release|Any CPU.ActiveCfg = Linux-Release|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Linux-Release|Any CPU.Build.0 = Linux-Release|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Windows-Debug|Any CPU.ActiveCfg = Windows-Debug|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Windows-Debug|Any CPU.Build.0 = Windows-Debug|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Windows-Release|Any CPU.ActiveCfg = Windows-Release|Any CPU
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2}.Windows-Release|Any CPU.Build.0 = Windows-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -301,6 +311,7 @@ Global
 		{7DFDE116-E468-415D-AC25-7BDC6FC91C0C} = {20EAFC3F-1742-4032-B885-2DDCFE385E22}
 		{E701752A-8EDF-4A1F-9B54-D028A4A104AD} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{427E4E85-EF34-425B-BEBD-A2B5846C26E9} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
+		{1D227EB6-C472-472B-9D00-CBB1C61271B2} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DA49ECC-9D08-42FC-B5AB-6318780C1619}
