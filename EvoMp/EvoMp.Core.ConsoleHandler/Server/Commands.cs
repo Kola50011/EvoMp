@@ -54,6 +54,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 return;
             }
 
+#if !__MonoCS__
             // No display given -> Use current & message
             if (display == -1)
             {
@@ -62,6 +63,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 display = Screen.AllScreens.ToList().FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(rect.X, rect.Y))));
                 ConsoleOutput.WriteLine(ConsoleType.Info, $"No display given for fullscreen. Using the current display ~b~{display}~;~.");
             }
+#endif
 
             // invalid display given -> Warning & return;
             if (Screen.AllScreens.Length - 1 < display)
