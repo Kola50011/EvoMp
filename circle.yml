@@ -1,7 +1,7 @@
 notify:
   webhooks:
     # A list of hook hashes, containing the URL field
-    - url: https://discordapp.com/api/webhooks/419513949084712960/J5ecD0bCr976sG7UVzva5wE7lylxbId924kstfhDUPkEXczkVxPNkYuJmcMk35o4y31R/circleci
+    - url: https://discordapp.com/api/webhooks/419513949084712960/J5ecD0bCr976sG7UVzva5wE7lylxbId924kstfhDUPkEXczkVxPNkYuJmcMk35o4y31R
     
 version: 2
 jobs:
