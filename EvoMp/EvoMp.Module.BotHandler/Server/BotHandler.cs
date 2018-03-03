@@ -11,16 +11,18 @@ using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.BotHandler.Server
 {
-    public class BotModule : BaseModule, IBotModule
+    public class BotHandler : BaseModule, IBotHandler
     {
         public readonly Commands Commands;
         public readonly Tracking Tracking;
+        internal static IVehicleHandler VehicleHandler;
         internal static List<ExtendedBot> RecordingBots = new List<ExtendedBot>();
         internal static List<ExtendedBot> PlaybackBots = new List<ExtendedBot>();
 
-        public BotModule(API api, IDbAccess access, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
+        public BotHandler(API api, IDbAccess access, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
             IMessageHandler messageHandler, IClientWrapper clientWrapper, IEventHandler eventHandler)
         {
+            VehicleHandler = vehicleHandler;
             Commands = new Commands(messageHandler, vehicleHandler);
             Tracking = new Tracking(api, clientWrapper, eventHandler);
         }

@@ -23,7 +23,7 @@ namespace EvoMp.Module.TestModule.Server
         {
             LoginFucker = new LoginFucker(api, messageHandler, clientWrapper);
             CommandHelp = new CommandHelp(api, commandHandler, messageHandler);
-            ExtendedVehicleTest = new ExtendedVehicleTest(api, vehicleHandler, messageHandler);
+            ExtendedVehicleTest = new ExtendedVehicleTest(vehicleHandler, messageHandler);
 
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
             ClientWrapperTest = new ClientWrapperTest(api, clientWrapper, messageHandler);

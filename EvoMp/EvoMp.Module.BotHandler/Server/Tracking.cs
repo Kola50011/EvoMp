@@ -39,7 +39,7 @@ namespace EvoMp.Module.BotHandler.Server
             //lastStep = DateTime.Now;
 
             // Recordings
-            foreach (ExtendedBot extendedBot in BotModule.RecordingBots)
+            foreach (ExtendedBot extendedBot in BotHandler.RecordingBots)
             {
                 // Leaved vehicle -> stop record
                 if (!extendedBot.Owner.Client.isInVehicle)
@@ -53,7 +53,7 @@ namespace EvoMp.Module.BotHandler.Server
             }
 
             // Playbacks
-            foreach (ExtendedBot extendedBot in BotModule.PlaybackBots.ToArray())
+            foreach (ExtendedBot extendedBot in BotHandler.PlaybackBots.ToArray())
             {
                 BotWaypointDto nextWaypoint = extendedBot.GetNextWaypoint();
                 if (nextWaypoint == null)

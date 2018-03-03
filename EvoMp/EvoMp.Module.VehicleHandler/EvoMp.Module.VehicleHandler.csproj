@@ -83,8 +83,10 @@
     <Compile Include="Server\Entity\VehiclePropertiesDto.cs" />
     <Compile Include="Server\Entity\VehicleModificationDto.cs" />
     <Compile Include="Server\Entity\VehicleDto.cs" />
-    <Compile Include="Server\Entity\VehicleContext.cs" />
-    <Compile Include="Server\Entity\VehicleRepository.cs" />
+    <Compile Include="Server\Exceptions\VehicleHandlerException.cs" />
+    <Compile Include="Server\Exceptions\ExtendedVehicleException.cs" />
+    <Compile Include="Server\VehicleContext.cs" />
+    <Compile Include="Server\VehicleRepository.cs" />
     <Compile Include="Server\ExtendedVehicle.cs" />
     <Compile Include="Server\IVehicleHandler.cs" />
     <Compile Include="Server\VehicleHandler.cs" />

@@ -39,11 +39,11 @@ namespace EvoMp.Module.BotHandler.Server
             if (Properties == null)
                 InitNew(botName);
             else
-                Vehicle = new ExtendedVehicle(Properties.VehicleId);
+                Vehicle = BotHandler.VehicleHandler.CreateExtendedVehicle(Properties.VehicleId);
 
             if (IsRecording)
             {
-                ExtendedBot cBot = BotModule.RecordingBots
+                ExtendedBot cBot = BotHandler.RecordingBots
                     .First(bot => bot.Properties.BotId == Properties.BotId);
                 Properties.Waypoints = cBot.Properties.Waypoints;
                 Properties.Vehicle = cBot.Vehicle.Properties;
@@ -80,7 +80,7 @@ namespace EvoMp.Module.BotHandler.Server
         private void InitNew(string botName)
         {
             // Create new ExtendedVehicle by copy
-            Vehicle = new ExtendedVehicle(Owner.Client.vehicle).Copy();
+            Vehicle = BotHandler.VehicleHandler.CreateExtendedVehicle(Owner.Client.vehicle).Copy();
             Vehicle.Save();
             Debug("Extended Vehicle created and saved");
 
@@ -111,7 +111,7 @@ namespace EvoMp.Module.BotHandler.Server
 
             IsRecording = true;
             API.shared.setEntityData(Owner.Client, EntityDataStringRecording, IsRecording);
-            BotModule.RecordingBots.Add(this);
+            BotHandler.RecordingBots.Add(this);
             Debug("Start recording");
         }
 
@@ -123,7 +123,7 @@ namespace EvoMp.Module.BotHandler.Server
 
             IsRecording = false;
             API.shared.setEntityData(Owner.Client, EntityDataStringRecording, false);
-            BotModule.RecordingBots.Remove(this);
+            BotHandler.RecordingBots.Remove(this);
             SaveWaypoints();
             Debug("Stopped recording");
         }
@@ -139,21 +139,21 @@ namespace EvoMp.Module.BotHandler.Server
 
         public void StartPlayBack()
         {
-            if (BotModule.PlaybackBots.Contains(this))
+            if (BotHandler.PlaybackBots.Contains(this))
                 throw new PlaybackException($"Bot {Properties.BotName} is already playing");
 
             Vehicle.Create();
-            BotModule.PlaybackBots.Add(this);
+            BotHandler.PlaybackBots.Add(this);
             Debug("Started playback");
         }
 
         public void StopPlayback()
         {
-            if (!BotModule.PlaybackBots.Contains(this))
+            if (!BotHandler.PlaybackBots.Contains(this))
                 throw new PlaybackException($"Bot {Properties.BotName} isn't playing");
 
             Vehicle.Destroy(false);
-            BotModule.PlaybackBots.Remove(this);
+            BotHandler.PlaybackBots.Remove(this);
             Debug("Stop playback");
         }
 

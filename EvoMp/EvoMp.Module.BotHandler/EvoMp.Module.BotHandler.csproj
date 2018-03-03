@@ -85,9 +85,9 @@
     <Compile Include="Server\Entity\BotRepository.cs" />
     <Compile Include="Server\Exceptions\PlaybackException.cs" />
     <Compile Include="Server\ExtendedBot.cs" />
-    <Compile Include="Server\IBotModule.cs" />
+    <Compile Include="Server\IBotHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\BotModule.cs" />
+    <Compile Include="Server\BotHandler.cs" />
     <Compile Include="Server\Tracking.cs" />
     <Compile Include="Server\Exceptions\RecordingException.cs" />
   </ItemGroup>

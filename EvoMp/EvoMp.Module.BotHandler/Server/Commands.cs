@@ -48,7 +48,7 @@ namespace EvoMp.Module.BotHandler.Server
         public void StopRecordBot(Client sender)
         {
             ExtendedBot currenRecordingBot =
-                BotModule.RecordingBots.FirstOrDefault(bot => bot.IsRecording && bot.Owner.Client == sender);
+                BotHandler.RecordingBots.FirstOrDefault(bot => bot.IsRecording && bot.Owner.Client == sender);
 
             if (currenRecordingBot == null)
             {
@@ -84,7 +84,7 @@ namespace EvoMp.Module.BotHandler.Server
 
             // Create new vehicle
             ExtendedVehicle newExtendedVehicle =
-                new ExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
+                _vehicleHandler.CreateExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
             newExtendedVehicle.Create();
 
 
