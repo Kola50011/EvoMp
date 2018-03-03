@@ -160,7 +160,10 @@ namespace EvoMp.Module.CommandHandler.Server
                 return true;
             }
 
-            //TODO: check for optional parameters needed
+            // Add optional parameters if not given, to parametersValues 
+            if (commandParameters.Length != parameterValues.Count)
+                for (int i = commandParameters.Length - parameterValues.Count; i < commandParameters.Length; i++)
+                    parameterValues.Add(commandParameters[i].DefaultValue);
 
             // Invoke command
             command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());

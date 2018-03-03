@@ -18,6 +18,15 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void PrepareConsoleCommands()
         {
             SharedEvents.OnModuleLoaded += InspectModule;
+
+            // Output for CIN | DATETIME | INPUT
+            ConsoleInput.OnConsoleString += (consoleString, args) =>
+            {
+                if (!args.Cancel)
+                    ConsoleOutput.WriteLine(ConsoleType.ConsoleInput, consoleString);
+            };
+
+            // Parse input for commands
             ConsoleInput.OnConsoleString += ParseConsoleString;
         }
 
@@ -38,7 +47,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
         private static void ParseConsoleString(string consoleString, CancelEventArgs cancelEventArgs)
         {
             List<string> consoleStringParts = consoleString.Split(' ').ToList();
-
             foreach (ConsoleCommand command in Commands)
             {
                 // console string not command -> continue;
@@ -127,12 +135,19 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     return;
                 }
 
+                // Add optional parameters if not given, to parametersValues 
+                if (commandParameters.Length != parameterValues.Count)
+                    for(int i = commandParameters.Length - parameterValues.Count; i < commandParameters.Length; i++)
+                        parameterValues.Add(commandParameters[i].DefaultValue);
+
                 //TODO: check for optional parameters needed
 
                 // Invoke command
                 command.MethodInfo.Invoke(command.ClassInstance, parameterValues.ToArray());
                 return;
             }
+
+            ConsoleOutput.WriteLine(ConsoleType.Error, $"~w~No command found for ~r~\"{consoleStringParts[0]}\"~w~!");
         }
 
 

@@ -208,11 +208,14 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// <summary>
         ///     Sets the console height and width to fixed sizes.
         /// </summary>
-        /// <param name="heigth"></param>
+        /// <param name="height"></param>
         /// <param name="width"></param>
-        public static void SetConsoleFixedSize(int heigth, int width)
+        public static void SetConsoleFixedSize(int height, int width)
         {
-            Console.WindowHeight = heigth;
+            Console.BufferHeight = height;
+            Console.BufferWidth = width;
+
+            Console.WindowHeight = height;
             Console.WindowWidth = width;
 
 #if !__MonoCS__

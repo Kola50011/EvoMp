@@ -47,11 +47,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Bind console input events
             OnConsoleKeyPress += WriteConsoleKeyPress;
             OnInputValueChange += WriteHistoryChange;
-            OnConsoleString += (consoleString, args) =>
-            {
-                if (!args.Cancel)
-                    ConsoleOutput.WriteLine(ConsoleType.ConsoleInput, consoleString);
-            };
         }
 
         /// <summary>

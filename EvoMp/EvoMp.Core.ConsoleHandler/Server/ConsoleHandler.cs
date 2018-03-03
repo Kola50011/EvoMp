@@ -29,7 +29,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
             WindowWidth = Console.WindowWidth;
             WindowHeight = Console.WindowHeight;
 #else
-            // Modify Console for color codes ( Windows only)
+            // 0x0004 = Modify Console for color codes ( Windows only)
+            // 
             ConsoleUtils.GetConsoleMode(ConsoleHandle, out int currentMode);
             ConsoleUtils.SetConsoleMode(ConsoleHandle, currentMode | 0x0004);
 #endif
@@ -118,7 +119,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Set console size fixed
             WindowWidth = width;
             WindowHeight = height;
-            Console.SetBufferSize(WindowWidth, WindowHeight + 3); // later resetting on the fly
 #endif
 
             // Prepare submodules

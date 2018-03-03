@@ -54,20 +54,21 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 return;
             }
 
+            // No display given -> Use current & message
+            if (display == -1)
+            {
+                Rectangle rect = new Rectangle();
+                ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
+                display = Screen.AllScreens.ToList().FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(rect.X, rect.Y))));
+                ConsoleOutput.WriteLine(ConsoleType.Info, $"No display given for fullscreen. Using the current display ~b~{display}~;~.");
+            }
+
             // invalid display given -> Warning & return;
-            if (display < 0 || Screen.AllScreens.Length - 1 < display)
+            if (Screen.AllScreens.Length - 1 < display)
             {
                 ConsoleOutput.WriteLine(ConsoleType.Warn,
                     $"Invalid display ~o~{display}~;~. Available displays: 0 - {Screen.AllScreens.Length - 1}");
                 return;
-            }
-
-            // No display given -> select primary display & message
-            if (display == -1)
-            {
-                display = Screen.AllScreens.ToList().FindIndex(screen => screen.Primary);
-                ConsoleOutput.WriteLine(ConsoleType.Note,
-                    $"No display given. Using display {display} (primary).");
             }
 
             // Save settings message
