@@ -369,7 +369,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void FinalConsoleWrite(string message, bool simpeWriteLine = false)
         {
             WriteMessage();
+#if !__MonoCS__
             WriteInput();
+#endif
 
             void WriteMessage()
             {

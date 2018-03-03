@@ -28,9 +28,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
 #if __MonoCS__
             WindowWidth = 150;
             WindowHeight = 50;
-            Console.BufferWidth = WindowWidth;
-            Console.BufferHeight = WindowHeight;
-
 #else
             // 0x0004 = Modify Console for color codes ( Windows only)
             // 
