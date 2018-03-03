@@ -39,7 +39,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             SharedEvents.OnCoreStartupCompleted += () =>
             {
+#if !__MonoCS__
                 ConsoleInput.PrepareConsoleInput();
+#endif
 
                 // Register Console commands. (In core not automaticly)
                 ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand, "ConsoleHandler commands.");
