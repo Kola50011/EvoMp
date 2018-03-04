@@ -9,7 +9,7 @@
     "awesome-typescript-loader": "^3.4.1",
     "cross-env": "^5.1.3",
     "glob": "^7.1.2",
-    "hard-source-webpack-plugin": "^0.5.18",
+    "hard-source-webpack-plugin": "^0.6.1",
     "node-sass": "^4.7.2",
     "parcel-bundler": "^1.5.1",
     "parcel-plugin-markdown": "^0.2.1",
