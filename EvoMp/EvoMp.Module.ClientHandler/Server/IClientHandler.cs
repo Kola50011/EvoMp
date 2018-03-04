@@ -1,7 +1,5 @@
-using System;
 using System.Runtime.InteropServices;
 using EvoMp.Core.Module.Server;
-using EvoMp.Module.ClientHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.ClientHandler.Server
@@ -10,7 +8,7 @@ namespace EvoMp.Module.ClientHandler.Server
     public interface IClientHandler
     {
         /// <summary>
-        /// Returns an ExtendedClient object for the given player
+        ///     Returns an ExtendedClient object for the given player
         /// </summary>
         /// <param name="sender">The player</param>
         /// <returns>ExtendedClient</returns>

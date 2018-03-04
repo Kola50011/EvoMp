@@ -104,7 +104,7 @@ namespace EvoMp.Core.Core.Server
                 const string staffTitleColor = "~#B3E5FC~";
 
                 ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                    $"{diTitleColor}{"Freeroam Director".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo ~c~(Christian Groothoff)".PadRight(35+3)}\n" +
+                    $"{diTitleColor}{"Freeroam Director".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo ~c~(Christian Groothoff)".PadRight(35 + 3)}\n" +
                     $"{depyTitleColor}{"Freeroam Deputy".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(35)}\n" +
                     $"{depyTitleColor}{"Freeroam Staff".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(35)}\n" +
                     $"{staffTitleColor}{"Freeroam Staff".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(35)}\n"

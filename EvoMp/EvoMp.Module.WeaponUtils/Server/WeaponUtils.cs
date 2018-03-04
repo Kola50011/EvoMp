@@ -1,15 +1,14 @@
-using EvoMp.Core.Module.Server;
-using GrandTheftMultiplayer.Server.API;
-using GrandTheftMultiplayer.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EvoMp.Core.Module.Server;
+using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.WeaponUtils.Server
 {
     public class WeaponUtils : BaseModule, IWeaponUtils
     {
-
         List<WeaponHash> IWeaponUtils.GetWeaponsByName(string searchWeaponName)
         {
             return GetWeaponsByName(searchWeaponName);
@@ -43,9 +42,7 @@ namespace EvoMp.Module.WeaponUtils.Server
         public static List<WeaponHash> GetWeaponByType(WeaponType type)
         {
             return Enum.GetValues(typeof(WeaponHash)).Cast<WeaponHash>()
-                .Where(weapon => (WeaponType)API.shared.getWeaponType(weapon) == type).ToList();
+                .Where(weapon => API.shared.getWeaponType(weapon) == type).ToList();
         }
-
-
     }
 }

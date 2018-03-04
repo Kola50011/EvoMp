@@ -8,13 +8,13 @@ namespace EvoMp.Module.VehicleHandler.Server
 {
     /// <inheritdoc />
     /// <summary>
-    /// Initialize the VehicleContext and contains the tables
+    ///     Initialize the VehicleContext and contains the tables
     /// </summary>
     public class VehicleContext : DbContext
     {
         /// <inheritdoc />
         /// <summary>
-        /// Constructor. Based on DbContext and loads the connection string
+        ///     Constructor. Based on DbContext and loads the connection string
         /// </summary>
         public VehicleContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
@@ -33,7 +33,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        /// Initalize the Vehicle Context, sets the migrator config and open the database connection
+        ///     Initalize the Vehicle Context, sets the migrator config and open the database connection
         /// </summary>
         public void FirstInit()
         {
@@ -53,44 +53,44 @@ namespace EvoMp.Module.VehicleHandler.Server
         #region Tables
 
         /// <summary>
-        /// Table: Vehicles
-        /// Contains all ExtendedVehicles
+        ///     Table: Vehicles
+        ///     Contains all ExtendedVehicles
         /// </summary>
         public DbSet<VehicleDto> Vehicles { get; set; }
 
         /// <summary>
-        /// Table: VehicleDoorStates
-        /// Contains for each vehicle the state of all doors
+        ///     Table: VehicleDoorStates
+        ///     Contains for each vehicle the state of all doors
         /// </summary>
         public DbSet<DoorStateDto> DoorStates { get; set; }
 
         /// <summary>
-        /// Table: VehicleModifications
-        /// Contains possibilitys of vehicle modifications. (Slot and value)
+        ///     Table: VehicleModifications
+        ///     Contains possibilitys of vehicle modifications. (Slot and value)
         /// </summary>
         public DbSet<ModificationDto> Modifications { get; set; }
 
         /// <summary>
-        /// Table: VehicleModificationMappings
-        /// Contains the mapping for the VehicleModifications table for each vehicle
+        ///     Table: VehicleModificationMappings
+        ///     Contains the mapping for the VehicleModifications table for each vehicle
         /// </summary>
         public DbSet<VehicleModificationDto> VehicleModifications { get; set; }
 
         /// <summary>
-        /// Table: VehicleColors
-        /// Contains possibilitys of color combinations
+        ///     Table: VehicleColors
+        ///     Contains possibilitys of color combinations
         /// </summary>
         public DbSet<VehicleColorDto> VehicleColors { get; set; }
 
         /// <summary>
-        /// Table: VehicleProperties
-        /// Contains VehicleHash based fix properties
+        ///     Table: VehicleProperties
+        ///     Contains VehicleHash based fix properties
         /// </summary>
         public DbSet<VehiclePropertiesDto> VehicleProperties { get; set; }
 
         /// <summary>
-        /// Table: VehicleLiveries
-        /// Contains the possibilitys of VehicleHash and VehicleLiveries
+        ///     Table: VehicleLiveries
+        ///     Contains the possibilitys of VehicleHash and VehicleLiveries
         /// </summary>
         public DbSet<VehicleLiveryDto> VehicleLiveries { get; set; }
 

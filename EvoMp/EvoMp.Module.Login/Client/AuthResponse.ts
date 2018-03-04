@@ -1,4 +1,4 @@
 export default interface AuthResponse {
-  success: boolean
-  error: Array<string>
+  success: boolean;
+  error: Array<string>;
 }

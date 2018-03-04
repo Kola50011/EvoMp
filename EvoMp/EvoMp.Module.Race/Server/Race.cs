@@ -1,5 +1,4 @@
 using EvoMp.Core.Module.Server;
-using EvoMp.Module.Race.Server.Entity;
 using EvoMp.Module.VehicleHandler.Server;
 
 namespace EvoMp.Module.Race.Server

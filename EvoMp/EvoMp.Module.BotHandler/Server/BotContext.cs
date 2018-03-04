@@ -8,13 +8,13 @@ namespace EvoMp.Module.BotHandler.Server
 {
     /// <inheritdoc />
     /// <summary>
-    /// Initialize the BotContext and contains the tables
+    ///     Initialize the BotContext and contains the tables
     /// </summary>
     public class BotContext : DbContext
     {
         /// <inheritdoc />
         /// <summary>
-        /// Constructor. Based on DbContext and loads the connection string
+        ///     Constructor. Based on DbContext and loads the connection string
         /// </summary>
         public BotContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
@@ -33,7 +33,7 @@ namespace EvoMp.Module.BotHandler.Server
         }
 
         /// <summary>
-        /// Initalize the Bot Context, sets the migrator config and open the database connection
+        ///     Initalize the Bot Context, sets the migrator config and open the database connection
         /// </summary>
         public void FirstInit()
         {
@@ -51,15 +51,16 @@ namespace EvoMp.Module.BotHandler.Server
         }
 
         #region Tables
+
         /// <summary>
-        /// Table: Bots
-        /// Contains all recorded bots
+        ///     Table: Bots
+        ///     Contains all recorded bots
         /// </summary>
         public DbSet<BotDto> Bots { get; set; }
 
         /// <summary>
-        /// Table: BotWaypoints
-        /// Contains all recorded Waypoints for a bot
+        ///     Table: BotWaypoints
+        ///     Contains all recorded Waypoints for a bot
         /// </summary>
         public DbSet<BotWaypointDto> BotWaypoints { get; set; }
 

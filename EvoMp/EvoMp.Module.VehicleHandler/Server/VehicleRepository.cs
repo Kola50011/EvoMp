@@ -1,17 +1,17 @@
 namespace EvoMp.Module.VehicleHandler.Server
 {
     /// <summary>
-    /// The VehicleRepository class
+    ///     The VehicleRepository class
     /// </summary>
     public class VehicleRepository
     {
         /// <summary>
-        /// The singleton VehicleRepository instance
+        ///     The singleton VehicleRepository instance
         /// </summary>
         private static VehicleRepository _vehicleRepository;
 
         /// <summary>
-        /// Private constructor wich initialize the VehicleContext
+        ///     Private constructor wich initialize the VehicleContext
         /// </summary>
         private VehicleRepository()
         {
@@ -19,7 +19,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        /// Creates an new VehicleContext
+        ///     Creates an new VehicleContext
         /// </summary>
         /// <returns>New vehicle context</returns>
         public static VehicleContext GetVehicleContext()
@@ -29,7 +29,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        /// Returns the singleton instance of the VehicleRepository
+        ///     Returns the singleton instance of the VehicleRepository
         /// </summary>
         /// <returns></returns>
         public static VehicleRepository GetInstance()

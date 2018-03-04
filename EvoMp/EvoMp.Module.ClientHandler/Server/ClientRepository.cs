@@ -1,19 +1,17 @@
-using GrandTheftMultiplayer.Server.API;
-
 namespace EvoMp.Module.ClientHandler.Server
 {
     /// <summary>
-    /// The ClientRepository class
+    ///     The ClientRepository class
     /// </summary>
     public class ClientRepository
     {
         /// <summary>
-        /// The singleton ClientRepository instance
+        ///     The singleton ClientRepository instance
         /// </summary>
         private static ClientRepository _ClientRepository;
 
         /// <summary>
-        /// Private constructor wich initialize the ClientContext
+        ///     Private constructor wich initialize the ClientContext
         /// </summary>
         private ClientRepository()
         {
@@ -21,7 +19,7 @@ namespace EvoMp.Module.ClientHandler.Server
         }
 
         /// <summary>
-        /// Creates an new ClientContext
+        ///     Creates an new ClientContext
         /// </summary>
         /// <returns>New Client context</returns>
         public static ClientContext GetClientContext()
@@ -31,7 +29,7 @@ namespace EvoMp.Module.ClientHandler.Server
         }
 
         /// <summary>
-        /// Returns the singleton instance of the ClientRepository
+        ///     Returns the singleton instance of the ClientRepository
         /// </summary>
         /// <returns></returns>
         public static ClientRepository GetInstance()

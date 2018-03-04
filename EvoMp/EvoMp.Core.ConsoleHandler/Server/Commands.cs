@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
 #if !__MonoCS__
 using System.Drawing;
+
 #endif
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -60,8 +61,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
             {
                 Rectangle rect = new Rectangle();
                 ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
-                display = Screen.AllScreens.ToList().FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(rect.X, rect.Y))));
-                ConsoleOutput.WriteLine(ConsoleType.Info, $"No display given for fullscreen. Using the current display ~b~{display}~;~.");
+                display = Screen.AllScreens.ToList()
+                    .FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(rect.X, rect.Y))));
+                ConsoleOutput.WriteLine(ConsoleType.Info,
+                    $"No display given for fullscreen. Using the current display ~b~{display}~;~.");
             }
 #endif
 

@@ -39,7 +39,8 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
             _api.givePlayerWeapon(sender, possibleWeapon.First(), 9999, true);
             _messageHandler.PlayerMessage(sender,
-                $"Weapon ~o~{possibleWeapon.First()}~w~ ~c~(~w~{API.shared.getWeaponType(possibleWeapon.First())}~c~) ~w~created.", MessageType.Info);
+                $"Weapon ~o~{possibleWeapon.First()}~w~ ~c~(~w~{API.shared.getWeaponType(possibleWeapon.First())}~c~) ~w~created.",
+                MessageType.Info);
 
             possibleWeapon.Remove(possibleWeapon.First());
 
@@ -65,9 +66,9 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 return;
             }
 
-            _api.setPlayerWeaponTint(sender, sender.currentWeapon, (WeaponTint)tint);
+            _api.setPlayerWeaponTint(sender, sender.currentWeapon, (WeaponTint) tint);
             _messageHandler.PlayerMessage(sender,
-                $"~o~{sender.currentWeapon}~w~ got a new Tint ~c~[~o~{(WeaponTint)tint}~c~]", MessageType.Info);
+                $"~o~{sender.currentWeapon}~w~ got a new Tint ~c~[~o~{(WeaponTint) tint}~c~]", MessageType.Info);
         }
     }
 }

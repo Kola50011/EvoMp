@@ -8,19 +8,29 @@ namespace EvoMp.Module.ClientHandler.Server
 {
     /// <inheritdoc />
     /// <summary>
-    /// Initialize the ClientContext and contains the tables
+    ///     Initialize the ClientContext and contains the tables
     /// </summary>
     public class ClientContext : DbContext
     {
         /// <inheritdoc />
         /// <summary>
-        /// Constructor. Based on DbContext and loads the connection string
+        ///     Constructor. Based on DbContext and loads the connection string
         /// </summary>
         public ClientContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
             // Database logging
             //Database.Log = s => { };
         }
+
+        #region Tables
+
+        /// <summary>
+        ///     Table: Clients
+        ///     Contains all ExtendedClients
+        /// </summary>
+        public DbSet<ClientDto> Clients { get; set; }
+
+        #endregion Tables
 
         /// <inheritdoc />
         /// <summary>
@@ -33,7 +43,7 @@ namespace EvoMp.Module.ClientHandler.Server
         }
 
         /// <summary>
-        /// Initalize the Client Context, sets the migrator config and open the database connection
+        ///     Initalize the Client Context, sets the migrator config and open the database connection
         /// </summary>
         public void FirstInit()
         {
@@ -49,15 +59,5 @@ namespace EvoMp.Module.ClientHandler.Server
             dbMigrator.Update();
             Database.Connection.Open();
         }
-
-        #region Tables
-
-        /// <summary>
-        /// Table: Clients
-        /// Contains all ExtendedClients
-        /// </summary>
-        public DbSet<ClientDto> Clients { get; set; }
-
-        #endregion Tables
     }
 }

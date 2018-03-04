@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
 using EvoMp.Module.BotHandler.Server.Entity;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.EventHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.BotHandler.Server
 {
     public class Tracking
     {
+        private const int updateIntervall = 50; // 100ms
         private readonly API _api;
         private readonly IClientWrapper _clientWrapper;
         private readonly IEventHandler _eventHandler;
-        private const int updateIntervall = 50; // 100ms
         private DateTime lastStep = DateTime.Now;
 
         public Tracking(API api, IClientWrapper clientWrapper, IEventHandler eventHandler)
@@ -28,7 +26,6 @@ namespace EvoMp.Module.BotHandler.Server
             // Disable Logging for this massive events
             _eventHandler.SetLogging("ClientWrapper.Set.setEntityVelocity", false);
             _eventHandler.SetLogging("ClientWrapper.Set.setEntityRotation", false);
-            
         }
 
         private void OnUpdateEvent()

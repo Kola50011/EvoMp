@@ -397,7 +397,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
                     _lastConsoleTop = Console.CursorTop;
 #if __MonoCS__
                     if (_lastConsoleTop < Console.BufferHeight - 1)
-                        _lastConsoleTop -= 1;
+                        _lastConsoleTop
+ -= 1;
 #else
                     if (_lastConsoleTop == Console.BufferHeight - 1)
                         _lastConsoleTop = Console.BufferHeight - 2;

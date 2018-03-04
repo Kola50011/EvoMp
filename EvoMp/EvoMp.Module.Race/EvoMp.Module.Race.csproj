@@ -81,9 +81,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Entity\RaceCheckpointDto.cs" />
-    <Compile Include="Server\Entity\RaceContext.cs" />
+    <Compile Include="Server\RaceContext.cs" />
     <Compile Include="Server\Entity\RaceDto.cs" />
-    <Compile Include="Server\Entity\RaceRepository.cs" />
+    <Compile Include="Server\RaceRepository.cs" />
     <Compile Include="Server\Entity\RaceSpawnpointDto.cs" />
     <Compile Include="Server\Entity\RaceVehicleDto.cs" />
     <Compile Include="Server\IRace.cs" />

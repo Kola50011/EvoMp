@@ -1,13 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
-using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Shared;
-using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
 namespace EvoMp.Module.TestModule.Server.Debuging
 {

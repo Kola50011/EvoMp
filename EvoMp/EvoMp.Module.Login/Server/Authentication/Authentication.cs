@@ -1,7 +1,6 @@
 using System;
 using System.Data.Entity.Validation;
 using EvoMp.Module.ClientHandler.Server;
-using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.Login.Server.Authentication.Communication;
 using GrandTheftMultiplayer.Server.API;

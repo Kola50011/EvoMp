@@ -1,21 +1,27 @@
-namespace EvoMp.Module.Race.Server.Entity
+namespace EvoMp.Module.Race.Server
 {
     /// <summary>
-    ///     Repository handling the races
+    ///     The RaceRepository class
     /// </summary>
     public class RaceRepository
     {
+        /// <summary>
+        ///     The singleton RaceRepository instance
+        /// </summary>
         private static RaceRepository _raceRepository;
 
+        /// <summary>
+        ///     Private constructor wich initialize the RaceContext
+        /// </summary>
         private RaceRepository()
         {
             new RaceContext().FirstInit();
         }
 
         /// <summary>
-        ///     Returns a context to interact with the race context
+        ///     Creates an new RaceContext
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New Race context</returns>
         public static RaceContext GetRaceContext()
         {
             RaceContext context = new RaceContext();
@@ -23,7 +29,7 @@ namespace EvoMp.Module.Race.Server.Entity
         }
 
         /// <summary>
-        ///     Returns an instance of the RaceRepository
+        ///     Returns the singleton instance of the RaceRepository
         /// </summary>
         /// <returns></returns>
         public static RaceRepository GetInstance()

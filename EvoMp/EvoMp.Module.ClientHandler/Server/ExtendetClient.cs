@@ -52,7 +52,7 @@ namespace EvoMp.Module.ClientHandler.Server
         }
 
         /// <summary>
-        /// Spawns the client
+        ///     Spawns the client
         /// </summary>
         public void Spawn()
         {

@@ -1,6 +1,6 @@
-using GrandTheftMultiplayer.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GrandTheftMultiplayer.Shared;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {
@@ -17,7 +17,7 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         public VehicleHash VehicleHash { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Index("IX_VehicleHashAndValue",2, IsUnique = true)]
+        [Index("IX_VehicleHashAndValue", 2, IsUnique = true)]
         public int Value { get; set; }
     }
 }

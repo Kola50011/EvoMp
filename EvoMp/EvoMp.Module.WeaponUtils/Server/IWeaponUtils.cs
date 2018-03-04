@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using EvoMp.Core.Module.Server;
 using GrandTheftMultiplayer.Shared;
-using System.Collections.Generic;
 
 namespace EvoMp.Module.WeaponUtils.Server
 {

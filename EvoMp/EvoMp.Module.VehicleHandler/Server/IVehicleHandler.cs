@@ -14,7 +14,8 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <param name="position">The position of the new ExtendedVehicle</param>
         /// <param name="rotation">The rotation of the new ExtendedVehicle</param>
         /// <param name="dimension">The dimension of the new ExtendedVehicle</param>
-        ExtendedVehicle CreateExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension);
+        ExtendedVehicle CreateExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation,
+            int dimension);
 
         /// <summary>
         ///     Creates an existing ExtendedVehicle by Vehicles table VehicleId

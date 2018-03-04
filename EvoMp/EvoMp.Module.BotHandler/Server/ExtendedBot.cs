@@ -1,5 +1,4 @@
 using System;
-using System.Data.Entity;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.BotHandler.Server.Entity;
@@ -7,7 +6,6 @@ using EvoMp.Module.BotHandler.Server.Exceptions;
 using EvoMp.Module.ClientHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
-using EvoMp.Module.VehicleHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -170,7 +168,7 @@ namespace EvoMp.Module.BotHandler.Server
 
         public BotWaypointDto GetNextWaypoint()
         {
-            if (_currentWaypoint > Properties.Waypoints.Count-1)
+            if (_currentWaypoint > Properties.Waypoints.Count - 1)
                 return null;
 
             _currentWaypoint++;

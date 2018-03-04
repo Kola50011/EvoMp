@@ -10,8 +10,8 @@ namespace EvoMp.Module.TestModule.Server.Debuging
     public class LoginFucker
     {
         private readonly API _api;
-        private readonly IMessageHandler _messageHandler;
         private readonly IClientWrapper _clientWrapper;
+        private readonly IMessageHandler _messageHandler;
 
         public LoginFucker(API api, IMessageHandler messageHandler, IClientWrapper clientWrapper)
         {

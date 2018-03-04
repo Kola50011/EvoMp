@@ -89,8 +89,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 }
                 // else -> write message after server startup
                 else
+                {
                     SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
                         "Can restore fullscreen console window. Saved fullscreen screen isn't connected. Using default console settings.");
+                }
 
                 height = Console.WindowHeight;
                 width = Console.WindowWidth;
