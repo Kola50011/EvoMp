@@ -9,12 +9,13 @@ namespace EvoMp.Module.WeaponUtils.Server
 {
     public class WeaponUtils : BaseModule, IWeaponUtils
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets all possible WeaponHashes for the searched name
         /// </summary>
         /// <param name="searchWeaponName">The name pattern of the searched weapon</param>
         /// <returns>List with possible WeaponHashes</returns>
-        List<WeaponHash> IWeaponUtils.GetWeaponsByName(string searchWeaponName)
+        public List<WeaponHash> GetWeaponsByName(string searchWeaponName)
         {
             List<WeaponHash> weapons = new List<WeaponHash>();
             searchWeaponName = searchWeaponName.ToLower();
@@ -34,12 +35,13 @@ namespace EvoMp.Module.WeaponUtils.Server
             return weapons;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Gets all WeaponHashes for the given weaponType
         /// </summary>
         /// <param name="weaponType">The weaponType of the searched weapons</param>
         /// <returns>List with matching WeaponHashes</returns>
-        List<WeaponHash> IWeaponUtils.GetWeaponsByType(WeaponType weaponType)
+        public List<WeaponHash> GetWeaponsByType(WeaponType weaponType)
         {
             return Enum.GetValues(typeof(WeaponHash)).Cast<WeaponHash>()
                 .Where(weapon => API.shared.getWeaponType(weapon) == weaponType).ToList();
