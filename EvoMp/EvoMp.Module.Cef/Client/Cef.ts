@@ -65,6 +65,10 @@ export default class Cef {
     this.browser.eval(str)
   }
 
+  public call(func: string, ...args: any[]) {
+    this.browser.call(func, ...args)
+  }
+
   public addEventListener(event: string, func: (args: any[]) => void): void {
     this.events[event] = func
   }
