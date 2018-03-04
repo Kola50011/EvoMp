@@ -6,38 +6,38 @@ import openRegister from "./Register"
 
 import {AuthOpen} from "./AuthOpen"
 
-const resourceStartHandler = API.onResourceStart.connect(initAuthentication);
+const resourceStartHandler = API.onResourceStart.connect(initAuthentication)
 
 async function initAuthentication() {
-  resourceStartHandler.disconnect();
+  resourceStartHandler.disconnect()
 
   const onOpenListener = EventHandler.subscribe("AuthOpen",
     (args: any) => {
 
-      const arg = JSON.parse(args[0]) as AuthOpen;
+      const arg = JSON.parse(args[0]) as AuthOpen
 
       switch (arg.Type) {
         case "Register":
           openRegister().catch(() => {
-            API.sendChatMessage("Exception: onOpenRegister");
-          });
+            API.sendChatMessage("Exception: onOpenRegister")
+          })
 
-          break;
+          break
         case "Login":
           openLogin(arg.Username || "ERROR").catch(() => {
-            API.sendChatMessage("Exception: onOpenLogin");
-          });
+            API.sendChatMessage("Exception: onOpenLogin")
+          })
 
-          break;
+          break
         default:
           // TODO: Add better error handling.
-          API.sendChatMessage(`Wrong packet received in Auth! ${JSON.stringify(arg)}`);
+          API.sendChatMessage(`Wrong packet received in Auth! ${JSON.stringify(arg)}`)
 
-          break;
+          break
       }
 
-      onOpenListener.unsubscribe();
-    });
+      onOpenListener.unsubscribe()
+    })
 
-  API.triggerServerEvent("ready");
+  API.triggerServerEvent("ready")
 }
