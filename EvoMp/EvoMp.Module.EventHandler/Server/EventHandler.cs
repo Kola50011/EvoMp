@@ -14,11 +14,11 @@ namespace EvoMp.Module.EventHandler.Server
     {
         private readonly API _api;
 
+        private readonly List<string> _notLoggingEvents = new List<string>();
+
         //ServerEvents
         private readonly Dictionary<string, List<ServerEventHandle>> _subscriberList =
             new Dictionary<string, List<ServerEventHandle>>();
-
-        private readonly List<string> _notLoggingEvents = new List<string>();
 
         public EventHandler(API api)
         {
@@ -27,13 +27,6 @@ namespace EvoMp.Module.EventHandler.Server
 
             SubscribeToServerEvent("Debug", new ServerEventHandle(OnClientDebugEvent));
             SetLogging("Debug", false);
-
-        }
-
-        private static void OnClientDebugEvent(Client user, string eventName, params object[] args)
-        {
-            if (args.Any())
-                ConsoleOutput.WriteLine(ConsoleType.Debug, $"Client - [{user.name}] {args[0]}");
         }
 
         public void SetLogging(string eventName, bool logging)
@@ -48,19 +41,10 @@ namespace EvoMp.Module.EventHandler.Server
             // Add to ignore list
             if (!_notLoggingEvents.Contains(eventName))
                 _notLoggingEvents.Add(eventName);
-            
         }
 
         // ClientEvents
         public void InvokeClientEvent(Client client, string eventName, params object[] args)
-        {
-            if (!_notLoggingEvents.Contains(eventName))
-                ConsoleOutput.WriteLine(ConsoleType.Event,
-                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
-            _api.triggerClientEvent(client, eventName, args);
-        }
-
-        public void InvokeClientEvent(Client client, bool logging, string eventName, params object[] args)
         {
             if (!_notLoggingEvents.Contains(eventName))
                 ConsoleOutput.WriteLine(ConsoleType.Event,
@@ -104,6 +88,20 @@ namespace EvoMp.Module.EventHandler.Server
         {
             if (_subscriberList.Remove(eventName))
                 ConsoleOutput.WriteLine(ConsoleType.Event, "Stop listen event ~#85a7dd~" + eventName + "~;~.");
+        }
+
+        private static void OnClientDebugEvent(Client user, string eventName, params object[] args)
+        {
+            if (args.Any())
+                ConsoleOutput.WriteLine(ConsoleType.Debug, $"Client - [{user.name}] {args[0]}");
+        }
+
+        public void InvokeClientEvent(Client client, bool logging, string eventName, params object[] args)
+        {
+            if (!_notLoggingEvents.Contains(eventName))
+                ConsoleOutput.WriteLine(ConsoleType.Event,
+                    $" ~#85a7dd~{eventName}~;~ ~w~>> {client.name} ~c~{JsonConvert.SerializeObject(args)}");
+            _api.triggerClientEvent(client, eventName, args);
         }
 
         private void InvokeServerEvent(Client client, string eventName, object[] args)

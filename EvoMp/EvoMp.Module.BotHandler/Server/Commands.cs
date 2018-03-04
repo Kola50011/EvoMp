@@ -5,9 +5,9 @@ using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleUtils.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
-using GrandTheftMultiplayer.Server.Util;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
@@ -17,11 +17,13 @@ namespace EvoMp.Module.BotHandler.Server
     {
         private readonly IMessageHandler _messageHandler;
         private readonly IVehicleHandler _vehicleHandler;
+        private readonly IVehicleUtils _vehicleUtils;
 
-        public Commands(IMessageHandler messageHandler, IVehicleHandler vehicleHandler)
+        public Commands(IMessageHandler messageHandler, IVehicleHandler vehicleHandler, IVehicleUtils vehicleUtils)
         {
             _messageHandler = messageHandler;
             _vehicleHandler = vehicleHandler;
+            _vehicleUtils = vehicleUtils;
         }
 
         [PlayerCommand("/RecordBot", new[] {"/rbot"}, PlayerOnlyState.OnlyAsDriver)]
@@ -48,7 +50,7 @@ namespace EvoMp.Module.BotHandler.Server
         public void StopRecordBot(Client sender)
         {
             ExtendedBot currenRecordingBot =
-                BotModule.RecordingBots.FirstOrDefault(bot => bot.IsRecording && bot.Owner.Client == sender);
+                BotHandler.RecordingBots.FirstOrDefault(bot => bot.IsRecording && bot.Owner.Client == sender);
 
             if (currenRecordingBot == null)
             {
@@ -69,10 +71,10 @@ namespace EvoMp.Module.BotHandler.Server
             _messageHandler.PlayerMessage(sender, $"Playback of bot {botName} started.", MessageType.Info);
         }
 
-        [PlayerCommand("/dbvehicle", new[] { "/dbv" })]
+        [PlayerCommand("/dbvehicle", new[] {"/dbv"})]
         public void SaveVehicle(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = _vehicleUtils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
@@ -84,12 +86,13 @@ namespace EvoMp.Module.BotHandler.Server
 
             // Create new vehicle
             ExtendedVehicle newExtendedVehicle =
-                new ExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation, sender.dimension);
+                _vehicleHandler.CreateExtendedVehicle(possibleVehicles.First(), sender.position, sender.rotation,
+                    sender.dimension);
             newExtendedVehicle.Create();
 
 
             _messageHandler.PlayerMessage(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~)~w~ created.");
 
             sender.setIntoVehicle(newExtendedVehicle.Vehicle, -1);
 

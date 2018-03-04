@@ -4,6 +4,7 @@ using System.Linq;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleUtils.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
@@ -16,17 +17,19 @@ namespace EvoMp.Module.TestModule.Server.Debuging
     {
         private readonly API _api;
         private readonly IVehicleHandler _vehicleHandler;
+        private readonly IVehicleUtils _vehicleUtils;
 
-        public VehicleCommands(API api, IVehicleHandler vehicleHandler)
+        public VehicleCommands(API api, IVehicleHandler vehicleHandler, IVehicleUtils vehicleUtils)
         {
             _api = api;
             _vehicleHandler = vehicleHandler;
+            _vehicleUtils = vehicleUtils;
         }
 
         [PlayerCommand("/v")]
         public void TestVehicleCommand(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = _vehicleUtils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
@@ -46,7 +49,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
 
             _api.sendChatMessageToPlayer(sender,
-                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass)API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
+                $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
             _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
         }
 
@@ -55,13 +58,13 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         {
             // Change door state
             foreach (DoorState doorState in Enum.GetValues(typeof(DoorState)))
-                API.shared.setVehicleDoorState(sender.vehicle, (int)doorState, state);
+                API.shared.setVehicleDoorState(sender.vehicle, (int) doorState, state);
         }
 
         [PlayerCommand("/setvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleMod(Client sender, VehicleModType slot, int value)
         {
-            API.shared.setVehicleMod(sender.vehicle, (int)slot, value);
+            API.shared.setVehicleMod(sender.vehicle, (int) slot, value);
         }
 
         [PlayerCommand("/rvmod", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
@@ -69,7 +72,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         {
             Random random = new Random();
             foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
-                API.shared.setVehicleMod(sender.vehicle, (int)modification, random.Next(0, 5));
+                API.shared.setVehicleMod(sender.vehicle, (int) modification, random.Next(0, 5));
         }
 
         [PlayerCommand("/rvcolor", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
@@ -85,7 +88,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/vsethealth", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleHealth(Client sender, double health)
         {
-            sender.vehicle.health = (float)health;
+            sender.vehicle.health = (float) health;
 
             _api.sendChatMessageToPlayer(sender, $"New vehicle health: ~o~{sender.vehicle.health}");
         }
@@ -96,7 +99,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             _api.sendChatMessageToPlayer(sender, $"Vehicle health: ~o~{sender.vehicle.health}");
         }
 
-        [PlayerCommand("/vtyresmokecolor", new[] { "/vtsc" }, PlayerOnlyState.OnlyAsDriver)]
+        [PlayerCommand("/vtyresmokecolor", new[] {"/vtsc"}, PlayerOnlyState.OnlyAsDriver)]
         public void SetVehicleTyreSmokeColor(Client sender, int red, int green, int blue)
         {
             //sender.vehicle.tyreSmokeColor = new Color(red, green, blue);
@@ -122,10 +125,9 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/glv", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void GetAllLiveries(Client sender)
         {
-            foreach (KeyValuePair<int, string> livery in API.shared.getVehicleLiveries((VehicleHash)API.shared.getEntityModel(sender.vehicle)))
-            {
+            foreach (KeyValuePair<int, string> livery in API.shared.getVehicleLiveries(
+                (VehicleHash) API.shared.getEntityModel(sender.vehicle)))
                 _api.sendChatMessageToPlayer(sender, $"{livery.Key} | {livery.Value}");
-            }
         }
     }
 }

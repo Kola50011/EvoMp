@@ -137,7 +137,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                 // Add optional parameters if not given, to parametersValues 
                 if (commandParameters.Length != parameterValues.Count)
-                    for(int i = commandParameters.Length - parameterValues.Count; i < commandParameters.Length; i++)
+                    for (int i = commandParameters.Length - parameterValues.Count; i < commandParameters.Length; i++)
                         parameterValues.Add(commandParameters[i].DefaultValue);
 
                 //TODO: check for optional parameters needed

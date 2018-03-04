@@ -10,22 +10,13 @@ namespace EvoMp.Module.VehicleUtils.Server
 {
     public class VehicleUtils : BaseModule, IVehicleUtils
     {
-        List<VehicleHash> IVehicleUtils.GetVehiclesByName(string searchVehicleName)
-        {
-            return GetVehiclesByName(searchVehicleName);
-        }
-
-        List<VehicleHash> IVehicleUtils.GetVehiclesByClass(VehicleClass vehicleClass)
-        {
-            return GetVehiclesByClass(vehicleClass);
-        }
-
-        List<VehicleHash> IVehicleUtils.GetVehiclesByIngameName(string searchIngameVehicleName)
-        {
-            return GetVehiclesByIngameName(searchIngameVehicleName);
-        }
-
-        public static List<VehicleHash> GetVehiclesByName(string searchVehicleName)
+        /// <inheritdoc />
+        /// <summary>
+        ///     Returns possible vehicleHashes for the given vehicle hash name
+        /// </summary>
+        /// <param name="searchVehicleName">The search vehicle hash name pattern</param>
+        /// <returns>List with possible VehicleHashes</returns>
+        public List<VehicleHash> GetVehiclesByName(string searchVehicleName)
         {
             List<VehicleHash> vehicleHashes = new List<VehicleHash>();
             searchVehicleName = searchVehicleName.ToLower();
@@ -46,13 +37,25 @@ namespace EvoMp.Module.VehicleUtils.Server
             return vehicleHashes;
         }
 
-        public static List<VehicleHash> GetVehiclesByClass(VehicleClass category)
+        /// <inheritdoc />
+        /// <summary>
+        ///     Returns vehicleHashes for the given vehicle class
+        /// </summary>
+        /// <param name="vehicleClass">The searched vehicleClass</param>
+        /// <returns>List with class matching VehicleHashes</returns>
+        public List<VehicleHash> GetVehiclesByClass(VehicleClass vehicleClass)
         {
             return Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>()
-                .Where(vehicleHash => (VehicleClass) API.shared.getVehicleClass(vehicleHash) == category).ToList();
+                .Where(vehicleHash => (VehicleClass) API.shared.getVehicleClass(vehicleHash) == vehicleClass).ToList();
         }
 
-        public static List<VehicleHash> GetVehiclesByIngameName(string searchIngameVehicleName)
+        /// <inheritdoc />
+        /// <summary>
+        ///     Returns possible vehicleHashes for the given ingame vehicle name
+        /// </summary>
+        /// <param name="searchIngameVehicleName">The search ingame vehicle name pattern</param>
+        /// <returns>List with possible VehicleHashes</returns>
+        public List<VehicleHash> GetVehiclesByIngameName(string searchIngameVehicleName)
         {
             searchIngameVehicleName = searchIngameVehicleName.ToLower();
             List<VehicleHash> vehicleHashes = new List<VehicleHash>();

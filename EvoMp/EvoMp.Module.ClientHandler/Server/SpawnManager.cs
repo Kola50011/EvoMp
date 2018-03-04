@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using EvoMp.Core.ConsoleHandler.Server;
-using EvoMp.Module.ClientHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared.Math;

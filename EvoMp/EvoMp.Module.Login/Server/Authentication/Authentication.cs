@@ -1,7 +1,6 @@
 using System;
 using System.Data.Entity.Validation;
 using EvoMp.Module.ClientHandler.Server;
-using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.Login.Server.Authentication.Communication;
 using GrandTheftMultiplayer.Server.API;
@@ -33,7 +32,7 @@ namespace EvoMp.Module.Login.Server.Authentication
         // If the users exists in the database, open the login otherwise the register
         public void OnPlayerReadyHandler(Client client, string eventName, object[] args)
         {
-            ExtendetClient extendetClient = new ExtendetClient(client);
+            ExtendetClient extendetClient = _clientHandler.GetExtendetClient(client);
 
             if (extendetClient.Properties.Name == null)
             {
@@ -78,7 +77,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             {
                 string salt = _api.generateBCryptSalt(12);
                 string passwordHash = _api.getPasswordHashBCrypt(password, salt);
-                ExtendetClient extendetClient = new ExtendetClient(client);
+                ExtendetClient extendetClient = _clientHandler.GetExtendetClient(client);
 
                 extendetClient.Save();
 
@@ -106,7 +105,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             if (client == null)
                 return;
 
-            ExtendetClient extendetClient = new ExtendetClient(client);
+            ExtendetClient extendetClient = _clientHandler.GetExtendetClient(client);
 
             AuthResponse authResponse = new AuthResponse();
 
@@ -128,7 +127,7 @@ namespace EvoMp.Module.Login.Server.Authentication
                 extendetClient.Properties.HwId = client.uniqueHardwareId;
                 extendetClient.Properties.LastLogin = DateTime.Now;
 
-                _clientHandler.SpawnExtendetClient(extendetClient);
+                extendetClient.Spawn();
                 _clientHandler.UnRestrict(extendetClient: extendetClient);
             }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server.Entity;
+using EvoMp.Module.VehicleHandler.Server.Exceptions;
 using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Constant;
@@ -22,32 +23,44 @@ namespace EvoMp.Module.VehicleHandler.Server
         public VehicleDto Properties;
         public NetHandle Vehicle;
 
-        public ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
+        /// <summary>
+        ///     Creates a new ExtendedVehicle by vehicleHash, position, rotation, dimension
+        /// </summary>
+        /// <param name="vehicleHash">The VehicleHash of the new ExtendedVehicle</param>
+        /// <param name="position">The position of the new ExtendedVehicle</param>
+        /// <param name="rotation">The rotation of the new ExtendedVehicle</param>
+        /// <param name="dimension">The dimension of the new ExtendedVehicle</param>
+        internal ExtendedVehicle(VehicleHash vehicleHash, Vector3 position, Vector3 rotation, int dimension)
         {
             InitNew(vehicleHash, position, rotation, dimension);
         }
 
-        public ExtendedVehicle(int vehicleId)
+        /// <summary>
+        ///     Creates an existing ExtendedVehicle by Vehicles table VehicleId
+        /// </summary>
+        /// <param name="vehicleId">The vehicleId of the wanted extendedVehicle</param>
+        internal ExtendedVehicle(int vehicleId)
         {
             InitFromDatabase(vehicleId);
         }
 
         /// <summary>
-        ///     Creates an Extendend Vehicle from an NetHandle
-        ///     <remarks>The NetHandle must have the Entity Data VehicleHash!</remarks>
+        ///     Creates an Extendend Vehicle from an NetHandle.
+        ///     Creates the saved ExtendedVehicle if the NetHandle has the "VehicleId" entity data.
+        ///     If this is not the case, it creates a new ExtendedVehicle
         /// </summary>
-        /// <param name="vehicle"></param>
-        public ExtendedVehicle(NetHandle vehicle)
+        /// <param name="vehicle">The vehicle from wich the extendedVehicle should created.</param>
+        internal ExtendedVehicle(NetHandle vehicle)
         {
             Vehicle = vehicle;
 
-            VehicleHash vehicleHash = (VehicleHash)API.shared.getEntityModel(vehicle);
+            VehicleHash vehicleHash = (VehicleHash) API.shared.getEntityModel(vehicle);
 
             // Get Database entry if given
             if (API.shared.hasEntityData(vehicle, "VehicleId"))
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
                 {
-                    InitFromDatabase((int)API.shared.getEntityData(vehicle, "VehicleId"));
+                    InitFromDatabase((int) API.shared.getEntityData(vehicle, "VehicleId"));
                 }
             else // Create new extendedVehcile
                 InitNew(vehicleHash,
@@ -55,8 +68,16 @@ namespace EvoMp.Module.VehicleHandler.Server
                     API.shared.getEntityDimension(vehicle));
         }
 
+        /// <summary>
+        ///     Creates a copy of the current ExtendedVehicle.
+        /// </summary>
+        /// <exception cref="ExtendedVehicleException">Throws if the ExtendedVehicle has no valid/existing NetHandle.</exception>
+        /// <returns>New ExtendedVehicle object</returns>
         public ExtendedVehicle Copy()
         {
+            if (Vehicle.IsNull)
+                throw new ExtendedVehicleException("Can't call .Copy() an ExtendedVehicle without NetHandle!");
+
             ExtendedVehicle copyVehicle = new ExtendedVehicle(Properties.VehicleHash,
                 API.shared.getEntityPosition(Vehicle), API.shared.getEntityRotation(Vehicle),
                 API.shared.getEntityDimension(Vehicle));
@@ -121,9 +142,14 @@ namespace EvoMp.Module.VehicleHandler.Server
                 if (!Vehicle.IsNull)
                     API.shared.setEntityData(Vehicle, "VehicleId", Properties.VehicleId);
             }
+
             Debug("Init - By vehicleHash, position, rotation, dimension.");
         }
 
+        /// <summary>
+        ///     Updates the Properties object by the NetHandle.
+        /// </summary>
+        /// <param name="saveAlso">Save the updated changes also?</param>
         public void FullUpdate(bool saveAlso = false)
         {
             UpdateDoorStates();
@@ -137,6 +163,9 @@ namespace EvoMp.Module.VehicleHandler.Server
                 Save();
         }
 
+        /// <summary>
+        ///     Updates the Properties.DoorStates by the NetHandle
+        /// </summary>
         public void UpdateDoorStates()
         {
             if (Properties.DoorStates == null)
@@ -146,46 +175,55 @@ namespace EvoMp.Module.VehicleHandler.Server
             {
                 // Create DoorState if not existing
                 if (Properties.DoorStates.All(dstate => dstate.Door != doorState))
-                    Properties.DoorStates.Add(new DoorStateDto { VehicleId = Properties.VehicleId, Door = doorState });
+                    Properties.DoorStates.Add(new DoorStateDto {VehicleId = Properties.VehicleId, Door = doorState});
 
                 // Change door state
                 Properties.DoorStates.First(dstate => dstate.Door == doorState).State =
-                    API.shared.getVehicleDoorState(Vehicle, (int)doorState);
+                    API.shared.getVehicleDoorState(Vehicle, (int) doorState);
             }
 
             Debug("Update - Door States updated.");
         }
 
+        /// <summary>
+        ///     Updates the Properties.VehicleLivery by the NetHandle.
+        ///     Adds also new VehicleLivery combinations to the VehicleLiverys table.
+        /// </summary>
         public void UpdateLiveries()
         {
             if (Vehicle.IsNull)
                 return;
 
             int liveryValue = API.shared.getVehicleLivery(Vehicle);
-            
+
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
                 // check if a livery with this combination already exist
-                VehicleLiveryDto livery = context.VehicleLiveries.FirstOrDefault(vlDto => vlDto.VehicleLiveryId == liveryValue &&
-                vlDto.VehicleHash == Properties.VehicleHash);
+                VehicleLiveryDto livery = context.VehicleLiveries.FirstOrDefault(vlDto =>
+                    vlDto.VehicleLiveryId == liveryValue &&
+                    vlDto.VehicleHash == Properties.VehicleHash);
 
                 if (livery == null)
                 {
-                    livery = context.VehicleLiveries.Add(new VehicleLiveryDto()
+                    livery = context.VehicleLiveries.Add(new VehicleLiveryDto
                     {
                         Value = liveryValue,
-                        VehicleHash = Properties.VehicleHash,
+                        VehicleHash = Properties.VehicleHash
                     });
                     context.SaveChanges();
                 }
+
                 Properties.LiveryId = livery.VehicleLiveryId;
                 Properties.VehicleLivery = livery;
-                
             }
 
             Debug("Update - Liveries.");
         }
 
+        /// <summary>
+        ///     Updates the Properties.Modifications by the NetHandle.
+        ///     Adds also new modification combinations to the VehicleModifications table.
+        /// </summary>
         public void UpdateVehicleModifications()
         {
             if (Properties.Modifications == null)
@@ -196,7 +234,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                 foreach (VehicleModType modification in Enum.GetValues(typeof(VehicleModType)))
                 {
                     // Search for existing Modification
-                    int value = API.shared.getVehicleMod(Vehicle, (int)modification);
+                    int value = API.shared.getVehicleMod(Vehicle, (int) modification);
 
                     ModificationDto modificationDto = context.Modifications
                         .FirstOrDefault(modDto => modDto.Slot == modification && modDto.Value == value);
@@ -230,6 +268,9 @@ namespace EvoMp.Module.VehicleHandler.Server
             Debug("Update - Vehicle Modifications updated.");
         }
 
+        /// <summary>
+        ///     Updates the Properties.Position and the Properties.Rotation by the NetHandle.
+        /// </summary>
         public void UpdatePositionRotation()
         {
             if (Vehicle.IsNull)
@@ -241,6 +282,11 @@ namespace EvoMp.Module.VehicleHandler.Server
             Debug("Update - Position and rotation updated.");
         }
 
+
+        /// <summary>
+        ///     Updates the Properties.primaryColor, Properties.secondaryColor and the tyreColor by the NetHandle.
+        ///     Adds also new color combinations to the VehicleColors table.
+        /// </summary>
         public void UpdateColor()
         {
             if (Vehicle.IsNull)
@@ -310,12 +356,16 @@ namespace EvoMp.Module.VehicleHandler.Server
             Debug("Update - Vehicle color updated.");
         }
 
+        /// <summary>
+        ///     Saves the current Properties to the database.
+        /// </summary>
         public void Save()
         {
             _vehicle = Properties;
 
             // Start new transaction for possibillity rollback
-            using (var contextTransaction = VehicleRepository.GetVehicleContext().Database.BeginTransaction())
+            using (DbContextTransaction contextTransaction =
+                VehicleRepository.GetVehicleContext().Database.BeginTransaction())
             {
                 // Get wanted repository context
                 using (VehicleContext context = VehicleRepository.GetVehicleContext())
@@ -356,10 +406,22 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        ///     Spawns the extended Vehicle on the server.
+        ///     Spawns the extended Vehicle as NetHandle on the server.
         /// </summary>
-        public void Create()
+        /// <param name="allowMultiple">Allow multiple NetHandles with the same ExtendedVehicle?</param>
+        /// <exception cref="ExtendedVehicleException">
+        ///     Throws exception, if there is already an NetHandle with the same
+        ///     ExtendedVehicle. (Ignored by allowMultiple)
+        /// </exception>
+        public void Create(bool allowMultiple = false)
         {
+            // Only one NetHandle for this ExtendedVehicle -> throw exception
+            if (!allowMultiple && API.shared.getAllVehicles().Any(handle =>
+                    API.shared.hasEntityData(handle, "VehicleId") &&
+                    (int) API.shared.getEntityData(handle, "VehicleId") == Properties.VehicleId))
+                throw new ExtendedVehicleException("Only one existing NetHandle allowed for this ExtendedVehicle.");
+
+            // Create NetHandle & wait for player sync
             Vehicle newVehicle = API.shared.createVehicle(Properties.VehicleHash,
                 Properties.Position, Properties.Rotation, 1, 1,
                 Properties.Dimension);
@@ -373,12 +435,12 @@ namespace EvoMp.Module.VehicleHandler.Server
             // Set door states
             if (Properties.DoorStates != null)
                 foreach (DoorStateDto doorState in Properties.DoorStates)
-                    API.shared.setVehicleDoorState(Vehicle, (int)doorState.Door, doorState.State);
+                    API.shared.setVehicleDoorState(Vehicle, (int) doorState.Door, doorState.State);
 
             // Set vehicle modifications
             if (Properties.Modifications != null)
                 foreach (VehicleModificationDto modification in Properties.Modifications)
-                    API.shared.setVehicleMod(Vehicle, (int)modification.Modification.Slot,
+                    API.shared.setVehicleMod(Vehicle, (int) modification.Modification.Slot,
                         modification.Modification.Value);
 
             // Set vehicle color
@@ -411,12 +473,12 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// <summary>
         ///     Debug function for the VehicleHandler
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The debug message</param>
         private void Debug(string message)
         {
             message = $"(ExtendedVehicle) [ID: {Properties.VehicleId}] {message}";
             ConsoleOutput.WriteLine(ConsoleType.Debug, message);
-            MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
+            VehicleHandler.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
     }
 }

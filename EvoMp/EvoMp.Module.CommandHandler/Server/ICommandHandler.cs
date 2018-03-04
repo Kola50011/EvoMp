@@ -8,7 +8,7 @@ namespace EvoMp.Module.CommandHandler.Server
     public interface ICommandHandler
     {
         /// <summary>
-        /// Returns the ICommand for the given command string
+        ///     Returns the ICommand for the given command string
         /// </summary>
         /// <param name="command">The complete command string</param>
         /// <returns>ICommand or Null</returns>

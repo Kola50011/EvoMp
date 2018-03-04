@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using EvoMp.Core.ColorHandler.Server;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Parameter.Server;
 using EvoMp.Core.Shared.Server;
@@ -77,25 +78,25 @@ namespace EvoMp.Core.Core.Server
 
                 // Small centered line with headline & developer
                 ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                    "".PadRight(55, '-') + "\n" +
+                    "".PadRight(80, '-') + "\n" +
                     "Server information\n" +
-                    "".PadRight(55, '-'));
+                    "".PadRight(80, '-'));
 
                 ConsoleOutput.WriteCentredText(ConsoleType.Info,
-                    $"{leftServerInfo}{"Server mode:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{moduleTypesString}".PadRight(20)}\n" +
-                    $"{leftServerInfo}{"Runtime mode:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{(Debug ? "Debugging" : "Release")}".PadRight(20)}\n" +
-                    $"{leftServerInfo}{"Server name:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerName().Substring(0, 20)}".PadRight(20)}\n" +
-                    $"{leftServerInfo}{"Server port:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerPort():0000}".PadRight(20)}\n" +
-                    $"{leftServerInfo}{"Max players:".PadRight(20)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getMaxPlayers():0000}".PadRight(20)}\n");
+                    $"{leftServerInfo}{"Server mode:".PadRight(35)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{moduleTypesString}".PadRight(35)}\n" +
+                    $"{leftServerInfo}{"Runtime mode:".PadRight(35)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{(Debug ? "Debugging" : "Release")}".PadRight(35)}\n" +
+                    $"{leftServerInfo}{"Server name:".PadRight(35)}{string.Empty.PadRight(5)}{rightServerInfo}{API.getServerName()}{"".PadRight(ColorUtils.CleanUp(API.getServerName()).Length > 35 ? 0 : 35 - ColorUtils.CleanUp(API.getServerName()).Length)}\n" +
+                    $"{leftServerInfo}{"Server port:".PadRight(35)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getServerPort():0000}".PadRight(35)}\n" +
+                    $"{leftServerInfo}{"Max players:".PadRight(35)}{string.Empty.PadRight(5)}{rightServerInfo}{$"{API.getMaxPlayers():0000}".PadRight(35)}\n");
 
                 // One empty lines
                 ConsoleOutput.PrintLine(" ");
 
                 // Small centered line with headline & developer
                 ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                    "".PadRight(55, '-') + "\n" +
+                    "".PadRight(80, '-') + "\n" +
                     "Developer team\n" +
-                    "".PadRight(55, '-'));
+                    "".PadRight(80, '-'));
 
                 const string usernameColor = "~#ECEFF1~";
                 const string diTitleColor = "~#03A9F4~";
@@ -103,14 +104,19 @@ namespace EvoMp.Core.Core.Server
                 const string staffTitleColor = "~#B3E5FC~";
 
                 ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                    $"{diTitleColor}{"Freeroam Director".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo/Christian".PadRight(20)}\n" +
-                    $"{depyTitleColor}{"Roleplay Deputy".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Roleplay Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(20)}\n" +
-                    $"{staffTitleColor}{"Freeroam Staff".PadRight(20)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(20)}\n"
+                    $"{diTitleColor}{"Freeroam Director".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Ruffo ~c~(Christian Groothoff)".PadRight(35 + 3)}\n" +
+                    $"{depyTitleColor}{"Freeroam Deputy".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Koka".PadRight(35)}\n" +
+                    $"{depyTitleColor}{"Freeroam Staff".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"Sascha".PadRight(35)}\n" +
+                    $"{staffTitleColor}{"Freeroam Staff".PadRight(35)}{string.Empty.PadRight(5)}{usernameColor}{"James".PadRight(35)}\n"
                 );
 
                 ConsoleOutput.PrintLine(" ");
 
+                // Startup parameters
+                ConsoleOutput.WriteCentredText(ConsoleType.Note,
+                    "".PadRight(80, '-') + "\n" +
+                    "Startup Parameters\n" +
+                    "".PadRight(80, '-'));
                 ParameterHandler.PrintArgs();
 
                 ConsoleOutput.PrintLine(" ");

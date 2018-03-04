@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using EvoMp.Core.ConsoleHandler.Properties;
 
 namespace EvoMp.Core.ConsoleHandler.Server
@@ -42,7 +43,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 InputHistory.Add(historyItem);
 
             // Watch console inputs
-            new Thread(ConsoleKeyInputWatcher).Start();
+            new Task(ConsoleKeyInputWatcher).Start();
 
             // Bind console input events
             OnConsoleKeyPress += WriteConsoleKeyPress;

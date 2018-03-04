@@ -16,21 +16,33 @@ namespace EvoMp.Module.MessageHandler.Server
             _api = api;
         }
 
+        /// <summary>
+        /// Sends a message to sender.
+        /// </summary>
+        /// <param name="sender">The player for the message</param>
+        /// <param name="message">The message</param>
+        /// <param name="messageType">The type of the message</param>
         public void PlayerMessage(Client sender, string message, MessageType messageType = MessageType.Note)
         {
             _api.sendChatMessageToPlayer(sender, $"{BuildMessageTag(messageType)}{message}");
         }
 
-        void IMessageHandler.BroadcastMessage(string message, MessageType messageType)
+        /// <inheritdoc />
+        /// <summary>
+        /// Sends the given message to all players
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="messageType">The type of the message</param>
+        public void BroadcastMessage(string message, MessageType messageType)
         {
-            BroadcastMessage(message, messageType);
+            _api.sendChatMessageToAll($"{BuildMessageTag(messageType)}{message}");
         }
 
-        public static void BroadcastMessage(string message, MessageType messageType = MessageType.Note)
-        {
-            API.shared.sendChatMessageToAll($"{BuildMessageTag(messageType)}{message}");
-        }
-
+        /// <summary>
+        /// Builds the correct Tag for the given messageType
+        /// </summary>
+        /// <param name="messageType">The messageType</param>
+        /// <returns>MessageType formated string</returns>
         private static string BuildMessageTag(MessageType messageType)
         {
             // No Tag -> return empty string
@@ -43,6 +55,11 @@ namespace EvoMp.Module.MessageHandler.Server
             return $"~w~| {typeAttribute.TagColorCode}{typeAttribute.TagDisplayName.PadRight(10)}~w~| ~;~";
         }
 
+        /// <summary>
+        /// Returns the MessageTypeAttribute for the MessageType enum
+        /// </summary>
+        /// <param name="messageType">MessageType</param>
+        /// <returns>MessageTypeAttribute</returns>
         private static MessageTypeAttribute GetMessageTypeAttribute(MessageType messageType)
         {
             MemberInfo[] memberInfo = messageType.GetType().GetMember(messageType.ToString());

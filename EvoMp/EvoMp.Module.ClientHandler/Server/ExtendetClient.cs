@@ -11,7 +11,7 @@ namespace EvoMp.Module.ClientHandler.Server
         public readonly Client Client;
         public ClientDto Properties;
 
-        public ExtendetClient(Client sender)
+        internal ExtendetClient(Client sender)
         {
             Client = sender;
             if (API.shared.hasEntityData(sender, "ClientId"))
@@ -49,6 +49,14 @@ namespace EvoMp.Module.ClientHandler.Server
             }
 
             API.shared.setEntityData(Client, "ClientId", Properties.Id);
+        }
+
+        /// <summary>
+        ///     Spawns the client
+        /// </summary>
+        public void Spawn()
+        {
+            ClientHandler.SpawnManager.SpawnExtendetClient(this);
         }
 
         public void Save()

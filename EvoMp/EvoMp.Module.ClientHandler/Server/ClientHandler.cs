@@ -1,8 +1,5 @@
-using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using EvoMp.Core.Module.Server;
-using EvoMp.Module.ClientHandler.Server.Entity;
 using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.EventHandler.Server;
 using GrandTheftMultiplayer.Server.API;
@@ -16,28 +13,33 @@ namespace EvoMp.Module.ClientHandler.Server
 
     public class ClientHandler : BaseModule, IClientHandler
     {
-        private readonly ClientRepository _clientRepository;
-        private readonly SpawnManager _spawnManager;
+        internal static SpawnManager SpawnManager;
 
         public ClientHandler(API api, IEventHandler eventHandler, IDbAccess db)
         {
-            _clientRepository = new ClientRepository(api);
-            _spawnManager = new SpawnManager(api);
+            //TODO: make own spawn module
+            SpawnManager = new SpawnManager(api);
         }
 
-        public bool SpawnExtendetClient(ExtendetClient extendetClient)
+        /// <inheritdoc />
+        /// <summary>
+        ///     Returns an ExtendedClient object for the given player
+        /// </summary>
+        /// <param name="sender">The player</param>
+        /// <returns>ExtendedClient</returns>
+        public ExtendetClient GetExtendetClient(Client sender)
         {
-            return _spawnManager.SpawnExtendetClient(extendetClient);
+            return new ExtendetClient(sender);
         }
 
         public bool Restrict([Optional] Client client, [Optional] ExtendetClient extendetClient)
         {
-            return _spawnManager.Restrict(client, extendetClient);
+            return SpawnManager.Restrict(client, extendetClient);
         }
 
         public bool UnRestrict([Optional] Client client, [Optional] ExtendetClient extendetClient)
         {
-            return _spawnManager.UnRestrict(client, extendetClient);
+            return SpawnManager.UnRestrict(client, extendetClient);
         }
     }
 }

@@ -2,15 +2,20 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using EvoMp.Core.Module.Server;
+using EvoMp.Module.Race.Server.Entity;
 
-namespace EvoMp.Module.Race.Server.Entity
+namespace EvoMp.Module.Race.Server
 {
+    /// <inheritdoc />
     /// <summary>
-    ///     Context responsible
+    ///     Initialize the RaceContext and contains the tables
     /// </summary>
     public class RaceContext : DbContext
     {
         /// <inheritdoc />
+        /// <summary>
+        ///     Constructor. Based on DbContext and loads the connection string
+        /// </summary>
         public RaceContext() : base(Environment.GetEnvironmentVariable("NameOrConnectionString"))
         {
             // Database logging
@@ -28,7 +33,7 @@ namespace EvoMp.Module.Race.Server.Entity
         }
 
         /// <summary>
-        ///     Gets called on server launch for automatic migrations
+        ///     Initalize the Race Context, sets the migrator config and open the database connection
         /// </summary>
         public void FirstInit()
         {
@@ -48,21 +53,26 @@ namespace EvoMp.Module.Race.Server.Entity
         #region Tables
 
         /// <summary>
+        ///     Table: Races
         ///     All races
         /// </summary>
         public DbSet<RaceDto> Races { get; set; }
 
         /// <summary>
+        ///     Table: RaceCheckpoints
         ///     All checkpoints currently associated with races
         /// </summary>
         public DbSet<RaceCheckpointDto> RaceCheckpoints { get; set; }
 
         /// <summary>
+        ///     Table: RaceVehicles
         ///     All vehicles currently associated with races
         /// </summary>
         public DbSet<RaceVehicleDto> RaceVehicles { get; set; }
 
         /// <summary>
+        ///     Table: RaceSpawnpoints
+        ///     Contains the spawnpoints for a race
         /// </summary>
         public DbSet<RaceSpawnpointDto> RaceSpawnPoints { get; set; }
 

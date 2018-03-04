@@ -26,8 +26,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void PrepareConsole()
         {
 #if __MonoCS__
-            WindowWidth = Console.WindowWidth;
-            WindowHeight = Console.WindowHeight;
+            WindowWidth = 150;
+            WindowHeight = 50;
 #else
             // 0x0004 = Modify Console for color codes ( Windows only)
             // 
@@ -39,7 +39,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             SharedEvents.OnCoreStartupCompleted += () =>
             {
+#if !__MonoCS__
                 ConsoleInput.PrepareConsoleInput();
+#endif
 
                 // Register Console commands. (In core not automaticly)
                 ConsoleOutput.WriteLine(ConsoleType.ConsoleCommand, "ConsoleHandler commands.");
@@ -87,8 +89,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 }
                 // else -> write message after server startup
                 else
+                {
                     SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
                         "Can restore fullscreen console window. Saved fullscreen screen isn't connected. Using default console settings.");
+                }
 
                 height = Console.WindowHeight;
                 width = Console.WindowWidth;

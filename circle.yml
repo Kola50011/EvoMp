@@ -1,3 +1,8 @@
+notify:
+  webhooks:
+    # A list of hook hashes, containing the URL field
+    - url: https://skyhook.glitch.me/api/webhooks/419513949084712960/J5ecD0bCr976sG7UVzva5wE7lylxbId924kstfhDUPkEXczkVxPNkYuJmcMk35o4y31R/circleci
+    
 version: 2
 jobs:
   build:
@@ -29,14 +34,12 @@ jobs:
           path: /temp
           command: yarn build
       # Start Server in onlyCopy
-      #- run:
-      #    path: /temp/GTMP_Server
-      #    command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
+      - run:
+          path: /temp/GTMP_Server
+          command: mono GrandTheftMultiplayer.Server.exe -onlyCopy true
       #zip and archive
-      # - run:
-      #     path: /temp
-      #     command: zip -r GTMP_Server.zip GTMP_Server
-      # - store_artifacts:
-      #     path: /temp/GTMP_Server.zip
-      # - store_artifacts:
-      #     path: /temp/GTMP_Server
+      - run:
+          path: /temp
+          command: zip -r GTMP_Server.zip GTMP_Server
+      - store_artifacts:
+          path: /temp/GTMP_Server.zip
