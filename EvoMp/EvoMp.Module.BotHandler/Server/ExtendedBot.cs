@@ -31,7 +31,7 @@ namespace EvoMp.Module.BotHandler.Server
             using (BotContext context = BotRepository.GetBotContext())
             {
                 Properties = context.Bots.FirstOrDefault(dto =>
-                    dto.BotName.ToLower() == botName.ToLower() && dto.OwnerId == Owner.Properties.Id);
+                    string.Equals(dto.BotName, botName, StringComparison.CurrentCultureIgnoreCase) && dto.OwnerId == Owner.Properties.Id);
             }
 
             if (Properties == null)
@@ -131,7 +131,7 @@ namespace EvoMp.Module.BotHandler.Server
             string botId = Properties?.BotId.ToString() ?? "X";
             message = $"(ExtendedBot) [ID: {botId}] {message}";
             ConsoleOutput.WriteLine(ConsoleType.Debug, message);
-            MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
+            BotHandler.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
 
 

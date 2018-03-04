@@ -478,7 +478,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         {
             message = $"(ExtendedVehicle) [ID: {Properties.VehicleId}] {message}";
             ConsoleOutput.WriteLine(ConsoleType.Debug, message);
-            MessageHandler.Server.MessageHandler.BroadcastMessage(message, MessageType.Debug);
+            VehicleHandler.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
     }
 }

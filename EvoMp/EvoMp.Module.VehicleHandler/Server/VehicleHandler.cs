@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
+using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleUtils.Server;
 using EvoMp.Module.VehicleUtils.Server.Enums;
@@ -16,13 +17,16 @@ namespace EvoMp.Module.VehicleHandler.Server
     /// </summary>
     public class VehicleHandler : BaseModule, IVehicleHandler
     {
+        internal static IMessageHandler MessageHandler;
+
         /// <summary>
         ///     Initalizes and sets up the VehicleHandler.
         ///     Checks also for new VehicleHashes to fill the VehicleProperties table.
         /// </summary>
         /// <param name="vehicleUtils">An IVehicleUtils module</param>
-        public VehicleHandler(IVehicleUtils vehicleUtils)
+        public VehicleHandler(IVehicleUtils vehicleUtils, IMessageHandler messageHandler)
         {
+            MessageHandler = messageHandler;
             CheckVehicleProperties();
         }
 
