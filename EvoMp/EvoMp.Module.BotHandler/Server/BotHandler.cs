@@ -7,6 +7,7 @@ using EvoMp.Module.DbAccess.Server;
 using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleUtils.Server;
 using GrandTheftMultiplayer.Server.API;
 
 namespace EvoMp.Module.BotHandler.Server
@@ -22,11 +23,11 @@ namespace EvoMp.Module.BotHandler.Server
 
         public BotHandler(API api, IDbAccess access, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
             IMessageHandler messageHandler, IClientWrapper clientWrapper, IEventHandler eventHandler,
-            IClientHandler clientHandler)
+            IClientHandler clientHandler, IVehicleUtils vehicleUtils)
         {
             VehicleHandler = vehicleHandler;
             ClientHandler = clientHandler;
-            Commands = new Commands(messageHandler, vehicleHandler);
+            Commands = new Commands(messageHandler, vehicleHandler, vehicleUtils);
             Tracking = new Tracking(api, clientWrapper, eventHandler);
         }
     }

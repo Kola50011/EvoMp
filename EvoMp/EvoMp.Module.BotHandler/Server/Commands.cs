@@ -5,6 +5,7 @@ using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
+using EvoMp.Module.VehicleUtils.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -16,11 +17,13 @@ namespace EvoMp.Module.BotHandler.Server
     {
         private readonly IMessageHandler _messageHandler;
         private readonly IVehicleHandler _vehicleHandler;
+        private readonly IVehicleUtils _vehicleUtils;
 
-        public Commands(IMessageHandler messageHandler, IVehicleHandler vehicleHandler)
+        public Commands(IMessageHandler messageHandler, IVehicleHandler vehicleHandler, IVehicleUtils vehicleUtils)
         {
             _messageHandler = messageHandler;
             _vehicleHandler = vehicleHandler;
+            _vehicleUtils = vehicleUtils;
         }
 
         [PlayerCommand("/RecordBot", new[] {"/rbot"}, PlayerOnlyState.OnlyAsDriver)]
@@ -71,7 +74,7 @@ namespace EvoMp.Module.BotHandler.Server
         [PlayerCommand("/dbvehicle", new[] {"/dbv"})]
         public void SaveVehicle(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = VehicleUtils.Server.VehicleUtils.GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = _vehicleUtils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
