@@ -73,16 +73,10 @@ namespace EvoMp.Core.Parameter.Server
 
         public static void PrintArgs()
         {
-            // Small centered line with headline & developer
-            ConsoleOutput.WriteCentredText(ConsoleType.Note,
-                "".PadRight(55, '-') + "\n" +
-                "Startup Parameters\n" +
-                "".PadRight(55, '-'));
-
             string text = "";
             foreach (string key in _commandLineArgs.Keys)
                 text +=
-                    $"{LeftArgsColor}{key}{string.Empty.PadRight(5)}{RightArgsColor}{$"{GetValue(key)}".PadLeft(40)}\n";
+                    $"{LeftArgsColor}{key}{string.Empty.PadRight(5)}{RightArgsColor}{$"{GetValue(key)}".PadLeft(65)}\n";
             ConsoleOutput.WriteCentredText(ConsoleType.Info, text);
         }
     }
