@@ -79,10 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\Commands.cs" />
-    <Compile Include="Server\Entity\BotContext.cs" />
+    <Compile Include="Server\BotContext.cs" />
     <Compile Include="Server\Entity\BotDto.cs" />
     <Compile Include="Server\Entity\BotWaypointDto.cs" />
-    <Compile Include="Server\Entity\BotRepository.cs" />
+    <Compile Include="Server\BotRepository.cs" />
     <Compile Include="Server\Exceptions\PlaybackException.cs" />
     <Compile Include="Server\ExtendedBot.cs" />
     <Compile Include="Server\IBotHandler.cs" />

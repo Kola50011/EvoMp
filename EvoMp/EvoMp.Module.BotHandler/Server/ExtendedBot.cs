@@ -25,7 +25,7 @@ namespace EvoMp.Module.BotHandler.Server
 
         public ExtendedBot(Client sender, string botName)
         {
-            Owner = new ExtendetClient(sender);
+            Owner = BotHandler.ClientHandler.GetExtendetClient(sender);
             IsRecording = API.shared.hasEntityData(sender, EntityDataStringRecording) &&
                           API.shared.getEntityData(sender, EntityDataStringRecording);
 
