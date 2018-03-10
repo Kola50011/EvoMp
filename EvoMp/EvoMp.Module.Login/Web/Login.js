@@ -1,16 +1,16 @@
-import EventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.ts"
+import eventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.ts"
 
 async function initialiseIcons() {
-  const UIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
-  const Icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
+  const uIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
+  const icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
 
-  UIkit.use(Icons)
+  uIkit.use(icons)
 }
 
 document.addEventListener("DOMContentLoaded",
   () => {
-    EventHandler.setName("Login")
-    EventHandler.doneLoading()
+    eventHandler.setName("Login")
+    eventHandler.doneLoading()
     initialiseIcons()
 
     const loginForm = document.getElementById("login-form")
@@ -21,6 +21,6 @@ document.addEventListener("DOMContentLoaded",
         const username = event.target.elements.username.value
         const password = event.target.elements.password.value
 
-        EventHandler.trigger("LoginAttempt", { username, password })
+        eventHandler.trigger("LoginAttempt", { username, password })
       })
   })
