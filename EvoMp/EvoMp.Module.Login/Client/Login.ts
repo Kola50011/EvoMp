@@ -1,6 +1,6 @@
 /// <reference path='../../../typings/index.d.ts' />
 
-import Cef from "../../EvoMp.Module.Cef/Client/Cef"
+import Cef from "../../EvoMp.Module.ChromeEmbeddedFramework/Client/Cef"
 import EventHandler from "../../EvoMp.Module.EventHandler/Client/EventHandler"
 import * as AuthRequest from "./AuthRequest";
 import * as AuthResponse from "./AuthResponse";

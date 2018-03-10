@@ -1,8 +1,8 @@
-import EventHandler from "../../EvoMp.Module.Cef/Web/EventHandler.ts"
+import EventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.ts"
 
 async function initialiseIcons() {
-  const UIkit = await import("../../EvoMp.Module.UIKit/Web/uikit.min.js")
-  const Icons = await import("../../EvoMp.Module.UIKit/Web/uikit-icons.min.js")
+  const UIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
+  const Icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
 
   UIkit.use(Icons)
 }

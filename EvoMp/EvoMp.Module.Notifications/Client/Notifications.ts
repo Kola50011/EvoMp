@@ -1,5 +1,5 @@
-import Cef from "../../EvoMp.Module.Cef/Client/Cef"
-import Notification from "./Notification"
+import Cef from "../../EvoMp.Module.ChromeEmbeddedFramework/Client/Cef"
+import {Notification} from "./Notification"
 
 export class Notifications {
   private static cef: Cef

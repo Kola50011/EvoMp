@@ -1,4 +1,4 @@
-export default interface Notification {
+export interface Notification {
   title: string
   badge?: string
   content?: string
