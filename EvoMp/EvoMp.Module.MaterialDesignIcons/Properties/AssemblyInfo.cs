@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("EvoRP.Module.TestModule")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("EvoRP.Module.MaterialDesignIcons")]
+[assembly: AssemblyDescription("Module that contains the material design icon pack for the client web side.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EvoRP.Module.TestModule")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct("EvoRP.Module.MaterialDesignIcons")]
+[assembly: AssemblyCopyright("Copyright © Sascha 2018")]
+[assembly: AssemblyTrademark("Evolution Multiplayer (www.evomp.de)")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf FALSE werden die Typen in dieser Assembly

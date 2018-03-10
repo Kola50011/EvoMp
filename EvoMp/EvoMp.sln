@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.MaterialDesign
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.IonIcons", "EvoMp.Module.IonIcons\EvoMp.Module.IonIcons.csproj", "{D819BBFE-10F5-4A78-AE4B-350AE758EDAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvoMp.Module.UiKit", "EvoMp.Module.UiKit\EvoMp.Module.UiKit.csproj", "{89A2370E-C111-4B64-B900-B26346EC65B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Linux-Debug|Any CPU = Linux-Debug|Any CPU
@@ -311,6 +313,14 @@ Global
 		{D819BBFE-10F5-4A78-AE4B-350AE758EDAE}.Windows-Debug|Any CPU.Build.0 = Windows-Debug|Any CPU
 		{D819BBFE-10F5-4A78-AE4B-350AE758EDAE}.Windows-Release|Any CPU.ActiveCfg = Windows-Release|Any CPU
 		{D819BBFE-10F5-4A78-AE4B-350AE758EDAE}.Windows-Release|Any CPU.Build.0 = Windows-Release|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Linux-Debug|Any CPU.ActiveCfg = Linux-Debug|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Linux-Debug|Any CPU.Build.0 = Linux-Debug|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Linux-Release|Any CPU.ActiveCfg = Linux-Release|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Linux-Release|Any CPU.Build.0 = Linux-Release|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Windows-Debug|Any CPU.ActiveCfg = Windows-Debug|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Windows-Debug|Any CPU.Build.0 = Windows-Debug|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Windows-Release|Any CPU.ActiveCfg = Windows-Release|Any CPU
+		{89A2370E-C111-4B64-B900-B26346EC65B8}.Windows-Release|Any CPU.Build.0 = Windows-Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -345,6 +355,7 @@ Global
 		{C7317C14-7D1C-49AE-8EB0-78B16F3B3753} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{C5325287-8054-4356-A1DB-6AA63DBD4094} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 		{D819BBFE-10F5-4A78-AE4B-350AE758EDAE} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
+		{89A2370E-C111-4B64-B900-B26346EC65B8} = {C9CEAFCB-4DE8-414E-851E-0EDB48D04B47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DA49ECC-9D08-42FC-B5AB-6318780C1619}

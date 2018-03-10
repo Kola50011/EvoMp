@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("EvoRP.Module.ChromeEmbeddedFramework")]
-[assembly: AssemblyDescription("Module that contains the client side CEF wrapper.")]
+[assembly: AssemblyTitle("EvoRP.Module.UiKit")]
+[assembly: AssemblyDescription("Module that contains the uikit for the client-side web.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EvoRP.Module.ChromeEmbeddedFramework")]
+[assembly: AssemblyProduct("EvoRP.Module.UiKit")]
 [assembly: AssemblyCopyright("Copyright © Sascha 2017")]
 [assembly: AssemblyTrademark("Evolution Multiplayer (www.evomp.de)")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("c7317c14-7d1c-49ae-8eb0-78b16f3b3753")]
+[assembly: Guid("89a2370e-c111-4b64-b900-b26346ec65b8")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
