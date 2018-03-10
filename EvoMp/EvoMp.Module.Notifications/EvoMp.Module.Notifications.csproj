@@ -104,10 +104,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Web\Notifications.scss" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\Notification.ts" />
+    <TypeScriptCompile Include="Client\Notifications.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client\" />
-    <Folder Include="Web\" />
+    <Content Include="Web\Notifications.html" />
+    <Content Include="Web\Notifications.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
