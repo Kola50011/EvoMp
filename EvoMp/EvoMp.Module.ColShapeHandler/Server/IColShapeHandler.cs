@@ -1,6 +1,4 @@
 using EvoMp.Core.Module.Server;
-using GrandTheftMultiplayer.Server.Managers;
-using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.ColShapeHandler.Server
@@ -92,25 +90,5 @@ namespace EvoMp.Module.ColShapeHandler.Server
         void UnSubscribeFromEntityExitColShape(string name, ColShapeEvent colShapeEvent);
 
         #endregion
-    }
-
-    /// <summary>
-    ///     Wrapper for GT-MP OnEntityEnterColShape, OnEntityExitColShape
-    /// </summary>
-    public class ColShapeEvent
-    {
-        /// <inheritdoc />
-        public delegate void Callback(ColShape shape, NetHandle entity);
-
-        /// <summary>
-        ///     Gets called when the event is triggered
-        /// </summary>
-        public Callback Cab;
-
-        /// <inheritdoc />
-        public ColShapeEvent(Callback cab)
-        {
-            Cab = cab;
-        }
     }
 }

@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\ColShapeEvent.cs" />
     <Compile Include="Server\ColShapeHandler.cs" />
     <Compile Include="Server\IColShapeHandler.cs" />
   </ItemGroup>
@@ -88,6 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Server\Enums\" />
+    <Folder Include="Server\Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

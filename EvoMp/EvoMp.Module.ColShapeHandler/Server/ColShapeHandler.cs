@@ -9,7 +9,7 @@ using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.ColShapeHandler.Server
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IColShapeHandler" />
     public class ColShapeHandler : BaseModule, IColShapeHandler
     {
         private readonly API _api;
