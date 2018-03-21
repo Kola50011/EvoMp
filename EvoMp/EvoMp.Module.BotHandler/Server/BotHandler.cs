@@ -17,6 +17,7 @@ namespace EvoMp.Module.BotHandler.Server
         internal static IVehicleHandler VehicleHandler;
         internal static IClientHandler ClientHandler;
         internal static IMessageHandler MessageHandler;
+        internal static IEventHandler EventHandler;
         internal static List<ExtendedBot> RecordingBots = new List<ExtendedBot>();
         internal static List<ExtendedBot> PlaybackBots = new List<ExtendedBot>();
         public readonly Commands Commands;
@@ -29,6 +30,7 @@ namespace EvoMp.Module.BotHandler.Server
             VehicleHandler = vehicleHandler;
             ClientHandler = clientHandler;
             MessageHandler = messageHandler;
+            EventHandler = eventHandler;
             Commands = new Commands(messageHandler, vehicleHandler, vehicleUtils);
             Tracking = new Tracking(api, clientWrapper, eventHandler);
         }

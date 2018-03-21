@@ -6,14 +6,14 @@ export class Notifications {
 
   public static async send(notification: Notification): Promise<void> {
     if (!this.cef) {
-      await this.init();
+      await this.init()
     }
 
-    this.cef.call('notify', notification)
+    this.cef.call("notify", notification)
   }
 
   private static async init() {
-    this.cef = new Cef('Notifications', 'Notifications.html', {})
-    await this.cef.load();
+    this.cef = new Cef("Notifications", "Notifications.html", {})
+    await this.cef.load()
   }
 }

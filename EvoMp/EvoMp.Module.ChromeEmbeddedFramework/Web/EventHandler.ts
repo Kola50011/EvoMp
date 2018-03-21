@@ -9,7 +9,7 @@ export default class EventHandler {
   }
 
   public static doneLoading(): void {
-    this.trigger('doneLoading')
+    this.trigger("doneLoading")
   }
 
   public static trigger(eventName: string, ...args: any[]) {
@@ -18,10 +18,10 @@ export default class EventHandler {
     }
 
     if (this.supportsResourceCall) {
-      resourceCall('resource.CEC.trigger', this.identifier, args)
+      resourceCall("resource.CEC.trigger", this.identifier, args)
     }
 
-    console.debug('[Event dispatched]: ' + eventName, args)
+    console.debug("[Event dispatched]: " + eventName, args)
   }
 
   private static getResourceCallSupport(): boolean {

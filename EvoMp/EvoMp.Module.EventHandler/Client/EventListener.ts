@@ -2,19 +2,19 @@
 import ServerEventHandler from "./EventHandler"
 
 export default class EventListener {
-  eventName: string;
-  private callback: (args: any) => void;
+  eventName: string
+  private callback: (args: any) => void
 
   constructor(eventName: string, callback: (args: any) => void) {
-    this.eventName = eventName;
-    this.callback = callback;
+    this.eventName = eventName
+    this.callback = callback
   }
 
   unsubscribe(): void {
-    ServerEventHandler.detach(this);
+    ServerEventHandler.detach(this)
   }
 
   trigger(args: any): void {
-    this.callback(args);
+    this.callback(args)
   }
 }

@@ -1,20 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.BotHandler.Server.Entity;
 using EvoMp.Module.BotHandler.Server.Exceptions;
 using EvoMp.Module.ClientHandler.Server;
+using EvoMp.Module.EventHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
+using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.BotHandler.Server
 {
     public class ExtendedBot
     {
         private const string EntityDataStringRecording = "BotHandler.Recording";
+        private readonly IEventHandler _eventHandler = BotHandler.EventHandler;
+        private readonly List<Client> _playbackClients = new List<Client>();
         public readonly ExtendetClient Owner;
         private int _currentWaypoint;
         public bool IsRecording;
@@ -31,7 +36,8 @@ namespace EvoMp.Module.BotHandler.Server
             using (BotContext context = BotRepository.GetBotContext())
             {
                 Properties = context.Bots.FirstOrDefault(dto =>
-                    string.Equals(dto.BotName, botName, StringComparison.CurrentCultureIgnoreCase) && dto.OwnerId == Owner.Properties.Id);
+                    string.Equals(dto.BotName, botName, StringComparison.CurrentCultureIgnoreCase) &&
+                    dto.OwnerId == Owner.Properties.Id);
             }
 
             if (Properties == null)
@@ -134,24 +140,43 @@ namespace EvoMp.Module.BotHandler.Server
             BotHandler.MessageHandler.BroadcastMessage(message, MessageType.Debug);
         }
 
-
+        /// <summary>
+        ///     Start the playback of the bot.
+        /// </summary>
         public void StartPlayBack()
         {
+            // Bot is already playing -> throw exception 
             if (BotHandler.PlaybackBots.Contains(this))
                 throw new PlaybackException($"Bot {Properties.BotName} is already playing");
 
+            // Format to three arrays for client side
+            Vector3[] positions = Properties.Waypoints
+                .Select(dto => new Vector3(dto.Position.X, dto.Position.Y, dto.Position.Z)).ToArray();
+            Vector3[] rotations = Properties.Waypoints
+                .Select(dto => new Vector3(dto.Rotation.X, dto.Rotation.Y, dto.Rotation.Z)).ToArray();
+            Vector3[] velocities = Properties.Waypoints
+                .Select(dto => new Vector3(dto.Velocity.X, dto.Velocity.Y, dto.Velocity.Z)).ToArray();
+
+            // Create Vehicle, invoke client event
             Vehicle.Create();
-            BotHandler.PlaybackBots.Add(this);
+            _eventHandler.InvokeClientEventWithCallback(
+                "BotHandler.BotPlaybackWaypoints", "BotHandler.RecivedWaypoints",
+                new object[] {Vehicle.Vehicle}, listClients =>
+                {
+                    _eventHandler.InvokeClientEventWithCallback(listClients, "BotHandler.StartPlayback",
+                        "BotHandler.PlaybackDone",
+                        new object[] { Vehicle.Vehicle }, (listClients2) => StopPlayback(), Vehicle.Vehicle);
+                }, Vehicle.Vehicle, positions, rotations, velocities);
             Debug("Started playback");
         }
 
         public void StopPlayback()
         {
-            if (!BotHandler.PlaybackBots.Contains(this))
-                throw new PlaybackException($"Bot {Properties.BotName} isn't playing");
+            //if (!BotHandler.PlaybackBots.Contains(this))
+            //    throw new PlaybackException($"Bot {Properties.BotName} isn't playing");
 
             Vehicle.Destroy(false);
-            BotHandler.PlaybackBots.Remove(this);
+            //BotHandler.PlaybackBots.Remove(this);
             Debug("Stop playback");
         }
 

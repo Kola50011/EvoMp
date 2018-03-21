@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -59,6 +60,79 @@ namespace EvoMp.Module.EventHandler.Server
                     $"~#85a7dd~{eventName}~;~ ~w~>> ~w~everyone ~c~{JsonConvert.SerializeObject(args)}");
 
             _api.triggerClientEventForAll(eventName, args);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        ///     Invokes an client event for all clients, and wait until all sended clients send the feedback event back.
+        /// </summary>
+        /// <param name="eventName">The event to invoke on all clients</param>
+        /// <param name="feedbackEventName">The eventname for the feedback wich comes from all clients</param>
+        /// <param name="compareArgs"></param>
+        /// <param name="feedbackSuccessAction">The action, wich is called after all feedbacks recived</param>
+        /// <param name="args">Args for the invoke event</param>
+        /// <returns>List of invoked clients</returns>
+        public void InvokeClientEventWithCallback(string eventName, string feedbackEventName,
+            object[] compareArgs, Action<List<Client>> feedbackSuccessAction, params object[] args)
+        {
+            InvokeClientEventWithCallback(_api.getAllPlayers(), eventName, feedbackEventName, compareArgs,
+                feedbackSuccessAction, args);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        ///     Invokes an client event for all clients, and wait until all sended clients send the feedback event back.
+        /// </summary>
+        /// <param name="invokeClients">Clients to invoke</param>
+        /// <param name="eventName">The event to invoke on all clients</param>
+        /// <param name="feedbackEventName">The eventname for the feedback wich comes from all clients</param>
+        /// <param name="compareArgs"></param>
+        /// <param name="feedbackSuccessAction">The action, wich is called after all feedbacks recived</param>
+        /// <param name="args">Args for the invoke event</param>
+        /// <returns>List of invoked clients</returns>
+        public void InvokeClientEventWithCallback(List<Client> invokeClients, string eventName, string feedbackEventName,
+            object[] compareArgs, Action<List<Client>> feedbackSuccessAction,  params object[] args)
+        {
+            // Clients wich got invoked
+            List<Client> invokedClients = invokeClients.Where(client => !client.IsNull).ToList();
+
+            // Function to register dissconnects or event feedbacks
+            void RegisterFeedback(Client client)
+            {
+                // Remove client from invoked clients
+                invokedClients.Remove(client);
+
+                // Not all clients done -> return;
+                if (invokedClients.Any())
+                    return;
+
+                // Unsubscribe events, call feedback action
+                _api.onPlayerDisconnected -= OnPlayerDisconnected;
+                UnsubscribeToServerEvent(feedbackEventName);
+                feedbackSuccessAction(invokedClients);
+            }
+
+            // Function to register dissconnects to the feedback
+            void OnPlayerDisconnected(Client client, string reason)
+            {
+                RegisterFeedback(client);
+            }
+
+            // Listen to relevant events
+            _api.onPlayerDisconnected += OnPlayerDisconnected;
+            SubscribeToServerEvent(feedbackEventName, new ServerEventHandle((client, name, objects) =>
+            {
+                // Feedback don't match to compareArgs -> return;
+                for (int i = 0; i < compareArgs.Length; i++)
+                    if (objects[i] != args[i])
+                        return;
+
+                RegisterFeedback(client);
+            }));
+
+            // Invoke client events
+            foreach (Client client in invokedClients)
+                InvokeClientEvent(client, eventName, args);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

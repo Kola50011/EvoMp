@@ -1,5 +1,5 @@
 /// <reference path='../../../typings/index.d.ts' />
-import Cef from './Cef'
+import Cef from "./Cef"
 
 /**
  * Collects events from all the CEFs and forwards them.
