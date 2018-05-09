@@ -162,6 +162,7 @@ namespace EvoMp.Core.Core.Server
 
             // Process each module
             foreach (Assembly moduleAssembly in _moduleAssemblies)
+            {
                 try
                 {
                     // Search for "ModulePropert" interface class in assembly
@@ -192,6 +193,7 @@ namespace EvoMp.Core.Core.Server
                 }
                 catch (ActivationException e)
                 {
+
                     ConsoleOutput.WriteLine(ConsoleType.Error,
                         $"The module ~o~{moduleAssembly.FullName}~;~ could not start, because one or more dependecies are missing!.");
 
@@ -201,6 +203,10 @@ namespace EvoMp.Core.Core.Server
                             "because other modules have not been started.");
 
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"{e.Message}");
+                    possibleAfterEffects = true;
+#if DEBUG
+                    throw;
+#endif
                 }
                 catch (Exception e)
                 {
@@ -219,7 +225,11 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"~#FF0000~{e.Message}");
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"~#FF0000~{e.StackTrace}");
                     ConsoleOutput.PrintLine("=", "~#FFF~", ConsoleType.Error);
+#if DEBUG
+                    throw;
+#endif
                 }
+            }
         }
     }
 }

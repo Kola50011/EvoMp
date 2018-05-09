@@ -168,6 +168,17 @@ namespace EvoMp.Core.Core.Server
             }
             catch (Exception e)
             {
+#if DEBUG
+                Exception innerException = e.InnerException;
+                Exception lastInnerException = e;
+                while (innerException != null)
+                {
+                    lastInnerException = innerException;
+                    innerException = innerException.InnerException;
+                }
+
+                throw lastInnerException;
+#endif
                 ConsoleOutput.FinalConsoleWrite(e.ToString(), true);
             }
         }
