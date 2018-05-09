@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
@@ -74,6 +75,8 @@ namespace EvoMp.Module.VehicleHandler.Server
         /// </summary>
         private static void CheckVehicleProperties()
         {
+            //TODO: Remove after double VehicleHashes was removed
+            List<int> addedVehicleHashList = new List<int>(); 
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
                 bool noticeWritten = false;
@@ -82,6 +85,9 @@ namespace EvoMp.Module.VehicleHandler.Server
                 foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 {
                     if (context.VehicleProperties.Any(dto => dto.VehicleHash == vehicleHash))
+                        continue;
+
+                    if(addedVehicleHashList.Contains((int)vehicleHash))
                         continue;
 
                     // Write notice for long waiting time.
@@ -105,6 +111,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                         TrunkSize = 12
                     });
                     addedVehicleHashes += $" {vehicleHash}";
+                    addedVehicleHashList.Add((int)vehicleHash);
                 }
 
                 // No vehicleHashes updated -> return;
