@@ -160,12 +160,23 @@ namespace EvoMp.Core.Core.Server
                 ConsoleOutput.WriteLine(ConsoleType.Core, "Using dependencies: ");
                 ConsoleOutput.AppendPrefix("\t");
 
+                List<string> usedPackagesList = new List<string>();
                 // Copy new NuGet packages
                 foreach (string packageFile in packageFiles)
                 {
                     if (packageFile.EndsWith(".dll"))
-                        ConsoleOutput.WriteLine(ConsoleType.Core,
-                            $"~#83cfff~\"{Path.GetFileName(packageFile).Replace("\\", "/")}\".");
+                    {
+                        string packageName = Path.GetFileName(packageFile).Replace("\\", "/");
+
+                        // Packed already loaded -> continue;
+                        if(usedPackagesList.Contains(packageName))
+                            continue;
+
+                            ConsoleOutput.WriteLine(ConsoleType.Core,
+                                $"~#83cfff~\"{packageName}\".");
+
+                        usedPackagesList.Add(packageName);
+                    }
 
                     // Get target filename
                     string destinationFile = serverRootFolder + @"/" + Path.GetFileName(packageFile).Replace("\\", "/");
