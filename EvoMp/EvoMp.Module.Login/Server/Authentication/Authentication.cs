@@ -24,7 +24,7 @@ namespace EvoMp.Module.Login.Server.Authentication
             _eventHandler = eventHandler;
             _clientHandler = clientHandler;
 
-            //_eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
+            _eventHandler.SubscribeToServerEvent("ready", new ServerEventHandle(OnPlayerReadyHandler));
             _eventHandler.SubscribeToServerEvent("AuthRequest", new ServerEventHandle(AuthRequest));
         }
 

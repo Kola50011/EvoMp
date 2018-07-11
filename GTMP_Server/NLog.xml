@@ -526,6 +526,49 @@
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
             </returns>
         </member>
+        <member name="T:NLog.Common.ConversionHelpers">
+            <summary>
+            String Conversion Helpers
+            </summary>
+        </member>
+        <member name="M:NLog.Common.ConversionHelpers.TryParseEnum``1(System.String,``0@,``0)">
+            <summary>
+            Converts input string value into <see cref="T:System.Enum"/>
+            </summary>
+            <param name="inputValue">Input value</param>
+            <param name="resultValue">Output value</param>
+            <param name="defaultValue">Default value</param>
+            <returns>Returns failure if the input value could not be parsed</returns>
+        </member>
+        <member name="M:NLog.Common.ConversionHelpers.TryParse``1(System.String,``0@)">
+            <summary>
+            Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-sensitive. The return value indicates whether the conversion succeeded.
+            </summary>
+            <typeparam name="TEnum">The enumeration type to which to convert value.</typeparam>
+            <param name="value">The string representation of the enumeration name or underlying value to convert.</param>
+            <param name="result">When this method returns, result contains an object of type TEnum whose value is represented by value if the parse operation succeeds. If the parse operation fails, result contains the default value of the underlying type of TEnum. Note that this value need not be a member of the TEnum enumeration. This parameter is passed uninitialized.</param>
+            <returns><c>true</c> if the value parameter was converted successfully; otherwise, <c>false</c>.</returns>
+            <remarks>Wrapper because Enum.TryParse is not present in .net 3.5</remarks>
+        </member>
+        <member name="M:NLog.Common.ConversionHelpers.TryParse``1(System.String,System.Boolean,``0@)">
+            <summary>
+            Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-sensitive. The return value indicates whether the conversion succeeded.
+            </summary>
+            <typeparam name="TEnum">The enumeration type to which to convert value.</typeparam>
+            <param name="value">The string representation of the enumeration name or underlying value to convert.</param>
+            <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to consider case.</param>
+            <param name="result">When this method returns, result contains an object of type TEnum whose value is represented by value if the parse operation succeeds. If the parse operation fails, result contains the default value of the underlying type of TEnum. Note that this value need not be a member of the TEnum enumeration. This parameter is passed uninitialized.</param>
+            <returns><c>true</c> if the value parameter was converted successfully; otherwise, <c>false</c>.</returns>
+            <remarks>Wrapper because Enum.TryParse is not present in .net 3.5</remarks>
+        </member>
+        <member name="M:NLog.Common.ConversionHelpers.TryParseEnum_net3``1(System.String,System.Boolean,``0@)">
+            <summary>
+            Enum.TryParse implementation for .net 3.5 
+            
+            </summary>
+            <returns></returns>
+            <remarks>Don't uses reflection</remarks>
+        </member>
         <member name="T:NLog.Common.InternalLogger">
             <summary>
             NLog internal logger.
@@ -1715,6 +1758,21 @@
             <returns>
             The root of the expression syntax tree which can be used to get the value of the condition in a specified context.
             </returns>
+        </member>
+        <member name="M:NLog.Conditions.ConditionParser.TryPlainKeywordToExpression(System.String,NLog.Conditions.ConditionExpression@)">
+            <summary>
+            Try stringed keyword to <see cref="T:NLog.Conditions.ConditionExpression"/>
+            </summary>
+            <param name="keyword"></param>
+            <param name="expression"></param>
+            <returns>success?</returns>
+        </member>
+        <member name="M:NLog.Conditions.ConditionParser.ParseNumber(System.Boolean)">
+            <summary>
+            Parse number
+            </summary>
+            <param name="negative">negative number? minus should be parsed first.</param>
+            <returns></returns>
         </member>
         <member name="T:NLog.Conditions.ConditionRelationalExpression">
             <summary>
@@ -3498,6 +3556,13 @@
             </summary>
             <param name="loggerElement"></param>
             <param name="rulesCollection">Rules are added to this parameter.</param>
+        </member>
+        <member name="M:NLog.Config.XmlLoggingConfiguration.StringToList(System.String)">
+            <summary>
+            Split list on comma, trim items
+            </summary>
+            <param name="text"></param>
+            <returns>no empty items</returns>
         </member>
         <member name="M:NLog.Config.XmlLoggingConfiguration.ConfigureFromFilesByMask(System.String,System.String,System.Boolean)">
             <summary>
@@ -7410,35 +7475,6 @@
             <summary>
             UTF-8 BOM 239, 187, 191
             </summary>
-        </member>
-        <member name="M:NLog.Internal.EnumHelpers.TryParse``1(System.String,``0@)">
-            <summary>
-            Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-sensitive. The return value indicates whether the conversion succeeded.
-            </summary>
-            <typeparam name="TEnum">The enumeration type to which to convert value.</typeparam>
-            <param name="value">The string representation of the enumeration name or underlying value to convert.</param>
-            <param name="result">When this method returns, result contains an object of type TEnum whose value is represented by value if the parse operation succeeds. If the parse operation fails, result contains the default value of the underlying type of TEnum. Note that this value need not be a member of the TEnum enumeration. This parameter is passed uninitialized.</param>
-            <returns><c>true</c> if the value parameter was converted successfully; otherwise, <c>false</c>.</returns>
-            <remarks>Wrapper because Enum.TryParse is not present in .net 3.5</remarks>
-        </member>
-        <member name="M:NLog.Internal.EnumHelpers.TryParse``1(System.String,System.Boolean,``0@)">
-            <summary>
-            Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-sensitive. The return value indicates whether the conversion succeeded.
-            </summary>
-            <typeparam name="TEnum">The enumeration type to which to convert value.</typeparam>
-            <param name="value">The string representation of the enumeration name or underlying value to convert.</param>
-            <param name="ignoreCase"><c>true</c> to ignore case; <c>false</c> to consider case.</param>
-            <param name="result">When this method returns, result contains an object of type TEnum whose value is represented by value if the parse operation succeeds. If the parse operation fails, result contains the default value of the underlying type of TEnum. Note that this value need not be a member of the TEnum enumeration. This parameter is passed uninitialized.</param>
-            <returns><c>true</c> if the value parameter was converted successfully; otherwise, <c>false</c>.</returns>
-            <remarks>Wrapper because Enum.TryParse is not present in .net 3.5</remarks>
-        </member>
-        <member name="M:NLog.Internal.EnumHelpers.TryParseEnum_net3``1(System.String,System.Boolean,``0@)">
-            <summary>
-            Enum.TryParse implementation for .net 3.5 
-            
-            </summary>
-            <returns></returns>
-            <remarks>Don't uses reflection</remarks>
         </member>
         <member name="T:NLog.Internal.EnvironmentHelper">
             <summary>
@@ -12605,6 +12641,13 @@
             </summary>
             <docgen category="Transformation Options" order="10"/>
         </member>
+        <member name="M:NLog.LayoutRenderers.Wrappers.JsonEncodeLayoutRendererWrapper.Append(System.Text.StringBuilder,NLog.LogEventInfo)">
+            <summary>
+            Render to local target using Inner Layout, and then transform before final append
+            </summary>
+            <param name="builder"></param>
+            <param name="logEvent"></param>
+        </member>
         <member name="M:NLog.LayoutRenderers.Wrappers.JsonEncodeLayoutRendererWrapper.TransformFormattedMesssage(System.Text.StringBuilder)">
             <summary>
             Post-processes the rendered message. 
@@ -12975,12 +13018,12 @@
             </summary>
             <param name="target">Output to be transform.</param>
         </member>
-        <member name="M:NLog.LayoutRenderers.Wrappers.WhenEmptyLayoutRendererWrapper.RenderFormattedMessage(NLog.LogEventInfo,System.Text.StringBuilder)">
+        <member name="M:NLog.LayoutRenderers.Wrappers.WhenEmptyLayoutRendererWrapper.Append(System.Text.StringBuilder,NLog.LogEventInfo)">
             <summary>
             Renders the inner layout contents.
             </summary>
+            <param name="builder"><see cref="T:System.Text.StringBuilder"/> for the result</param>
             <param name="logEvent">The log event.</param>
-            <param name="target"><see cref="T:System.Text.StringBuilder"/> for the result</param>
         </member>
         <member name="T:NLog.LayoutRenderers.Wrappers.WhenLayoutRendererWrapper">
             <summary>
@@ -13005,12 +13048,12 @@
             </summary>
             <param name="target">Output to be transform.</param>
         </member>
-        <member name="M:NLog.LayoutRenderers.Wrappers.WhenLayoutRendererWrapper.RenderFormattedMessage(NLog.LogEventInfo,System.Text.StringBuilder)">
+        <member name="M:NLog.LayoutRenderers.Wrappers.WhenLayoutRendererWrapper.Append(System.Text.StringBuilder,NLog.LogEventInfo)">
             <summary>
             Renders the inner layout contents.
             </summary>
+            <param name="builder"><see cref="T:System.Text.StringBuilder"/> for the result</param>
             <param name="logEvent">The log event.</param>
-            <param name="target"><see cref="T:System.Text.StringBuilder"/> for the result</param>
         </member>
         <member name="T:NLog.LayoutRenderers.Wrappers.WrapLineLayoutRendererWrapper">
             <summary>
@@ -21590,6 +21633,14 @@
             <param name="logEvent">Event to render the layout inside the properties.</param>
             <returns></returns>
         </member>
+        <member name="M:NLog.Targets.DatabaseTarget.AddParametersToCommand(System.Data.IDbCommand,System.Collections.Generic.IList{NLog.Targets.DatabaseParameterInfo},NLog.LogEventInfo)">
+            <summary>
+            Adds the given list of DatabaseParameterInfo to the given IDbCommand after transforming them into IDbDataParameters.
+            </summary>
+            <param name="command">The IDbCommand to add parameters to</param>
+            <param name="databaseParameterInfos">The list of DatabaseParameterInfo to transform into IDbDataParameters and to add to the IDbCommand</param>
+            <param name="logEvent">The log event to base the parameter's layout rendering on.</param>
+        </member>
         <member name="T:NLog.Targets.DateAndSequenceArchive">
             <summary>
             A descriptor for an archive created with the DateAndSequence numbering mode.
@@ -21804,10 +21855,11 @@
             <param name="includeDecimals">Accept fractional types as numeric type.</param>
             <returns></returns>
         </member>
-        <member name="M:NLog.Targets.DefaultJsonSerializer.EscapeString(System.String,System.Boolean)">
+        <member name="M:NLog.Targets.DefaultJsonSerializer.AppendStringEscape(System.Text.StringBuilder,System.String,System.Boolean)">
             <summary>
             Checks input string if it needs JSON escaping, and makes necessary conversion
             </summary>
+            <param name="destination">Destination Builder</param>
             <param name="text">Input string</param>
             <param name="escapeUnicode">Should non-ascii characters be encoded</param>
             <returns>JSON escaped string</returns>
@@ -22812,12 +22864,13 @@
             <remarks>For example: if previousLogEventTimestamp is Thursday 2017-03-02 and dayOfWeek is Sunday, this will return
              Sunday 2017-03-05. If dayOfWeek is Thursday, this will return *next* Thursday 2017-03-09.</remarks>
         </member>
-        <member name="M:NLog.Targets.FileTarget.DoAutoArchive(System.String,NLog.LogEventInfo,System.Boolean)">
+        <member name="M:NLog.Targets.FileTarget.DoAutoArchive(System.String,NLog.LogEventInfo,System.DateTime,System.Boolean)">
             <summary>
             Invokes the archiving process after determining when and which type of archiving is required.
             </summary>
             <param name="fileName">File name to be checked and archived.</param>
             <param name="eventInfo">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
+            <param name="previousLogEventTimestamp">The DateTime of the previous log event for this file.</param>
             <param name="initializedNewFile">File has just been opened.</param>
         </member>
         <member name="M:NLog.Targets.FileTarget.GetArchiveFileNamePattern(System.String,NLog.LogEventInfo)">
@@ -22828,23 +22881,25 @@
             <param name="eventInfo">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
             <returns>A string with a pattern that will match the archive filenames</returns>
         </member>
-        <member name="M:NLog.Targets.FileTarget.TryArchiveFile(System.String,NLog.LogEventInfo,System.Int32,System.Boolean)">
+        <member name="M:NLog.Targets.FileTarget.TryArchiveFile(System.String,NLog.LogEventInfo,System.Int32,System.DateTime,System.Boolean)">
             <summary>
             Archives the file if it should be archived.
             </summary>
             <param name="fileName">The file name to check for.</param>
             <param name="ev">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
             <param name="upcomingWriteSize">The size in bytes of the next chunk of data to be written in the file.</param>
+            <param name="previousLogEventTimestamp">The DateTime of the previous log event for this file.</param>
             <param name="initializedNewFile">File has just been opened.</param>
             <returns>True when archive operation of the file was completed (by this target or a concurrent target)</returns>
         </member>
-        <member name="M:NLog.Targets.FileTarget.GetArchiveFileName(System.String,NLog.LogEventInfo,System.Int32)">
+        <member name="M:NLog.Targets.FileTarget.GetArchiveFileName(System.String,NLog.LogEventInfo,System.Int32,System.DateTime)">
             <summary>
             Indicates if the automatic archiving process should be executed.
             </summary>
             <param name="fileName">File name to be written.</param>
             <param name="ev">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
             <param name="upcomingWriteSize">The size in bytes of the next chunk of data to be written in the file.</param>
+            <param name="previousLogEventTimestamp">The DateTime of the previous log event for this file.</param>
             <returns>Filename to archive. If <c>null</c>, then nothing to archive.</returns>
         </member>
         <member name="M:NLog.Targets.FileTarget.GetPotentialFileForArchiving(System.String)">
@@ -22861,12 +22916,13 @@
             <param name="upcomingWriteSize">The size in bytes of the next chunk of data to be written in the file.</param>
             <returns>Filename to archive. If <c>null</c>, then nothing to archive.</returns>
         </member>
-        <member name="M:NLog.Targets.FileTarget.GetArchiveFileNameBasedOnTime(System.String,NLog.LogEventInfo)">
+        <member name="M:NLog.Targets.FileTarget.GetArchiveFileNameBasedOnTime(System.String,NLog.LogEventInfo,System.DateTime)">
             <summary>
             Returns the file name for archiving, or null if archiving should not occur based on date/time.
             </summary>
             <param name="fileName">File name to be written.</param>
             <param name="logEvent">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
+            <param name="previousLogEventTimestamp">The DateTime of the previous log event for this file.</param>
             <returns>Filename to archive. If <c>null</c>, then nothing to archive.</returns>
         </member>
         <member name="M:NLog.Targets.FileTarget.TruncateArchiveTime(System.DateTime,NLog.Targets.FileArchivePeriod)">
@@ -22893,7 +22949,7 @@
             </summary>
             <param name="fileName">File name to be written.</param>
             <param name="logEvent">Log event that the <see cref="T:NLog.Targets.FileTarget"/> instance is currently processing.</param>
-            <returns><see langword="true"/> when file header should be written; <see langword="false"/> otherwise.</returns>
+            <returns>The DateTime of the previous log event for this file (DateTime.MinValue if just initialized).</returns>
         </member>
         <member name="M:NLog.Targets.FileTarget.FinalizeFile(System.String,System.Boolean)">
             <summary>
