@@ -20,7 +20,7 @@
   <refresh_rate>120</refresh_rate>
   <announce_lan>true</announce_lan>
   <upnp>false</upnp>
-  <fqdn>ruffo324.ddns.net</fqdn>
+  <fqdn>ruffo.ddns.net</fqdn>
   <conntimeout>false</conntimeout>
   <loglevel>0</loglevel>
   <allow_client_devtools>true</allow_client_devtools>
