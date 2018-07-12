@@ -71,6 +71,9 @@ $ cd EvoMp
 
 # Install clientside dependencies
 $ yarn install
+
+# Compile the Client-Side
+$ yarn build
 ```
 
 ### 2. Visual Studio Settings
