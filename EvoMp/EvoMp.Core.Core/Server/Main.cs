@@ -62,7 +62,7 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.WriteCentredText(ConsoleType.Config,
                         $"Using logo file ~o~\"{Path.GetFullPath($"{asciiLogoFile}")}\"~;~.\n" +
                         $"Please start your server with the ~b~" +
-                        $"LogoPath ~;~ " +
+                        $"logopath ~;~ " +
                         $"parameter.");
 
                 // GetServerGamemodes writes cfg message to if not setten
