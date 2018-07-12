@@ -50,6 +50,7 @@
   * Preact
   * React
   * Vue.js
+* import / export syntax on the client
 
 ## How to Use (Windows)
 
