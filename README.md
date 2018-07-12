@@ -14,6 +14,10 @@
     <img src="https://circleci.com/gh/Kola50011/EvoMp/tree/master.svg?style=svg&circle-token=a08ea7263e55dcc44a56e10177951676b24b5243"
       alt="CircleCI">
   </a>
+  <a href="https://www.gnu.org/licenses/lgpl-3.0">
+    <img src="https://img.shields.io/badge/License-LGPL%20v3-blue.svg"
+      alt="License: LGPL v3">
+  </a>
 </p>
 
 <p align="center">
