@@ -10,8 +10,10 @@
 <br />
 
 <p align="center">
-  <img src="https://circleci.com/gh/Kola50011/EvoMp/tree/master.svg?style=svg&circle-token=a08ea7263e55dcc44a56e10177951676b24b5243"
-        alt="CircleCI">
+  <a href="https://circleci.com/gh/Kola50011/EvoMp">
+    <img src="https://circleci.com/gh/Kola50011/EvoMp/tree/master.svg?style=svg&circle-token=a08ea7263e55dcc44a56e10177951676b24b5243"
+      alt="CircleCI">
+  </a>
 </p>
 
 <p align="center">
