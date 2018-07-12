@@ -20,7 +20,8 @@ namespace EvoMp.Module.TestModule.Server
         public WeaponCommands WeaponCommands;
 
         public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
-            IMessageHandler messageHandler, IClientWrapper clientWrapper, IWeaponUtils weaponUtils, IVehicleUtils vehicleUtils)
+            IMessageHandler messageHandler, IClientWrapper clientWrapper, IWeaponUtils weaponUtils,
+            IVehicleUtils vehicleUtils)
         {
             LoginFucker = new LoginFucker(api, messageHandler, clientWrapper);
             CommandHelp = new CommandHelp(api, commandHandler, messageHandler);

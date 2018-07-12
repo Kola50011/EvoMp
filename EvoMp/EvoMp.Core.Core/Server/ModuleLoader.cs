@@ -162,7 +162,6 @@ namespace EvoMp.Core.Core.Server
 
             // Process each module
             foreach (Assembly moduleAssembly in _moduleAssemblies)
-            {
                 try
                 {
                     // Search for "ModulePropert" interface class in assembly
@@ -193,7 +192,6 @@ namespace EvoMp.Core.Core.Server
                 }
                 catch (ActivationException e)
                 {
-
                     ConsoleOutput.WriteLine(ConsoleType.Error,
                         $"The module ~o~{moduleAssembly.FullName}~;~ could not start, because one or more dependecies are missing!.");
 
@@ -229,7 +227,6 @@ namespace EvoMp.Core.Core.Server
                     throw;
 #endif
                 }
-            }
         }
     }
 }

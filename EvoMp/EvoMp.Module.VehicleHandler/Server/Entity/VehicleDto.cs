@@ -16,9 +16,12 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("VehicleId")]
         public int VehicleId { get; set; }
 
-        [Required] [Column("VehicleHash")] public VehicleHash VehicleHash { get; set; }
+        [Required]
+        [Column("VehicleHash")]
+        public VehicleHash VehicleHash { get; set; }
 
-        [ForeignKey("VehicleHash")] public VehiclePropertiesDto VehicleProperties { get; set; }
+        [ForeignKey("VehicleHash")]
+        public VehiclePropertiesDto VehicleProperties { get; set; }
 
         [NotMapped]
         public Vector3 Position
@@ -44,55 +47,80 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
             }
         }
 
-        [Column("PosX")] private double PosX { get; set; }
+        [Column("PosX")]
+        private double PosX { get; set; }
 
-        [Column("PosY")] private double PosY { get; set; }
+        [Column("PosY")]
+        private double PosY { get; set; }
 
-        [Column("PosZ")] private double PosZ { get; set; }
+        [Column("PosZ")]
+        private double PosZ { get; set; }
 
-        [Column("RotX")] private double RotX { get; set; }
+        [Column("RotX")]
+        private double RotX { get; set; }
 
-        [Column("RotY")] private double RotY { get; set; }
+        [Column("RotY")]
+        private double RotY { get; set; }
 
-        [Column("RotZ")] private double RotZ { get; set; }
+        [Column("RotZ")]
+        private double RotZ { get; set; }
 
-        [Column("TyreSmokingColorId")] public int? TyreSmokingColorId { get; set; }
+        [Column("TyreSmokingColorId")]
+        public int? TyreSmokingColorId { get; set; }
 
-        [ForeignKey("TyreSmokingColorId")] public VehicleColorDto TyreSmokingColor { get; set; }
+        [ForeignKey("TyreSmokingColorId")]
+        public VehicleColorDto TyreSmokingColor { get; set; }
 
-        [Column("PrimaryColorId")] public int? PrimaryColorId { get; set; }
+        [Column("PrimaryColorId")]
+        public int? PrimaryColorId { get; set; }
 
-        [ForeignKey("PrimaryColorId")] public VehicleColorDto PrimaryColor { get; set; }
+        [ForeignKey("PrimaryColorId")]
+        public VehicleColorDto PrimaryColor { get; set; }
 
-        [Column("SecondaryColorId")] public int? SecondaryColorId { get; set; }
+        [Column("SecondaryColorId")]
+        public int? SecondaryColorId { get; set; }
 
-        [ForeignKey("SecondaryColorId")] public VehicleColorDto SecondaryColor { get; set; }
+        [ForeignKey("SecondaryColorId")]
+        public VehicleColorDto SecondaryColor { get; set; }
 
-        [Column("LiveryId")] public int? LiveryId { get; set; }
+        [Column("LiveryId")]
+        public int? LiveryId { get; set; }
 
-        [ForeignKey("LiveryId")] public VehicleLiveryDto VehicleLivery { get; set; }
+        [ForeignKey("LiveryId")]
+        public VehicleLiveryDto VehicleLivery { get; set; }
 
-        [Column("NumberplateValue")] public string NumberplateValue { get; set; }
+        [Column("NumberplateValue")]
+        public string NumberplateValue { get; set; }
 
-        [Column("VehicleState")] public VehicleState VehicleState { get; set; }
+        [Column("VehicleState")]
+        public VehicleState VehicleState { get; set; }
 
-        [Column("KmStand")] public double KmStand { get; set; }
+        [Column("KmStand")]
+        public double KmStand { get; set; }
 
-        [Column("Fuel")] public double Fuel { get; set; }
+        [Column("Fuel")]
+        public double Fuel { get; set; }
 
-        [Column("Dimension")] public int Dimension { get; set; }
+        [Column("Dimension")]
+        public int Dimension { get; set; }
 
-        [Column("Health")] public double Health { get; set; }
+        [Column("Health")]
+        public double Health { get; set; }
 
-        [Column("EngineHealth")] public float EngineHealth { get; set; }
+        [Column("EngineHealth")]
+        public float EngineHealth { get; set; }
 
-        [Column("Locked")] public bool Locked { get; set; }
+        [Column("Locked")]
+        public bool Locked { get; set; }
 
-        [Column("EngineState")] public EngineState EngineState { get; set; }
+        [Column("EngineState")]
+        public EngineState EngineState { get; set; }
 
-        [Column("SirenState")] public SirenState SirenState { get; set; }
+        [Column("SirenState")]
+        public SirenState SirenState { get; set; }
 
-        [Column("SpecialLightState")] public SpecialLightState SpecialLightState { get; set; }
+        [Column("SpecialLightState")]
+        public SpecialLightState SpecialLightState { get; set; }
 
         /// <summary>
         ///     The door states of the vehicle

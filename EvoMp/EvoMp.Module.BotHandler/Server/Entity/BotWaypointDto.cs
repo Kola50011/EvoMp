@@ -18,7 +18,8 @@ namespace EvoMp.Module.BotHandler.Server.Entity
         [Column("BotId")]
         public int BotId { get; set; }
 
-        [ForeignKey("BotId")] public BotDto Bot { get; set; }
+        [ForeignKey("BotId")]
+        public BotDto Bot { get; set; }
 
 
         /// <summary>
@@ -66,22 +67,31 @@ namespace EvoMp.Module.BotHandler.Server.Entity
             }
         }
 
-        [Column("PosX")] private double PosX { get; set; }
+        [Column("PosX")]
+        private double PosX { get; set; }
 
-        [Column("PosY")] private double PosY { get; set; }
+        [Column("PosY")]
+        private double PosY { get; set; }
 
-        [Column("PosZ")] private double PosZ { get; set; }
+        [Column("PosZ")]
+        private double PosZ { get; set; }
 
-        [Column("RotX")] private double RotX { get; set; }
+        [Column("RotX")]
+        private double RotX { get; set; }
 
-        [Column("RotY")] private double RotY { get; set; }
+        [Column("RotY")]
+        private double RotY { get; set; }
 
-        [Column("RotZ")] private double RotZ { get; set; }
+        [Column("RotZ")]
+        private double RotZ { get; set; }
 
-        [Column("VelX")] private double VelX { get; set; }
+        [Column("VelX")]
+        private double VelX { get; set; }
 
-        [Column("VelY")] private double VelY { get; set; }
+        [Column("VelY")]
+        private double VelY { get; set; }
 
-        [Column("VelZ")] private double VelZ { get; set; }
+        [Column("VelZ")]
+        private double VelZ { get; set; }
     }
 }
