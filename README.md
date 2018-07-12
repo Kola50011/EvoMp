@@ -77,11 +77,13 @@ $ yarn install
 
 - Open <code>EvoMp/EvoMp.sln</code>
 - Right click on project <code>EvoMp.Core.StartupProject</code>
-- Choose <code>Debugging</code>
-- As an external programm enter the path <code>....../GTMP_Server/*server.exe</code>
+- Choose <code>Set as StartUp Project</code>
+- Right click on project <code>EvoMp.Core.StartupProject</code>
+- Choose <code>Properties</code>
+- Choose <code>Debug</code> on left side
 - As workspace select  <code>....../GTMP_Server/</code>
-- Right click on the project solution and select <code>rebuild all</code>
-- Finally press <code>Run</code>
+- Click <code>Build</code> and <code>Rebuild Solution</code>
+- Finally press <code>Start</code>
 
 ### 3. Optional Visual Studio Settings
 
