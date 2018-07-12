@@ -1,15 +1,15 @@
-import EventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.ts"
+import eventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.js"
 
-async function initialiseIcons() {
-  const UIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
-  const Icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
+async function initalizeIcons() {
+  const uIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
+  const icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
 
-  UIkit.use(Icons)
+  uIkit.use(icons)
 }
 
 document.addEventListener("DOMContentLoaded",
   () => {
-    initialiseIcons()
+    initalizeIcons()
 
     const registerForm = document.getElementById("register-form")
     registerForm.addEventListener("submit",
@@ -19,6 +19,6 @@ document.addEventListener("DOMContentLoaded",
         const username = event.target.elements.username.value
         const password = event.target.elements.password.value
 
-        EventHandler.trigger("register", { username, password })
+        eventHandler.trigger("register", { username, password })
       })
   })

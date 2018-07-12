@@ -1,7 +1,6 @@
-"use strict"
 import eventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.js"
 
-async function initialiseIcons() {
+async function initalizeIcons() {
   const uIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
   const icons = await import("../../EvoMp.Module.UiKit/Web/uikit-icons.min.js")
 
@@ -10,10 +9,9 @@ async function initialiseIcons() {
 
 document.addEventListener("DOMContentLoaded",
   () => {
-    initialiseIcons()
+    initalizeIcons()
 
-    const loginForm = document.getElementById("login-form")
-    loginForm.addEventListener("submit",
+      document.getElementById("login-form").addEventListener("submit",
       event => {
         event.preventDefault()
 
@@ -21,5 +19,6 @@ document.addEventListener("DOMContentLoaded",
         const password = event.target.elements.password.value
 
         eventHandler.trigger("LoginAttempt", { username, password })
+        console.debug("LoginAttempt") // Debug
       })
   })

@@ -44,9 +44,9 @@ export default class Cef {
   }
 
   async load(): Promise<void> {
-    API.loadPageCefBrowser(this.browser, this.path)
-
     return new Promise<void>((resolve) => {
+      API.waitUntilCefBrowserLoaded(this.browser)
+      API.loadPageCefBrowser(this.browser, this.path)
       this.loadingResolve = resolve
     })
   }

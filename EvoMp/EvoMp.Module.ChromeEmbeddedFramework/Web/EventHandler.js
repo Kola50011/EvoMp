@@ -1,26 +1,20 @@
-class EventHandler {
-  static name
-
-  static supportsResourceCall = null
-
-  static setName(identifier) {
-    this.name = name
-  }
+export default class eventHandler {
 
   static doneLoading() {
     this.trigger("doneLoading")
   }
 
   static trigger(eventName, ...args) {
-    if (this.supportsResourceCall === null) {
-      this.supportsResourceCall = this.getResourceCallSupport()
+    console.debug(`[Event dispatched]: ${eventName}`, args)
+
+    if (typeof supportsResourceCall === "undefined") {
+      supportsResourceCall = this.getResourceCallSupport()
     }
 
     if (this.supportsResourceCall) {
-      resourceCall("resource.CEC.trigger", this.eventName, args)
+      resourceCall("resource.CEF.trigger", this.eventName, args)
     }
 
-    console.debug(`[Event dispatched]: ${eventName}`, args)
   }
 
   static getResourceCallSupport() {
@@ -34,7 +28,10 @@ class EventHandler {
   }
 }
 
+var supportsResourceCall
+
 document.addEventListener("DOMContentLoaded",
   () => {
-    EventHandler.doneLoading()
+    eventHandler.doneLoading()
+
   })
