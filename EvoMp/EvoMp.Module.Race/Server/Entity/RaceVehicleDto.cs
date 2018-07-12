@@ -44,6 +44,7 @@ namespace EvoMp.Module.Race.Server.Entity
         ///     //TODO: werden die nicht immer frisch erstellt und dann gelöscht?
         /// </summary>
         [ForeignKey("VehicleId")]
-        [NotMapped] public VehicleDto VehicleDto { get; set; }
+        [NotMapped]
+        public VehicleDto VehicleDto { get; set; }
     }
 }

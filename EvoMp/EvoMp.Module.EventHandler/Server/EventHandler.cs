@@ -90,8 +90,9 @@ namespace EvoMp.Module.EventHandler.Server
         /// <param name="feedbackSuccessAction">The action, wich is called after all feedbacks recived</param>
         /// <param name="args">Args for the invoke event</param>
         /// <returns>List of invoked clients</returns>
-        public void InvokeClientEventWithCallback(List<Client> invokeClients, string eventName, string feedbackEventName,
-            object[] compareArgs, Action<List<Client>> feedbackSuccessAction,  params object[] args)
+        public void InvokeClientEventWithCallback(List<Client> invokeClients, string eventName,
+            string feedbackEventName,
+            object[] compareArgs, Action<List<Client>> feedbackSuccessAction, params object[] args)
         {
             // Clients wich got invoked
             List<Client> invokedClients = invokeClients.Where(client => !client.IsNull).ToList();

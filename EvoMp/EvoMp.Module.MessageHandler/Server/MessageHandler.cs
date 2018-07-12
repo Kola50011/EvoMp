@@ -17,7 +17,7 @@ namespace EvoMp.Module.MessageHandler.Server
         }
 
         /// <summary>
-        /// Sends a message to sender.
+        ///     Sends a message to sender.
         /// </summary>
         /// <param name="sender">The player for the message</param>
         /// <param name="message">The message</param>
@@ -29,7 +29,7 @@ namespace EvoMp.Module.MessageHandler.Server
 
         /// <inheritdoc />
         /// <summary>
-        /// Sends the given message to all players
+        ///     Sends the given message to all players
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="messageType">The type of the message</param>
@@ -39,7 +39,7 @@ namespace EvoMp.Module.MessageHandler.Server
         }
 
         /// <summary>
-        /// Builds the correct Tag for the given messageType
+        ///     Builds the correct Tag for the given messageType
         /// </summary>
         /// <param name="messageType">The messageType</param>
         /// <returns>MessageType formated string</returns>
@@ -56,7 +56,7 @@ namespace EvoMp.Module.MessageHandler.Server
         }
 
         /// <summary>
-        /// Returns the MessageTypeAttribute for the MessageType enum
+        ///     Returns the MessageTypeAttribute for the MessageType enum
         /// </summary>
         /// <param name="messageType">MessageType</param>
         /// <returns>MessageTypeAttribute</returns>

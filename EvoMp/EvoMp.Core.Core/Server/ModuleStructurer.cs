@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
 using EvoMp.Core.ConsoleHandler.Server;
 
 #if !DEBUG
@@ -169,11 +168,11 @@ namespace EvoMp.Core.Core.Server
                         string packageName = Path.GetFileName(packageFile).Replace("\\", "/");
 
                         // Packed already loaded -> continue;
-                        if(usedPackagesList.Contains(packageName))
+                        if (usedPackagesList.Contains(packageName))
                             continue;
 
-                            ConsoleOutput.WriteLine(ConsoleType.Core,
-                                $"~#83cfff~\"{packageName}\".");
+                        ConsoleOutput.WriteLine(ConsoleType.Core,
+                            $"~#83cfff~\"{packageName}\".");
 
                         usedPackagesList.Add(packageName);
                     }

@@ -13,7 +13,7 @@ namespace EvoMp.Module.EventHandler.Server
         void InvokeClientEvent(string eventName, params object[] args);
 
         /// <summary>
-        /// Invokes an client event for all clients, and wait until all sended clients send the feedback event back.
+        ///     Invokes an client event for all clients, and wait until all sended clients send the feedback event back.
         /// </summary>
         /// <param name="eventName">The event to invoke on all clients</param>
         /// <param name="feedbackEventName">The eventname for the feedback wich comes from all clients</param>

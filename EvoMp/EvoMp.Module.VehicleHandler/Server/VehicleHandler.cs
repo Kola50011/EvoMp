@@ -76,7 +76,7 @@ namespace EvoMp.Module.VehicleHandler.Server
         private static void CheckVehicleProperties()
         {
             //TODO: Remove after double VehicleHashes was removed
-            List<int> addedVehicleHashList = new List<int>(); 
+            List<int> addedVehicleHashList = new List<int>();
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
                 bool noticeWritten = false;
@@ -87,7 +87,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     if (context.VehicleProperties.Any(dto => dto.VehicleHash == vehicleHash))
                         continue;
 
-                    if(addedVehicleHashList.Contains((int)vehicleHash))
+                    if (addedVehicleHashList.Contains((int) vehicleHash))
                         continue;
 
                     // Write notice for long waiting time.
@@ -111,7 +111,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                         TrunkSize = 12
                     });
                     addedVehicleHashes += $" {vehicleHash}";
-                    addedVehicleHashList.Add((int)vehicleHash);
+                    addedVehicleHashList.Add((int) vehicleHash);
                 }
 
                 // No vehicleHashes updated -> return;

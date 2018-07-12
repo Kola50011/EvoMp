@@ -165,7 +165,7 @@ namespace EvoMp.Module.BotHandler.Server
                 {
                     _eventHandler.InvokeClientEventWithCallback(listClients, "BotHandler.StartPlayback",
                         "BotHandler.PlaybackDone",
-                        new object[] { Vehicle.Vehicle }, (listClients2) => StopPlayback(), Vehicle.Vehicle);
+                        new object[] {Vehicle.Vehicle}, listClients2 => StopPlayback(), Vehicle.Vehicle);
                 }, Vehicle.Vehicle, positions, rotations, velocities);
             Debug("Started playback");
         }

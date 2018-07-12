@@ -173,14 +173,12 @@ namespace EvoMp.Core.Core.Server
                 Exception innerException = e.InnerException;
                 while (innerException != null)
                 {
-   
                     ConsoleOutput.WriteException(innerException.ToString());
                     innerException = innerException.InnerException;
                 }
 
                 //throw lastInnerException;
 //#endif
-                
             }
         }
 

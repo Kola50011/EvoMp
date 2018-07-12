@@ -31,18 +31,28 @@ namespace EvoMp.Module.ClientHandler.Server.Entity
         [Column("Password")]
         public string PasswordHash { get; set; }
 
-        [Required] [Column("Salt")] public string Salt { get; set; }
+        [Required]
+        [Column("Salt")]
+        public string Salt { get; set; }
 
         [Required(ErrorMessage = "You have to set an email to register an account")]
         [Column("Email")]
         public string Email { get; set; }
 
-        [Required] [Column("Hwid")] public string HwId { get; set; }
+        [Required]
+        [Column("Hwid")]
+        public string HwId { get; set; }
 
-        [Required] [Column("Created")] public DateTime Created { get; set; } = DateTime.Now;
+        [Required]
+        [Column("Created")]
+        public DateTime Created { get; set; } = DateTime.Now;
 
-        [Required] [Column("LastUpdate")] public DateTime LastUpdate { get; set; } = DateTime.Now;
+        [Required]
+        [Column("LastUpdate")]
+        public DateTime LastUpdate { get; set; } = DateTime.Now;
 
-        [Required] [Column("LastLogin")] public DateTime LastLogin { get; set; } = DateTime.Now;
+        [Required]
+        [Column("LastLogin")]
+        public DateTime LastLogin { get; set; } = DateTime.Now;
     }
 }

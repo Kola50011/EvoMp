@@ -23,13 +23,15 @@ namespace EvoMp.Module.BotHandler.Server.Entity
         [Column("BotName", TypeName = "NVARCHAR")]
         public string BotName { get; set; }
 
-        [Column("VehicleId")] public int VehicleId { get; set; }
+        [Column("VehicleId")]
+        public int VehicleId { get; set; }
 
         /// <summary>
         ///     The vehicle of the bot
         /// </summary>
         [ForeignKey("VehicleId")]
-        [NotMapped] public VehicleDto Vehicle { get; set; }
+        [NotMapped]
+        public VehicleDto Vehicle { get; set; }
 
         [Index("IX_NameClient", 2, IsUnique = true)]
         [Column("OwnerId")]
@@ -39,7 +41,8 @@ namespace EvoMp.Module.BotHandler.Server.Entity
         ///     The owner of the bot
         /// </summary>
         [NotMapped]
-        [ForeignKey("OwnerId")] public ClientDto Owner { get; set; }
+        [ForeignKey("OwnerId")]
+        public ClientDto Owner { get; set; }
 
 
         /// <summary>

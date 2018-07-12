@@ -254,8 +254,8 @@ namespace EvoMp.Core.ColorHandler.Server
                 // Color code is Control code -> Build Control String
                 if (ColorCodeProperties.Any(cc =>
                     cc.Identifier.ToLower() == $"~{colorCode.ToLower()}~" && cc.ControlCodeAnsi != null
-                                                                          && (!codeParsingDisabled ||
-                                                                              cc.IgnoresParsingDisabled)))
+                    && (!codeParsingDisabled ||
+                        cc.IgnoresParsingDisabled)))
                     BuildControlString();
                 else if (!codeParsingDisabled)
                     BuildColorString();
