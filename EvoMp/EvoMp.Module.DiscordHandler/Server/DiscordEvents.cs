@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DSharpPlus.EventArgs;
 using EvoMp.Module.DiscordHandler.Entity;
 
