@@ -2,9 +2,8 @@ const glob = require('glob');
 const path = require('path');
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 
-var files = glob.sync('./EvoMp/*/Client/*.ts');
+const files = glob.sync('./EvoMp/*/Client/*.ts');
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -16,7 +15,7 @@ module.exports = {
     filename: 'main.bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts/,
         loader: 'awesome-typescript-loader?configFileName=./tsconfig.json'
@@ -44,7 +43,6 @@ module.exports = {
     new HardSourceWebpackPlugin({
       cacheDirectory: '../../../../.cache'
     }),
-    new CheckerPlugin(),
     new webpack.BannerPlugin(require('fs').readFileSync('LICENSE', 'utf8'))
   ]
 };

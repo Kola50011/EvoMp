@@ -3,7 +3,10 @@ const Glob = require("glob");
 const fs = require("fs");
 
 function writeXml() {
-  const files = Glob.sync("GTMP_Server/resources/EvoMp/dist/!(*.dll|*.pdb|*.exe|*.config|*.xml)");
+  console.log("\n[EvoMP Meta.xml Generator] Started");
+
+
+  const files = Glob.sync("GTMP_Server/resources/EvoMp/dist/!(*.dll|*.pdb|*.exe|*.config|*.xml|*.map)");
   let root = xmlbuilder.create("meta");
 
   let infoElem = root.element("info");
@@ -33,12 +36,7 @@ function writeXml() {
 
   const xml = root.end({ pretty: true });
   fs.writeFileSync("GTMP_Server/resources/EvoMp/meta.xml", xml);
-  console.log("[Meta.xml Generator] Success.");
+  console.log("[EvoMP Meta.xml Generator] Finished\n");
 }
 
 writeXml();
-
-if (process.env.NODE_ENV === "development") {
-  console.log("[Meta.xml Generator] Watching files..");
-  fs.watch("./EvoMp", { encoding: "buffer" }, writeXml);
-}
