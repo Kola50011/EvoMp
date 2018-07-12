@@ -1,5 +1,5 @@
 /// <reference path='../../../typings/index.d.ts' />
-import ServerEventHandler from "./EventHandler"
+import EventHandler from "./EventHandler"
 
 export default class EventListener {
   eventName: string
@@ -11,7 +11,7 @@ export default class EventListener {
   }
 
   unsubscribe(): void {
-    ServerEventHandler.detach(this)
+    EventHandler.detach(this)
   }
 
   trigger(args: any): void {

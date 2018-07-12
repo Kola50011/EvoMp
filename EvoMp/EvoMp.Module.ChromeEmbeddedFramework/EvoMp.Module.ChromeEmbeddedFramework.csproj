@@ -82,13 +82,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="Client\Cef.ts" />
     <TypeScriptCompile Include="Client\CefEventCollector.ts" />
-    <TypeScriptCompile Include="Web\EventHandler.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Client\CefEventCollector.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Client\CefEventCollector.js.map" />
+    <TypeScriptCompile Include="Client\ICefOptions.ts" />
+    <TypeScriptCompile Include="Client\ICefOptionsArgument.ts" />
+    <Content Include="Web\EventHandler.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

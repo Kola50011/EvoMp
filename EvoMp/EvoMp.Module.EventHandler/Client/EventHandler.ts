@@ -1,7 +1,7 @@
 /// <reference path='../../../typings/index.d.ts' />
 import EventListener from "./EventListener"
 
-export default class ServerEventHandler {
+export default class EventHandler {
   private static listeners: { [eventName: string]: EventListener[] } = {}
 
   /**
@@ -40,4 +40,4 @@ export default class ServerEventHandler {
   }
 }
 
-API.onResourceStart.connect(() => { ServerEventHandler.startListen() })
+API.onResourceStart.connect(() => { EventHandler.startListen() })

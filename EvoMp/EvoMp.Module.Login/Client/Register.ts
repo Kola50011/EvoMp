@@ -19,6 +19,7 @@ function sendRegisterRequest(args: any[]) {
 export default async function openRegister(): Promise<void> {
   const browser = new Cef("Register", "dist/Register.html", {})
   browser.addEventListener("onRegister", sendRegisterRequest)
+  API.showCursor(true);
 
   const listener = EventHandler.subscribe("AuthResponse",
     (args) => {

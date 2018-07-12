@@ -1,4 +1,5 @@
-import eventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.ts"
+"use strict"
+import eventHandler from "../../EvoMp.Module.ChromeEmbeddedFramework/Web/EventHandler.js"
 
 async function initialiseIcons() {
   const uIkit = await import("../../EvoMp.Module.UiKit/Web/uikit.min.js")
@@ -9,8 +10,6 @@ async function initialiseIcons() {
 
 document.addEventListener("DOMContentLoaded",
   () => {
-    eventHandler.setName("Login")
-    eventHandler.doneLoading()
     initialiseIcons()
 
     const loginForm = document.getElementById("login-form")

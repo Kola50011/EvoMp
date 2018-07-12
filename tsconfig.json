@@ -1,13 +1,14 @@
 {
   "version": "1.0.0",
   "compilerOptions": {
+
+    "lib": ["scripthost", "es6", "es2016", "es2015", "es7" ],
     "module": "esnext",
-    "target": "es2017",
-    "sourceMap": false,
     "noImplicitAny": true,
+    "sourceMap": false,
+    "strict": true,
     "strictNullChecks": true,
-    "lib": ["es2016", "scripthost"],
-    "strict": true
+    "target": "es2017"
   },
   "typeAcquisition": {
     "enable": true

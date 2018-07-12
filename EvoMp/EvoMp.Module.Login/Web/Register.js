@@ -9,8 +9,6 @@ async function initialiseIcons() {
 
 document.addEventListener("DOMContentLoaded",
   () => {
-    EventHandler.setName("Register")
-    EventHandler.doneLoading()
     initialiseIcons()
 
     const registerForm = document.getElementById("register-form")
