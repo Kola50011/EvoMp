@@ -1,10 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C3088118-4A6B-4A1D-972D-9B0A83E026B3}</ProjectGuid>
+
+    
+    <OutputPath>$(MSBuildProjectDirectory)\..\..\GTMP_Server\</OutputPath>
+
+    <StartAction>Program</StartAction>
+
+    <StartProgram>$(OutputPath)GrandTheftMultiplayer.Server.exe</StartProgram>
+
+
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EvoMp.Core.StartupProject</RootNamespace>
@@ -14,7 +23,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\GTMP_Server\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -25,7 +33,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Linux-Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\GTMP_Server\</OutputPath>
     <DefineConstants>TRACE;DEBUG;__MonoCS__</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,12 +46,10 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Windows-Release|AnyCPU'">
-    <OutputPath>..\..\GTMP_Server\</OutputPath>
     <Optimize>true</Optimize>
     <DocumentationFile>bin\EvoMp.Core.StartupProject.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Linux-Release|AnyCPU'">
-    <OutputPath>..\..\GTMP_Server\</OutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>__MonoCS__</DefineConstants>
     <DocumentationFile>bin\EvoMp.Core.StartupProject.xml</DocumentationFile>
