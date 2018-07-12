@@ -50,6 +50,12 @@
     <DocumentationFile>bin\EvoMp.Module.TestModule.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GrandTheftMultiplayer.Server, Version=0.1.798.595, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.798.595\lib\net452\GrandTheftMultiplayer.Server.exe</HintPath>
+    </Reference>
+    <Reference Include="GrandTheftMultiplayer.Shared, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\grandtheftmultiplayer.api.0.1.798.595\lib\net452\GrandTheftMultiplayer.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -70,6 +76,9 @@
     <TypeScriptCompile Include="Client\ICefOptions.ts" />
     <TypeScriptCompile Include="Client\ICefOptionsArgument.ts" />
     <Content Include="Web\eventHandler.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
