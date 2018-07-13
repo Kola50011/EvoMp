@@ -44,10 +44,17 @@ export default class Cef {
   }
 
   async load(): Promise<void> {
+    API.sendChatMessage("3.1")
+    API.sendChatMessage(this.path) // DEBUG
+    API.sendChatMessage("3.2")
+    API.loadPageCefBrowser(this.browser, this.path)
+    API.sendChatMessage("3.3")
+
     return new Promise<void>((resolve) => {
-      API.waitUntilCefBrowserLoaded(this.browser)
-      API.loadPageCefBrowser(this.browser, this.path)
+      API.sendChatMessage("3.4")
       this.loadingResolve = resolve
+      API.sendChatMessage("3.5")
+
     })
   }
 

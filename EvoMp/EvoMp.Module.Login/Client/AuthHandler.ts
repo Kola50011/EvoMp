@@ -24,7 +24,8 @@ async function initAuthentication() {
 
           break
         case "Login":
-          openLogin(arg.Username || "ERROR").catch(() => {
+          openLogin(arg.Username || "ERROR").catch((e) => {
+            API.sendChatMessage(JSON.stringify(e)); // Debug
             API.sendChatMessage("Exception: onOpenLogin")
           })
 
