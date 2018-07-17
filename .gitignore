@@ -344,3 +344,4 @@ nuget.exe
 GTMP_Server/AutoMapper.dll
 GTMP_Server/ServerFiles/EntityFramework.dll
 GTMP_Server/ServerFiles/EntityFramework.SqlServer.dll
+GTMP_Server/Newtonsoft.Json.xml
