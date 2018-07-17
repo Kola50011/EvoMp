@@ -12,6 +12,14 @@ namespace EvoMp.Module.ItemManager.Server
 
         public ItemManager()
         {
+
+        }
+
+        /// <summary>
+        /// Only for testing purpose. //TODO Remove
+        /// </summary>
+        public void TestFunction()
+        {
             InventoryRepository = new InventoryRepository();
 
             Inventory testInventory = new Inventory();
@@ -27,8 +35,7 @@ namespace EvoMp.Module.ItemManager.Server
 
             using (InventoryContext inventoryContext = InventoryRepository.GetInventoryContext())
             {
-                foreach (IBaseItem item in inventoryContext.Inventories.First().Items)
-                    Console.WriteLine("Item " + item.GetSomething());
+                inventoryContext.Inventories.First().Items.ForEach(item => Console.WriteLine("Item " + item.GetSomething()));
             }
         }
     }
