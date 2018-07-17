@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
+using EngineState = EvoMp.Module.VehicleHandler.Server.Enums.EngineState;
+using SirenState = EvoMp.Module.VehicleHandler.Server.Enums.SirenState;
+using SpecialLightState = EvoMp.Module.VehicleHandler.Server.Enums.SpecialLightState;
+using VehicleState = EvoMp.Module.VehicleHandler.Server.Enums.VehicleState;
 
 namespace EvoMp.Module.VehicleHandler.Server.Entity
 {

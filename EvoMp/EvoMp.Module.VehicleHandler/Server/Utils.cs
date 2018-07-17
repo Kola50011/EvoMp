@@ -6,16 +6,11 @@ using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
-namespace EvoMp.Module.VehicleUtils.Server
+namespace EvoMp.Module.VehicleHandler.Server
 {
-    public class VehicleUtils : BaseModule, IVehicleUtils
+    public class Utils : IUtils
     {
         /// <inheritdoc />
-        /// <summary>
-        ///     Returns possible vehicleHashes for the given vehicle hash name
-        /// </summary>
-        /// <param name="searchVehicleName">The search vehicle hash name pattern</param>
-        /// <returns>List with possible VehicleHashes</returns>
         public List<VehicleHash> GetVehiclesByName(string searchVehicleName)
         {
             List<VehicleHash> vehicleHashes = new List<VehicleHash>();
@@ -38,11 +33,6 @@ namespace EvoMp.Module.VehicleUtils.Server
         }
 
         /// <inheritdoc />
-        /// <summary>
-        ///     Returns vehicleHashes for the given vehicle class
-        /// </summary>
-        /// <param name="vehicleClass">The searched vehicleClass</param>
-        /// <returns>List with class matching VehicleHashes</returns>
         public List<VehicleHash> GetVehiclesByClass(VehicleClass vehicleClass)
         {
             return Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>()
@@ -50,11 +40,6 @@ namespace EvoMp.Module.VehicleUtils.Server
         }
 
         /// <inheritdoc />
-        /// <summary>
-        ///     Returns possible vehicleHashes for the given ingame vehicle name
-        /// </summary>
-        /// <param name="searchIngameVehicleName">The search ingame vehicle name pattern</param>
-        /// <returns>List with possible VehicleHashes</returns>
         public List<VehicleHash> GetVehiclesByIngameName(string searchIngameVehicleName)
         {
             searchIngameVehicleName = searchIngameVehicleName.ToLower();

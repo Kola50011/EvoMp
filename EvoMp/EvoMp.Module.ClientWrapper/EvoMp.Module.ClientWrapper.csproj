@@ -96,9 +96,9 @@
       <Project>{2ADDF79C-3F18-4DDC-8865-AABC4FBE79F8}</Project>
       <Name>EvoMp.Module.EventHandler</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.VehicleUtils\EvoMp.Module.VehicleUtils.csproj">
-      <Project>{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}</Project>
-      <Name>EvoMp.Module.VehicleUtils</Name>
+    <ProjectReference Include="..\EvoMp.Module.VehicleHandler\EvoMp.Module.VehicleHandler.csproj">
+      <Project>{340F8F6E-0B27-4EA5-90E9-ECB208808F32}</Project>
+      <Name>EvoMp.Module.VehicleHandler</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

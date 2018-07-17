@@ -5,8 +5,7 @@ using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Core.Module.Server;
 using EvoMp.Module.MessageHandler.Server;
 using EvoMp.Module.VehicleHandler.Server.Entity;
-using EvoMp.Module.VehicleUtils.Server;
-using EvoMp.Module.VehicleUtils.Server.Enums;
+using EvoMp.Module.VehicleHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
@@ -14,21 +13,23 @@ using GrandTheftMultiplayer.Shared.Math;
 namespace EvoMp.Module.VehicleHandler.Server
 {
     /// <summary>
-    ///     THe VehicleHandler main class.
+    ///     The VehicleHandler main class.
     /// </summary>
     public class VehicleHandler : BaseModule, IVehicleHandler
     {
         internal static IMessageHandler MessageHandler;
 
+        public IUtils Utils { get; }
+
         /// <summary>
         ///     Initalizes and sets up the VehicleHandler.
         ///     Checks also for new VehicleHashes to fill the VehicleProperties table.
         /// </summary>
-        /// <param name="vehicleUtils">An IVehicleUtils module</param>
-        public VehicleHandler(IVehicleUtils vehicleUtils, IMessageHandler messageHandler)
+        public VehicleHandler(IMessageHandler messageHandler)
         {
             MessageHandler = messageHandler;
             CheckVehicleProperties();
+            Utils = new Utils();
         }
 
         /// <inheritdoc />

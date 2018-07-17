@@ -7,6 +7,8 @@ namespace EvoMp.Module.VehicleHandler.Server
     [ModuleProperties("shared", "Ruffo", "Vehicle Handler Module")]
     public interface IVehicleHandler
     {
+        IUtils Utils { get; }
+
         /// <summary>
         ///     Creates a new ExtendedVehicle by vehicleHash, position, rotation, dimension
         /// </summary>

@@ -7,13 +7,13 @@ using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.MessageHandler.Server.Enums;
 using EvoMp.Module.VehicleHandler.Server.Entity;
 using EvoMp.Module.VehicleHandler.Server.Exceptions;
-using EvoMp.Module.VehicleUtils.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 using GrandTheftMultiplayer.Shared.Math;
+using DoorState = EvoMp.Module.VehicleHandler.Server.Enums.DoorState;
 
 namespace EvoMp.Module.VehicleHandler.Server
 {

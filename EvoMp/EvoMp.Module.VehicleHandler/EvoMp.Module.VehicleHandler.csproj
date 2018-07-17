@@ -70,6 +70,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
@@ -81,13 +82,21 @@
     <Compile Include="Server\Entity\VehiclePropertiesDto.cs" />
     <Compile Include="Server\Entity\VehicleModificationDto.cs" />
     <Compile Include="Server\Entity\VehicleDto.cs" />
+    <Compile Include="Server\Enums\DoorState.cs" />
+    <Compile Include="Server\Enums\EngineState.cs" />
+    <Compile Include="Server\Enums\FuelType.cs" />
+    <Compile Include="Server\Enums\SirenState.cs" />
+    <Compile Include="Server\Enums\SpecialLightState.cs" />
+    <Compile Include="Server\Enums\VehicleState.cs" />
     <Compile Include="Server\Exceptions\VehicleHandlerException.cs" />
     <Compile Include="Server\Exceptions\ExtendedVehicleException.cs" />
+    <Compile Include="Server\IUtils.cs" />
     <Compile Include="Server\VehicleContext.cs" />
     <Compile Include="Server\VehicleRepository.cs" />
     <Compile Include="Server\ExtendedVehicle.cs" />
     <Compile Include="Server\IVehicleHandler.cs" />
     <Compile Include="Server\VehicleHandler.cs" />
+    <Compile Include="Server\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EvoMp.Core.ConsoleHandler\EvoMp.Core.ConsoleHandler.csproj">
@@ -101,10 +110,6 @@
     <ProjectReference Include="..\EvoMp.Module.MessageHandler\EvoMp.Module.MessageHandler.csproj">
       <Project>{CF764600-E3A0-46BF-8CC9-7AA352D07B4E}</Project>
       <Name>EvoMp.Module.MessageHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EvoMp.Module.VehicleUtils\EvoMp.Module.VehicleUtils.csproj">
-      <Project>{81A9E9D2-E4FB-4D87-BD28-2FB2B56404DF}</Project>
-      <Name>EvoMp.Module.VehicleUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

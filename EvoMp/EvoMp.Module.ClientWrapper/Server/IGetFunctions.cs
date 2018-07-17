@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using EvoMp.Module.ClientWrapper.Server.Exceptions;
-using EvoMp.Module.VehicleUtils.Server.Enums;
+using EvoMp.Module.VehicleHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;

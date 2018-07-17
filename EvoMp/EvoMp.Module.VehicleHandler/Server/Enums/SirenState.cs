@@ -1,4 +1,4 @@
-namespace EvoMp.Module.VehicleUtils.Server.Enums
+namespace EvoMp.Module.VehicleHandler.Server.Enums
 {
     public enum SirenState
     {

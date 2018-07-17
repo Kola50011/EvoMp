@@ -1,20 +1,11 @@
 using System.Collections.Generic;
-using EvoMp.Core.Module.Server;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Gta.Vehicle;
 
-namespace EvoMp.Module.VehicleUtils.Server
+namespace EvoMp.Module.VehicleHandler.Server
 {
-    [ModuleProperties("shared", "Ruffo", "Vehicle Utils & Enums")]
-    public interface IVehicleUtils
+    public interface IUtils
     {
-        /// <summary>
-        ///     Returns possible vehicleHashes for the given vehicle hash name
-        /// </summary>
-        /// <param name="searchVehicleName">The search vehicle hash name pattern</param>
-        /// <returns>List with possible VehicleHashes</returns>
-        List<VehicleHash> GetVehiclesByName(string searchVehicleName);
-
         /// <summary>
         ///     Returns vehicleHashes for the given vehicle class
         /// </summary>
@@ -28,5 +19,12 @@ namespace EvoMp.Module.VehicleUtils.Server
         /// <param name="searchIngameVehicleName">The search ingame vehicle name pattern</param>
         /// <returns>List with possible VehicleHashes</returns>
         List<VehicleHash> GetVehiclesByIngameName(string searchIngameVehicleName);
+
+        /// <summary>
+        ///     Returns possible vehicleHashes for the given vehicle hash name
+        /// </summary>
+        /// <param name="searchVehicleName">The search vehicle hash name pattern</param>
+        /// <returns>List with possible VehicleHashes</returns>
+        List<VehicleHash> GetVehiclesByName(string searchVehicleName);
     }
 }

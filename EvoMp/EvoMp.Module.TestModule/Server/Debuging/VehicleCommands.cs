@@ -4,8 +4,7 @@ using System.Linq;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
 using EvoMp.Module.VehicleHandler.Server;
-using EvoMp.Module.VehicleUtils.Server;
-using EvoMp.Module.VehicleUtils.Server.Enums;
+using EvoMp.Module.VehicleHandler.Server.Enums;
 using GrandTheftMultiplayer.Server.API;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
@@ -17,19 +16,17 @@ namespace EvoMp.Module.TestModule.Server.Debuging
     {
         private readonly API _api;
         private readonly IVehicleHandler _vehicleHandler;
-        private readonly IVehicleUtils _vehicleUtils;
 
-        public VehicleCommands(API api, IVehicleHandler vehicleHandler, IVehicleUtils vehicleUtils)
+        public VehicleCommands(API api, IVehicleHandler vehicleHandler)
         {
             _api = api;
             _vehicleHandler = vehicleHandler;
-            _vehicleUtils = vehicleUtils;
         }
 
         [PlayerCommand("/v")]
         public void TestVehicleCommand(Client sender, string vehicleName)
         {
-            List<VehicleHash> possibleVehicles = _vehicleUtils.GetVehiclesByName(vehicleName);
+            List<VehicleHash> possibleVehicles = _vehicleHandler.Utils.GetVehiclesByName(vehicleName);
 
             // No vehicle found -> message & return
             if (!possibleVehicles.Any())
