@@ -78,27 +78,29 @@ namespace EvoMp.Module.VehicleHandler.Server
         {
             List<VehicleHash> dbExistingVehicleHashes = new List<VehicleHash>();
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
+            {
                 dbExistingVehicleHashes.AddRange(context.VehicleProperties.Select(contextVehicleProperty =>
                     contextVehicleProperty.VehicleHash));
+            }
 
             bool noticeWritten = false;
 
             string addedVehicleHashes = "";
-            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
+            using (VehicleContext context = VehicleRepository.GetVehicleContext())
             {
-                if (dbExistingVehicleHashes.Contains(vehicleHash))
-                    continue;
-
-                // Write notice for long waiting time.
-                if (!noticeWritten)
+                foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
                 {
-                    ConsoleOutput.WriteLine(ConsoleType.Database,
-                        $"Setting default vehicle properties. This may take a moment.");
-                    noticeWritten = true;
-                }
+                    if (dbExistingVehicleHashes.Contains(vehicleHash))
+                        continue;
 
-                using (VehicleContext context = VehicleRepository.GetVehicleContext())
-                {
+                    // Write notice for long waiting time.
+                    if (!noticeWritten)
+                    {
+                        ConsoleOutput.WriteLine(ConsoleType.Database,
+                            $"Setting default vehicle properties. This may take a moment.");
+                        noticeWritten = true;
+                    }
+
                     context.VehicleProperties.Add(new VehiclePropertiesDto
                     {
                         VehicleHash = vehicleHash,
@@ -112,15 +114,18 @@ namespace EvoMp.Module.VehicleHandler.Server
                         TrunkSize = 12
                     });
                     addedVehicleHashes += $" {vehicleHash}";
+
                     // No vehicleHashes updated -> return;
                     if (string.IsNullOrEmpty(addedVehicleHashes))
                         return;
 
-                    context.SaveChanges();
-                    ConsoleOutput.WriteLine(ConsoleType.Database,
-                        $"Set default vehicle properties for ~o~{addedVehicleHashes}");
+
+                    dbExistingVehicleHashes.Add(vehicleHash);
                 }
+                context.SaveChanges();
             }
+            ConsoleOutput.WriteLine(ConsoleType.Database,
+                $"Set default vehicle properties for ~o~{addedVehicleHashes}");
         }
     }
 }
