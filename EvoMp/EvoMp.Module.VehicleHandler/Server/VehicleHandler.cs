@@ -19,8 +19,6 @@ namespace EvoMp.Module.VehicleHandler.Server
     {
         internal static IMessageHandler MessageHandler;
 
-        public IUtils Utils { get; }
-
         /// <summary>
         ///     Initalizes and sets up the VehicleHandler.
         ///     Checks also for new VehicleHashes to fill the VehicleProperties table.
@@ -31,6 +29,8 @@ namespace EvoMp.Module.VehicleHandler.Server
             CheckVehicleProperties();
             Utils = new Utils();
         }
+
+        public IUtils Utils { get; }
 
         /// <inheritdoc />
         /// <summary>
@@ -72,33 +72,33 @@ namespace EvoMp.Module.VehicleHandler.Server
         }
 
         /// <summary>
-        ///     Checks if new VehicleHashes exists
+        ///     Checks if new VehicleHashes exists.
         /// </summary>
         private static void CheckVehicleProperties()
         {
-            //TODO: Remove after double VehicleHashes was removed
-            List<int> addedVehicleHashList = new List<int>();
+            List<VehicleHash> dbExistingVehicleHashes = new List<VehicleHash>();
             using (VehicleContext context = VehicleRepository.GetVehicleContext())
+                dbExistingVehicleHashes.AddRange(context.VehicleProperties.Select(contextVehicleProperty =>
+                    contextVehicleProperty.VehicleHash));
+
+            bool noticeWritten = false;
+
+            string addedVehicleHashes = "";
+            foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
             {
-                bool noticeWritten = false;
+                if (dbExistingVehicleHashes.Contains(vehicleHash))
+                    continue;
 
-                string addedVehicleHashes = "";
-                foreach (VehicleHash vehicleHash in Enum.GetValues(typeof(VehicleHash)))
+                // Write notice for long waiting time.
+                if (!noticeWritten)
                 {
-                    if (context.VehicleProperties.Any(dto => dto.VehicleHash == vehicleHash))
-                        continue;
+                    ConsoleOutput.WriteLine(ConsoleType.Database,
+                        $"Setting default vehicle properties. This may take a moment.");
+                    noticeWritten = true;
+                }
 
-                    if (addedVehicleHashList.Contains((int) vehicleHash))
-                        continue;
-
-                    // Write notice for long waiting time.
-                    if (!noticeWritten)
-                    {
-                        ConsoleOutput.WriteLine(ConsoleType.Database,
-                            $"Setting default vehicle properties. This may take a moment.");
-                        noticeWritten = true;
-                    }
-
+                using (VehicleContext context = VehicleRepository.GetVehicleContext())
+                {
                     context.VehicleProperties.Add(new VehiclePropertiesDto
                     {
                         VehicleHash = vehicleHash,
@@ -112,16 +112,14 @@ namespace EvoMp.Module.VehicleHandler.Server
                         TrunkSize = 12
                     });
                     addedVehicleHashes += $" {vehicleHash}";
-                    addedVehicleHashList.Add((int) vehicleHash);
+                    // No vehicleHashes updated -> return;
+                    if (string.IsNullOrEmpty(addedVehicleHashes))
+                        return;
+
+                    context.SaveChanges();
+                    ConsoleOutput.WriteLine(ConsoleType.Database,
+                        $"Set default vehicle properties for ~o~{addedVehicleHashes}");
                 }
-
-                // No vehicleHashes updated -> return;
-                if (string.IsNullOrEmpty(addedVehicleHashes))
-                    return;
-
-                context.SaveChanges();
-                ConsoleOutput.WriteLine(ConsoleType.Database,
-                    $"Set default vehicle properties for ~o~{addedVehicleHashes}");
             }
         }
     }
