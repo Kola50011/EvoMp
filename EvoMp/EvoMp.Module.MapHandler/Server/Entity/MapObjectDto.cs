@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
+using Object = GrandTheftMultiplayer.Server.Elements.Object;
 
 namespace EvoMp.Module.MapHandler.Server.Entity
 {
@@ -18,7 +19,7 @@ namespace EvoMp.Module.MapHandler.Server.Entity
 
         [Required]
         [Column("Hash")]
-        public long Hash { get; set; }
+        public int Hash { get; set; }
 
         [Column("HashName")]
         public string HashName { get; set; }
@@ -79,6 +80,9 @@ namespace EvoMp.Module.MapHandler.Server.Entity
 
         [Column("Collisionless")]
         public bool Collisionless { get; set; }
+
+        [NotMapped]
+        public Object Object{ get; set; }
 
     }
 }

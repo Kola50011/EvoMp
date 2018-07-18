@@ -13,9 +13,13 @@ namespace EvoMp.Module.MapHandler.Server.Entity
         [Column("MapId")]
         public int MapId { get; set; }
 
-        [Column("Dimension")] public int Dimension { get; set; }
+        [Column("Active")] public bool Active { get; set; }
+
 
         [Column("Name")] public string Name { get; set; }
+
+        [Column("Dimension")] public int Dimension { get; set; }
+
 
         /// <summary>
         ///     Map Objects
