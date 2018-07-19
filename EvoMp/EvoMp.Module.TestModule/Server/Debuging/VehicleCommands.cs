@@ -138,5 +138,22 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             }
             _api.sendChatMessageToPlayer(sender, $"All vehicle tryes are popped.");
         }
+        [PlayerCommand("/vdirt", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetDirtLevel(Client sender, float level) 
+        {
+            if (level < 0)
+            {
+                _api.setVehicleDirtLevel(sender.vehicle, 0);
+                _api.sendChatMessageToPlayer(sender, "now your car is clean.");
+            } else if (level > 15)
+            {
+                _api.setVehicleDirtLevel(sender.vehicle, 15);
+                _api.sendChatMessageToPlayer(sender, "now your car is very dirty.");
+            } else
+            {
+                _api.setVehicleDirtLevel(sender.vehicle, level);
+                _api.sendChatMessageToPlayer(sender, $"now your car is dirty stage {level}.");
+            }
+        }
     }
 }

@@ -103,6 +103,7 @@ namespace EvoMp.Module.VehicleHandler.Server
                     .Include(vDto => vDto.VehicleProperties)
                     .Include(vdto => vdto.TyreSmokingColor)
                     .Include(vdto => vdto.VehicleLivery)
+                    .Include(vdto => vdto.Dirt)
                     .First(vdto => vdto.VehicleId == vehicleId);
 
                 Properties.DoorStates =
@@ -157,12 +158,24 @@ namespace EvoMp.Module.VehicleHandler.Server
             UpdateVehicleModifications();
             UpdateColor();
             UpdateLiveries();
+            UpdateDirtLevel();
 
             Debug("Update - Full Update done.");
             if (saveAlso)
                 Save();
         }
 
+        /// <summary>
+        /// Updates level of dirt from vehicle
+        /// </summary>
+        public void UpdateDirtLevel()
+        {
+            if (Vehicle.IsNull)
+                return;
+            Properties.Dirt = API.shared.getVehicleDirtLevel(Vehicle);
+
+            Debug("Update - Level of dirt");
+        }
         /// <summary>
         ///     Updates the Properties.DoorStates by the NetHandle
         /// </summary>
@@ -281,7 +294,6 @@ namespace EvoMp.Module.VehicleHandler.Server
 
             Debug("Update - Position and rotation updated.");
         }
-
 
         /// <summary>
         ///     Updates the Properties.primaryColor, Properties.secondaryColor and the tyreColor by the NetHandle.
