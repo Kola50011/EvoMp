@@ -15,6 +15,13 @@ namespace EvoMp.Module.ClientHandler.Server
         {
             _api = api;
             _api.onPlayerConnected += client => { Restrict(client); };
+            _api.onPlayerDisconnected += OnPlayerDisconnected;
+        }
+
+        private void OnPlayerDisconnected(Client player, string reason)
+        {
+            ExtendetClient extendetClient = new ExtendetClient(player);
+            extendetClient.Update(true);
         }
 
         private Client GetClientByExtendetClient(ExtendetClient extendetClient)
@@ -36,7 +43,8 @@ namespace EvoMp.Module.ClientHandler.Server
             Client client = GetClientByExtendetClient(extendetClient);
             if (client != null)
             {
-                client.position = new Vector3(0, 0, 0);
+                client.position = extendetClient.Properties.Position;
+                client.rotation = extendetClient.Properties.Rotation;
                 return true;
             }
 
@@ -47,14 +55,25 @@ namespace EvoMp.Module.ClientHandler.Server
         {
             if (extendetClient != null)
                 client = GetClientByExtendetClient(extendetClient);
+            else
+            {
+                if (client == null)
+                    return false;
+                else
+                    extendetClient = new ExtendetClient(client);
+            }
 
-            if (client == null) return false;
 
-            _api.setEntityInvincible(client.handle, true);
-            _api.freezePlayer(client, true);
-            _api.setEntityTransparency(client.handle, 0);
-            _api.setEntityCollisionless(client.handle, true);
 
+
+            //TODO: @Koka: Why in module ClientHandler. This should be in module Login
+            //_api.setEntityInvincible(client.handle, true);
+            //_api.freezePlayer(client, true);
+            //_api.setEntityTransparency(client.handle, 0);
+            //_api.setEntityCollisionless(client.handle, true);
+
+            // Temp
+            extendetClient.Spawn();
             return true;
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -106,7 +106,7 @@ namespace EvoMp.Module.CommandHandler.Server
                 if (!_commandUsageSend)
                 {
                     ConsoleOutput.WriteLine(ConsoleType.Warn,
-                        "Command methods were found which could not be loaded correctly. " +
+                        "Evolution Multiplayer (www.evomp.de) which could not be loaded correctly. " +
                         "~w~~_~Any~;~ command method ~w~~_~must be public~;~. " +
                         "In addition, the class where those methods are located " +
                         "~w~~_~must be instanced as a public field or property~;~.\n" +

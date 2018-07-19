@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GrandTheftMultiplayer.Server.Constant;
+using GrandTheftMultiplayer.Shared.Math;
 
 namespace EvoMp.Module.ClientHandler.Server.Entity
 {
@@ -54,5 +56,46 @@ namespace EvoMp.Module.ClientHandler.Server.Entity
         [Required]
         [Column("LastLogin")]
         public DateTime LastLogin { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public Vector3 Position {
+            get => new Vector3(PosX, PosY, PosZ);
+            set {
+                PosX = value.X;
+                PosY = value.Y;
+                PosZ = value.Z;
+            }
+        }
+
+        [NotMapped]
+        public Vector3 Rotation {
+            get => new Vector3(RotX, RotY, RotZ);
+            set {
+                RotX = value.X;
+                RotY = value.Y;
+                RotZ = value.Z;
+            }
+        }
+
+        [Column("PosX")]
+        private double PosX { get; set; }
+
+        [Column("PosY")]
+        private double PosY { get; set; }
+
+        [Column("PosZ")]
+        private double PosZ { get; set; }
+
+        [Column("RotX")]
+        private double RotX { get; set; }
+
+        [Column("RotY")]
+        private double RotY { get; set; }
+
+        [Column("RotZ")]
+        private double RotZ { get; set; }
+
+        [Column("SkinHash")]
+        public PedHash SkinHash { get; set; }
     }
 }

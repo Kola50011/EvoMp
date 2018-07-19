@@ -1,7 +1,10 @@
 using System;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.ClientHandler.Server.Entity;
 using GrandTheftMultiplayer.Server.API;
+using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 
 namespace EvoMp.Module.ClientHandler.Server
@@ -54,14 +57,43 @@ namespace EvoMp.Module.ClientHandler.Server
         /// <summary>
         ///     Spawns the client
         /// </summary>
-        public void Spawn()
+        public void Spawn(bool ignoreSkin = false)
         {
+            // Set skin on spawn -> Set skin, or get random skin, if not setten.
+            if (!ignoreSkin)
+                Client.setSkin(Properties.SkinHash != 0
+                    ? Properties.SkinHash
+                    : (PedHash) Enum.GetValues(typeof(PedHash))
+                        .GetValue(new Random(DateTime.Now.Millisecond).Next(0,
+                            Enum.GetValues(typeof(PedHash)).Length)));
+
             ClientHandler.SpawnManager.SpawnExtendetClient(this);
+        }
+
+        /// <summary>
+        ///     Updates the database data of the extended client.
+        /// </summary>
+        public void Update(bool saveAlso = false)
+        {
+            Properties.Position = Client.position;
+            Properties.Rotation = Client.rotation;
+            Properties.LastUpdate = DateTime.Now;
+            Properties.SkinHash = (PedHash) Client.model;
+
+            if (saveAlso)
+                Save();
         }
 
         public void Save()
         {
-            //TODO
+            ConsoleOutput.WriteLine(ConsoleType.Debug,
+                $"Saving extended Client ~b~{Client.name}~w~ ID: ~b~ {Properties.Id}");
+            using (ClientContext clientContext = ClientRepository.GetClientContext())
+            {
+                //TODO: Test
+                clientContext.Clients.AddOrUpdate(Properties);
+                clientContext.SaveChanges();
+            }
         }
     }
 }
