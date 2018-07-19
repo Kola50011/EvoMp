@@ -138,6 +138,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             }
             _api.sendChatMessageToPlayer(sender, $"All vehicle tryes are popped.");
         }
+
         [PlayerCommand("/vdirt", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetDirtLevel(Client sender, float level) 
         {
@@ -153,6 +154,44 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             {
                 _api.setVehicleDirtLevel(sender.vehicle, level);
                 _api.sendChatMessageToPlayer(sender, $"now your car is dirty stage {level}.");
+            }
+        }
+
+        [PlayerCommand("/voil", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetOilLevel(Client sender, float level)
+        {
+            if (level < 2.49f)
+            {
+                _api.setVehicleOilLevel(sender.vehicle, 2.49f);
+                _api.sendChatMessageToPlayer(sender, "your car is out of oil.");
+            } else if (level > 2.50f)
+            {
+                _api.setVehicleOilLevel(sender.vehicle, 2.50f);
+                _api.sendChatMessageToPlayer(sender, "your oil level is full");
+            } else
+            {
+                _api.setVehicleOilLevel(sender.vehicle, level);
+                _api.sendChatMessageToPlayer(sender, $"your oil level is {level}");
+            }
+        }
+
+        [PlayerCommand("/vfuel", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void SetFuelLevel(Client sender, float level)
+        {
+            if (level < 2.49f)
+            {
+                _api.setVehicleFuelLevel(sender.vehicle, 2.49f);
+                _api.sendChatMessageToPlayer(sender, "your car is out of gas.");
+            }
+            else if (level > 2.50f)
+            {
+                _api.setVehicleFuelLevel(sender.vehicle, 2.50f);
+                _api.sendChatMessageToPlayer(sender, "your oil level is full");
+            }
+            else
+            {
+                _api.setVehicleFuelLevel(sender.vehicle, level);
+                _api.sendChatMessageToPlayer(sender, $"your oil level is {level}");
             }
         }
     }

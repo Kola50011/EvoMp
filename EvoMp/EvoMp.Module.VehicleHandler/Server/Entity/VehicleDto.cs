@@ -101,8 +101,11 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("KmStand")]
         public double KmStand { get; set; }
 
+        [Column("Oil")]
+        public float Oil { get; set; }
+
         [Column("Fuel")]
-        public double Fuel { get; set; }
+        public float Fuel { get; set; }
 
         [Column("Dirt")]
         public float Dirt { get; set; }

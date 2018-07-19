@@ -158,10 +158,25 @@ namespace EvoMp.Module.VehicleHandler.Server
             UpdateColor();
             UpdateLiveries();
             UpdateDirtLevel();
+            UpdateFuelAndOilLevel();
 
             Debug("Update - Full Update done.");
             if (saveAlso)
                 Save();
+        }
+
+        /// <summary>
+        /// Updates level of fuel and oil
+        /// </summary>
+        public void UpdateFuelAndOilLevel()
+        {
+            if (Vehicle.IsNull)
+                return;
+
+            Properties.Oil = API.shared.getVehicleOilLevel(Vehicle);
+            Properties.Fuel = API.shared.getVehicleFuelLevel(Vehicle);
+
+            Debug("Update - Level of fuel and oil");
         }
 
         /// <summary>
@@ -454,6 +469,12 @@ namespace EvoMp.Module.VehicleHandler.Server
                 foreach (VehicleModificationDto modification in Properties.Modifications)
                     API.shared.setVehicleMod(Vehicle, (int) modification.Modification.Slot,
                         modification.Modification.Value);
+            // set dirt level
+            API.shared.setVehicleDirtLevel(Vehicle, Properties.Dirt);
+
+            // set oil and fuel level
+            API.shared.setVehicleFuelLevel(Vehicle, Properties.Fuel);
+            API.shared.setVehicleOilLevel(Vehicle, Properties.Oil);
 
             // Set vehicle color
             if (Properties.PrimaryColor != null)
