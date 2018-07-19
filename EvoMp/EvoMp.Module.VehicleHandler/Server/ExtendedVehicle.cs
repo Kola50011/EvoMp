@@ -103,7 +103,6 @@ namespace EvoMp.Module.VehicleHandler.Server
                     .Include(vDto => vDto.VehicleProperties)
                     .Include(vdto => vdto.TyreSmokingColor)
                     .Include(vdto => vdto.VehicleLivery)
-                    .Include(vdto => vdto.Dirt)
                     .First(vdto => vdto.VehicleId == vehicleId);
 
                 Properties.DoorStates =
@@ -176,6 +175,7 @@ namespace EvoMp.Module.VehicleHandler.Server
 
             Debug("Update - Level of dirt");
         }
+
         /// <summary>
         ///     Updates the Properties.DoorStates by the NetHandle
         /// </summary>
