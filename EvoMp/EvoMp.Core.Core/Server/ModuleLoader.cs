@@ -202,9 +202,9 @@ namespace EvoMp.Core.Core.Server
 
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"{e.Message}");
                     possibleAfterEffects = true;
-#if DEBUG
-                    throw;
-#endif
+//#if DEBUG
+//                    throw;
+//#endif
                 }
                 catch (Exception e)
                 {
@@ -223,9 +223,9 @@ namespace EvoMp.Core.Core.Server
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"~#FF0000~{e.Message}");
                     ConsoleOutput.WriteLine(ConsoleType.Error, $"~#FF0000~{e.StackTrace}");
                     ConsoleOutput.PrintLine("=", "~#FFF~", ConsoleType.Error);
-#if DEBUG
-                    throw;
-#endif
+//#if DEBUG
+//                    throw;
+//#endif
                 }
         }
     }
