@@ -178,14 +178,14 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/vfuel", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
         public void SetFuelLevel(Client sender, float level)
         {
-            if (level < 2.49f)
+            if (level < 0)
             {
-                _api.setVehicleFuelLevel(sender.vehicle, 2.49f);
+                _api.setVehicleFuelLevel(sender.vehicle, 0);
                 _api.sendChatMessageToPlayer(sender, "your car is out of gas.");
             }
-            else if (level > 2.50f)
+            else if (level > 100)
             {
-                _api.setVehicleFuelLevel(sender.vehicle, 2.50f);
+                _api.setVehicleFuelLevel(sender.vehicle, 100);
                 _api.sendChatMessageToPlayer(sender, "your oil level is full");
             }
             else
