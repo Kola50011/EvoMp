@@ -104,6 +104,9 @@ namespace EvoMp.Module.VehicleHandler.Server.Entity
         [Column("Fuel")]
         public double Fuel { get; set; }
 
+        [Column("Dirt")]
+        public float Dirt { get; set; }
+
         [Column("Dimension")]
         public int Dimension { get; set; }
 
