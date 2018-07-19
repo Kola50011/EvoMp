@@ -213,7 +213,7 @@ namespace EvoMp.Module.VehicleHandler.Server
             {
                 // check if a livery with this combination already exist
                 VehicleLiveryDto livery = context.VehicleLiveries.FirstOrDefault(vlDto =>
-                    vlDto.VehicleLiveryId == liveryValue &&
+                    vlDto.Value == liveryValue &&
                     vlDto.VehicleHash == Properties.VehicleHash);
 
                 if (livery == null)
