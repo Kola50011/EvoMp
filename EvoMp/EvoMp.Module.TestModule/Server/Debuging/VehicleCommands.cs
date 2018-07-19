@@ -125,5 +125,18 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 (VehicleHash) API.shared.getEntityModel(sender.vehicle)))
                 _api.sendChatMessageToPlayer(sender, $"{livery.Key} | {livery.Value}");
         }
+
+        [PlayerCommand("/vpop", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]
+        public void PopVehicleTyres(Client sender)
+        {
+            if(!API.shared.getVehicleBulletproofTyres(sender.vehicle))
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    _api.popVehicleTyre(sender.vehicle, i, true);
+                }
+            }
+            _api.sendChatMessageToPlayer(sender, $"All vehicle tryes are popped.");
+        }
     }
 }
