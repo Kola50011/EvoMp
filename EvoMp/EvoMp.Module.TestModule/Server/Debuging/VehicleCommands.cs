@@ -40,7 +40,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                 sender.rotation, 1, 1,
                 sender.dimension);
 
-            newVehicle.waitForSynchronization();
+            //newVehicle.waitForSynchronization();
 
             sender.setIntoVehicle(newVehicle, -1);
 

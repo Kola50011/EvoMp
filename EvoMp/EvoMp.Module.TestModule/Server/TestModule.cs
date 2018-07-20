@@ -1,4 +1,5 @@
 using EvoMp.Core.Module.Server;
+using EvoMp.Module.ClientHandler.Server;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server;
 using EvoMp.Module.MessageHandler.Server;
@@ -17,9 +18,10 @@ namespace EvoMp.Module.TestModule.Server
         public LoginFucker LoginFucker;
         public VehicleCommands VehicleCommands;
         public WeaponCommands WeaponCommands;
+        public UserCommands UserCommands;
 
         public TestModule(API api, ICommandHandler commandHandler, IVehicleHandler vehicleHandler,
-            IMessageHandler messageHandler, IClientWrapper clientWrapper, IWeaponUtils weaponUtils)
+            IMessageHandler messageHandler, IClientWrapper clientWrapper, IWeaponUtils weaponUtils, IClientHandler clientHandler)
         {
             LoginFucker = new LoginFucker(api, messageHandler, clientWrapper);
             CommandHelp = new CommandHelp(api, commandHandler, messageHandler);
@@ -28,6 +30,7 @@ namespace EvoMp.Module.TestModule.Server
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
             ClientWrapperTest = new ClientWrapperTest(api, clientWrapper, messageHandler);
             WeaponCommands = new WeaponCommands(api, weaponUtils, messageHandler);
+            UserCommands = new UserCommands(api, clientHandler);
         }
     }
 }

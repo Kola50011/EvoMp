@@ -80,6 +80,7 @@
     <Compile Include="Server\Debuging\LoginFucker.cs" />
     <Compile Include="Server\Debuging\ExtendedVehicleTest.cs" />
     <Compile Include="Server\Debuging\ClientWrapperTest.cs" />
+    <Compile Include="Server\Debuging\UserCommands.cs" />
     <Compile Include="Server\Debuging\VehicleCommands.cs" />
     <Compile Include="Server\Debuging\WeaponCommands.cs" />
     <Compile Include="Server\ITestModule.cs" />
@@ -90,6 +91,10 @@
     <ProjectReference Include="..\EvoMp.Core.Module\EvoMp.Core.Module.csproj">
       <Project>{f4b5eda5-1bfb-46fd-920f-febc1ce90ea1}</Project>
       <Name>EvoMp.Core.Module</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EvoMp.Module.ClientHandler\EvoMp.Module.ClientHandler.csproj">
+      <Project>{5D3D1B81-DB2F-4503-A6C9-DF5D6468E355}</Project>
+      <Name>EvoMp.Module.ClientHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\EvoMp.Module.ClientWrapper\EvoMp.Module.ClientWrapper.csproj">
       <Project>{6CF04FB7-6F52-49F6-A213-5AB262B0BDD3}</Project>
