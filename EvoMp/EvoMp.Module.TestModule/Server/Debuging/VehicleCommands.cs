@@ -28,12 +28,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         {
             List<VehicleHash> possibleVehicles = _vehicleHandler.Utils.GetVehiclesByName(vehicleName);
 
-            // No vehicle found -> message & return
-            if (!possibleVehicles.Any())
-            {
-                _api.sendChatMessageToPlayer(sender, $"There is no vehicle like ~o~{vehicleName}~w~ .");
-                return;
-            }
+            if (!possibleVehicles.Any()) return;          
 
             // Create new vehicle
             Vehicle newVehicle = _api.createVehicle(possibleVehicles.First(), sender.position,
@@ -46,7 +41,13 @@ namespace EvoMp.Module.TestModule.Server.Debuging
 
             _api.sendChatMessageToPlayer(sender,
                 $"Vehicle ~o~{possibleVehicles.First()}~w~ ~c~(~w~{(VehicleClass) API.shared.getVehicleClass(possibleVehicles.First())}~c~) ~w~created.");
-            _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
+
+            // adjust alternatives
+            possibleVehicles.RemoveAt(0);
+            if (possibleVehicles.Count > 0)
+            {
+                _api.sendNotificationToPlayer(sender, $"~w~Alternative Vehicles: ~g~{string.Join(",", possibleVehicles)}");
+            }
         }
 
         [PlayerCommand("/togglealldoors", playerOnlyState: PlayerOnlyState.OnlyAsDriver)]

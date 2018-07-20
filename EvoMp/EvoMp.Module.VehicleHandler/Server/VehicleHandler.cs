@@ -18,6 +18,7 @@ namespace EvoMp.Module.VehicleHandler.Server
     public class VehicleHandler : BaseModule, IVehicleHandler
     {
         internal static IMessageHandler MessageHandler;
+        public IUtils Utils { get; }
 
         /// <summary>
         ///     Initalizes and sets up the VehicleHandler.
@@ -29,9 +30,7 @@ namespace EvoMp.Module.VehicleHandler.Server
             CheckVehicleProperties();
             Utils = new Utils();
         }
-
-        public IUtils Utils { get; }
-
+        
         /// <inheritdoc />
         /// <summary>
         ///     Creates a new ExtendedVehicle by vehicleHash, position, rotation, dimension

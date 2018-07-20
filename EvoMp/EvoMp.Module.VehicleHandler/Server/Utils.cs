@@ -17,7 +17,9 @@ namespace EvoMp.Module.VehicleHandler.Server
             return Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().AsParallel()
                 .Where(vH => searchVehicleName == $"{vH}".ToLower()
                 || $"{vH}".ToLower().StartsWith(searchVehicleName)
-                || $"{vH}".ToLower().Contains(searchVehicleName)).Distinct().ToList();
+                || $"{vH}".ToLower().Contains(searchVehicleName))
+                .Distinct()
+                .ToList();
         }
 
         /// <inheritdoc />
@@ -35,7 +37,9 @@ namespace EvoMp.Module.VehicleHandler.Server
             return Enum.GetValues(typeof(VehicleHash)).Cast<VehicleHash>().AsParallel()
                 .Where(vh => searchIngameVehicleName == API.shared.getVehicleDisplayName(vh)
                 || API.shared.getVehicleDisplayName(vh).ToLower().StartsWith(searchIngameVehicleName)
-                || API.shared.getVehicleDisplayName(vh).ToLower().Contains(searchIngameVehicleName)).Distinct().ToList();
+                || API.shared.getVehicleDisplayName(vh).ToLower().Contains(searchIngameVehicleName))
+                .Distinct()
+                .ToList();
         }
     }
 }
