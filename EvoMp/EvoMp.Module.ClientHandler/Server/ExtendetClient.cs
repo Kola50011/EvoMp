@@ -79,11 +79,15 @@ namespace EvoMp.Module.ClientHandler.Server
             Properties.Rotation = Client.rotation;
             Properties.LastUpdate = DateTime.Now;
             Properties.SkinHash = (PedHash) Client.model;
+            
 
             if (saveAlso)
                 Save();
         }
 
+        /// <summary>
+        /// Save and update properties of client
+        /// </summary>
         public void Save()
         {
             ConsoleOutput.WriteLine(ConsoleType.Debug,

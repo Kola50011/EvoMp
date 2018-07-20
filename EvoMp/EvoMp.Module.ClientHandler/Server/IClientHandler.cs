@@ -7,6 +7,7 @@ namespace EvoMp.Module.ClientHandler.Server
     [ModuleProperties("shared", "Koka, Lukas", "Everything that has to do with a user")]
     public interface IClientHandler
     {
+        IUtils Utils { get;}
         /// <summary>
         ///     Returns an ExtendedClient object for the given player
         /// </summary>

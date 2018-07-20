@@ -97,5 +97,8 @@ namespace EvoMp.Module.ClientHandler.Server.Entity
 
         [Column("SkinHash")]
         public PedHash SkinHash { get; set; }
+
+        [Column("Points")]
+        public int Points { get; set; }
     }
 }

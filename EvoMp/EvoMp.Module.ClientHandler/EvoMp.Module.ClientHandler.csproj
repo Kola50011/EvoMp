@@ -83,10 +83,12 @@
     <Compile Include="Server\ExtendetClient.cs" />
     <Compile Include="Server\ClientRepository.cs" />
     <Compile Include="Server\IClientHandler.cs" />
+    <Compile Include="Server\IUtils.cs" />
     <Compile Include="Server\SpawnManager.cs" />
     <Compile Include="Server\ClientContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ClientHandler.cs" />
+    <Compile Include="Server\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

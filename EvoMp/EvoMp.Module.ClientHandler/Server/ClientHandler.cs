@@ -14,11 +14,13 @@ namespace EvoMp.Module.ClientHandler.Server
     public class ClientHandler : BaseModule, IClientHandler
     {
         internal static SpawnManager SpawnManager;
+        public IUtils Utils { get; }
 
         public ClientHandler(API api, IEventHandler eventHandler, IDbAccess db)
         {
             //TODO: make own spawn module
             SpawnManager = new SpawnManager(api);
+            Utils = new Utils();
         }
 
         /// <inheritdoc />
