@@ -19,6 +19,5 @@ document.addEventListener("DOMContentLoaded",
         const password = event.target.elements.password.value
 
         eventHandler.trigger("LoginAttempt", { username, password })
-        console.debug("LoginAttempt") // Debug
       })
   })

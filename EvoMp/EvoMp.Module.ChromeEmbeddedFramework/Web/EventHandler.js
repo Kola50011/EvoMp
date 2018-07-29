@@ -1,7 +1,7 @@
 export default class eventHandler {
 
   static doneLoading() {
-    this.trigger("doneLoading")
+    this.trigger("DoneLoading")
   }
 
   static trigger(eventName, ...args) {

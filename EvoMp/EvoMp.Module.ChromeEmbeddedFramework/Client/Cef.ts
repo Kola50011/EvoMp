@@ -35,7 +35,7 @@ export default class Cef {
       // TODO: Add proper error handling!
       API.sendChatMessage("Loaded before assignment, CEF!")
     }
-    this.addEventListener("doneLoading", this.loadingResolve)
+    this.addEventListener("DoneLoading", this.loadingResolve)
   }
 
   destroy(): void {

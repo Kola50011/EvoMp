@@ -9,6 +9,10 @@
 *.userosscache
 *.sln.docstates
 
+# Parcel bundler dist folder
+
+dist/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
