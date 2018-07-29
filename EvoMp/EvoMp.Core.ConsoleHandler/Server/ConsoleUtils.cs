@@ -50,9 +50,9 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 if (ConsoleOutput.NewTextWriter != null)
                     Console.SetOut(ConsoleOutput.NewTextWriter);
 
-                /*// Set error
+                // Set error
                 if (ConsoleOutput.NewTextWriter != null)
-                    Console.SetError(ConsoleOutput.NewTextWriter);*/
+                    Console.SetError(ConsoleOutput.NewTextWriter);
                 OriginalWriterInUse = false;
             }
         }
@@ -160,7 +160,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             return LongestTypeLength;
         }
-
 
         /// <summary>
         ///     Parsing a file line by line to a new string.
@@ -272,7 +271,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
         [DllImport("user32.dll")]
-        public static extern long GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
+        public static extern long GetWindowRect(IntPtr hWnd, ref Point lpPoint);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
+        public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, uint wFlags);
 
         #endregion //Dll console imports
 

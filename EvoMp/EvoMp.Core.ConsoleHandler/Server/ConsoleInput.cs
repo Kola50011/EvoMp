@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EvoMp.Core.ConsoleHandler.Properties;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -19,6 +18,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static string CurrentConsoleInput = "... Blocked on startup ...";
 
         private static readonly List<string> InputHistory = new List<string>();
+
         private static int _historyIndex = -1;
         private static int _cursorPos;
         internal static bool CursorInsertMode = true;
@@ -37,11 +37,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         {
             CurrentConsoleInput = "";
             Console.CursorVisible = true;
-
-            // Load old history
-            foreach (string historyItem in Settings.Default.ConsoleInputHistory)
-                InputHistory.Add(historyItem);
-
+            
             // Watch console inputs
             new Task(ConsoleKeyInputWatcher).Start();
 
@@ -67,145 +63,140 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 switch (key.Key)
                 {
                     case ConsoleKey.Insert:
-                    {
-                        CursorInsertMode = !CursorInsertMode;
-                        Console.CursorSize = CursorInsertMode ? OriginalCursorSize : 100;
-                        break;
-                    }
-                    case ConsoleKey.Enter:
-                    {
-                        string newConsoleInput = CurrentConsoleInput;
-                        CurrentConsoleInput = string.Empty;
-
-                        // Remove current temp
-                        if (_historyIndex != -1)
-                            InputHistory.Remove(InputHistory.Last());
-                        _historyIndex = -1;
-                        _cursorPos = 0;
-
-                        // Save in settings
-                        if (!string.IsNullOrWhiteSpace(newConsoleInput))
                         {
-                            InputHistory.Remove(newConsoleInput);
-                            InputHistory.Add(newConsoleInput);
-
-                            Settings.Default.ConsoleInputHistory.Clear();
-                            foreach (string s in InputHistory.GetRange(0, Math.Min(InputHistory.Count, 2000)))
-                                Settings.Default.ConsoleInputHistory.Add(s);
-                            Settings.Default.Save();
+                            CursorInsertMode = !CursorInsertMode;
+                            Console.CursorSize = CursorInsertMode ? OriginalCursorSize : 100;
+                            break;
                         }
+                    case ConsoleKey.Enter:
+                        {
+                            string newConsoleInput = CurrentConsoleInput;
+                            CurrentConsoleInput = string.Empty;
 
-                        TriggerConsoleString(newConsoleInput);
-                        break;
-                    }
+                            // Remove current temp
+                            if (_historyIndex != -1)
+                                InputHistory.Remove(InputHistory.Last());
+                            _historyIndex = -1;
+                            _cursorPos = 0;
+
+                            // Save in settings
+                            if (!string.IsNullOrWhiteSpace(newConsoleInput))
+                            {
+                                InputHistory.Remove(newConsoleInput);
+                                InputHistory.Add(newConsoleInput);
+                            }
+
+                            TriggerConsoleString(newConsoleInput);
+                            break;
+                        }
                     case ConsoleKey.Backspace:
-                    {
-                        if (CurrentConsoleInput.Length <= 0)
+                        {
+                            if (CurrentConsoleInput.Length <= 0)
+                            {
+                                _cursorPos = 0;
+                                break;
+                            }
+
+                            _cursorPos--;
+                            CurrentConsoleInput = CurrentConsoleInput.Remove(_cursorPos, 1);
+
+                            if (_historyIndex != -1)
+                                InputHistory.Remove(InputHistory.Last());
+
+                            _historyIndex = -1;
+                            break;
+                        }
+                    case ConsoleKey.Delete:
+                        {
+                            if (_cursorPos == CurrentConsoleInput.Length)
+                                break;
+
+                            CurrentConsoleInput = CurrentConsoleInput.Remove(_cursorPos, 1);
+
+                            if (_historyIndex != -1)
+                                InputHistory.Remove(InputHistory.Last());
+
+                            _historyIndex = -1;
+                            break;
+                        }
+                    case ConsoleKey.UpArrow:
+                        {
+                            if (!InputHistory.Any() || _historyIndex == 0)
+                                break;
+
+                            if (_historyIndex == -1)
+                            {
+                                InputHistory.Add(CurrentConsoleInput);
+                                _historyIndex = InputHistory.Count - 1;
+                                _historyIndex--;
+                            }
+                            else
+                            {
+                                _historyIndex--;
+                            }
+
+                            TriggerInputValueChange(InputHistory[_historyIndex]);
+                            break;
+                        }
+                    case ConsoleKey.DownArrow:
+                        {
+                            if (!InputHistory.Any())
+                                break;
+
+                            if (InputHistory.Count - 1 > _historyIndex)
+                                _historyIndex++;
+
+                            TriggerInputValueChange(InputHistory[_historyIndex]);
+                            break;
+                        }
+                    case ConsoleKey.RightArrow:
+                        {
+                            if (_cursorPos == CurrentConsoleInput.Length)
+                                break;
+
+                            _cursorPos++;
+                            break;
+                        }
+                    case ConsoleKey.LeftArrow:
+                        {
+                            if (_cursorPos == 0)
+                                break;
+
+                            _cursorPos--;
+                            break;
+                        }
+                    case ConsoleKey.End:
+                        {
+                            _cursorPos = CurrentConsoleInput.Length;
+                            break;
+                        }
+                    case ConsoleKey.Home:
                         {
                             _cursorPos = 0;
                             break;
                         }
-
-                        _cursorPos--;
-                        CurrentConsoleInput = CurrentConsoleInput.Remove(_cursorPos, 1);
-
-                        if (_historyIndex != -1)
-                            InputHistory.Remove(InputHistory.Last());
-
-                        _historyIndex = -1;
-                        break;
-                    }
-                    case ConsoleKey.Delete:
-                    {
-                        if (_cursorPos == CurrentConsoleInput.Length)
-                            break;
-
-                        CurrentConsoleInput = CurrentConsoleInput.Remove(_cursorPos, 1);
-
-                        if (_historyIndex != -1)
-                            InputHistory.Remove(InputHistory.Last());
-
-                        _historyIndex = -1;
-                        break;
-                    }
-                    case ConsoleKey.UpArrow:
-                    {
-                        if (!InputHistory.Any() || _historyIndex == 0)
-                            break;
-
-                        if (_historyIndex == -1)
-                        {
-                            InputHistory.Add(CurrentConsoleInput);
-                            _historyIndex = InputHistory.Count - 1;
-                            _historyIndex--;
-                        }
-                        else
-                        {
-                            _historyIndex--;
-                        }
-
-                        TriggerInputValueChange(InputHistory[_historyIndex]);
-                        break;
-                    }
-                    case ConsoleKey.DownArrow:
-                    {
-                        if (!InputHistory.Any())
-                            break;
-
-                        if (InputHistory.Count - 1 > _historyIndex)
-                            _historyIndex++;
-
-                        TriggerInputValueChange(InputHistory[_historyIndex]);
-                        break;
-                    }
-                    case ConsoleKey.RightArrow:
-                    {
-                        if (_cursorPos == CurrentConsoleInput.Length)
-                            break;
-
-                        _cursorPos++;
-                        break;
-                    }
-                    case ConsoleKey.LeftArrow:
-                    {
-                        if (_cursorPos == 0)
-                            break;
-
-                        _cursorPos--;
-                        break;
-                    }
-                    case ConsoleKey.End:
-                    {
-                        _cursorPos = CurrentConsoleInput.Length;
-                        break;
-                    }
-                    case ConsoleKey.Home:
-                    {
-                        _cursorPos = 0;
-                        break;
-                    }
                     default:
-                    {
-                        if (char.IsControl(key.KeyChar))
+                        {
+                            if (char.IsControl(key.KeyChar))
+                                break;
+
+                            if (_historyIndex != -1)
+                                InputHistory.Remove(InputHistory.Last());
+
+                            _historyIndex = -1;
+
+                            // Cursor at end, append
+                            if (_cursorPos == CurrentConsoleInput.Length)
+                                CurrentConsoleInput += key.KeyChar;
+                            else // Insert new char
+                                CurrentConsoleInput = CurrentConsoleInput
+                                    .Remove(_cursorPos, CursorInsertMode ? 0 : 1)
+                                    .Insert(_cursorPos, key.KeyChar.ToString());
+
+                            _cursorPos++;
+
                             break;
-
-                        if (_historyIndex != -1)
-                            InputHistory.Remove(InputHistory.Last());
-
-                        _historyIndex = -1;
-
-                        // Cursor at end, append
-                        if (_cursorPos == CurrentConsoleInput.Length)
-                            CurrentConsoleInput += key.KeyChar;
-                        else // Insert new char
-                            CurrentConsoleInput = CurrentConsoleInput
-                                .Remove(_cursorPos, CursorInsertMode ? 0 : 1)
-                                .Insert(_cursorPos, key.KeyChar.ToString());
-
-                        _cursorPos++;
-
-                        break;
-                    }
+                        }
                 }
 
                 TriggerConsoleKeyPress(key);

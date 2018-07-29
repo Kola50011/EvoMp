@@ -16,9 +16,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
         internal static IntPtr ConsoleHandle = ConsoleUtils.GetStdHandle(-11);
 #endif
 
-        internal static int WindowWidth;
-        internal static int WindowHeight;
-
         /// <summary>
         ///     Change the Windows console mode to support ANSI color strings
         ///     Sets the console size & position
@@ -79,12 +76,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 // Fullscreen screen connected -> restore fullscreen on screen
                 if (screen != null)
                 {
-                    IntPtr ptr = ConsoleUtils.GetConsoleWindow();
-
                     // Move to wanted display
-                    ConsoleUtils.MoveWindow(ptr, screen.WorkingArea.Left, screen.WorkingArea.Top,
-                        Console.LargestWindowWidth, Console.LargestWindowHeight, true);
-
+                    ConsoleUtils.SetWindowPos(ConsoleUtils.GetConsoleWindow(), 0, screen.WorkingArea.Left, screen.WorkingArea.Top, Console.LargestWindowWidth, Console.LargestWindowHeight, 1);
                     ConsoleUtils.ToggleConsoleFullscreenMode();
                 }
                 // else -> write message after server startup
@@ -100,29 +93,24 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Normal console window
             else
             {
-                //TODO: Check why 50 & 150 @Ruffo [NOT IMPORTANT]
-                height = Math.Min(Console.LargestWindowHeight, 50);
-                width = Math.Min(Console.LargestWindowWidth, 150);
-                Point savedPosition = Settings.Default.ConsolePosition;
+                Point savedPosition = Settings.Default.ConsoleLocation;
+                Size ConsoleSize = Settings.Default.ConsoleSize;
 
                 // Console position saved -> check if valid after screen changes || set position
                 if (savedPosition.X != -1 && savedPosition.Y != -1)
                     // Saved on not connected screen -> message after server startup
                     if (!Screen.AllScreens.Any(screen => screen.Bounds.Contains(savedPosition)))
+                    {
+                        ConsoleUtils.SetWindowPos(ConsoleUtils.GetConsoleWindow(), 0, 0, 0,
+                            ConsoleSize.Width, ConsoleSize.Height, 1);
                         SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
-                            "Can restore saved console position. Saved position was on disconnected screen. Usign default console position instead.");
+                            "Can't restore saved console location. Saved location was on disconnected screen. Console use default location instead.");
+                    }
                     // Valid saved position -> restore
                     else
-                        ConsoleUtils.MoveWindow(ConsoleUtils.GetConsoleWindow(),
-                            Settings.Default.ConsolePosition.X, Settings.Default.ConsolePosition.Y,
-                            width, height + 3, true);
-
-                ConsoleUtils.SetConsoleFixedSize(height, width);
+                        ConsoleUtils.SetWindowPos(ConsoleUtils.GetConsoleWindow(), 0, Settings.Default.ConsoleLocation.X, Settings.Default.ConsoleLocation.Y,
+                            ConsoleSize.Width, ConsoleSize.Height, 1);
             }
-
-            // Set console size fixed
-            WindowWidth = width;
-            WindowHeight = height;
 #endif
 
             // Prepare submodules

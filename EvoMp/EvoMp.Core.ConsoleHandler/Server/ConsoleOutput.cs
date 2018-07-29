@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using EvoMp.Core.ColorHandler.Server;
+using EvoMp.Core.ConsoleHandler.Properties;
 
 namespace EvoMp.Core.ConsoleHandler.Server
 {
@@ -19,6 +21,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
         public static TextWriter OriginalTextWriter;
         public static StringWriter NewTextWriter;
+        private static Size ConsoleSize;
 
         /// <summary>
         ///     Prepares the ConsoleOutput.
@@ -33,6 +36,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             //Console.SetError(Console.Out);
 
             Console.SetOut(NewTextWriter);
+            ConsoleSize = Settings.Default.ConsoleSize;
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
         /// <returns></returns>
         private static string[] WordWrapMessage(string message)
         {
-            var maxMessageWidth = ConsoleHandler.WindowWidth - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
+            var maxMessageWidth = ConsoleSize.Width - LastHeaderLength - ColorUtils.CleanUp(_prefix).Length;
 
             // InsertLineAbove identifier avalible -> line top as first
             if (message.Contains(ColorUtils.GetColorCodeProperty(ColorCode.InsertLineAbove).Identifier))
@@ -149,7 +153,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
             }
         }
 
-
         /// <summary>
         ///     Appends the prefix between message and messsage head for
         ///     each console message after this.
@@ -226,7 +229,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             var wasControlCodeLine = false;
             var messageHasLinebreak = false;
 
-            var maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
+            var maxInnerLineLength = ConsoleSize.Width - LastHeaderLength - PrefixLength;
 
             // Prepare message.
             if (message.EndsWith("\n"))
@@ -262,7 +265,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
                 // Save header length for calculation
                 LastHeaderLength = ColorUtils.CleanUp(writeMessage).Replace("\t", "  ").Length;
-                maxInnerLineLength = ConsoleHandler.WindowWidth - LastHeaderLength - PrefixLength;
+                maxInnerLineLength = ConsoleSize.Width - LastHeaderLength - PrefixLength;
 
                 // Trim ConsoleType.Line for fit in console window
                 // Or Lines with other ConsoleType
@@ -335,7 +338,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // Append message to complete message
             writeMessage += message;
 
-            var fillUpLength = ConsoleHandler.WindowWidth -
+            var fillUpLength = ConsoleSize.Width -
                                ColorUtils.CleanUp(writeMessage + suffix).Replace("\n", "").Length;
             var fillUpString = "".PadRight(fillUpLength > 0 ? fillUpLength : 0);
 
@@ -427,7 +430,7 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 // Input cursor position & fill up input
                 ConsoleUtils.InputCursorLeftStart =
                     ColorUtils.CleanUp(inputLine).Length - ConsoleInput.CurrentConsoleInput.Length;
-                inputLine = inputLine + "".PadRight(ConsoleHandler.WindowWidth -
+                inputLine = inputLine + "".PadRight(ConsoleSize.Width -
                                                     ColorUtils.CleanUp(inputLine).Length);
                 ConsoleUtils.SafeSystemConsoleUse(() =>
                 {
@@ -450,7 +453,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             //Thread.Sleep(50); // Debug
         }
-
 
         public static void WriteException(string message)
         {
@@ -475,13 +477,13 @@ namespace EvoMp.Core.ConsoleHandler.Server
 
             // Generate line
             for (var i = 0;
-                i * linePattern.Length < ConsoleHandler.WindowWidth;
+                i * linePattern.Length < ConsoleSize.Width;
                 i++)
                 returnString += linePattern;
 
             // Optional cut line
-            if (returnString.Length > ConsoleHandler.WindowWidth)
-                returnString = returnString.Substring(0, ConsoleHandler.WindowWidth);
+            if (returnString.Length > ConsoleSize.Width)
+                returnString = returnString.Substring(0, ConsoleSize.Width);
             if (consoleType != ConsoleType.Line)
                 returnString = "~!--!~" + returnString;
             ConsoleUtils.ResetColor();

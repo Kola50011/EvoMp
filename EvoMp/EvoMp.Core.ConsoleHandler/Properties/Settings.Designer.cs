@@ -12,7 +12,7 @@ namespace EvoMp.Core.ConsoleHandler.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -49,27 +49,25 @@ namespace EvoMp.Core.ConsoleHandler.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1, -1")]
-        public global::System.Drawing.Point ConsolePosition {
+        [global::System.Configuration.DefaultSettingValueAttribute("-1, 0")]
+        public global::System.Drawing.Point ConsoleLocation {
             get {
-                return ((global::System.Drawing.Point)(this["ConsolePosition"]));
+                return ((global::System.Drawing.Point)(this["ConsoleLocation"]));
             }
             set {
-                this["ConsolePosition"] = value;
+                this["ConsoleLocation"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>Help</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection ConsoleInputHistory {
+        [global::System.Configuration.DefaultSettingValueAttribute("150, 50")]
+        public global::System.Drawing.Size ConsoleSize {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["ConsoleInputHistory"]));
+                return ((global::System.Drawing.Size)(this["ConsoleSize"]));
             }
             set {
-                this["ConsoleInputHistory"] = value;
+                this["ConsoleSize"] = value;
             }
         }
     }

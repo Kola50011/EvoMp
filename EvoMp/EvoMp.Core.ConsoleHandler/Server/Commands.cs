@@ -36,7 +36,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 $"Usage: ~w~{command.Command} {commandParameter}");
         }
 
-
         [ConsoleCommand("/fullscreen", new[] {"-f"},
             "Toggles server fullscreen mode. ~n~" +
             "No display given: Primary display used.", true)]
@@ -59,10 +58,10 @@ namespace EvoMp.Core.ConsoleHandler.Server
             // No display given -> Use current & message
             if (display == -1)
             {
-                Rectangle rect = new Rectangle();
-                ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
+                Point p = new Point();
+                ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref p);
                 display = Screen.AllScreens.ToList()
-                    .FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(rect.X, rect.Y))));
+                    .FindIndex(screen => Equals(screen, Screen.FromPoint(new Point(p.X, p.Y))));
                 ConsoleOutput.WriteLine(ConsoleType.Info,
                     $"No display given for fullscreen. Using the current display ~b~{display}~;~.");
             }
@@ -94,12 +93,12 @@ namespace EvoMp.Core.ConsoleHandler.Server
 #if __MonoCS__
             ConsoleOutput.WriteLine(ConsoleType.Debug, "Currently only supported on Windows. See #23");
 #else
-            Rectangle rect = new Rectangle();
-            ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref rect);
-            Settings.Default.ConsolePosition = new Point(rect.X, rect.Y);
+            Point hWndLocation = Settings.Default.ConsoleLocation;
+            ConsoleUtils.GetWindowRect(ConsoleUtils.GetConsoleWindow(), ref hWndLocation);
+            Settings.Default.ConsoleLocation = hWndLocation;
             Settings.Default.Save();
             ConsoleOutput.WriteLine(ConsoleType.Config,
-                $"Saved the current console positon at {Settings.Default.ConsolePosition}");
+                $"Saved the current console positon at {Settings.Default.ConsoleLocation}");
 #endif
         }
 
