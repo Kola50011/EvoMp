@@ -23,8 +23,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
         public static void PrepareConsole()
         {
 #if __MonoCS__
-            WindowWidth = 150;
-            WindowHeight = 50;
 #else
             // 0x0004 = Modify Console for color codes ( Windows only)
             // 
@@ -65,9 +63,6 @@ namespace EvoMp.Core.ConsoleHandler.Server
         {
             //TODO: Linux support
 #if !__MonoCS__ // Setting screen or primary screen
-            int height;
-            int width;
-
             // Fullscreen
             if (Settings.Default.ConsoleFullscreenMode)
             {
@@ -84,11 +79,8 @@ namespace EvoMp.Core.ConsoleHandler.Server
                 else
                 {
                     SharedEvents.OnAfterCoreStartupCompleted += () => ConsoleOutput.WriteLine(ConsoleType.Warn,
-                        "Can restore fullscreen console window. Saved fullscreen screen isn't connected. Using default console settings.");
+                        "Can't restore fullscreen mode in this session. Console use default settings instead.");
                 }
-
-                height = Console.WindowHeight;
-                width = Console.WindowWidth;
             }
             // Normal console window
             else
