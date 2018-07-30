@@ -25,8 +25,9 @@
     "xmlbuilder": "10.0.0"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node Build/web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js --mode production --run-prod --reporter basic && cross-env NODE_ENV=production node Build/createMeta",
-    "dev": "cross-env NODE_E  NV=development node Build/web.js && cross-env NODE_ENV=development webpack --config Build/webpack.config.js --log-level error --mode development --run-dev --reporter basic --cache && cross-env NODE_ENV=development node Build/createMeta",
+    "debug": "node Build/clean.js && cross-env NODE_ENV=production node Build/web.js",
+    "build": "node Build/clean.js && cross-env NODE_ENV=production node Build/web.js && cross-env NODE_ENV=production webpack --config Build/webpack.config.js --mode production --run-prod --reporter basic && cross-env NODE_ENV=production node Build/createMeta",
+    "dev": "node Build/clean.js && cross-env NODE_ENV=development node Build/web.js && cross-env NODE_ENV=development webpack --config Build/webpack.config.js --log-level error --mode development --run-dev --reporter basic --cache && cross-env NODE_ENV=development node Build/createMeta",
     "webpackDebug": "cross-env NODE_ENV=production webpack --config Build/webpack.config.js",
     "generateMeta": "cross-env NODE_ENV=development node Build/createMeta"
   },
@@ -37,7 +38,7 @@
     "vue-hot-reload-api": "^2.3.0"
   },
   "browserslist": [
-    "last 1 version"
+    "last 1 Chrome version"
   ],
   "babel": {
     "plugins": [

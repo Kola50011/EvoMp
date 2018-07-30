@@ -32,7 +32,7 @@ async function initAuthentication() {
           break
         default:
           // TODO: Add better error handling.
-          API.sendChatMessage(`Wrong packet received in Auth! ${JSON.stringify(arg)}`)
+          API.sendChatMessage(`Wrong packet received in Auth! ${JSON.stringify(args)}`)
 
           break
       }

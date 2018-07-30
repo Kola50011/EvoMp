@@ -8,10 +8,14 @@ import Cef from "./Cef"
 export class CefEventCollector {
   private static cefs: {[identifier: string]: Cef} = {}
 
-  public static trigger(cefName: string, event: string, args: any[]) {
+  public static trigger(cefName: string, event: string, obj: any) {
     if (!this.cefs[cefName]) return
 
-    this.cefs[cefName].trigger(event, args)
+    if (obj) {
+      this.cefs[cefName].trigger(event, JSON.parse(obj))
+    } else {
+      this.cefs[cefName].trigger(event)
+    }
   }
 
   public static register(cef: Cef): void {
@@ -28,5 +32,5 @@ export class CefEventCollector {
 let resourceStartHandler = API.onResourceStart.connect(() => {
   resourceStartHandler.disconnect()
 
-  resource.CEC = new CefEventCollector()
+  resource.CEC = CefEventCollector
 })

@@ -13,7 +13,6 @@ export default class Cef {
   private readonly path: string
   private readonly options: ICefOptions
   private events: { [name: string]: (args: any[]) => void } = {}
-  private loadingResolve: () => void
 
   constructor(identifier: string, path: string, options: ICefOptionsArgument) {
     this.identifier = identifier
@@ -30,12 +29,6 @@ export default class Cef {
     API.setCefBrowserPosition(this.browser, 0, 0)
 
     CefEventCollector.register(this)
-    // This is a default value / initialiser, otherwise the compiler screams.
-    this.loadingResolve = () => {
-      // TODO: Add proper error handling!
-      API.sendChatMessage("Loaded before assignment, CEF!")
-    }
-    this.addEventListener("DoneLoading", this.loadingResolve)
   }
 
   destroy(): void {
@@ -44,18 +37,12 @@ export default class Cef {
   }
 
   async load(): Promise<void> {
-    API.sendChatMessage("3.1")
-    API.sendChatMessage(this.path) // DEBUG
-    API.sendChatMessage("3.2")
-    API.loadPageCefBrowser(this.browser, this.path)
-    API.sendChatMessage("3.3")
-
-    return new Promise<void>((resolve) => {
-      API.sendChatMessage("3.4")
-      this.loadingResolve = resolve
-      API.sendChatMessage("3.5")
-
+    const promise = new Promise<void>((resolve) => {
+      this.addEventListener("DoneLoading", () =>  {resolve()})
+      API.loadPageCefBrowser(this.browser, this.path)
     })
+
+    return promise
   }
 
   eval(str: string): void {
@@ -66,7 +53,7 @@ export default class Cef {
     this.browser.call(`window.exports.${func}`, ...args)
   }
 
-  addEventListener(event: string, func: (args: any[]) => void): void {
+  addEventListener(event: string, func: (args: any) => void): void {
     this.events[event] = func
   }
 
@@ -74,7 +61,7 @@ export default class Cef {
     delete this.events[event]
   }
 
-  trigger(event: string, args: any[]): void {
+  trigger(event: string, args?: any): void {
     if (!this.events[event]) return
 
     this.events[event](args)

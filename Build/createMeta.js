@@ -5,10 +5,8 @@ const fs = require("fs");
 function writeXml() {
   console.log("\n[EvoMP Meta.xml Generator] Started");
 
-
-  const files = Glob.sync("GTMP_Server/resources/EvoMp/dist/!(*.dll|*.pdb|*.exe|*.config|*.xml|*.map)");
+  const files = Glob.sync("GTMP_Server/resources/EvoMp/dist/**/*.+(js|css|html)");
   let root = xmlbuilder.create("meta");
-
   let infoElem = root.element("info");
   infoElem.attribute("name", "Evolution Multiplayer");
   infoElem.attribute("author",
