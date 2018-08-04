@@ -2,7 +2,7 @@ using EvoMp.Core.Module.Server;
 
 namespace EvoMp.Module.Login.Server
 {
-    [ModuleProperties("disabled", "Koka, Lukas", "Login")]
+    [ModuleProperties("shared", "Koka, Lukas", "Login")]
     public interface ILogin
     {
     }
