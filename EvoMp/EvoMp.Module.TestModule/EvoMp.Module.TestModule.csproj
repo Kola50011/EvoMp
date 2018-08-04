@@ -81,6 +81,7 @@
     <Compile Include="Server\Debuging\LoginFucker.cs" />
     <Compile Include="Server\Debuging\ExtendedVehicleTest.cs" />
     <Compile Include="Server\Debuging\ClientWrapperTest.cs" />
+    <Compile Include="Server\Debuging\ScreenCapturer.cs" />
     <Compile Include="Server\Debuging\UserCommands.cs" />
     <Compile Include="Server\Debuging\VehicleCommands.cs" />
     <Compile Include="Server\Debuging\WeaponCommands.cs" />
