@@ -1,8 +1,10 @@
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using EvoMp.Core.ConsoleHandler.Properties;
+using GrandTheftMultiplayer.Server.API;
 #if !__MonoCS__
 using System.Drawing;
 
@@ -119,6 +121,15 @@ namespace EvoMp.Core.ConsoleHandler.Server
             ConsoleOutput.WriteLine(ConsoleType.Core, "Shutting down!");
             Thread.Sleep(1000);
             Environment.Exit(0);
+        }
+
+
+        [ConsoleCommand("/say", new[] {"!", "."}, "Announces console input to every connected player.")]
+        public static void SayToConsole(string message)
+        {
+            string outMessage = $"~w~[~r~SERVER~w~]~w~: ~r~{message}";
+            API.shared.sendChatMessageToAll(outMessage);
+            ConsoleOutput.WriteLine(ConsoleType.Core, outMessage);
         }
     }
 }

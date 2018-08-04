@@ -84,7 +84,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
                     p = api.createPickup(ph, pickupPos, new Vector3(0,0,0), 0, 0);
                 Thread.Sleep(200);
                 bitmap = sc.Capture();
-                bitmap.Save($"C:\\Users\\tilme\\Pictures\\gtmp\\{ph.ToString()}.jpg");
+                bitmap.Save($"{System.Environment.GetEnvironmentVariable("USERPROFILE")}\\Pictures\\{DateTime.Now}{ph.ToString()}.jpg");
                 api.deleteEntity(p);
             }
             api.sendChatMessageToPlayer(sender, "done with screen capturing");
