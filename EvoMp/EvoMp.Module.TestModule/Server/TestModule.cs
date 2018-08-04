@@ -30,7 +30,7 @@ namespace EvoMp.Module.TestModule.Server
             VehicleCommands = new VehicleCommands(api, vehicleHandler);
             ClientWrapperTest = new ClientWrapperTest(api, clientWrapper, messageHandler);
             WeaponCommands = new WeaponCommands(api, weaponUtils, messageHandler);
-            UserCommands = new UserCommands(api, clientHandler);
+            UserCommands = new UserCommands(api, clientHandler, messageHandler, clientWrapper);
         }
     }
 }
