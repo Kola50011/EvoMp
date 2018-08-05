@@ -8,7 +8,7 @@ export default class EventHandler {
     console.log(`[Event dispatched]: ${eventName}`, obj)
 
     if (this.getResourceCallSupport()) {
-      resourceCall("resource.CEC.trigger", 'Login', eventName, JSON.stringify(obj))
+      resourceCall("resource.CEF.trigger", 'Login', eventName, JSON.stringify(obj))
     }
   }
 

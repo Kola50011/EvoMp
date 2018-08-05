@@ -18,6 +18,8 @@ function sendAuthRequest(args: any): void {
 export default async function openLogin(username: string): Promise<void> {
   const loginWindow = new Cef("Login", "dist/EvoMp.Module.Login/Web/Login.html", { headless: false }) // Debug
   loginWindow.addEventListener("LoginAttempt", sendAuthRequest)
+  loginWindow.trigger("LoginUsername", API.getPlayerName(API.getLocalPlayer()));
+  //loginWindow.
   await loginWindow.load()
 
   API.showCursor(true)

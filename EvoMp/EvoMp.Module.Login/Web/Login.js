@@ -7,19 +7,26 @@ async function initalizeIcons() {
   uIkit.use(icons)
 }
 
+
 document.addEventListener("DOMContentLoaded",
   () => {
     initalizeIcons()
 
-      document.getElementById("login-form").addEventListener("submit",
+    // Set login name
+    document.addEventListener("LoginUsername", (username) => {
+      document.getElementById("username").value = username
+    })
+
+    document.getElementById("login-form").addEventListener("submit",
       event => {
         event.preventDefault()
 
         const username = event.target.elements.username.value
         const password = event.target.elements.password.value
 
-        debugger;
+        debugger
 
         eventHandler.trigger("LoginAttempt", { username, password })
       })
   })
+
