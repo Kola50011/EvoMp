@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using EvoMp.Core.ConsoleHandler.Server;
 using EvoMp.Module.ClientHandler.Server;
 using EvoMp.Module.ClientWrapper.Server;
 using EvoMp.Module.CommandHandler.Server.Attributes;
@@ -8,11 +15,6 @@ using GrandTheftMultiplayer.Server.Constant;
 using GrandTheftMultiplayer.Server.Elements;
 using GrandTheftMultiplayer.Shared;
 using GrandTheftMultiplayer.Shared.Math;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading;
 
 namespace EvoMp.Module.TestModule.Server.Debuging
 {
@@ -20,11 +22,12 @@ namespace EvoMp.Module.TestModule.Server.Debuging
     {
         private readonly API api;
         private readonly IClientHandler clientHandler;
-        private readonly IMessageHandler messageHandler;
         private readonly IClientWrapper clientWrapper;
+        private readonly IMessageHandler messageHandler;
         private Vector3 pickupPos = new Vector3();
 
-        public UserCommands(API api, IClientHandler clientHandler, IMessageHandler messageHandler, IClientWrapper clientWrapper)
+        public UserCommands(API api, IClientHandler clientHandler, IMessageHandler messageHandler,
+            IClientWrapper clientWrapper)
         {
             this.messageHandler = messageHandler;
             this.api = api;
@@ -42,9 +45,7 @@ namespace EvoMp.Module.TestModule.Server.Debuging
             api.sendChatMessageToPlayer(sender, $"Set skin to ~o~{possiblePeds.First()}~w~.");
             possiblePeds.RemoveAt(0);
             if (possiblePeds.Count > 0)
-            {
                 api.sendNotificationToPlayer(sender, $"Alternative skins: ~g~{string.Join(",", possiblePeds.First())}");
-            }
         }
 
         [PlayerCommand("/points")]
@@ -52,7 +53,8 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         {
             if (points > 0)
                 clientHandler.GetExtendetClient(sender).Properties.Points = points;
-            api.sendChatMessageToPlayer(sender, $"your actual points {clientHandler.GetExtendetClient(sender).Properties.Points}");
+            api.sendChatMessageToPlayer(sender,
+                $"your actual points {clientHandler.GetExtendetClient(sender).Properties.Points}");
         }
 
         [PlayerCommand("/n")]
@@ -72,24 +74,28 @@ namespace EvoMp.Module.TestModule.Server.Debuging
         [PlayerCommand("/sc")]
         public void takeScreenshots(Client sender)
         {
-
             ScreenCapturer sc = new ScreenCapturer();
             Bitmap bitmap;
             clientWrapper.Setter.SetEntityTransparency(sender, sender, 0);
             clientWrapper.Setter.SetCameraBehindPlayer(sender);
             api.freezePlayer(sender, true);
             clientWrapper.Setter.ToggleFirstPersonCam(sender, true);
-            Pickup p;
-            foreach (PickupHash ph in Enum.GetValues(typeof(PickupHash))) {
-                    p = api.createPickup(ph, pickupPos, new Vector3(0,0,0), 0, 0);
+            const string path = ".\\Images";
+            Directory.CreateDirectory(path);
+
+            foreach (PickupHash ph in Enum.GetValues(typeof(PickupHash)))
+            {
+                Pickup p = api.createPickup(ph, pickupPos, new Vector3(0, 0, 0), 0, 0);
                 Thread.Sleep(200);
                 bitmap = sc.Capture();
-                bitmap.Save($"{System.Environment.GetEnvironmentVariable("USERPROFILE")}\\Pictures\\{DateTime.Now}{ph.ToString()}.jpg");
+
+                // CHekc/create new directory for images
+                ConsoleOutput.WriteLine(ConsoleType.Debug, $"Saving image to ~o~\"{path}\\{ DateTime.Now}.jpg\" ~w~");
+                bitmap.Save($"{path}\\{DateTime.Now}.jpg");
                 api.deleteEntity(p);
             }
+
             api.sendChatMessageToPlayer(sender, "done with screen capturing");
         }
-       
-
     }
 }
