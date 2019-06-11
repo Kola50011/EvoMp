@@ -14,7 +14,7 @@
     "glob": "^7.1.2",
     "hard-source-webpack-plugin": "0.11.2",
     "node-sass": "^4.7.2",
-    "parcel-bundler": "^1.5.1",
+    "parcel-bundler": "^1.10.0",
     "parcel-plugin-markdown": "0.3.1",
     "parcel-plugin-pug": "0.3.1",
     "typescript": "^2.7.1",
