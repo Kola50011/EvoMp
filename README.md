@@ -1,5 +1,4 @@
 <h1 align="center">Evolution Multiplayer Framework</h1>
-
 <div align="center">
   <strong>GT-MP fun and easy</strong>
 </div>
@@ -202,3 +201,4 @@ $ yarn build
 $ cd $RepositoryRoot/GTMP_Server
 $ mono GrandTheftMultiplayer.Server.exe
 ```
+// Update: Now it's an active GitHub project, so store it Microsoft for 1k years :3
