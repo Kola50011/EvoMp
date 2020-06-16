@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "react": "^16.0.0",
-    "react-dom": "^16.4.1",
+    "react-dom": "^16.4.2",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0"
   },
